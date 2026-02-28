@@ -36,22 +36,38 @@ const { branches, currentBranch, siblings, currentTopicId, h2Headings } = Astro.
 <aside class="hidden lg:block">
   <nav class="sticky top-8" aria-label="Branch navigation">
     <!-- Branch switcher -->
-    <select
-      class="w-full font-mono text-[11px] uppercase tracking-wider bg-transparent border-b border-surface-200 pb-2 mb-6 cursor-pointer text-surface-500 hover:text-surface-900 transition-colors appearance-none outline-none"
-      aria-label="Switch branch"
-    >
-      {branches.map(branch => {
-        const branchSlug = branch.id.replace(/\/index$/, '');
-        return (
-          <option
-            value={`/${branchSlug}`}
-            selected={branch.id === currentBranch.id}
-          >
-            {branch.data.title}
-          </option>
-        );
-      })}
-    </select>
+    <div class="branch-switcher relative mb-6">
+      <button
+        class="branch-switcher-toggle w-full flex items-center justify-between font-mono text-[11px] uppercase tracking-wider bg-transparent border-b border-surface-200 pb-2 cursor-pointer text-surface-500 hover:text-surface-900 transition-colors outline-none text-left"
+        aria-expanded="false"
+        aria-label="Switch branch"
+      >
+        <span>{currentBranch.data.title}</span>
+        <span class="branch-switcher-arrow text-surface-300 transition-transform duration-200">&darr;</span>
+      </button>
+      <ul class="branch-switcher-menu hidden absolute left-0 right-0 top-full mt-1 bg-surface-950 border border-surface-200 z-20">
+        {branches.map(branch => {
+          const branchSlug = branch.id.replace(/\/index$/, '');
+          const isCurrent = branch.id === currentBranch.id;
+          return (
+            <li>
+              <a
+                href={`/${branchSlug}`}
+                class:list={[
+                  'block px-3 py-2 font-mono text-[11px] uppercase tracking-wider transition-colors',
+                  isCurrent
+                    ? 'text-accent-600'
+                    : 'text-surface-500 hover:text-surface-900 hover:bg-surface-900/5',
+                ]}
+                data-hover-sound
+              >
+                {branch.data.title}
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
 
     <!-- Numbered topic list with sub-sections -->
     <ol class="space-y-4">
@@ -101,9 +117,23 @@ const { branches, currentBranch, siblings, currentTopicId, h2Headings } = Astro.
 
 <script>
   function initBranchSwitcher() {
-    document.querySelectorAll<HTMLSelectElement>('select[aria-label="Switch branch"]').forEach(select => {
-      select.addEventListener('change', () => {
-        window.location.href = select.value;
+    document.querySelectorAll<HTMLElement>('.branch-switcher').forEach(switcher => {
+      const toggle = switcher.querySelector<HTMLButtonElement>('.branch-switcher-toggle')!;
+      const menu = switcher.querySelector<HTMLElement>('.branch-switcher-menu')!;
+      const arrow = switcher.querySelector<HTMLElement>('.branch-switcher-arrow')!;
+
+      toggle.addEventListener('click', () => {
+        const open = menu.classList.toggle('hidden');
+        toggle.setAttribute('aria-expanded', String(!open));
+        arrow.style.transform = open ? '' : 'rotate(180deg)';
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!switcher.contains(e.target as Node)) {
+          menu.classList.add('hidden');
+          toggle.setAttribute('aria-expanded', 'false');
+          arrow.style.transform = '';
+        }
       });
     });
   }

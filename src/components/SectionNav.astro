@@ -1,138 +1,33 @@
 ---
-interface Heading {
-  slug: string;
-  text: string;
-  depth: number;
-}
-
 interface Props {
-  headings: Heading[];
+  headings: { slug: string; text: string; depth: number }[];
 }
 
-const { headings } = Astro.props;
+const { headings: _ } = Astro.props;
 ---
 
 <aside class="hidden lg:block">
   <div class="section-ruler sticky top-8" aria-label="Page sections">
-    <!-- Scroll progress -->
-    <div class="font-mono text-[11px] text-surface-300 tabular-nums flex items-center gap-2 mb-4">
+    <div class="font-mono text-[11px] text-surface-300 tabular-nums flex items-center gap-2">
       <span data-scroll-progress>0.00</span>
       <span class="ruler-progress-line h-[2px] bg-accent-500 transition-all duration-300" style="width: 0;"></span>
     </div>
-
-    <!-- Minimap bars — heading bars + content dashes injected at runtime -->
-    <ol class="ruler-container">
-      {headings.map(heading => (
-        <li class="ruler-heading-item">
-          <a
-            href={`#${heading.slug}`}
-            class="ruler-bar flex items-center justify-end gap-2.5"
-            data-section={heading.slug}
-          >
-            {/* Label — hidden by default, revealed on container hover */}
-            <span class="ruler-label text-[11px] font-mono uppercase tracking-wider text-surface-400 whitespace-nowrap opacity-0 translate-x-1 transition-all duration-200 pointer-events-none text-right truncate">
-              {heading.text}
-            </span>
-            {/* Bar line — thick heading bar */}
-            <span class="ruler-line shrink-0 h-[2px] bg-surface-800 transition-all duration-200" style="width: 24px;"></span>
-          </a>
-        </li>
-      ))}
-    </ol>
   </div>
 </aside>
 
-<style>
-  /* Spacing: heading items get more margin, content dashes are tight */
-  .ruler-heading-item {
-    margin-top: 10px;
-  }
-  .ruler-heading-item:first-child {
-    margin-top: 0;
-  }
-  .ruler-dash-item {
-    margin-top: 6px;
-  }
-
-  /* Show labels when hovering the ruler container */
-  .ruler-container:hover .ruler-label {
-    opacity: 1;
-    transform: translateX(0);
-  }
-
-  /* Active bar — wider + accent */
-  .ruler-bar.is-active .ruler-line {
-    background-color: var(--color-accent-500);
-    width: 32px;
-  }
-  .ruler-bar.is-active .ruler-label {
-    color: var(--color-accent-600);
-  }
-
-  /* Content dash — small thin line */
-  .ruler-dash {
-    display: block;
-    height: 1px;
-    background-color: var(--color-surface-300);
-    width: 12px;
-    margin-left: auto;
-  }
-</style>
-
 <script>
-  function initRuler() {
-    const container = document.querySelector('.ruler-container');
-    const bars = document.querySelectorAll<HTMLAnchorElement>('.ruler-bar');
+  function initProgress() {
     const progressEl = document.querySelector('[data-scroll-progress]');
     const progressLine = document.querySelector<HTMLElement>('.ruler-progress-line');
-    if (!container || bars.length === 0) return;
+    if (!progressEl && !progressLine) return;
 
-    // --- Inject content-density dashes ---
-    // Remove any previously injected dashes (for view-transition re-init)
-    container.querySelectorAll('.ruler-dash-item').forEach(el => el.remove());
-
-    const slugs = Array.from(bars).map(b => b.dataset.section!);
-
-    // Measure vertical distance between each heading pair
-    for (let i = 0; i < slugs.length; i++) {
-      const heading = document.getElementById(slugs[i]);
-      const nextHeading = i + 1 < slugs.length ? document.getElementById(slugs[i + 1]) : null;
-      if (!heading) continue;
-
-      const startY = heading.getBoundingClientRect().top + window.scrollY;
-      const endY = nextHeading
-        ? nextHeading.getBoundingClientRect().top + window.scrollY
-        : document.documentElement.scrollHeight;
-
-      const gap = endY - startY;
-      // ~1 dash per 200px of content, at least 1 for non-trivial sections
-      const dashCount = Math.max(1, Math.round(gap / 200) - 1);
-
-      const headingLi = bars[i].closest('li')!;
-      const fragment = document.createDocumentFragment();
-
-      for (let d = 0; d < dashCount; d++) {
-        const li = document.createElement('li');
-        li.className = 'ruler-dash-item';
-        const dash = document.createElement('span');
-        dash.className = 'ruler-dash';
-        li.appendChild(dash);
-        fragment.appendChild(li);
-      }
-
-      headingLi.after(fragment);
-    }
-
-    // --- Scroll-spy + progress ---
     let ticking = false;
 
     function update() {
       const scrollY = window.scrollY;
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
       const progress = docHeight > 0 ? scrollY / docHeight : 0;
-      const threshold = window.innerHeight * 0.2;
 
-      // Update progress counter + line
       if (progressEl) {
         progressEl.textContent = progress.toFixed(2);
         if (progress > 0) {
@@ -146,28 +41,6 @@ const { headings } = Astro.props;
       if (progressLine) {
         progressLine.style.width = `${Math.round(progress * 24)}px`;
       }
-
-      // Find active section
-      let activeSlug = '';
-      const headings = Array.from(bars).map(bar => {
-        const slug = bar.dataset.section!;
-        const el = document.getElementById(slug);
-        return { slug, top: el ? el.getBoundingClientRect().top + scrollY : Infinity };
-      });
-
-      for (const h of headings) {
-        if (h.top <= scrollY + threshold) {
-          activeSlug = h.slug;
-        }
-      }
-
-      if (!activeSlug && headings.length > 0) {
-        activeSlug = headings[0].slug;
-      }
-
-      bars.forEach(bar => {
-        bar.classList.toggle('is-active', bar.dataset.section === activeSlug);
-      });
 
       ticking = false;
     }
@@ -183,6 +56,6 @@ const { headings } = Astro.props;
     update();
   }
 
-  initRuler();
-  document.addEventListener('astro:after-swap', initRuler);
+  initProgress();
+  document.addEventListener('astro:after-swap', initProgress);
 </script>

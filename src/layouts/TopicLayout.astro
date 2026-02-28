@@ -36,7 +36,7 @@ const {
 <BaseLayout title={title} description={description}>
   {isTopicPage ? (
     <!-- Topic page: 3-column grid on desktop -->
-    <div class="max-w-[90rem] mx-auto px-6 py-12 lg:grid lg:grid-cols-[240px_1fr_200px] lg:gap-8">
+    <div class="max-w-[90rem] mx-auto px-6 py-12 lg:grid lg:grid-cols-[240px_1fr_240px] lg:gap-8">
       <BranchSidebar
         branches={branches}
         currentBranch={currentBranch!}
@@ -45,7 +45,7 @@ const {
         h2Headings={h2Headings}
       />
 
-      <div class="min-w-0 max-w-3xl">
+      <div class="min-w-0 max-w-3xl mx-auto">
         <Breadcrumbs items={breadcrumbs} />
 
         <header class="mb-6">
