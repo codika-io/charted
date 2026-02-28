@@ -2,6 +2,13 @@
   "name": "charted",
   "type": "module",
   "version": "0.0.1",
+  "description": "An interactive, open-source map of the sciences — starting with mathematics",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/codika-io/charted.git"
+  },
+  "homepage": "https://github.com/codika-io/charted",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
