@@ -5,20 +5,161 @@ parent: mathematics/applied-mathematics
 order: 1
 color: "#ef4444"
 difficulty: intermediate
-prerequisites: []
-status: stub
+prerequisites: ["mathematics/analysis/real-analysis", "mathematics/algebra/linear-algebra"]
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: "2026-02-28"
 ---
+
+Numerical analysis is the study of algorithms for solving mathematical problems on finite-precision computers — computing integrals, solving differential equations, finding roots, and decomposing matrices when exact symbolic answers are unavailable or computationally intractable. It occupies a peculiar and essential position in mathematics: it is deeply theoretical, demanding careful proofs of convergence and stability, yet its entire purpose is intensely practical, shaping weather forecasts, structural simulations, and medical imaging alike. To use a numerical method well, one must understand not only how it works but how and why it fails.
 
 ## Foundations and Error Analysis
 
+Every computation on a digital computer is tainted by **floating-point arithmetic** — the unavoidable consequence of representing real numbers with a finite number of bits. The **IEEE 754 standard**, adopted in 1985, governs how modern hardware handles floating-point numbers. A floating-point number is stored in the form $\pm m \times 2^e$, where $m$ is the **mantissa** (or significand) and $e$ is the **exponent**, each constrained to a fixed range. Double precision allocates 52 bits to the mantissa and 11 to the exponent, yielding roughly 15-16 significant decimal digits. The key constant is **machine epsilon** $\epsilon_{\text{mach}}$, the smallest positive number such that $1 + \epsilon_{\text{mach}} > 1$ in floating-point arithmetic; for double precision, $\epsilon_{\text{mach}} \approx 2.2 \times 10^{-16}$.
+
+With this in mind, errors in numerical computation fall into several distinct categories. **Truncation error** (or **discretization error**) arises when an infinite mathematical process — a Taylor series, an integral, a derivative — is replaced by a finite approximation. **Rounding error** is introduced each time a real number is stored or an arithmetic operation is performed, since most results cannot be represented exactly. A third source, **cancellation error**, occurs when nearly equal quantities are subtracted, annihilating significant digits and leaving only noise.
+
+To reason about errors systematically, we distinguish **forward error analysis** from **backward error analysis**. Forward analysis tracks how errors in inputs propagate to errors in outputs. If a computed result $\hat{y}$ approximates the true answer $y$, the **absolute error** is $|y - \hat{y}|$ and the **relative error** is $|y - \hat{y}|/|y|$. Backward error analysis, championed by **James Wilkinson** in his landmark 1963 book *Rounding Errors in Algebraic Processes*, asks a different question: for what slightly perturbed input does our algorithm give the exact answer? If the backward error is small — if our computed answer is the exact answer to a nearby problem — then the algorithm is called **backward stable**, which is typically the gold standard.
+
+The sensitivity of a problem to perturbations in its input is captured by the **condition number**. For a function $f$ and input $x$, the condition number is approximately
+
+$$\kappa = \frac{|x \, f'(x)|}{|f(x)|}$$
+
+measuring how much relative change in output results from a relative change in input. For a linear system $Ax = b$, the condition number of the matrix $A$ is $\kappa(A) = \|A\| \, \|A^{-1}\|$. A large condition number means the problem is **ill-conditioned**: small perturbations in $b$ can cause large changes in $x$, and no algorithm can reliably recover the true solution from floating-point data. The crucial insight — one Wilkinson made central to the field — is that ill-conditioning is a property of the problem, not the algorithm. A backward stable algorithm applied to an ill-conditioned problem will still produce large errors, but those errors are inevitable given the data.
+
+**Richardson extrapolation** is a general technique for eliminating low-order error terms. If an approximation $A(h)$ to some quantity $A$ satisfies $A(h) = A + c_1 h^p + c_2 h^{p+1} + \cdots$, then the combination $\frac{2^p A(h/2) - A(h)}{2^p - 1}$ cancels the leading error term and achieves order $p+1$ accuracy. Iterated, this process produces **Romberg's method** for integration, capable of spectacularly rapid convergence for smooth integrands.
+
 ## Interpolation and Approximation
+
+The interpolation problem asks: given a set of data points $(x_0, y_0), (x_1, y_1), \ldots, (x_n, y_n)$ with distinct **nodes** $x_i$, find a function that passes exactly through all of them. Polynomial interpolation is the classical answer. A theorem going back to **Joseph-Louis Lagrange** and independently to **Edward Waring** guarantees that there exists a unique polynomial of degree at most $n$ passing through $n+1$ prescribed points.
+
+The **Lagrange interpolating polynomial** is written explicitly in terms of basis functions. Define the **Lagrange basis polynomials**
+
+$$\ell_k(x) = \prod_{\substack{j=0 \\ j \neq k}}^{n} \frac{x - x_j}{x_k - x_j}$$
+
+so that $\ell_k(x_j) = \delta_{kj}$ (the Kronecker delta). The interpolating polynomial is then
+
+$$p_n(x) = \sum_{k=0}^{n} y_k \, \ell_k(x).$$
+
+An equivalent and computationally superior form is **Newton's divided difference formula**, which builds the polynomial incrementally using a triangular table of divided differences. This form is particularly efficient when nodes are added one at a time, since existing computations need not be repeated.
+
+The error in polynomial interpolation is given by the formula
+
+$$f(x) - p_n(x) = \frac{f^{(n+1)}(\xi)}{(n+1)!} \prod_{k=0}^{n}(x - x_k)$$
+
+for some $\xi$ in the interval spanned by the nodes. This error has two factors we can control: the derivative of $f$ (which we cannot change) and the **node polynomial** $\omega_{n+1}(x) = \prod_{k=0}^n (x - x_k)$ (which depends on our choice of nodes). The dangerous failure mode is **Runge's phenomenon**, observed by **Carl Runge** in 1901: interpolating the innocent-looking function $f(x) = 1/(1+25x^2)$ at equally spaced nodes on $[-1,1]$ produces polynomials that oscillate wildly near the endpoints as $n \to \infty$. The remedy is to choose nodes that minimize $\max_x |\omega_{n+1}(x)|$. The optimal choice (up to scaling) is the **Chebyshev nodes**
+
+$$x_k = \cos\!\left(\frac{2k+1}{2(n+1)}\pi\right), \quad k = 0, 1, \ldots, n,$$
+
+which are the zeros of the Chebyshev polynomial $T_{n+1}(x)$. With Chebyshev nodes, the node polynomial satisfies $\max_{x \in [-1,1]} |\omega_{n+1}(x)| = 2^{-n}$, which is the best possible.
+
+When global high-degree polynomials are problematic, **spline interpolation** provides an elegant alternative. A **cubic spline** is a piecewise cubic polynomial that is twice continuously differentiable at each interior node. On each subinterval $[x_k, x_{k+1}]$ a separate cubic is used, and the pieces are assembled with smoothness conditions — continuity of the function value, first derivative, and second derivative at each internal node. This system, together with boundary conditions (such as the **natural spline** condition setting end second derivatives to zero), yields a tridiagonal linear system that is efficiently solved. Cubic splines are the standard tool in computer-aided design and geometric modeling precisely because they are smooth but local: a change to one data point affects only a few adjacent pieces.
 
 ## Numerical Differentiation and Integration
 
+Derivatives are approximated using **finite difference formulas** derived from Taylor expansions. The **forward difference** approximation $f'(x) \approx (f(x+h) - f(x))/h$ has truncation error $O(h)$: expanding $f(x+h) = f(x) + h f'(x) + \frac{h^2}{2} f''(x) + \cdots$ and rearranging shows the error is $\frac{h}{2} f''(\xi)$. The **central difference** formula $f'(x) \approx (f(x+h) - f(x-h))/(2h)$ achieves $O(h^2)$ accuracy by cancellation of the $h$ error term. Higher-order formulas for higher derivatives are derived similarly, and Richardson extrapolation can be applied to push the order arbitrarily high for smooth functions.
+
+There is, however, a fundamental tension: as $h \to 0$, the truncation error decreases, but the rounding error grows because the numerator $f(x+h) - f(x)$ involves cancellation of nearly equal numbers. The optimal step size balances these competing effects, giving $h_{\text{opt}} \sim \epsilon_{\text{mach}}^{1/2}$ for the forward difference and $h_{\text{opt}} \sim \epsilon_{\text{mach}}^{1/3}$ for the second derivative formula.
+
+Numerical integration — computing $\int_a^b f(x) \, dx$ — is historically called **quadrature**, a term dating to the Greek problem of squaring the circle. The **Newton-Cotes formulas** integrate the interpolating polynomial through equally spaced nodes. The **trapezoidal rule** uses linear interpolation at the endpoints:
+
+$$\int_a^b f(x) \, dx \approx \frac{b-a}{2}(f(a) + f(b)), \quad \text{error} = -\frac{(b-a)^3}{12} f''(\xi).$$
+
+**Simpson's rule** uses the quadratic interpolant through $a$, $(a+b)/2$, and $b$:
+
+$$\int_a^b f(x) \, dx \approx \frac{b-a}{6}\!\left(f(a) + 4f\!\left(\tfrac{a+b}{2}\right) + f(b)\right), \quad \text{error} = -\frac{(b-a)^5}{2880} f^{(4)}(\xi).$$
+
+Note that Simpson's rule, though derived from a cubic-degree formula through three points, integrates cubics exactly — an unexpected bonus called **superconvergence**. For practical computation, composite rules subdivide $[a,b]$ into $n$ subintervals and apply the basic rule on each piece, giving composite trapezoidal error $O(h^2)$ and composite Simpson's error $O(h^4)$ where $h = (b-a)/n$.
+
+**Gaussian quadrature** goes further by choosing both the weights and the nodes optimally. A quadrature rule with $n$ nodes can be exact for polynomials of degree at most $2n-1$ if the nodes are chosen as zeros of the **Legendre polynomial** $P_n(x)$ on $[-1,1]$. This is twice the degree achievable with fixed equally-spaced nodes, making Gaussian quadrature extraordinarily efficient for smooth integrands. The Gauss-Legendre rule is:
+
+$$\int_{-1}^{1} f(x) \, dx \approx \sum_{k=1}^{n} w_k f(x_k)$$
+
+where $x_k$ are the zeros of $P_n$ and the weights $w_k$ are determined by the exactness conditions. Variants include Gauss-Hermite quadrature (for integrals over $\mathbb{R}$ with Gaussian weight $e^{-x^2}$) and Gauss-Laguerre (for integrals over $[0,\infty)$ with weight $e^{-x}$).
+
+For integrals where the accuracy requirements vary across the domain, **adaptive quadrature** automatically subdivides the interval where the integrand is difficult, concentrating computational effort where it is needed.
+
 ## Root Finding and Linear Systems
+
+Root finding asks: given $f: \mathbb{R} \to \mathbb{R}$, find $x^*$ such that $f(x^*) = 0$. The oldest reliable method is **bisection**: if $f(a) f(b) < 0$, the **Intermediate Value Theorem** guarantees a root in $(a,b)$. Evaluating $f$ at the midpoint $c = (a+b)/2$ and replacing whichever of $a$ or $b$ gives the same sign as $f(c)$ halves the interval at each step. Bisection converges **linearly** — the error decreases by a factor of $1/2$ per iteration — and is guaranteed to converge, but it is slow.
+
+**Newton's method** (or the **Newton-Raphson method**) converges far faster by using derivative information. Starting from an initial guess $x_0$, the iteration is
+
+$$x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}.$$
+
+Geometrically, each step replaces $f$ by its tangent line at $x_n$ and takes the tangent's root as the next iterate. When $x_0$ is sufficiently close to a simple root $x^*$, Newton's method converges **quadratically**: $|x_{n+1} - x^*| \leq C |x_n - x^*|^2$ for some constant $C$. This means the number of correct digits roughly doubles at each step — extraordinarily fast in practice. The method was described by **Isaac Newton** in 1669 (in a manuscript circulated privately) and later, independently, by **Joseph Raphson** in 1690 in a published form closer to the modern version.
+
+When $f'$ is unavailable or expensive, the **secant method** replaces the derivative by a finite-difference approximation using the two most recent iterates:
+
+$$x_{n+1} = x_n - f(x_n) \frac{x_n - x_{n-1}}{f(x_n) - f(x_{n-1})}.$$
+
+The secant method converges **superlinearly** at rate $\phi = (1+\sqrt{5})/2 \approx 1.618$ (the golden ratio) — slower than Newton but faster than bisection, and requiring only one function evaluation per step.
+
+For linear systems $Ax = b$, **Gaussian elimination** is the workhorse algorithm, performing $O(n^3)$ floating-point operations to produce the **LU decomposition** $A = LU$ where $L$ is unit lower triangular and $U$ is upper triangular. Solving then requires two triangular systems, each $O(n^2)$. The critical practical modification is **partial pivoting**: at each elimination step, rows are swapped to place the entry of largest absolute value in the pivot position, which controls growth in the entries of $U$ and makes the algorithm numerically stable in practice. The error in solving $Ax = b$ via LU with partial pivoting is bounded (loosely) by
+
+$$\frac{\|x - \hat{x}\|}{\|x\|} \lesssim \kappa(A) \, \epsilon_{\text{mach}}.$$
+
+For symmetric positive definite matrices, the **Cholesky decomposition** $A = LL^T$ is twice as efficient as LU and numerically superior. For large sparse systems arising from discretized PDEs, iterative methods such as the **Conjugate Gradient method** (for symmetric positive definite $A$) or **GMRES** (for general $A$) are preferred, since they exploit the sparsity and avoid the fill-in that dense factorizations create.
 
 ## Eigenvalue Problems
 
+The eigenvalue problem $Av = \lambda v$ — finding scalars $\lambda$ and nonzero vectors $v$ for a given matrix $A \in \mathbb{R}^{n \times n}$ — arises throughout applied mathematics, from the vibration modes of structures to the steady states of Markov chains and the principal components of datasets.
+
+The simplest eigenvalue algorithm is the **power method**: starting from a random vector $q_0$, repeatedly multiply by $A$ and normalize:
+
+$$q_{k+1} = \frac{A q_k}{\|A q_k\|}.$$
+
+If the largest eigenvalue $\lambda_1$ is strictly greater in magnitude than all others, the sequence $q_k$ converges to the corresponding eigenvector at rate $|\lambda_2/\lambda_1|$ per iteration. The **inverse power method** applies the power method to $A^{-1}$ (via a linear solve at each step) and converges to the eigenvector for the smallest eigenvalue. With a **shift** $\sigma$, the shifted inverse power method converges to the eigenvalue nearest $\sigma$, making it possible to target any desired part of the spectrum.
+
+**Rayleigh quotient iteration** combines shifting with the current iterate: the shift is updated at each step to $\sigma_k = q_k^T A q_k / q_k^T q_k$ (the Rayleigh quotient of $A$ at $q_k$). This achieves cubic convergence near a simple eigenvalue — remarkably fast.
+
+The **QR algorithm** is the standard method for computing all eigenvalues simultaneously. Starting from $A_0 = A$, it iterates:
+
+$$A_k = Q_k R_k \quad \text{(QR decomposition)}, \qquad A_{k+1} = R_k Q_k.$$
+
+The matrices $A_k$ are all similar to $A$ (hence have the same eigenvalues), and the iteration converges to a triangular (or quasi-triangular) form. In practice, $A$ is first reduced to **Hessenberg form** (upper Hessenberg, with zeros below the first subdiagonal) by orthogonal similarity transformations, cutting the cost of each QR step from $O(n^3)$ to $O(n^2)$. The **Francis double-shift** strategy, introduced by **John G. F. Francis** in 1961-62, makes the algorithm efficient and globally convergent. For large sparse problems, the **Lanczos algorithm** (for symmetric matrices) and the **Arnoldi algorithm** (for general matrices) build a low-dimensional Krylov subspace and extract good eigenvalue approximations from that subspace, avoiding the $O(n^3)$ cost of the full QR algorithm.
+
 ## Numerical Methods for ODEs and PDEs
 
+An ordinary differential equation (ODE) initial value problem takes the form $y' = f(t, y)$, $y(t_0) = y_0$, and asks for $y(t)$ on an interval $[t_0, T]$. **Euler's method** is the simplest numerical scheme: stepping forward from $t_n$ to $t_{n+1} = t_n + h$ by
+
+$$y_{n+1} = y_n + h f(t_n, y_n).$$
+
+This first-order method has global error $O(h)$, meaning halving the step size halves the error. The **classical fourth-order Runge-Kutta method** (RK4) evaluates $f$ at four carefully chosen intermediate points within each step:
+
+$$k_1 = f(t_n, y_n), \quad k_2 = f\!\left(t_n + \tfrac{h}{2}, y_n + \tfrac{h}{2} k_1\right), \quad k_3 = f\!\left(t_n + \tfrac{h}{2}, y_n + \tfrac{h}{2} k_2\right), \quad k_4 = f(t_n + h, y_n + h k_3)$$
+
+$$y_{n+1} = y_n + \frac{h}{6}(k_1 + 2k_2 + 2k_3 + k_4).$$
+
+The global error of RK4 is $O(h^4)$: halving $h$ reduces the error by a factor of 16. RK4 became the universal workhorse of scientific computing after its introduction by **Wilhelm Kutta** in 1901 (building on earlier work by **Carl Runge**).
+
+A crucial concern is **stability**. Applying Euler's method to the test equation $y' = \lambda y$ gives $y_{n+1} = (1 + h\lambda) y_n$, which is bounded only when $|1 + h\lambda| \leq 1$. For $\lambda < 0$ (a decaying equation), this requires $h \leq 2/|\lambda|$. A **stiff** differential equation is one where the stability constraint forces $h$ far smaller than accuracy would require — typically because the system contains components decaying at wildly different rates. For stiff problems, implicit methods such as the **backward Euler method** $y_{n+1} = y_n + h f(t_{n+1}, y_{n+1})$ or the **Backward Differentiation Formulas (BDF)** of **C. W. Gear** are preferred: they are **A-stable** (stable for all $h > 0$ when $\text{Re}(\lambda) < 0$), at the cost of solving a nonlinear system at each step.
+
+Modern ODE solvers use **embedded Runge-Kutta pairs** — pairs of methods of different orders sharing function evaluations — to estimate the local error and automatically adjust the step size. The **Dormand-Prince** scheme (used in MATLAB's `ode45`) embeds a fifth-order method in a sixth-order family, providing error estimates at essentially no extra cost.
+
+For partial differential equations (PDEs), the discretization strategy depends on the problem type. For elliptic problems (such as Laplace's equation $\nabla^2 u = f$), the **finite element method (FEM)** is the dominant approach. The PDE is first recast in **weak form**: multiply by a test function $v$ and integrate by parts, transferring derivatives from $u$ to $v$. For Poisson's equation on a domain $\Omega$,
+
+$$\int_\Omega \nabla u \cdot \nabla v \, dx = \int_\Omega f v \, dx \quad \text{for all } v \in H^1_0(\Omega).$$
+
+The domain is then triangulated into elements, $u$ is approximated by a piecewise polynomial on the mesh, and the weak form is enforced only for test functions in the same finite-dimensional space. This yields a sparse linear system that is solved by direct or iterative methods. FEM handles complex geometries naturally and admits rigorous error analysis: for sufficiently smooth solutions, the $H^1$ error is $O(h)$ for linear elements and $O(h^k)$ for degree-$k$ elements.
+
+**Spectral methods** represent the solution as a truncated series in global basis functions — typically Fourier modes for periodic problems or Chebyshev polynomials for non-periodic problems. Because smooth functions have rapidly decaying coefficients in these bases, spectral methods achieve **spectral accuracy**: the error decays faster than any power of the number of degrees of freedom $N$, often exponentially as $e^{-cN}$. The trade-off is that spectral methods require smooth solutions and simple geometries, limiting their applicability compared to FEM.
+
 ## Least Squares and Data Fitting
+
+The least squares problem asks: given an overdetermined linear system $Ax \approx b$ with $A \in \mathbb{R}^{m \times n}$, $m > n$, find $x$ minimizing $\|Ax - b\|_2$. This arises constantly in data fitting, parameter estimation, and regression. Setting the gradient of $\|Ax - b\|_2^2$ to zero yields the **normal equations**
+
+$$A^T A x = A^T b.$$
+
+When $A$ has full column rank, $A^T A$ is symmetric positive definite and can be solved by Cholesky. However, forming $A^T A$ explicitly squares the condition number — $\kappa(A^T A) = \kappa(A)^2$ — making the normal equations numerically unreliable for poorly conditioned problems.
+
+The preferred approach uses the **QR decomposition** of $A = QR$. Since $Q$ is orthogonal and $Q^T Q = I$, we have $\|Ax - b\|_2 = \|QRx - b\|_2 = \|Rx - Q^T b\|_2$, and the minimizer satisfies the upper triangular system $Rx = Q^T b$ restricted to the first $n$ rows. This is numerically superior, with error proportional to $\kappa(A)$ rather than $\kappa(A)^2$.
+
+The most powerful tool is the **Singular Value Decomposition (SVD)**: any $A \in \mathbb{R}^{m \times n}$ can be written as $A = U \Sigma V^T$ where $U \in \mathbb{R}^{m \times m}$ and $V \in \mathbb{R}^{n \times n}$ are orthogonal and $\Sigma$ is diagonal with non-negative entries $\sigma_1 \geq \sigma_2 \geq \cdots \geq \sigma_r > 0$ (the **singular values**). The condition number of $A$ is $\kappa(A) = \sigma_1 / \sigma_r$. The least squares solution is $x = A^+ b$ where $A^+ = V \Sigma^+ U^T$ is the **Moore-Penrose pseudoinverse** and $\Sigma^+$ inverts the nonzero singular values. The SVD reveals the rank, the null space, and the sensitivity of the problem all at once.
+
+When the least squares problem is ill-conditioned (small singular values inflate the solution), **Tikhonov regularization** replaces the minimization of $\|Ax - b\|_2$ with
+
+$$\min_x \|Ax - b\|_2^2 + \lambda^2 \|x\|_2^2,$$
+
+yielding the regularized solution $x_\lambda = (A^T A + \lambda^2 I)^{-1} A^T b$. The regularization parameter $\lambda$ controls the trade-off between data fit and solution size; choosing $\lambda$ optimally is itself a nontrivial problem, addressed by methods such as the **L-curve criterion** and **generalized cross-validation**. For nonlinear least squares — fitting a nonlinear model $r(x) = b - F(x)$ — the **Gauss-Newton method** linearizes $F$ at the current iterate and solves a linear least squares problem at each step, while the **Levenberg-Marquardt method** stabilizes Gauss-Newton with a trust-region modification, achieving reliable convergence even far from the solution. Levenberg-Marquardt has become the standard algorithm for nonlinear curve fitting in virtually every scientific software package.

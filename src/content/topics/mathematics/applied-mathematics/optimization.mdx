@@ -5,20 +5,115 @@ parent: mathematics/applied-mathematics
 order: 2
 color: "#ef4444"
 difficulty: intermediate
-prerequisites: []
-status: stub
+prerequisites: ["mathematics/analysis/real-analysis", "mathematics/algebra/linear-algebra"]
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: "2026-02-28"
 ---
+
+Optimization is the mathematical discipline of finding the best element — the maximum or minimum of a function — from a set of available choices. It is one of the oldest and most practically consequential areas of applied mathematics, underpinning everything from the design of aircraft wings to the training of neural networks. At its core, optimization asks a simple question: given a measure of quality and a set of allowable configurations, which configuration is the best?
 
 ## Fundamentals of Optimization
 
+An **optimization problem** in its most general form consists of three ingredients: a set of **decision variables** $x \in \mathbb{R}^n$, an **objective function** $f: \mathbb{R}^n \to \mathbb{R}$ to be minimized or maximized, and a **feasible set** $\mathcal{F} \subseteq \mathbb{R}^n$ of allowed values. The problem is written as
+
+$$\min_{x \in \mathcal{F}} \; f(x)$$
+
+where the feasible set is typically described by equality constraints $h_i(x) = 0$ and inequality constraints $g_j(x) \leq 0$. A point $x^* \in \mathcal{F}$ is a **global minimum** if $f(x^*) \leq f(x)$ for all $x \in \mathcal{F}$, and a **local minimum** if there exists a neighborhood $U$ of $x^*$ such that $f(x^*) \leq f(x)$ for all $x \in U \cap \mathcal{F}$.
+
+The distinction between local and global optima is not merely pedantic — it is the central difficulty of optimization. Most algorithms can only reliably find local optima, and in general the problem of locating a global optimum is computationally intractable. The exception arises when the problem has special structure. The most important such structure is **convexity**: a function $f$ is **convex** if for all $x, y$ and $\lambda \in [0,1]$,
+
+$$f(\lambda x + (1-\lambda)y) \leq \lambda f(x) + (1-\lambda) f(y).$$
+
+A set $\mathcal{F}$ is convex if it contains all line segments between its points. When $f$ is convex and $\mathcal{F}$ is a convex set, every local minimum is automatically a global minimum — the landscape has no traps, and efficient algorithms can find the optimum reliably.
+
+Optimality conditions tell us what must hold at a minimum. For an unconstrained problem with a differentiable objective, the **first-order necessary condition** is that the gradient vanishes: $\nabla f(x^*) = 0$. The **second-order necessary condition** requires that the **Hessian** $\nabla^2 f(x^*)$ be positive semidefinite. Conversely, if $\nabla f(x^*) = 0$ and $\nabla^2 f(x^*)$ is positive definite, then $x^*$ is a strict local minimum. These conditions are the multivariable analogs of the familiar single-variable tests from calculus, and they were systematically developed throughout the 19th century by **Carl Friedrich Gauss**, **Adrien-Marie Legendre**, and others working on least-squares problems.
+
+When the feasible set is defined by constraints, the conditions become more subtle. The key tool is the **Karush-Kuhn-Tucker (KKT) framework**: at a local minimum $x^*$ of $f$ subject to $g_j(x) \leq 0$ and $h_i(x) = 0$, under suitable **constraint qualifications**, there exist multipliers $\mu_j \geq 0$ and $\lambda_i$ such that
+
+$$\nabla f(x^*) + \sum_j \mu_j \nabla g_j(x^*) + \sum_i \lambda_i \nabla h_i(x^*) = 0$$
+
+along with complementary slackness: $\mu_j g_j(x^*) = 0$ for each $j$. These conditions were derived independently by **William Karush** in his 1939 master's thesis and by **Harold Kuhn** and **Albert Tucker** in 1951, and they form the cornerstone of constrained optimization theory.
+
 ## Linear Programming
+
+The simplest structured optimization problem is **linear programming (LP)**: minimize a linear objective over a polyhedron defined by linear inequalities. The standard form is
+
+$$\min_{x \in \mathbb{R}^n} \; c^T x \quad \text{subject to} \quad Ax = b, \;\; x \geq 0$$
+
+where $A \in \mathbb{R}^{m \times n}$, $b \in \mathbb{R}^m$, and $c \in \mathbb{R}^n$. The feasible set — the **polyhedron** or **polytope** — is a convex region with flat faces. A fundamental geometric fact, the **fundamental theorem of linear programming**, asserts that if the optimal value is attained, it is attained at a **vertex** (also called a **basic feasible solution**) of the polytope. This reduces the infinitely many feasible points to finitely many candidates.
+
+This geometric insight drove **George Dantzig's** invention of the **simplex method** in 1947, one of the most influential computational discoveries of the 20th century. The simplex method moves from vertex to adjacent vertex of the polytope, always improving the objective, until no further improvement is possible. Each step — called a **pivot** — identifies an entering variable and a leaving variable, updating the **basis** that represents the current vertex. In practice, the simplex method runs very quickly, typically visiting only a small fraction of the exponentially many vertices. Yet in the worst case, as **Victor Klee** and **George Minty** showed in 1972, it can visit all vertices — so the simplex method is not polynomial in the worst case.
+
+The first provably polynomial algorithm for linear programming was Leonid Khachiyan's **ellipsoid method** (1979), which operates by shrinking ellipsoids around the feasible set rather than traversing vertices. More practically significant were the **interior point methods**, particularly Narendra Karmarkar's algorithm (1984), which moves through the interior of the polytope along a central path. Modern **predictor-corrector** interior point methods, developed by Mehrotra in the 1990s, achieve polynomial complexity and often outperform simplex on large instances.
+
+**Duality** is perhaps the deepest structural feature of linear programming. Every LP has an associated **dual problem**: if the primal is $\min c^T x$ subject to $Ax = b$, $x \geq 0$, then the dual is $\max b^T y$ subject to $A^T y \leq c$. **Weak duality** says the dual objective always lower-bounds the primal objective for feasible points. **Strong duality** — proved by Dantzig and independently by von Neumann — says the two optimal values are equal when both problems are feasible: $c^T x^* = b^T y^*$. Duality has profound consequences for sensitivity analysis, economic interpretation (the dual variables $y^*$ are shadow prices expressing the marginal value of each constraint), and algorithm design. The dual simplex method, complementary slackness conditions, and parametric analysis all flow from this duality structure.
 
 ## Convex Optimization and Duality
 
+Convex optimization extends the clean theory of linear programming to problems with nonlinear but convex objectives and constraints. Because every local optimum is global and strong duality holds under mild conditions, convex optimization problems are often tractable even when they are not linear.
+
+A **convex program** takes the form $\min f(x)$ subject to $g_j(x) \leq 0$ and $Ax = b$, where $f$ and all $g_j$ are convex. The KKT conditions are both necessary and sufficient for global optimality when the functions are convex — a remarkable fact that makes the KKT system a complete characterization of the solution. The key regularity assumption ensuring the KKT conditions hold is **Slater's condition**: the existence of a strictly feasible point satisfying all inequality constraints with strict inequality.
+
+**Lagrangian duality** generalizes LP duality to convex programs. The **Lagrangian** is
+
+$$L(x, \lambda, \mu) = f(x) + \sum_j \mu_j g_j(x) + \lambda^T (Ax - b)$$
+
+and the **dual function** $d(\lambda, \mu) = \inf_x L(x, \lambda, \mu)$ is always concave (as an infimum of linear functions of $(\lambda, \mu)$). The **dual problem** is $\max_{\mu \geq 0, \lambda} d(\lambda, \mu)$. The **duality gap** $f(x^*) - d(\lambda^*, \mu^*)$ is zero under Slater's condition — this is **strong duality** for convex programs, a result proved in full generality by **Werner Fenchel** and later extended by **R. Tyrrell Rockafellar** in his foundational 1970 treatise *Convex Analysis*.
+
+Important special classes of convex programs have exploitable structure. **Quadratic programs (QPs)** minimize a convex quadratic objective over a polyhedral set and arise ubiquitously in least-squares problems, support vector machines, and model predictive control. **Second-order cone programs (SOCPs)** generalize QPs by allowing second-order cone constraints of the form $\|Ax + b\|_2 \leq c^T x + d$; they capture portfolio optimization and robust linear programs. **Semidefinite programs (SDPs)** optimize over the cone of positive semidefinite matrices and have become a central tool in combinatorial optimization (through relaxations), control theory, and polynomial optimization. All of these can be solved in polynomial time by interior point methods.
+
+The **subdifferential** extends differentiation to convex but non-smooth functions. A vector $g$ is a **subgradient** of $f$ at $x$ if $f(y) \geq f(x) + g^T(y - x)$ for all $y$. The set of all subgradients at $x$ is the **subdifferential** $\partial f(x)$. Optimality for a convex program becomes $0 \in \partial f(x^*) + \partial (\text{constraint penalty})$, and algorithms like the **proximal gradient method** and **ADMM (alternating direction method of multipliers)** exploit this structure to handle non-smooth terms like the $\ell_1$ norm that appear in compressed sensing and sparse recovery.
+
 ## Unconstrained and Constrained Methods
+
+Practical optimization requires algorithms that converge reliably and quickly. The landscape of numerical methods divides broadly into **first-order methods** (using only gradients) and **second-order methods** (using also Hessians or their approximations).
+
+**Gradient descent** is the foundational first-order method: $x_{k+1} = x_k - \alpha_k \nabla f(x_k)$, where $\alpha_k > 0$ is a **step size** or **learning rate**. For a convex function with Lipschitz gradient, gradient descent converges at rate $O(1/k)$ — meaning $k$ iterations suffice to reach $\epsilon$-accuracy from $O(1/\epsilon)$ steps. **Nesterov's accelerated gradient descent** (1983) achieves the optimal $O(1/k^2)$ rate for smooth convex functions by adding a momentum term: the next iterate is built not from the current point but from an extrapolation beyond it. This acceleration, sometimes called **fast gradient method**, cannot be improved upon by any first-order algorithm — a lower bound also due to Nesterov.
+
+**Newton's method** uses second-order information: $x_{k+1} = x_k - [\nabla^2 f(x_k)]^{-1} \nabla f(x_k)$. Near a strict local minimum, Newton's method converges **quadratically** — the error roughly squares at each step. The drawback is that computing and inverting the Hessian costs $O(n^3)$ per iteration, which is prohibitive for large problems. **Quasi-Newton methods** maintain a low-rank approximation to the Hessian inverse that is updated using gradient information. The most successful quasi-Newton algorithm, **BFGS** (named for Broyden, Fletcher, Goldfarb, and Shanno, 1970), achieves **superlinear convergence** and is the default workhorse for medium-scale smooth optimization. **L-BFGS** stores only the most recent $m$ correction pairs rather than the full $n \times n$ matrix, making it practical for high-dimensional problems.
+
+For constrained nonlinear problems, **sequential quadratic programming (SQP)** solves a sequence of quadratic subproblems, each approximating the original problem near the current iterate. At each step, the objective is replaced by a quadratic model and the constraints are linearized, yielding a QP whose solution provides the next step. SQP methods achieve fast local convergence and are the basis of many industrial optimization solvers. **Interior point methods** for nonlinear programming replace inequality constraints with a **log-barrier** term $-\mu \sum_j \ln(-g_j(x))$, converting the constrained problem into an unconstrained one parameterized by a barrier parameter $\mu \to 0$. Newton's method applied to the barrier problem traces out a **central path** through the feasible interior, converging to the optimum as $\mu \to 0$.
 
 ## Integer and Combinatorial Optimization
 
+When decision variables are required to take integer values — for instance, because they represent yes/no decisions or indivisible quantities — the problem becomes dramatically harder. **Integer linear programs (ILPs)** combine linear objectives and constraints with integrality requirements, and their feasible sets are no longer convex. The **LP relaxation** — obtained by dropping the integrality requirement — provides a lower bound on the optimal integer value, but the relaxation solution may be fractional and far from any integer feasible point.
+
+The dominant exact algorithm for ILPs is **branch and bound**, introduced by **Ailsa Land** and **Alison Doig** in 1960. The method partitions the feasible set by branching on a fractional variable, creating subproblems whose LP relaxations are solved to obtain bounds. Subproblems whose bounds exceed the best known integer solution are pruned; the tree is explored until all branches are resolved. **Cutting planes** — additional valid linear inequalities that cut off fractional solutions without removing integer feasible points — are used to tighten relaxations and reduce the tree. **Gomory cuts**, derived from the simplex tableau by **Ralph Gomory** in 1958, were the first systematic cutting plane family. Modern **branch-and-cut** solvers combine cutting planes with branching in a sophisticated way, and they can routinely solve ILPs with hundreds of thousands of variables.
+
+**Combinatorial optimization** concerns problems defined over discrete structures — graphs, sets, sequences — where the feasible set is finite but astronomically large. Classic examples include the **traveling salesman problem (TSP)** — find the shortest Hamiltonian cycle through $n$ cities — the **knapsack problem** — select items to maximize value within a weight budget — and the **maximum cut problem** — partition vertices of a graph to maximize edges between parts. Many combinatorial problems are **NP-hard**, meaning no polynomial-time algorithm is known. For such problems, two approaches prevail: **approximation algorithms** that find solutions with provable quality guarantees, and **metaheuristics** — algorithms like simulated annealing, genetic algorithms, and tabu search — that trade provable guarantees for practical performance on real instances.
+
+**Simulated annealing**, introduced by **Kirkpatrick, Gelatt, and Vecchi** in 1983, mimics the physical process of slow cooling: at each step a random neighbor is sampled, and worse solutions are accepted with probability $e^{-\Delta f / T}$ where $T$ is a temperature parameter that decreases over time. This controlled randomness allows the method to escape local optima. The connection to statistical physics is not merely metaphorical — the algorithm converges to the global optimum if the temperature is decreased slowly enough (following a logarithmic cooling schedule), a guarantee proved using the theory of Markov chains.
+
 ## Dynamic Programming and Optimal Control
 
+**Dynamic programming (DP)** is a strategy for solving optimization problems that have **optimal substructure**: an optimal solution to the whole problem can be built from optimal solutions to subproblems. The term and the systematic theory were developed by **Richard Bellman** in the 1950s. Bellman articulated the **principle of optimality**: regardless of the initial state and decision, the remaining decisions must constitute an optimal policy for the state resulting from the first decision. This principle leads to the **Bellman equation**, which expresses the optimal value function $V$ recursively.
+
+For a discrete-time optimal control problem — choose a sequence of controls $u_0, u_1, \ldots, u_{T-1}$ to minimize $\sum_{t=0}^{T-1} c(x_t, u_t) + C(x_T)$ subject to dynamics $x_{t+1} = f(x_t, u_t)$ — the Bellman equation is
+
+$$V_t(x) = \min_u \left[ c(x, u) + V_{t+1}(f(x, u)) \right]$$
+
+with boundary condition $V_T(x) = C(x)$. This is solved **backwards in time**: compute $V_T$, then $V_{T-1}$, and so on. The optimal control at each time is the minimizer on the right-hand side. Dynamic programming is exact but suffers from the **curse of dimensionality** — the state space grows exponentially in dimension, making exact DP computationally feasible only for low-dimensional state spaces.
+
+For continuous-time problems, the analogous object is the **Hamilton-Jacobi-Bellman (HJB) equation**, a nonlinear PDE satisfied by the value function:
+
+$$-\frac{\partial V}{\partial t}(x, t) = \min_u \left[ \ell(x, u) + \nabla_x V(x, t)^T f(x, u) \right]$$
+
+An alternative to the HJB approach is **Pontryagin's maximum principle**, proved by **Lev Pontryagin** and collaborators in 1956. Instead of a PDE for the value function, the maximum principle gives necessary conditions in the form of a **two-point boundary value problem**: introduce a costate variable $p(t)$ satisfying adjoint dynamics, and the optimal control satisfies a pointwise minimization condition at each time $t$. For the important special case of **linear quadratic (LQ)** control — linear dynamics and quadratic cost — the optimal feedback law is linear, and the gain matrix solves the **Riccati differential equation**. LQ control and its infinite-horizon version (leading to the **algebraic Riccati equation**) are the bedrock of modern control engineering.
+
 ## Stochastic and Machine Learning Optimization
+
+When the objective function is not known analytically but only through noisy evaluations — as when $f(x) = \mathbb{E}[F(x, \xi)]$ for a random variable $\xi$ — we enter the domain of **stochastic optimization**. The foundational algorithm is **stochastic gradient descent (SGD)**, introduced by **Herbert Robbins** and **Sutton Monro** in 1951 in the context of stochastic approximation. At each step, instead of computing the full gradient $\nabla f(x_k) = \mathbb{E}[\nabla_x F(x_k, \xi)]$, one draws a single sample $\xi_k$ and updates
+
+$$x_{k+1} = x_k - \alpha_k \nabla_x F(x_k, \xi_k).$$
+
+The step sizes $\alpha_k$ must satisfy the Robbins-Monro conditions $\sum_k \alpha_k = \infty$ and $\sum_k \alpha_k^2 < \infty$ to ensure convergence. SGD is computationally cheap per iteration — $O(1)$ gradient evaluations rather than $O(n)$ — and this makes it the algorithm of choice for training machine learning models on large datasets, where the full gradient would require a pass over millions of examples.
+
+**Variance reduction methods** improve on plain SGD by periodically computing a full gradient to use as a control variate. **SVRG (stochastic variance reduced gradient)**, proposed by **Johnson and Zhang** in 2013, achieves linear convergence for strongly convex objectives — the same asymptotic rate as full gradient descent but at a per-iteration cost comparable to SGD. **Adam (adaptive moment estimation)**, introduced by **Kingma and Ba** in 2015, maintains per-coordinate running estimates of the first and second moments of gradients, adapting the step size automatically. Adam and its variants dominate modern deep learning practice, though their theoretical convergence properties on nonconvex objectives remain an active research area.
+
+The optimization landscape of **deep neural networks** is nonconvex, high-dimensional, and not analytically tractable. Yet in practice, SGD and its adaptive variants reliably find solutions that generalize well to unseen data. Understanding why this is so — why local minima found by SGD are good, what role implicit regularization plays, and how overparameterization affects the loss landscape — is one of the central open questions at the intersection of optimization and machine learning. The **neural tangent kernel** framework of **Jacot, Gabriel, and Hongler** (2018) showed that infinitely wide neural networks trained by gradient descent behave like kernel machines, providing one path toward theoretical understanding. For finite networks, landscape analysis exploiting symmetry and overparameterization has explained the absence of bad local minima in certain architectures, but a complete theory remains elusive.
+
+**Multi-objective optimization** addresses problems with several competing objectives, where no single solution is best across all criteria. The solution concept is **Pareto optimality**: a point $x^*$ is Pareto optimal if there is no feasible $x$ that improves at least one objective without worsening any other. The set of all Pareto optimal points forms the **Pareto front**, a curve or surface trading off objectives against one another. Applications range from engineering design (balancing weight and strength) to economics (allocating resources among agents) to machine learning (balancing accuracy and model size). Scalarization methods convert multi-objective problems to single-objective ones by forming a weighted sum of objectives, tracing out the Pareto front by varying weights. Evolutionary algorithms such as NSGA-II maintain a population of diverse solutions and are widely used when the Pareto front has complex geometry.
+
+The remarkable breadth of optimization — from the clean geometry of linear programs to the noisy landscapes of deep learning training — reflects its status as the engine of modern applied mathematics. Wherever a decision must be made, a system must be designed, or a model must be fit, optimization is at work. Its theorems provide the guarantees; its algorithms provide the tools; and its ongoing synthesis with probability, statistics, and computation continues to define the frontier of what can be computed and what can be understood.

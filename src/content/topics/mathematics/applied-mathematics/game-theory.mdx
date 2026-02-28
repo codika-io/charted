@@ -5,20 +5,127 @@ parent: mathematics/applied-mathematics
 order: 4
 color: "#ef4444"
 difficulty: intermediate
-prerequisites: []
-status: stub
+prerequisites: ["mathematics/probability/probability-theory", "mathematics/algebra/linear-algebra"]
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: "2026-02-28"
 ---
+
+Game theory is the mathematical study of strategic interaction among rational agents — situations where the outcome for each participant depends not only on their own choices but on the choices of everyone else. Born in the mid-twentieth century at the intersection of mathematics and economics, it has since grown into a unifying language spanning evolutionary biology, political science, computer science, and artificial intelligence. Where probability theory asks how to reason under uncertainty and linear algebra asks how to solve systems of equations, game theory asks how to reason when the uncertainty is itself created by other reasoning agents.
 
 ## Strategic Form Games and Nash Equilibrium
 
+The most fundamental way to describe a strategic situation is the **normal form** (or **strategic form**) of a game. A normal-form game consists of a finite set of **players**, a set of **strategies** for each player, and a **payoff function** that assigns a numerical reward to every possible combination of strategy choices. When there are two players, this data is captured neatly by a matrix: the rows represent the strategies of Player 1, the columns represent the strategies of Player 2, and each cell contains a pair of payoffs — one for each player.
+
+Formally, a two-player game is a triple $(S_1, S_2, u)$ where $S_1$ and $S_2$ are the strategy sets and $u = (u_1, u_2)$ is the payoff profile. If player 1 chooses $s_1 \in S_1$ and player 2 chooses $s_2 \in S_2$, player $i$ receives utility $u_i(s_1, s_2)$. The central question is: what strategy should a rational player choose, given that the other player is also rational and asking the same question?
+
+The first step toward an answer is the concept of **dominance**. A strategy $s_i$ **strictly dominates** strategy $s_i'$ if player $i$ always does strictly better by playing $s_i$, regardless of what the opponent does:
+
+$$u_i(s_i, s_{-i}) > u_i(s'_i, s_{-i}) \quad \text{for all } s_{-i}$$
+
+where $s_{-i}$ denotes the strategies of all players other than $i$. A rational player will never play a strictly dominated strategy, and if this is common knowledge among the players, one can iteratively eliminate dominated strategies to narrow down the prediction. This procedure, known as **iterated elimination of strictly dominated strategies (IESDS)**, sometimes yields a unique outcome — but not always.
+
+The landmark concept that does apply universally is the **Nash equilibrium**, introduced by **John Forbes Nash Jr.** in his 1950 doctoral dissertation at Princeton. A strategy profile $(s_1^*, s_2^*)$ is a Nash equilibrium if no player can improve their payoff by unilaterally deviating:
+
+$$u_i(s_i^*, s_{-i}^*) \geq u_i(s_i, s_{-i}^*) \quad \text{for all } s_i \in S_i, \; i = 1, 2$$
+
+The intuition is one of mutual best response: each player's strategy is optimal given the strategies of the others, so no one has an incentive to change. Nash's existence theorem — proved using Kakutani's fixed-point theorem — guarantees that every finite game has at least one Nash equilibrium, possibly in mixed strategies. For this work, Nash shared the 1994 Nobel Memorial Prize in Economic Sciences with Reinhard Selten and John Harsanyi.
+
+The **Prisoner's Dilemma** is the most celebrated example in all of game theory. Two suspects are held separately. Each can either cooperate (stay silent) or defect (betray the other). If both cooperate, they each receive a modest sentence. If both defect, they each receive a harsh sentence. But if one defects while the other cooperates, the defector goes free and the cooperator receives the harshest sentence. Defection is a strictly dominant strategy for each player, so the unique Nash equilibrium is mutual defection — yet both players would be better off if they both cooperated. The dilemma captures, with stark mathematical precision, the tension between individual rationality and collective welfare that runs through economics, political science, and biology alike.
+
 ## Mixed Strategies and Zero-Sum Games
+
+Not every game has a **pure strategy Nash equilibrium** — an equilibrium in which each player deterministically selects a single strategy. The **matching pennies** game illustrates why: two players each secretly choose heads or tails. If they match, Player 1 wins; if they differ, Player 2 wins. Whatever Player 1 does, Player 2 has a best response, and vice versa — the players are locked in perpetual pursuit. No pair of pure strategies is stable.
+
+The resolution is to allow players to randomize. A **mixed strategy** for player $i$ is a probability distribution $\sigma_i \in \Delta(S_i)$ over their pure strategy set. The expected payoff is then computed by weighting outcomes:
+
+$$u_i(\sigma_1, \sigma_2) = \sum_{s_1 \in S_1} \sum_{s_2 \in S_2} \sigma_1(s_1) \cdot \sigma_2(s_2) \cdot u_i(s_1, s_2)$$
+
+A **mixed strategy Nash equilibrium** requires that each player's mixed strategy is a best response to the opponent's. The key insight for computation is the **indifference principle**: if a player is genuinely randomizing over multiple pure strategies in equilibrium, they must be indifferent among those strategies — otherwise, they would prefer to concentrate all probability on the best one. This reduces the problem of finding a mixed strategy equilibrium to solving a system of linear equations.
+
+In matching pennies, the unique Nash equilibrium has each player choosing heads and tails with equal probability $1/2$. Nash's existence theorem guarantees that such an equilibrium exists in every finite game, covering both pure and mixed strategies.
+
+The richest theory applies to **zero-sum games**, where the payoffs always sum to zero: $u_1(s_1, s_2) + u_2(s_1, s_2) = 0$ for all strategy profiles. Here, one player's gain is exactly the other's loss. **John von Neumann** proved the fundamental result in 1928, a decade before Nash: the **minimax theorem**. It states that for any finite two-player zero-sum game, the value that Player 1 can guarantee by minimizing their maximum loss equals the value Player 2 can guarantee by minimizing Player 1's maximum gain:
+
+$$\max_{\sigma_1} \min_{\sigma_2} \; u_1(\sigma_1, \sigma_2) = \min_{\sigma_2} \max_{\sigma_1} \; u_1(\sigma_1, \sigma_2)$$
+
+This common value is called the **value of the game**. Von Neumann considered the minimax theorem the foundational result of game theory and its proof — relying on convexity and separating hyperplane arguments from linear algebra — the model for all that followed. The theorem is equivalent to linear programming duality: finding the optimal mixed strategy in a zero-sum game is precisely the task of solving a linear program and its dual simultaneously. This connection links game theory directly to optimization theory and to the simplex method of George Dantzig.
 
 ## Extensive Form Games and Dynamic Interaction
 
+Many strategic situations unfold over time, with players making decisions sequentially and possibly observing each other's past moves. The **extensive form** captures this dynamic structure through a **game tree**: a rooted directed tree where each non-terminal node represents a decision point, each edge represents an action, and each terminal node carries a payoff vector. The player assigned to each decision node chooses which branch to take.
+
+When every player knows, at each decision point, exactly where they are in the tree — that is, what moves have been made before — the game has **perfect information**. Chess is the canonical example. In imperfect information games, players may be uncertain about prior moves, modeled by grouping decision nodes into **information sets**: a player cannot distinguish among the nodes in the same information set when choosing an action.
+
+For perfect information games, the natural solution concept is **subgame perfect equilibrium (SPE)**, introduced by Reinhard Selten in 1965. The key idea is **backward induction**: solve the game from the end, working backward to the start. At every subgame — a part of the tree that constitutes a well-defined game in its own right — the equilibrium specifies a Nash equilibrium within that subgame. This eliminates Nash equilibria that rely on incredible threats: a player cannot credibly threaten to take a costly action they would never rationally follow through on if the moment actually arrived.
+
+The simplest illustration is the **centipede game** or the **ultimatum game**. In the ultimatum game, Player 1 proposes a split of some sum, and Player 2 either accepts or rejects; if rejected, both receive nothing. Backward induction predicts that Player 1 will offer the minimum positive amount and Player 2 will accept anything positive. This prediction is strikingly at odds with experimental results, where many Player 2s reject offers they consider unfair — a tension that motivates the behavioral extensions discussed in research frontiers.
+
+**Signaling games** introduce asymmetric information. One player (the Sender) has private information about their type. They send a message, observed by the other player (the Receiver), who then takes an action. In a **separating equilibrium**, different types send different messages, fully revealing private information. In a **pooling equilibrium**, all types send the same message, revealing nothing. **Michael Spence's** 1973 model of job-market signaling — where education serves as a costly signal of ability, even if it provides no direct productivity benefit — is one of the most influential applications of this framework and earned him a share of the 2001 Nobel Prize.
+
 ## Cooperative Game Theory and Coalition Formation
+
+Strategic form and extensive form games assume that players interact non-cooperatively, unable to make binding agreements. **Cooperative game theory** takes the opposite stance: it assumes that binding agreements are possible and asks which outcomes a group of players can collectively achieve and how the gains from cooperation should be divided.
+
+A **cooperative game with transferable utility** is described by a set of players $N = \{1, 2, \ldots, n\}$ and a **characteristic function** $v: 2^N \to \mathbb{R}$, where $v(S)$ is the total payoff that coalition $S$ can guarantee itself, regardless of what the players outside $S$ do. The function satisfies $v(\emptyset) = 0$. The game is **superadditive** if for any disjoint coalitions $S$ and $T$, $v(S \cup T) \geq v(S) + v(T)$ — meaning coalitions are always at least as productive as the sum of their parts.
+
+An **imputation** is a payoff vector $(x_1, \ldots, x_n)$ satisfying efficiency ($\sum_i x_i = v(N)$) and individual rationality ($x_i \geq v(\{i\})$ for all $i$). The **core** of a game is the set of imputations against which no coalition has a profitable deviation:
+
+$$\text{Core}(v) = \left\{ x \in \mathbb{R}^n : \sum_i x_i = v(N), \; \sum_{i \in S} x_i \geq v(S) \; \text{for all } S \subseteq N \right\}$$
+
+The core may be empty — some games have no stable allocation that all coalitions accept. The **Bondareva-Shapley theorem** characterizes games with non-empty cores via the concept of **balancedness**: a game has a non-empty core if and only if it is balanced, a condition expressible as a set of linear inequalities on the characteristic function.
+
+When the core is empty, or when a unique "fair" solution is desired regardless, the **Shapley value** provides the canonical answer. Introduced by Lloyd Shapley in 1953, it is the unique payoff allocation satisfying four axioms — efficiency, symmetry, linearity, and a null-player property — and is given by the formula:
+
+$$\phi_i(v) = \sum_{S \subseteq N \setminus \{i\}} \frac{|S|!\,(n-|S|-1)!}{n!} \left[ v(S \cup \{i\}) - v(S) \right]$$
+
+This expression can be read as follows: average over all possible orderings of the players the marginal contribution that player $i$ makes when they join the coalition of players who have arrived before them. The Shapley value is used to allocate costs in joint ventures, to measure voting power in weighted voting systems (the **Banzhaf power index** is closely related), and to attribute contributions in machine learning models.
 
 ## Mechanism Design and Auction Theory
 
+While game theory analyzes the equilibria of existing games, **mechanism design** inverts the question: given a desired social outcome, what rules of the game will lead rational agents to produce it? It is sometimes called "reverse game theory" or the "engineering" branch of economic theory. The field was pioneered by **Leonid Hurwicz** in the 1960s and extended decisively by **Roger Myerson** and **Eric Maskin**, work for which all three shared the 2007 Nobel Prize.
+
+The central concept is **incentive compatibility**. A mechanism is **dominant-strategy incentive compatible (DSIC)** if truthfully reporting one's private information is a dominant strategy — the best choice regardless of what others report. The **revelation principle** reduces the problem dramatically: any equilibrium of any mechanism can be replicated by a direct mechanism (where agents report their types) in which truthtelling is an equilibrium. This means it suffices to search over direct, incentive-compatible mechanisms.
+
+The flagship application is **auction theory**. In a **second-price (Vickrey) auction**, the highest bidder wins the item but pays only the second-highest bid. This mechanism is DSIC: each bidder's dominant strategy is to bid their true valuation $v_i$. Regardless of what others bid, bidding $v_i$ gives the highest possible probability of winning when the item is worth winning and avoids overpaying when it is not. The Vickrey auction is therefore **efficient**: the item goes to the bidder who values it most.
+
+In a **first-price sealed-bid auction**, each bidder submits a bid and the highest bidder pays their own bid. Truth-telling is no longer dominant — each bidder shades their bid downward to trade off a higher probability of winning against a smaller profit margin. Computing the Nash equilibrium requires solving a differential equation. The celebrated **revenue equivalence theorem** states that, under standard symmetry and regularity conditions, all four classical auction formats — first-price, second-price, English ascending, and Dutch descending — generate the same expected revenue to the seller. The theorem underscores that revenue does not depend on the auction format per se but on the information structure and the equilibrium behavior it induces.
+
+**Myerson's optimal auction** solves for the revenue-maximizing mechanism among all incentive-compatible, individually rational mechanisms. The key tool is the notion of **virtual valuation**: $\psi_i(v_i) = v_i - \frac{1-F_i(v_i)}{f_i(v_i)}$, where $F_i$ and $f_i$ are the CDF and PDF of bidder $i$'s value distribution. The optimal mechanism allocates the item to the bidder with the highest non-negative virtual valuation, often implemented by setting a reserve price below which the item is withheld. The gap between efficiency and revenue maximization is one of the fundamental trade-offs in mechanism design.
+
 ## Evolutionary Game Theory
 
+Classical game theory assumes fully rational agents who can compute optimal strategies. **Evolutionary game theory**, developed primarily by **John Maynard Smith** and **George Price** in the 1970s, replaces rationality with selection pressure. Strategies that yield higher payoffs spread through a population, not because agents calculate, but because those agents reproduce more successfully or are more frequently imitated.
+
+The central equilibrium concept is the **evolutionarily stable strategy (ESS)**. A strategy $\sigma^*$ is an ESS if a population playing $\sigma^*$ cannot be invaded by a small group of mutants playing any alternative strategy $\sigma \neq \sigma^*$. Formally, $\sigma^*$ is an ESS if for all $\sigma \neq \sigma^*$, either:
+
+$$u(\sigma^*, \sigma^*) > u(\sigma, \sigma^*)$$
+
+or $u(\sigma^*, \sigma^*) = u(\sigma, \sigma^*)$ and $u(\sigma^*, \sigma) > u(\sigma, \sigma)$. Every ESS is a Nash equilibrium, but the converse is false — ESS is a strict refinement that captures stability against invasion.
+
+The dynamics of strategy frequencies in a population are governed by the **replicator equation**. If $x_i$ is the fraction of the population using pure strategy $i$, then:
+
+$$\dot{x}_i = x_i \left[ u(e_i, x) - u(x, x) \right]$$
+
+where $u(e_i, x)$ is the expected payoff of strategy $i$ against the current population mix $x$, and $u(x, x)$ is the average payoff in the population. Strategies growing faster than average increase in frequency; strategies with below-average payoffs decline. The replicator equation is a system of ordinary differential equations that connects game theory to dynamical systems and population genetics.
+
+The **Hawk-Dove game** is the archetype. Animals competing over a resource can either fight aggressively (Hawk) or display and retreat if challenged (Dove). If both Hawks meet, they fight and split the resource minus injury costs. Two Doves split the resource without fighting. A Hawk meeting a Dove takes everything. When the cost of injury exceeds the value of the resource, a mixed ESS exists at a specific frequency of Hawks — a prediction confirmed in field studies of animal conflict. The model showed that evolutionary stability, not group selection or conscious coordination, explains observed patterns of animal conflict.
+
+Evolutionary game theory also illuminates the **evolution of cooperation**, one of the deepest puzzles in biology. In a population playing the Prisoner's Dilemma, defection dominates and cooperation cannot evolve in a single-shot game. Yet cooperation is abundant in nature. **Robert Axelrod's** landmark computer tournaments in the 1980s showed that Tit-for-Tat — cooperate on the first move, then mirror the opponent's last move — was extraordinarily successful against a wide range of strategies in repeated interactions. Subsequent work identified mechanisms beyond direct reciprocity that can sustain cooperation: kin selection, network reciprocity, group selection, and indirect reciprocity (reputation).
+
 ## Repeated Games and Learning
+
+When the same game is played multiple times between the same players, the possibility of reward and punishment creates space for cooperation that would be impossible in a single interaction. The central result here is the **Folk Theorem** — a family of results asserting that in infinitely repeated games, nearly any feasible and individually rational payoff can be sustained as a Nash equilibrium when players are sufficiently patient.
+
+Suppose the stage game is the Prisoner's Dilemma, with mutual cooperation yielding payoff $c$ and mutual defection yielding $d < c$. If players discount the future by a factor $\delta \in (0,1)$ per period, the **grim trigger strategy** — cooperate until the opponent defects, then defect forever — sustains mutual cooperation as a subgame perfect equilibrium if and only if:
+
+$$\delta \geq \frac{c - d}{c - d_{\min}}$$
+
+where $d_{\min}$ is the payoff from being exploited. The condition says that the future must matter enough (large $\delta$) that the short-run gain from defection is outweighed by the long-run loss from the collapse of cooperation. The Folk Theorem generalizes this: for any payoff vector $v$ that Pareto-dominates the minmax payoff, there exists a sufficiently patient discount factor such that $v$ is achievable in a subgame perfect equilibrium.
+
+The Folk Theorem underscores why repeated interaction is so central to economic and social life: contracts, reputations, and long-term relationships emerge as equilibrium phenomena precisely because indefinite repetition with patient enough players can replicate the outcomes of explicit enforcement.
+
+**Learning in games** addresses what happens when players are not born knowing the Nash equilibrium but must discover it through experience. **Fictitious play**, proposed by George Brown in 1951, has each player best-respond to the empirical frequency of the opponent's past play. It converges to Nash equilibrium in two-player zero-sum games and in certain other classes, but not in general. **No-regret learning** algorithms, such as **multiplicative weights update**, guarantee that the time-average of play converges to the set of **correlated equilibria** — a solution concept weaker than Nash equilibrium but with richer computational properties. Correlated equilibrium, introduced by Robert Aumann in 1974, allows a trusted third party (or public randomization device) to recommend strategies, giving each player an incentive to follow the recommendation. The time-average of no-regret dynamics converges to this set even when Nash equilibrium is computationally hard to find, making correlated equilibrium the solution concept of choice in algorithmic game theory and multi-agent AI.
+
+The study of **Markov games** (also called stochastic games), introduced by Lloyd Shapley in 1953, extends repeated games to settings where the state of the environment evolves as players take actions. A Markov game is a tuple $(N, \mathcal{S}, (A_i)_i, P, (r_i)_i, \delta)$: a set of players, a state space $\mathcal{S}$, action sets, a transition kernel $P(s' | s, a)$, reward functions, and a discount factor. The **Markov perfect equilibrium (MPE)** requires that strategies depend only on the current state, not on the full history. Markov games are the natural framework for multi-agent reinforcement learning, connecting the foundational theory of the 1950s to the machine learning frontier of today.
