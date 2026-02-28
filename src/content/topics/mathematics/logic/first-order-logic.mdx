@@ -1,0 +1,68 @@
+---
+title: First-Order Logic
+description: Extending propositions with predicates, quantifiers, and variables — the standard language of mathematics.
+parent: mathematics/logic
+order: 2
+color: "#ef4444"
+difficulty: beginner
+prerequisites: ["mathematics/logic/propositional-logic"]
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: "2026-02-28"
+---
+
+Propositional logic can express "it is raining" but not "every prime greater than 2 is odd." To talk about objects, their properties, and the relationships between them, we need a richer language. First-order logic (FOL) — also called predicate logic — is that language, and it has been the standard formal framework for mathematics since Frege's *Begriffsschrift* of 1879.
+
+## From Propositions to Predicates
+
+A **predicate** is a statement with one or more placeholders. Where propositional logic has atomic propositions $p, q, r$, first-order logic has predicates like $P(x)$ ("$x$ is prime") and relations like $R(x, y)$ ("$x$ is less than $y$"). When the variables are replaced by specific objects, a predicate becomes a proposition with a definite truth value.
+
+The objects that variables range over form a **domain of discourse** (or universe) $D$. If $D = \mathbb{N}$ and $P(x)$ means "$x$ is prime," then $P(7)$ is true and $P(4)$ is false. The choice of domain is crucial — the same sentence can have different truth values in different domains.
+
+## Quantifiers
+
+The two quantifiers are what distinguish first-order logic from propositional logic:
+
+- **Universal quantifier** $\forall x\, P(x)$: "for every $x$ in the domain, $P(x)$ holds."
+- **Existential quantifier** $\exists x\, P(x)$: "there exists at least one $x$ in the domain such that $P(x)$ holds."
+
+Quantifier **negation** swaps $\forall$ and $\exists$:
+
+$$\neg \forall x\, P(x) \;\equiv\; \exists x\, \neg P(x)$$
+
+$$\neg \exists x\, P(x) \;\equiv\; \forall x\, \neg P(x)$$
+
+"Not every number is prime" is the same as "there exists a non-prime number." This duality is the first-order analogue of De Morgan's laws.
+
+A variable is **bound** if it falls within the scope of a quantifier, and **free** otherwise. In $\forall x\, (P(x) \to Q(y))$, the variable $x$ is bound and $y$ is free. A formula with no free variables is called a **sentence** — it has a definite truth value in any given structure.
+
+## Formal Language and Well-Formed Formulas
+
+A first-order **signature** (or language) $\mathcal{L}$ specifies the non-logical symbols available: constant symbols ($c, d, \ldots$), function symbols ($f, g, \ldots$) with arities, and relation symbols ($P, R, \ldots$) with arities.
+
+**Terms** are built recursively: variables and constants are terms, and if $f$ is an $n$-ary function symbol and $t_1, \ldots, t_n$ are terms, then $f(t_1, \ldots, t_n)$ is a term.
+
+**Atomic formulas** have the form $R(t_1, \ldots, t_n)$ where $R$ is a relation symbol and the $t_i$ are terms. **Well-formed formulas** (wffs) are built from atomic formulas using connectives ($\neg, \land, \lor, \to, \leftrightarrow$) and quantifiers ($\forall x, \exists x$).
+
+Frege's *Begriffsschrift* (1879) was the first system to formalize all of this — a notational tour de force that went largely unappreciated for decades. The modern notation we use today is due mainly to Peano, Russell, and Hilbert.
+
+## Structures and Interpretations
+
+A **structure** (or model) $\mathcal{M}$ for a signature $\mathcal{L}$ consists of a non-empty domain $|\mathcal{M}|$ together with interpretations of every symbol in $\mathcal{L}$: each constant maps to an element, each $n$-ary function to a function $|\mathcal{M}|^n \to |\mathcal{M}|$, and each $n$-ary relation to a subset of $|\mathcal{M}|^n$.
+
+Given a structure $\mathcal{M}$ and an assignment of free variables, the **satisfaction relation** $\mathcal{M} \models \varphi$ ("$\mathcal{M}$ satisfies $\varphi$") is defined inductively:
+
+$$\mathcal{M} \models \forall x\, \varphi(x) \;\iff\; \text{for every } a \in |\mathcal{M}|,\; \mathcal{M} \models \varphi(a)$$
+
+$$\mathcal{M} \models \exists x\, \varphi(x) \;\iff\; \text{for some } a \in |\mathcal{M}|,\; \mathcal{M} \models \varphi(a)$$
+
+A sentence is **valid** if every structure satisfies it, and **satisfiable** if at least one does. The distinction between truth-in-a-structure and truth-in-all-structures is fundamental to model theory.
+
+## Equality and Functions
+
+Most mathematical theories use first-order logic **with equality**: the symbol $=$ is built into the logic with fixed axioms (reflexivity, symmetry, transitivity, and substitution). This allows us to write $\forall x\, (x + 0 = x)$ or $\exists! x\, P(x)$ ("there exists a unique $x$").
+
+First-order logic is called "first-order" because its quantifiers range only over *individuals* — elements of the domain. **Second-order logic** allows quantification over sets and relations: $\forall P\, \ldots$ where $P$ ranges over all subsets of the domain. This extra power lets you characterize the natural numbers up to isomorphism (which FOL cannot do, by the Löwenheim-Skolem theorem), but at a steep cost: second-order logic loses the completeness theorem, and its validity problem is not even arithmetically definable.
+
+The expressive limitations of first-order logic are not a weakness but a feature. They are precisely what make the completeness theorem, compactness theorem, and Löwenheim-Skolem theorems possible — the pillars on which model theory is built.

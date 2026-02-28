@@ -1,0 +1,157 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import DottedSeparator from '../components/DottedSeparator.astro';
+import TopicMap from '../components/islands/TopicMap';
+---
+
+<BaseLayout title="Home">
+  <!-- Hero -->
+  <section class="relative overflow-hidden">
+    <div class="dot-grid absolute inset-0 opacity-40"></div>
+    <div class="max-w-6xl mx-auto px-6 pt-20 pb-16 relative">
+      <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
+        <!-- Text -->
+        <div class="flex-1 text-center lg:text-left">
+          <h1 class="text-5xl md:text-7xl mb-6 tracking-tight">
+            Chart<span class="text-accent-500">ed</span>
+          </h1>
+          <p class="text-xl md:text-2xl text-surface-600 max-w-xl leading-relaxed">
+            An interactive, open-source atlas of the sciences.
+            Explore how fields connect, evolve, and build on each other.
+          </p>
+          <div class="mt-8 flex gap-4 justify-center lg:justify-start">
+            <a
+              href="#map"
+              class="inline-block font-mono text-sm uppercase tracking-wider bg-accent-600 text-white px-6 py-3 hover:bg-accent-700 transition-colors"
+            >
+              Explore the map
+            </a>
+            <a
+              href="https://github.com/charted-science/charted"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-block font-mono text-sm uppercase tracking-wider border border-surface-300 text-surface-600 px-6 py-3 hover:border-accent-500 hover:text-accent-600 transition-colors"
+            >
+              Contribute
+            </a>
+          </div>
+        </div>
+
+        <!-- Isometric illustration -->
+        <div class="flex-1 flex justify-center">
+          <svg viewBox="0 0 400 360" width="400" height="360" class="w-full max-w-md">
+            <!-- Axes -->
+            <g stroke="#d4d4d4" stroke-width="1" stroke-dasharray="4 3">
+              <line x1="60" y1="280" x2="340" y2="280" />
+              <line x1="60" y1="280" x2="60" y2="40" />
+              <line x1="60" y1="220" x2="340" y2="220" />
+              <line x1="60" y1="160" x2="340" y2="160" />
+              <line x1="60" y1="100" x2="340" y2="100" />
+              <line x1="130" y1="280" x2="130" y2="40" />
+              <line x1="200" y1="280" x2="200" y2="40" />
+              <line x1="270" y1="280" x2="270" y2="40" />
+            </g>
+
+            <!-- Block 1: tall red -->
+            <g>
+              <polygon points="130,240 160,225 160,140 130,155" fill="#ef4444" opacity="0.5" />
+              <polygon points="130,240 100,225 100,140 130,155" fill="#ef4444" opacity="0.7" />
+              <polygon points="100,140 130,125 160,140 130,155" fill="#ef4444" opacity="0.9" />
+              <polygon points="100,140 130,125 160,140 130,155" fill="none" stroke="#ef4444" stroke-width="1.5" />
+              <polygon points="130,240 160,225 160,140 130,155" fill="none" stroke="#ef4444" stroke-width="1" opacity="0.6" />
+              <polygon points="130,240 100,225 100,140 130,155" fill="none" stroke="#ef4444" stroke-width="1" opacity="0.6" />
+            </g>
+
+            <!-- Block 2: medium gray -->
+            <g>
+              <polygon points="200,260 230,245 230,190 200,205" fill="#a3a3a3" opacity="0.5" />
+              <polygon points="200,260 170,245 170,190 200,205" fill="#a3a3a3" opacity="0.7" />
+              <polygon points="170,190 200,175 230,190 200,205" fill="#a3a3a3" opacity="0.9" />
+              <polygon points="170,190 200,175 230,190 200,205" fill="none" stroke="#a3a3a3" stroke-width="1.5" />
+            </g>
+
+            <!-- Block 3: short red -->
+            <g>
+              <polygon points="270,270 300,255 300,230 270,245" fill="#fca5a5" opacity="0.5" />
+              <polygon points="270,270 240,255 240,230 270,245" fill="#fca5a5" opacity="0.7" />
+              <polygon points="240,230 270,215 300,230 270,245" fill="#fca5a5" opacity="0.9" />
+              <polygon points="240,230 270,215 300,230 270,245" fill="none" stroke="#ef4444" stroke-width="1.5" />
+            </g>
+
+            <!-- Block 4: tall narrow -->
+            <g>
+              <polygon points="200,200 220,190 220,100 200,110" fill="#ef4444" opacity="0.4" />
+              <polygon points="200,200 180,190 180,100 200,110" fill="#ef4444" opacity="0.6" />
+              <polygon points="180,100 200,90 220,100 200,110" fill="#ef4444" opacity="0.85" />
+              <polygon points="180,100 200,90 220,100 200,110" fill="none" stroke="#ef4444" stroke-width="1.5" />
+            </g>
+
+            <!-- Floating point markers -->
+            <circle cx="130" cy="120" r="4" fill="#ef4444" />
+            <circle cx="200" cy="85" r="4" fill="#ef4444" />
+            <circle cx="270" cy="210" r="3" fill="#ef4444" opacity="0.6" />
+
+            <!-- Connecting dotted lines -->
+            <line x1="130" y1="120" x2="200" y2="85" stroke="#ef4444" stroke-width="1" stroke-dasharray="3 3" opacity="0.5" />
+            <line x1="200" y1="85" x2="270" y2="210" stroke="#ef4444" stroke-width="1" stroke-dasharray="3 3" opacity="0.5" />
+
+            <!-- Axis labels -->
+            <text x="340" y="295" font-size="10" fill="#a3a3a3" text-anchor="end" style="font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.1em;">breadth</text>
+            <text x="48" y="45" font-size="10" fill="#a3a3a3" style="font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.1em;">depth</text>
+
+            <!-- Formula decoration -->
+            <text x="280" y="165" font-size="14" fill="#d4d4d4" font-style="italic" style="font-family: var(--font-serif);">f(x) = ?</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="max-w-6xl mx-auto px-6">
+    <DottedSeparator />
+  </div>
+
+  <!-- About blurb -->
+  <section class="max-w-6xl mx-auto px-6 py-12">
+    <div class="max-w-2xl">
+      <h2 class="text-2xl mb-6">What is this?</h2>
+      <p class="text-surface-600 leading-relaxed mb-4">
+        Charted is an open-source project to build an interactive map of human knowledge, starting with mathematics. Each topic is a node you can explore — read about it, see how it connects to other fields, and trace the prerequisites that lead there.
+      </p>
+      <p class="text-surface-600 leading-relaxed">
+        Anyone can contribute. Add a topic, improve an explanation, draw a connection. The goal is not to be an encyclopedia — it's to show the shape of each science as a living, interconnected whole.
+      </p>
+    </div>
+  </section>
+
+  <div class="max-w-6xl mx-auto px-6">
+    <DottedSeparator />
+  </div>
+
+  <!-- Interactive Map -->
+  <section id="map" class="max-w-6xl mx-auto px-6 py-12">
+    <h2 class="text-2xl mb-2">Mathematics</h2>
+    <p class="text-surface-500 font-mono text-sm uppercase tracking-wider mb-8">Click a topic to explore</p>
+    <TopicMap client:load />
+  </section>
+
+  <div class="max-w-6xl mx-auto px-6">
+    <DottedSeparator />
+  </div>
+
+  <!-- CTA -->
+  <section class="max-w-6xl mx-auto px-6 py-16 text-center">
+    <h2 class="text-2xl mb-4">Help map the sciences</h2>
+    <p class="text-surface-600 max-w-lg mx-auto mb-8">
+      Charted is built by contributors. Pick a topic you know, write about it, and submit a pull request.
+    </p>
+    <a
+      href="https://github.com/charted-science/charted"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="inline-block font-mono text-sm uppercase tracking-wider bg-surface-900 text-white px-8 py-3 hover:bg-accent-600 transition-colors"
+    >
+      Start Contributing
+    </a>
+  </section>
+</BaseLayout>

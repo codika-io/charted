@@ -1,0 +1,78 @@
+---
+import { getCollection, render } from 'astro:content';
+import TopicLayout from '../layouts/TopicLayout.astro';
+import TopicCard from '../components/TopicCard.astro';
+
+export async function getStaticPaths() {
+  const topics = await getCollection('topics');
+  return topics.map(topic => ({
+    params: { slug: topic.id },
+    props: { topic },
+  }));
+}
+
+const { topic } = Astro.props;
+const { Content } = await render(topic);
+
+// Build breadcrumbs from the slug
+const parts = topic.id.split('/');
+const breadcrumbs = parts.map((part: string, i: number) => {
+  const slug = parts.slice(0, i + 1).join('/');
+  const isLast = i === parts.length - 1;
+  const label = part.replace(/-/g, ' ').replace(/^index$/, parts[i - 1] || 'home');
+  return {
+    label: label.charAt(0).toUpperCase() + label.slice(1),
+    href: isLast ? undefined : `/${slug}`,
+  };
+});
+
+// Get children topics (direct children of this topic), sorted by order
+const allTopics = await getCollection('topics');
+const topicBase = topic.id.replace(/\/index$/, '');
+const children = allTopics
+  .filter(t => t.data.parent === topicBase || t.data.parent === topic.id)
+  .sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0));
+
+const filePath = topic.filePath ?? `src/content/topics/${topic.id}.mdx`;
+---
+
+<TopicLayout
+  title={topic.data.title}
+  description={topic.data.description}
+  filePath={filePath}
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Short MDX content (2-3 sentences) -->
+  <div class="prose mb-10">
+    <Content />
+  </div>
+
+  <!-- Table of contents: ordered children -->
+  {children.length > 0 && (
+    <div>
+      <h2 class="text-xl mb-6">Explore</h2>
+      <ol class="space-y-4">
+        {children.map((child, i) => (
+          <li>
+            <a
+              href={`/${child.id}`}
+              class="group flex items-start gap-5 p-5 border border-surface-200 hover:border-accent-500 transition-colors relative"
+              data-hover-sound
+            >
+              <span class="font-mono text-2xl text-surface-300 group-hover:text-accent-500 transition-colors leading-none pt-0.5 shrink-0">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <div class="min-w-0">
+                <h3 class="font-mono text-base uppercase tracking-wider group-hover:text-accent-600 transition-colors mb-1">
+                  {child.data.title}
+                </h3>
+                <p class="text-surface-500 text-sm leading-relaxed">{child.data.description}</p>
+              </div>
+              <div class="absolute top-0 left-0 w-1 h-full bg-accent-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            </a>
+          </li>
+        ))}
+      </ol>
+    </div>
+  )}
+</TopicLayout>

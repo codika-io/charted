@@ -1,0 +1,88 @@
+---
+title: Type Theory
+description: The modern frontier — propositions as types, proofs as programs, and the unification of logic with computation.
+parent: mathematics/logic
+order: 9
+color: "#ef4444"
+difficulty: advanced
+prerequisites: ["mathematics/logic/proof-theory"]
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: "2026-02-28"
+---
+
+Type theory is both a foundation for mathematics and a theory of computation. Where set theory builds mathematics on a single relation ($\in$), type theory builds it on the idea that every object has a **type** — and that types themselves carry logical meaning. The deep connection between proofs and programs, formalized by the Curry-Howard correspondence, has made type theory the basis for modern proof assistants and a candidate for a new foundation of mathematics.
+
+## Simple Type Theory
+
+Alonzo Church introduced the **simply typed $\lambda$-calculus** in 1940 as a foundation for higher-order logic. Every term is assigned a type, and function application is only allowed when types match.
+
+The basic types are built from atomic types using the **function type** constructor $\to$:
+
+$$\text{If } \alpha \text{ and } \beta \text{ are types, then } \alpha \to \beta \text{ is the type of functions from } \alpha \text{ to } \beta.$$
+
+A **$\lambda$-abstraction** $\lambda x : \alpha.\, M$ has type $\alpha \to \beta$ if $M$ has type $\beta$ when $x$ has type $\alpha$. The **typing judgment** $\Gamma \vdash M : \tau$ asserts that term $M$ has type $\tau$ in context $\Gamma$:
+
+$$\frac{\Gamma, x : \alpha \vdash M : \beta}{\Gamma \vdash (\lambda x : \alpha.\, M) : \alpha \to \beta}$$
+
+Simple type theory avoids the paradoxes of untyped $\lambda$-calculus (where every term can be applied to every other term, including itself). The price is reduced expressiveness — the simply typed $\lambda$-calculus is strongly normalizing (every reduction sequence terminates), which means it cannot encode all computable functions.
+
+## The Curry-Howard Correspondence
+
+The **Curry-Howard correspondence** (also called propositions-as-types or proofs-as-programs) is one of the deepest observations in the foundations of mathematics. It says:
+
+| Logic | Type Theory |
+|-------|-------------|
+| Proposition | Type |
+| Proof | Term (program) |
+| Implication $\varphi \to \psi$ | Function type $A \to B$ |
+| Conjunction $\varphi \land \psi$ | Product type $A \times B$ |
+| Disjunction $\varphi \lor \psi$ | Sum type $A + B$ |
+| Universal $\forall x.\, P(x)$ | Dependent function $\Pi_{x:A} B(x)$ |
+| Existential $\exists x.\, P(x)$ | Dependent pair $\Sigma_{x:A} B(x)$ |
+| Proof simplification | Computation (reduction) |
+
+A proof of $\varphi \to \psi$ is a *function* that takes a proof of $\varphi$ and produces a proof of $\psi$. A proof of $\forall x.\, P(x)$ is a function that, given any $x$, produces a proof of $P(x)$.
+
+This correspondence, discovered independently by Haskell Curry (1934, for combinatory logic) and William Howard (1969, for natural deduction), means that proving a theorem and writing a program are *the same activity* viewed from different angles. Cut-elimination in proof theory corresponds to program evaluation in type theory.
+
+## Dependent Type Theory
+
+**Dependent types**, introduced by Per Martin-Löf in 1971, allow types to depend on values. This is what takes type theory from a logic of propositions to a full foundation for mathematics.
+
+A **dependent function type** (or Pi type) $\Pi_{x : A} B(x)$ generalizes the function type: the return type $B(x)$ can depend on the input $x$. For example:
+
+$$\text{Vec} : \mathbb{N} \to \text{Type}$$
+
+defines a family of types — $\text{Vec}(n)$ is the type of vectors of length $n$. A function $f : \Pi_{n : \mathbb{N}} \text{Vec}(n) \to \text{Vec}(n)$ takes a natural number $n$ and a vector of length $n$, and returns a vector of the same length. The type system *guarantees* the lengths match.
+
+A **dependent pair type** (or Sigma type) $\Sigma_{x : A} B(x)$ generalizes the product type: $\Sigma_{n : \mathbb{N}} \text{Vec}(n)$ is the type of pairs $(n, v)$ where $v$ is a vector of length $n$ — a vector of unspecified length.
+
+Martin-Löf type theory (MLTT) builds on four type formers — $\Pi$, $\Sigma$, identity types, and inductive types — to provide a constructive foundation for mathematics. The **identity type** $\text{Id}_A(a, b)$ represents the proposition that $a$ and $b$ are equal; its elements are *proofs* of equality.
+
+## Proof Assistants
+
+The Curry-Howard correspondence is not just a theoretical curiosity — it is the basis of **proof assistants**, software systems that verify mathematical proofs with computer-checked rigor.
+
+**Coq** (now Rocq, first released 1989) is based on the Calculus of Inductive Constructions, a dependent type theory with universes and inductive types. It was used to verify the four-color theorem (Gonthier, 2005) and the Feit-Thompson odd-order theorem (Gonthier et al., 2013).
+
+**Lean** (2013, version 4 since 2021) is a newer proof assistant developed by Leonardo de Moura. Its mathematics library **Mathlib** is the largest unified library of formalized mathematics, containing hundreds of thousands of definitions and theorems spanning algebra, analysis, number theory, and topology.
+
+**Agda** (1999, current version since 2007) hews closely to Martin-Löf type theory and is particularly popular for research in type theory and programming language theory.
+
+These systems serve a dual purpose: they formalize existing mathematics with unprecedented rigor, and they function as dependently typed programming languages where types encode specifications and type-checking is verification.
+
+## Homotopy Type Theory
+
+**Homotopy type theory** (HoTT) is a research program initiated by Vladimir Voevodsky and collaborators around 2006, synthesized in the HoTT Book (2013). It reinterprets Martin-Löf's identity types through the lens of homotopy theory: types are **spaces**, terms are **points**, and identity proofs are **paths**.
+
+The key insight is that the identity type $\text{Id}_A(a, b)$ need not be a mere proposition (true or false) — it can have rich structure. Two proofs that $a = b$ might themselves be equal or not, giving rise to **higher-dimensional structure**. In homotopy theory, this corresponds to paths between paths (homotopies), and paths between those (higher homotopies), all the way up.
+
+The **univalence axiom**, proposed by Voevodsky, asserts:
+
+$$(A \simeq B) \;\simeq\; (A =_{\mathcal{U}} B)$$
+
+Equivalent types are identical. This axiom, which is not derivable in standard MLTT, implies that properties of types are invariant under equivalence — a principle mathematicians use informally all the time ("isomorphic structures are the same") but which classical foundations struggle to formalize.
+
+HoTT provides a synthetic approach to homotopy theory that avoids the technical overhead of point-set topology. It also offers a new foundation for mathematics where the fundamental objects are not sets but types with potentially higher-dimensional structure — a conceptual shift whose full implications are still being explored.

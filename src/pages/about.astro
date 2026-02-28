@@ -1,0 +1,43 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import DottedSeparator from '../components/DottedSeparator.astro';
+---
+
+<BaseLayout title="About" description="About the Charted project — an open-source map of the sciences.">
+  <div class="max-w-3xl mx-auto px-6 py-16">
+    <h1 class="text-4xl md:text-5xl mb-6">About</h1>
+    <p class="text-xl text-surface-600 leading-relaxed mb-8">
+      Charted is an open-source project to build an interactive, navigable map of human knowledge — starting with mathematics and expanding to all the sciences.
+    </p>
+
+    <DottedSeparator />
+
+    <div class="prose">
+      <h2>Why?</h2>
+      <p>
+        Most educational resources present knowledge as a linear path: chapter 1, chapter 2, chapter 3. But real knowledge isn't linear. It's a web. Number theory connects to cryptography. Topology connects to data analysis. Category theory bridges algebra and logic.
+      </p>
+      <p>
+        Charted makes this web visible. Each topic is a node. Each connection is an edge. You can zoom in to learn about a specific field, or zoom out to see how the sciences fit together.
+      </p>
+
+      <h2>How it works</h2>
+      <p>
+        Every topic page is a simple MDX file in a Git repository. Anyone can contribute by opening a pull request. The interactive map is generated from the topic metadata — titles, descriptions, parent fields, and prerequisite links.
+      </p>
+      <p>
+        The site is built with Astro, React, and D3.js. It's fully static, fast, and open source.
+      </p>
+
+      <h2>Contributing</h2>
+      <p>
+        We welcome contributions of all kinds: new topics, improved explanations, bug fixes, design improvements, and new features. See the <a href="https://github.com/charted-science/charted/blob/main/CONTRIBUTING.md">contributing guide</a> for details.
+      </p>
+
+      <h2>License</h2>
+      <p>
+        The code is licensed under the MIT License. Content is licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>.
+      </p>
+    </div>
+  </div>
+</BaseLayout>

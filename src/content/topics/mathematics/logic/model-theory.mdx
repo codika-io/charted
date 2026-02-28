@@ -1,0 +1,63 @@
+---
+title: Model Theory
+description: The study of mathematical structures through the lens of formal languages — compactness, categoricity, and types.
+parent: mathematics/logic
+order: 4
+color: "#ef4444"
+difficulty: advanced
+prerequisites: ["mathematics/logic/proof-systems"]
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: "2026-02-28"
+---
+
+Model theory studies the relationship between formal languages and the mathematical structures that satisfy them. Where proof theory asks "what can we derive?", model theory asks "what does the collection of all models of a theory look like?" The field was born from Gödel's completeness theorem and the Löwenheim-Skolem theorems, and it has grown into one of the most powerful tools in modern mathematics.
+
+## Structures and Theories
+
+A **theory** $T$ is a set of sentences (closed formulas) in a first-order language. A **model** of $T$ is a structure $\mathcal{M}$ such that $\mathcal{M} \models \varphi$ for every $\varphi \in T$. The class of all models of $T$ is denoted $\text{Mod}(T)$.
+
+Conversely, given a structure $\mathcal{M}$, its **theory** $\text{Th}(\mathcal{M})$ is the set of all sentences true in $\mathcal{M}$:
+
+$$\text{Th}(\mathcal{M}) = \{\varphi : \mathcal{M} \models \varphi\}$$
+
+A theory is **complete** if for every sentence $\varphi$, either $\varphi \in T$ or $\neg\varphi \in T$. The theory of any single structure is always complete. A theory $T$ is **categorical in cardinality** $\kappa$ if all models of $T$ of size $\kappa$ are isomorphic.
+
+Two structures $\mathcal{M}$ and $\mathcal{N}$ are **elementarily equivalent** ($\mathcal{M} \equiv \mathcal{N}$) if they satisfy the same sentences. Isomorphic structures are always elementarily equivalent, but the converse fails spectacularly: the real field $(\mathbb{R}, +, \cdot, 0, 1)$ is elementarily equivalent to many non-isomorphic structures.
+
+## The Compactness Theorem
+
+The **compactness theorem** is arguably the most important theorem in model theory:
+
+$$T \text{ has a model} \;\iff\; \text{every finite subset of } T \text{ has a model}$$
+
+This follows from the completeness theorem: if $T$ has no model, then $T$ is inconsistent, so some finite $T_0 \subseteq T$ already derives a contradiction and has no model.
+
+Compactness has striking consequences. It implies the existence of **non-standard models** of arithmetic — structures that satisfy all the same first-order sentences as $(\mathbb{N}, +, \cdot, 0, 1)$ but contain "infinite" elements larger than every standard natural number. To see this, add constants $c_n$ and axioms $c > n$ for each $n \in \mathbb{N}$. Every finite subset is consistent (interpret $c$ as a sufficiently large number), so by compactness the whole theory has a model — one with an element greater than every standard number.
+
+Compactness also proves the **upward Löwenheim-Skolem theorem**: if a theory has an infinite model, it has arbitrarily large models. Add $\kappa$-many new constant symbols and axioms saying they are all distinct; every finite subset is satisfiable, so the whole set is.
+
+## Löwenheim-Skolem Theorems
+
+The **downward Löwenheim-Skolem theorem** states: if a countable first-order theory has a model of any infinite cardinality, then it has a countable model.
+
+This leads to **Skolem's paradox**: ZFC set theory (if consistent) has a countable model, yet ZFC proves the existence of uncountable sets. The resolution is that "uncountable" is relative to the model — a set that is uncountable *within* the model may be countable when viewed from outside.
+
+Together, the upward and downward Löwenheim-Skolem theorems say that no first-order theory with an infinite model can control the cardinality of its models. This is a fundamental limitation of first-order expressiveness.
+
+## Quantifier Elimination
+
+A theory $T$ admits **quantifier elimination** if every formula is equivalent (modulo $T$) to a quantifier-free formula. This is a powerful property: it reduces the satisfaction relation to checking atomic formulas, making the theory decidable.
+
+Alfred Tarski proved in 1948 that the theory of **real closed fields** admits quantifier elimination. This means every first-order statement about the real numbers (involving $+, \cdot, 0, 1, <$) is equivalent to a Boolean combination of polynomial inequalities. As a consequence, the first-order theory of $(\mathbb{R}, +, \cdot, 0, 1, <)$ is decidable — a striking contrast with arithmetic $(\mathbb{N}, +, \cdot, 0, 1)$, which is undecidable.
+
+Other theories with quantifier elimination include the theory of algebraically closed fields (Tarski), dense linear orders without endpoints (Cantor), and the $p$-adic numbers (Ax-Kochen, Ershov).
+
+## Types and Saturation
+
+A **type** over a set $A$ in a structure $\mathcal{M}$ is a consistent set of formulas $p(x)$ with parameters from $A$. The **Stone space** $S_n(T)$ of $n$-types of a complete theory $T$ is a compact topological space whose structure encodes much of the model-theoretic behavior of $T$.
+
+A model $\mathcal{M}$ is **$\kappa$-saturated** if for every subset $A \subseteq |\mathcal{M}|$ with $|A| < \kappa$, every type over $A$ that is consistent with $\text{Th}(\mathcal{M})$ is realized in $\mathcal{M}$. Saturated models are "fat" — they contain witnesses for every consistent property.
+
+Michael Morley proved in 1965 that if a countable complete theory is categorical in some uncountable cardinality, then it is categorical in every uncountable cardinality. **Morley's categoricity theorem** was the starting point of modern model theory — it launched Saharon Shelah's classification theory, which organizes all complete theories by their structural complexity using invariants like stability, simplicity, and NIP (not the independence property).

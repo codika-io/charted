@@ -1,0 +1,36 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import ContributeButton from '../components/ContributeButton.astro';
+import DottedSeparator from '../components/DottedSeparator.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  filePath: string;
+  breadcrumbs: { label: string; href?: string }[];
+}
+
+const { title, description, filePath, breadcrumbs } = Astro.props;
+---
+
+<BaseLayout title={title} description={description}>
+  <div class="max-w-4xl mx-auto px-6 py-12">
+    <Breadcrumbs items={breadcrumbs} />
+
+    <header class="mb-6">
+      <h1 class="text-4xl md:text-5xl mb-4">{title}</h1>
+      <p class="text-surface-600 text-lg leading-relaxed">{description}</p>
+    </header>
+
+    <DottedSeparator />
+
+    <slot />
+
+    <DottedSeparator />
+
+    <div class="flex justify-center">
+      <ContributeButton filePath={filePath} />
+    </div>
+  </div>
+</BaseLayout>

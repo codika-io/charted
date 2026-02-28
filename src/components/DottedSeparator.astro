@@ -1,0 +1,10 @@
+---
+interface Props {
+  variant?: 'dotted' | 'dashed';
+  class?: string;
+}
+
+const { variant = 'dotted', class: className = '' } = Astro.props;
+---
+
+<hr class={`${variant === 'dotted' ? 'dotted-separator' : 'dashed-separator'} ${className}`} />
