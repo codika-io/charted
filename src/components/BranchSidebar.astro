@@ -1,0 +1,164 @@
+---
+interface Topic {
+  id: string;
+  data: {
+    title: string;
+    status: 'stub' | 'draft' | 'review' | 'complete';
+    order: number;
+  };
+}
+
+interface Branch {
+  id: string;
+  data: {
+    title: string;
+    order: number;
+  };
+}
+
+interface Heading {
+  slug: string;
+  text: string;
+  depth: number;
+}
+
+interface Props {
+  branches: Branch[];
+  currentBranch: Branch;
+  siblings: Topic[];
+  currentTopicId: string;
+  h2Headings: Heading[];
+}
+
+const { branches, currentBranch, siblings, currentTopicId, h2Headings } = Astro.props;
+---
+
+<aside class="hidden lg:block">
+  <nav class="sticky top-8" aria-label="Branch navigation">
+    <!-- Branch switcher -->
+    <select
+      class="w-full font-mono text-[11px] uppercase tracking-wider bg-transparent border-b border-surface-200 pb-2 mb-6 cursor-pointer text-surface-500 hover:text-surface-900 transition-colors appearance-none outline-none"
+      aria-label="Switch branch"
+    >
+      {branches.map(branch => {
+        const branchSlug = branch.id.replace(/\/index$/, '');
+        return (
+          <option
+            value={`/${branchSlug}`}
+            selected={branch.id === currentBranch.id}
+          >
+            {branch.data.title}
+          </option>
+        );
+      })}
+    </select>
+
+    <!-- Numbered topic list with sub-sections -->
+    <ol class="space-y-4">
+      {siblings.map((sibling, i) => {
+        const isCurrent = sibling.id === currentTopicId;
+        return (
+          <li>
+            <a
+              href={`/${sibling.id}`}
+              class:list={[
+                'flex items-baseline gap-2 font-mono text-xs uppercase tracking-wider transition-colors',
+                isCurrent
+                  ? 'text-accent-600'
+                  : 'text-surface-900 hover:text-accent-600',
+              ]}
+              aria-current={isCurrent ? 'page' : undefined}
+              data-hover-sound
+            >
+              <span class="text-surface-300 shrink-0">{i + 1}.</span>
+              <span>{sibling.data.title}</span>
+            </a>
+
+            {/* Show H2 sub-sections under the active topic */}
+            {isCurrent && h2Headings.length > 0 && (
+              <ul class="mt-2 ml-5 space-y-1">
+                {h2Headings.map(heading => (
+                  <li>
+                    <a
+                      href={`#${heading.slug}`}
+                      class="sidebar-section-link flex items-baseline gap-2 text-sm text-surface-500 hover:text-accent-600 transition-colors py-0.5"
+                      data-section={heading.slug}
+                      data-hover-sound
+                    >
+                      <span class="text-surface-300 text-xs shrink-0">&bull;</span>
+                      <span>{heading.text}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </li>
+        );
+      })}
+    </ol>
+  </nav>
+</aside>
+
+<script>
+  function initBranchSwitcher() {
+    document.querySelectorAll<HTMLSelectElement>('select[aria-label="Switch branch"]').forEach(select => {
+      select.addEventListener('change', () => {
+        window.location.href = select.value;
+      });
+    });
+  }
+
+  function initSidebarScrollSpy() {
+    const links = document.querySelectorAll<HTMLAnchorElement>('.sidebar-section-link');
+    if (links.length === 0) return;
+
+    let ticking = false;
+
+    function update() {
+      const scrollY = window.scrollY;
+      const threshold = window.innerHeight * 0.2;
+      let activeSlug = '';
+
+      const headings = Array.from(links).map(link => {
+        const slug = link.dataset.section!;
+        const el = document.getElementById(slug);
+        return { slug, top: el ? el.getBoundingClientRect().top + scrollY : Infinity };
+      });
+
+      for (const h of headings) {
+        if (h.top <= scrollY + threshold) {
+          activeSlug = h.slug;
+        }
+      }
+
+      if (!activeSlug && headings.length > 0) {
+        activeSlug = headings[0].slug;
+      }
+
+      links.forEach(link => {
+        const isActive = link.dataset.section === activeSlug;
+        link.classList.toggle('text-accent-600', isActive);
+        link.classList.toggle('text-surface-500', !isActive);
+      });
+
+      ticking = false;
+    }
+
+    function onScroll() {
+      if (!ticking) {
+        requestAnimationFrame(update);
+        ticking = true;
+      }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    update();
+  }
+
+  initBranchSwitcher();
+  initSidebarScrollSpy();
+  document.addEventListener('astro:after-swap', () => {
+    initBranchSwitcher();
+    initSidebarScrollSpy();
+  });
+</script>

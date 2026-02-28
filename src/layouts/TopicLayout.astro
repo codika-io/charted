@@ -3,34 +3,88 @@ import BaseLayout from './BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import ContributeButton from '../components/ContributeButton.astro';
 import DottedSeparator from '../components/DottedSeparator.astro';
+import BranchSidebar from '../components/BranchSidebar.astro';
+import SectionNav from '../components/SectionNav.astro';
 
 interface Props {
   title: string;
   description: string;
   filePath: string;
   breadcrumbs: { label: string; href?: string }[];
+  isTopicPage?: boolean;
+  h2Headings?: { slug: string; text: string; depth: number }[];
+  siblings?: { id: string; data: { title: string; status: string; order: number } }[];
+  branches?: { id: string; data: { title: string; order: number } }[];
+  currentBranch?: { id: string; data: { title: string; order: number } };
+  currentTopicId?: string;
 }
 
-const { title, description, filePath, breadcrumbs } = Astro.props;
+const {
+  title,
+  description,
+  filePath,
+  breadcrumbs,
+  isTopicPage = false,
+  h2Headings = [],
+  siblings = [],
+  branches = [],
+  currentBranch,
+  currentTopicId = '',
+} = Astro.props;
 ---
 
 <BaseLayout title={title} description={description}>
-  <div class="max-w-4xl mx-auto px-6 py-12">
-    <Breadcrumbs items={breadcrumbs} />
+  {isTopicPage ? (
+    <!-- Topic page: 3-column grid on desktop -->
+    <div class="max-w-[90rem] mx-auto px-6 py-12 lg:grid lg:grid-cols-[240px_1fr_200px] lg:gap-8">
+      <BranchSidebar
+        branches={branches}
+        currentBranch={currentBranch!}
+        siblings={siblings}
+        currentTopicId={currentTopicId}
+        h2Headings={h2Headings}
+      />
 
-    <header class="mb-6">
-      <h1 class="text-4xl md:text-5xl mb-4">{title}</h1>
-      <p class="text-surface-600 text-lg leading-relaxed">{description}</p>
-    </header>
+      <div class="min-w-0 max-w-3xl">
+        <Breadcrumbs items={breadcrumbs} />
 
-    <DottedSeparator />
+        <header class="mb-6">
+          <h1 class="text-4xl md:text-5xl mb-4">{title}</h1>
+          <p class="text-surface-600 text-lg leading-relaxed">{description}</p>
+        </header>
 
-    <slot />
+        <DottedSeparator />
 
-    <DottedSeparator />
+        <slot />
 
-    <div class="flex justify-center">
-      <ContributeButton filePath={filePath} />
+        <DottedSeparator />
+
+        <div class="flex justify-center">
+          <ContributeButton filePath={filePath} />
+        </div>
+      </div>
+
+      <SectionNav headings={h2Headings} />
     </div>
-  </div>
+  ) : (
+    <!-- Non-topic page: single centered column (unchanged) -->
+    <div class="max-w-4xl mx-auto px-6 py-12">
+      <Breadcrumbs items={breadcrumbs} />
+
+      <header class="mb-6">
+        <h1 class="text-4xl md:text-5xl mb-4">{title}</h1>
+        <p class="text-surface-600 text-lg leading-relaxed">{description}</p>
+      </header>
+
+      <DottedSeparator />
+
+      <slot />
+
+      <DottedSeparator />
+
+      <div class="flex justify-center">
+        <ContributeButton filePath={filePath} />
+      </div>
+    </div>
+  )}
 </BaseLayout>

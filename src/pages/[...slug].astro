@@ -12,7 +12,7 @@ export async function getStaticPaths() {
 }
 
 const { topic } = Astro.props;
-const { Content } = await render(topic);
+const { Content, headings } = await render(topic);
 
 // Build breadcrumbs from the slug
 const parts = topic.id.split('/');
@@ -34,6 +34,33 @@ const children = allTopics
   .sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0));
 
 const filePath = topic.filePath ?? `src/content/topics/${topic.id}.mdx`;
+
+// Sidebar data — only for topic pages (parent contains "/", e.g. "mathematics/logic")
+const isTopicPage = !!topic.data.parent && topic.data.parent.includes('/');
+
+const h2Headings = headings.filter((h: { depth: number }) => h.depth === 2);
+
+// Siblings: all topics sharing the same parent, sorted by order
+const siblings = isTopicPage
+  ? allTopics
+      .filter(t => t.data.parent === topic.data.parent && !t.id.endsWith('/index'))
+      .sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0))
+  : [];
+
+// Branches: all topics with parent === 'mathematics' (branch indexes), sorted by order
+const branches = isTopicPage
+  ? allTopics
+      .filter(t => t.data.parent === 'mathematics')
+      .sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0))
+  : [];
+
+// Current branch: the branch index matching this topic's parent
+const currentBranch = isTopicPage
+  ? branches.find(b => {
+      const branchBase = b.id.replace(/\/index$/, '');
+      return branchBase === topic.data.parent;
+    })
+  : undefined;
 ---
 
 <TopicLayout
@@ -41,6 +68,12 @@ const filePath = topic.filePath ?? `src/content/topics/${topic.id}.mdx`;
   description={topic.data.description}
   filePath={filePath}
   breadcrumbs={breadcrumbs}
+  isTopicPage={isTopicPage}
+  h2Headings={h2Headings}
+  siblings={siblings}
+  branches={branches}
+  currentBranch={currentBranch}
+  currentTopicId={topic.id}
 >
   <!-- Short MDX content (2-3 sentences) -->
   <div class="prose mb-10">

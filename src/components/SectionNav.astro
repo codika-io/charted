@@ -1,0 +1,130 @@
+---
+interface Heading {
+  slug: string;
+  text: string;
+  depth: number;
+}
+
+interface Props {
+  headings: Heading[];
+}
+
+const { headings } = Astro.props;
+---
+
+<aside class="hidden lg:block">
+  <div class="section-ruler sticky top-8" aria-label="Page sections">
+    <!-- Scroll progress -->
+    <div class="font-mono text-[11px] text-surface-300 tabular-nums flex items-center gap-2 mb-4">
+      <span data-scroll-progress>0.00</span>
+      <span class="ruler-progress-line h-[2px] bg-accent-500 transition-all duration-300" style="width: 0;"></span>
+    </div>
+
+    <!-- Minimap bars — labels extend left, bars anchored right -->
+    <ol class="ruler-container space-y-2.5">
+      {headings.map(heading => (
+        <li>
+          <a
+            href={`#${heading.slug}`}
+            class="ruler-bar flex items-center justify-end gap-2.5 py-0.5"
+            data-section={heading.slug}
+          >
+            {/* Label — hidden by default, revealed on container hover */}
+            <span class="ruler-label text-[11px] font-mono uppercase tracking-wider text-surface-400 whitespace-nowrap opacity-0 translate-x-1 transition-all duration-200 pointer-events-none text-right truncate">
+              {heading.text}
+            </span>
+            {/* Bar line — anchored to the right */}
+            <span class="ruler-line shrink-0 h-[2px] bg-surface-800 transition-all duration-200" style="width: 24px;"></span>
+          </a>
+        </li>
+      ))}
+    </ol>
+  </div>
+</aside>
+
+<style>
+  /* Show labels when hovering the ruler container */
+  .ruler-container:hover .ruler-label {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* Active bar — wider + accent */
+  .ruler-bar.is-active .ruler-line {
+    background-color: var(--color-accent-500);
+    width: 32px;
+  }
+  .ruler-bar.is-active .ruler-label {
+    color: var(--color-accent-600);
+  }
+</style>
+
+<script>
+  function initRuler() {
+    const bars = document.querySelectorAll<HTMLAnchorElement>('.ruler-bar');
+    const progressEl = document.querySelector('[data-scroll-progress]');
+    const progressLine = document.querySelector<HTMLElement>('.ruler-progress-line');
+    if (bars.length === 0) return;
+
+    let ticking = false;
+
+    function update() {
+      const scrollY = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? scrollY / docHeight : 0;
+      const threshold = window.innerHeight * 0.2;
+
+      // Update progress counter + line
+      if (progressEl) {
+        progressEl.textContent = progress.toFixed(2);
+        if (progress > 0) {
+          progressEl.classList.remove('text-surface-300');
+          progressEl.classList.add('text-accent-500');
+        } else {
+          progressEl.classList.add('text-surface-300');
+          progressEl.classList.remove('text-accent-500');
+        }
+      }
+      if (progressLine) {
+        progressLine.style.width = `${Math.round(progress * 24)}px`;
+      }
+
+      // Find active section
+      let activeSlug = '';
+      const headings = Array.from(bars).map(bar => {
+        const slug = bar.dataset.section!;
+        const el = document.getElementById(slug);
+        return { slug, top: el ? el.getBoundingClientRect().top + scrollY : Infinity };
+      });
+
+      for (const h of headings) {
+        if (h.top <= scrollY + threshold) {
+          activeSlug = h.slug;
+        }
+      }
+
+      if (!activeSlug && headings.length > 0) {
+        activeSlug = headings[0].slug;
+      }
+
+      bars.forEach(bar => {
+        bar.classList.toggle('is-active', bar.dataset.section === activeSlug);
+      });
+
+      ticking = false;
+    }
+
+    function onScroll() {
+      if (!ticking) {
+        requestAnimationFrame(update);
+        ticking = true;
+      }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    update();
+  }
+
+  initRuler();
+  document.addEventListener('astro:after-swap', initRuler);
+</script>
