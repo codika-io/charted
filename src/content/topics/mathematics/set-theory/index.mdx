@@ -6,9 +6,40 @@ order: 2
 color: "#ef4444"
 difficulty: beginner
 prerequisites: ["mathematics/logic"]
-status: stub
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: "2026-02-28"
 ---
 
-Nearly every mathematical object — numbers, functions, spaces, structures — can be defined as a set. Set theory provides the shared vocabulary and the axiomatic foundation (typically ZFC) on which modern mathematics is built.
+Nearly every mathematical object — numbers, functions, spaces, structures — can be defined as a set. Set theory provides the shared vocabulary and the axiomatic foundation on which modern mathematics is built. When a mathematician writes "let $x \in X$," they are speaking set theory, whether the context is algebra, analysis, or topology. Understanding sets is not one branch among many; it is the substrate from which the other branches grow.
 
-It also contains some of the most mind-bending results in all of math: different sizes of infinity, the axiom of choice, and the continuum hypothesis.
+Set theory also contains some of the most mind-bending results in all of math: different sizes of infinity, the axiom of choice and its bizarre consequences, and the continuum hypothesis — a question so fundamental that it turned out to be unanswerable within the standard axioms.
+
+The story begins with **Georg Cantor**, who between the 1870s and 1890s single-handedly created the theory of infinite sets. Cantor showed that infinity comes in layers: the natural numbers, the real numbers, and an endless tower of ever-larger infinities beyond them. His **diagonal argument** proved that there are strictly more real numbers than natural numbers, even though both collections are infinite. This was a revolution. It was also controversial, and the paradoxes lurking in his informal approach would soon demand attention.
+
+In 1901, **Bertrand Russell** delivered the sharpest blow. His paradox — does the set of all sets that do not contain themselves contain itself? — showed that naive set formation is inherently inconsistent. Mathematics needed a more careful foundation.
+
+That foundation came from **Ernst Zermelo** and **Abraham Fraenkel**, who developed a system of axioms restricting which sets can be formed. Their framework, **ZFC** (Zermelo-Fraenkel with the axiom of Choice), became the standard foundation for mathematics by mid-century. Later, **Kurt Godel** and **Paul Cohen** proved that certain natural questions — including the continuum hypothesis — can be neither proved nor refuted from these axioms. Set theory is where the inherent blind spots of mathematics become visible.
+
+This branch traces the full arc of that story across nine sub-topics, each building on the ones before it.
+
+In Naive Set Theory, we begin where Cantor began: with the intuitive idea of a collection, basic operations like union and intersection, and the paradoxes that arise when this intuition is pushed too far.
+
+Functions and Cardinality develops the tools for comparing set sizes. **Bijections** become the measuring stick, and we meet countability, uncountability, and the Schroder-Bernstein theorem.
+
+The ZFC Axioms presents the formal response to the paradoxes — each axiom of Zermelo-Fraenkel set theory, what it permits and forbids, and the **cumulative hierarchy** that pictures the set-theoretic universe as a layered structure.
+
+Ordinals and Cardinals extends the natural numbers into the transfinite. **Ordinal numbers** generalize "position in a sequence" to infinite well-ordered sets, while **cardinal numbers** generalize "size." Transfinite arithmetic is strange, and this sub-topic makes its distinctions precise.
+
+The Axiom of Choice is the most controversial axiom in mathematics: given any collection of non-empty sets, one can choose an element from each — even without an explicit rule. We explore its equivalences (Zorn's lemma, the well-ordering theorem) and its counterintuitive consequences like the Banach-Tarski paradox.
+
+The Continuum Hypothesis asks whether there is a set whose size falls strictly between the naturals and the reals. Cantor conjectured no. Godel showed in 1940 it cannot be disproved from ZFC; Cohen showed in 1963 it cannot be proved either.
+
+Large Cardinals and Inner Models ventures into the upper reaches of infinity — **inaccessible**, **measurable**, and **supercompact** cardinals so large their existence cannot be proved in ZFC and must be assumed as new axioms.
+
+Forcing and Independence presents **Cohen's method of forcing**, the technique for constructing new models of set theory and the central tool for proving independence results.
+
+Finally, Combinatorial and Alternative Set Theory surveys the broader landscape: partition calculus and infinitary combinatorics, **descriptive set theory** and the structure of definable sets of reals, and alternative foundations like Quine's New Foundations (NF).
+
+Set theory is where mathematics turns inward and examines its own foundations. The questions it raises — what is a number, what is infinity, what can be proved — shape the tools every mathematician uses and reveal the boundaries of what formal reasoning can achieve. This branch begins with the most accessible idea in mathematics (what is a collection?) and arrives at some of the deepest (what is the nature of mathematical truth?). That arc is what makes set theory extraordinary.
