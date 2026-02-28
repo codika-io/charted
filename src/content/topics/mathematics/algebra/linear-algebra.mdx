@@ -5,22 +5,129 @@ parent: mathematics/algebra
 order: 2
 color: "#ef4444"
 difficulty: beginner
-prerequisites: []
-status: stub
+prerequisites: ["mathematics/set-theory"]
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: "2026-02-28"
 ---
+
+Linear algebra is the study of vector spaces and the maps between them — a subject that begins with the humble act of adding arrows in the plane and culminates in one of the most powerful and broadly applicable theories in all of mathematics. Its reach extends from quantum mechanics and signal processing to machine learning and structural engineering, and its language has become the common tongue of quantitative science. Understanding linear algebra means understanding how structure, direction, and transformation interact in spaces of any dimension.
 
 ## Vector Spaces and Subspaces
 
+The central object of linear algebra is the **vector space**. Informally, a vector space is a collection of objects — the **vectors** — that can be added together and scaled by numbers, with both operations behaving in the ways we intuitively expect. Formally, a vector space over a **field** $\mathbb{F}$ (typically $\mathbb{R}$ or $\mathbb{C}$) is a set $V$ equipped with two operations: **vector addition** $+: V \times V \to V$ and **scalar multiplication** $\cdot: \mathbb{F} \times V \to V$, satisfying eight axioms: commutativity and associativity of addition, the existence of a **zero vector** $\mathbf{0}$ satisfying $v + \mathbf{0} = v$, the existence of **additive inverses** $-v$ for each $v$, compatibility of scalar multiplication with field multiplication, and the two distributive laws. The canonical example is $\mathbb{R}^n$, the set of all $n$-tuples of real numbers, but vector spaces include spaces of polynomials, spaces of continuous functions, and spaces of matrices — wherever addition and scaling make sense and satisfy the axioms.
+
+A **subspace** of $V$ is a subset $W \subseteq V$ that is itself a vector space under the same operations. The subspace test reduces this to three conditions: $W$ must contain the zero vector, be closed under addition, and be closed under scalar multiplication. The intersection of any collection of subspaces is again a subspace, a fact that allows us to define the **span** of a set of vectors $S = \{v_1, \ldots, v_k\}$ as the smallest subspace containing $S$, which is precisely the set of all **linear combinations** $c_1 v_1 + c_2 v_2 + \cdots + c_k v_k$ for scalars $c_i \in \mathbb{F}$.
+
+A set of vectors $\{v_1, \ldots, v_k\}$ is **linearly independent** if the only way to write the zero vector as a linear combination of them is the trivial one: $c_1 v_1 + \cdots + c_k v_k = \mathbf{0}$ implies $c_1 = \cdots = c_k = 0$. Geometrically, this means no vector in the set lies in the span of the others — no vector is "redundant." A **basis** for $V$ is a set that is both linearly independent and spans $V$. Every basis for a given vector space has the same number of elements, a profound fact whose proof uses the **Steinitz exchange lemma**. This common cardinality is the **dimension** $\dim(V)$ of the space.
+
+The concept of dimension, seemingly obvious for $\mathbb{R}^n$, required careful work to establish in general. The existence of a basis for every vector space — including infinite-dimensional ones — relies on the axiom of choice (via Zorn's lemma), a connection to set theory that highlights how the subject reaches into foundations. For the spaces that arise most often in practice, however, bases are explicit and dimension is finite. The **standard basis** for $\mathbb{R}^n$ consists of the $n$ coordinate vectors $e_1 = (1,0,\ldots,0)$, $e_2 = (0,1,0,\ldots,0)$, and so on; every vector $(x_1, \ldots, x_n)$ is uniquely $x_1 e_1 + \cdots + x_n e_n$, and these unique coefficients are the **coordinates** of the vector in this basis.
+
 ## Linear Transformations and Matrices
+
+A **linear transformation** (or **linear map**) from a vector space $V$ to a vector space $W$ is a function $T: V \to W$ that respects both operations: $T(u + v) = T(u) + T(v)$ and $T(cv) = cT(v)$ for all vectors $u, v \in V$ and all scalars $c \in \mathbb{F}$. These two conditions together are equivalent to the single requirement $T(c_1 u + c_2 v) = c_1 T(u) + c_2 T(v)$, the **superposition principle** that permeates physics and engineering. Linear maps include rotations and reflections of the plane, projections onto lines and planes, differentiation of polynomials, and, crucially, multiplication by a matrix.
+
+Given a basis $\mathcal{B} = \{v_1, \ldots, v_n\}$ of $V$ and a basis $\mathcal{C} = \{w_1, \ldots, w_m\}$ of $W$, every linear map $T: V \to W$ is completely encoded by the $m \times n$ **matrix** $[T]_{\mathcal{B}}^{\mathcal{C}}$, whose $j$-th column contains the coordinates of $T(v_j)$ in the basis $\mathcal{C}$. Conversely, every $m \times n$ matrix determines a linear map from $\mathbb{F}^n$ to $\mathbb{F}^m$. The key consequence is that **matrix multiplication corresponds to composition of linear maps**: if $T: V \to W$ and $S: W \to U$ are linear, then the matrix of $S \circ T$ is the product of the matrices of $S$ and $T$ (in that order). This connection between an abstract algebraic notion (composition) and a concrete arithmetic operation (matrix multiplication) is one of the great insights of the subject.
+
+Every linear map $T: V \to W$ has two canonically associated subspaces. The **kernel** (or null space) $\ker(T) = \{v \in V : T(v) = \mathbf{0}\}$ is a subspace of $V$; it consists of all vectors that $T$ sends to zero. The **image** (or range) $\operatorname{im}(T) = \{T(v) : v \in V\}$ is a subspace of $W$; it consists of all outputs that $T$ can produce. The fundamental **rank-nullity theorem** asserts that these two dimensions always sum to the dimension of the domain:
+
+$$\dim(\ker(T)) + \dim(\operatorname{im}(T)) = \dim(V).$$
+
+The dimension of the image is called the **rank** of $T$ (or of its matrix), and the dimension of the kernel is the **nullity**. This theorem has immediate consequences: a linear map is injective (one-to-one) if and only if its kernel is trivial ($\{0\}$), and it is surjective (onto) if and only if its rank equals $\dim(W)$. A map that is both is an **isomorphism** — it establishes that $V$ and $W$ are "the same" as vector spaces. Two finite-dimensional vector spaces over the same field are isomorphic if and only if they have the same dimension, which means that $\mathbb{F}^n$ is (up to relabeling) the only $n$-dimensional vector space over $\mathbb{F}$.
+
+The **dual space** $V^* = L(V, \mathbb{F})$ of linear functionals on $V$ is itself a vector space of the same dimension, and the **double dual** $V^{**}$ is naturally isomorphic to $V$. This elegant reflexivity — the space of all linear functions on $V^*$ recovers $V$ itself — is a prototype of the duality that appears throughout mathematics.
 
 ## Determinants and Systems of Equations
 
+Before the modern vector-space framework took hold, linear algebra was largely the study of **systems of linear equations** and the **determinants** that govern their solvability. Determinants were studied systematically by **Gottfried Leibniz** in the late seventeenth century and later developed extensively by **Gabriel Cramer** (1750), **Alexandre-Théophile Vandermonde** (1772), and **Carl Friedrich Gauss**, whose method of **Gaussian elimination** — systematically row-reducing an augmented matrix to solve a linear system — remains the standard computational procedure today.
+
+The **determinant** $\det(A)$ of a square matrix $A$ is a scalar that encodes essential geometric and algebraic information about $A$. Geometrically, $|\det(A)|$ measures the factor by which $A$ scales volumes: if $A$ is a $2 \times 2$ matrix, then $|\det(A)|$ is the area of the parallelogram spanned by its columns; if $A$ is $3 \times 3$, it is the volume of the parallelepiped. The sign of the determinant records whether $A$ preserves or reverses orientation. Algebraically, $A$ is **invertible** if and only if $\det(A) \neq 0$ — a characterization that connects geometry (nondegenerate transformation) to algebra (solvable system) and to analysis (nonzero scaling factor).
+
+The determinant is characterized by three properties: it is **multilinear** in the columns of $A$ (linear in each column when the others are fixed), it is **alternating** (swapping two columns negates the value), and it satisfies $\det(I) = 1$ for the identity matrix. These three axioms pin down the determinant uniquely. The explicit formula is the **Leibniz expansion**:
+
+$$\det(A) = \sum_{\sigma \in S_n} \operatorname{sgn}(\sigma) \, a_{1,\sigma(1)} \, a_{2,\sigma(2)} \cdots a_{n,\sigma(n)},$$
+
+where the sum runs over all permutations $\sigma$ of $\{1, \ldots, n\}$ and $\operatorname{sgn}(\sigma) = \pm 1$ is the **sign** of $\sigma$ (positive for even permutations, negative for odd). For a system $Ax = b$, the classical **Cramer's rule** expresses each component of the solution as a ratio of determinants. While Cramer's rule is elegant and important theoretically, it is computationally inefficient for large systems; Gaussian elimination, which runs in $O(n^3)$ time, is far preferable in practice.
+
+Row-reducing the augmented matrix $[A \mid b]$ transforms the system into an equivalent one whose solution is transparent. The reduced row echelon form reveals which variables are **pivot variables** (determined by the equations) and which are **free variables** (chosen freely to parametrize the solution set). When the system $Ax = \mathbf{0}$ is homogeneous, its solution set is precisely $\ker(A)$, a subspace. When the system is nonhomogeneous, the solution set (if nonempty) is an **affine subspace** — a translate of $\ker(A)$.
+
 ## Eigenvalues and Eigenvectors
+
+Among all the vectors that a linear map $T: V \to V$ acts on, the most special are those it merely stretches or compresses — those for which $T(v) = \lambda v$ for some scalar $\lambda$. Such a vector $v \neq \mathbf{0}$ is called an **eigenvector** (from the German *eigen*, meaning "own" or "characteristic"), and $\lambda$ is the corresponding **eigenvalue**. Eigenvalues and eigenvectors were studied in the context of quadratic forms by **Leonhard Euler** and **Lagrange** in the eighteenth century and developed in full generality by **Augustin-Louis Cauchy** and **Karl Weierstrass** in the nineteenth.
+
+To find the eigenvalues of an $n \times n$ matrix $A$, we seek $\lambda$ such that $Av = \lambda v$, equivalently $(A - \lambda I)v = \mathbf{0}$, has a nonzero solution. This requires the matrix $A - \lambda I$ to be singular, which happens precisely when:
+
+$$\det(A - \lambda I) = 0.$$
+
+The left side, when expanded, is a degree-$n$ polynomial in $\lambda$ called the **characteristic polynomial** of $A$. Its roots — which may be real or complex, distinct or repeated — are the eigenvalues of $A$. For each eigenvalue $\lambda_i$, the corresponding **eigenspace** is $E_{\lambda_i} = \ker(A - \lambda_i I)$, the subspace of all eigenvectors (and the zero vector) for that eigenvalue. The dimension of $E_{\lambda_i}$ is the **geometric multiplicity** of $\lambda_i$; its multiplicity as a root of the characteristic polynomial is its **algebraic multiplicity**, and the geometric multiplicity never exceeds the algebraic.
+
+A matrix $A$ is **diagonalizable** if there exists an invertible matrix $P$ such that $P^{-1}AP = D$ is diagonal. This happens precisely when $A$ has a basis of eigenvectors — equivalently, when the geometric and algebraic multiplicities agree for every eigenvalue. When $A$ is diagonalizable, its powers are easy to compute: $A^k = PD^kP^{-1}$, since $D^k$ is just the diagonal matrix with entries $\lambda_i^k$. This makes diagonalization a powerful tool for solving linear recurrences and systems of linear differential equations.
+
+Many matrices are not diagonalizable, however. A matrix whose characteristic polynomial has only one root $\lambda = 0$ but which is not the zero matrix — the classic example being $\begin{pmatrix} 0 & 1 \\ 0 & 0 \end{pmatrix}$ — cannot be diagonalized over any field. Such matrices are still manageable through the Jordan normal form, which we take up in its own section below.
 
 ## Inner Product Spaces
 
+The vector space axioms say nothing about length or angle. These geometric notions are introduced through an **inner product**, a function $\langle \cdot, \cdot \rangle: V \times V \to \mathbb{F}$ satisfying four conditions: **linearity** in the first argument, **conjugate symmetry** ($\langle u, v \rangle = \overline{\langle v, u \rangle}$, which reduces to ordinary symmetry for real spaces), and **positive definiteness** ($\langle v, v \rangle > 0$ for all $v \neq \mathbf{0}$). The standard inner product on $\mathbb{R}^n$ is the **dot product** $\langle x, y \rangle = x \cdot y = \sum_{i=1}^n x_i y_i$; on $\mathbb{C}^n$ the standard inner product is $\langle x, y \rangle = \sum_{i=1}^n x_i \overline{y_i}$.
+
+An inner product induces a **norm** (length) by $\|v\| = \sqrt{\langle v, v \rangle}$. The most important inequality in the theory is the **Cauchy-Schwarz inequality**:
+
+$$|\langle u, v \rangle| \leq \|u\| \cdot \|v\|,$$
+
+with equality if and only if $u$ and $v$ are scalar multiples of each other. This inequality implies the **triangle inequality** $\|u + v\| \leq \|u\| + \|v\|$, confirming that the norm is a genuine metric. Two vectors are **orthogonal** if $\langle u, v \rangle = 0$; an **orthonormal basis** is a basis in which every pair of distinct basis vectors is orthogonal and every basis vector has unit length.
+
+Given any basis, the **Gram-Schmidt process** — developed by **Jørgen Pedersen Gram** (1883) and **Erhard Schmidt** (1907) — converts it into an orthonormal basis systematically. The process projects each new vector onto the span of the previous ones, subtracts that projection to obtain an orthogonal component, and then normalizes. In matrix terms, this is the **QR decomposition**: any matrix $A$ with linearly independent columns can be written as $A = QR$, where $Q$ is a matrix with orthonormal columns and $R$ is upper triangular. The QR decomposition is the numerical workhorse behind least-squares solvers and eigenvalue algorithms.
+
+Orthogonal projections are the geometric heart of inner product spaces. The **orthogonal projection** of $v$ onto a subspace $W$ is the unique vector $\hat{v} \in W$ closest to $v$ — it is the **best approximation** of $v$ from within $W$. This is the solution to the **least squares problem**: given an overdetermined system $Ax \approx b$ (more equations than unknowns, generally inconsistent), the least-squares solution minimizes $\|Ax - b\|^2$ and satisfies the **normal equations** $A^T A x = A^T b$. Least squares is foundational to statistics (linear regression), signal processing (filter design), and scientific computing.
+
 ## Spectral Theorem and Decompositions
+
+The **spectral theorem** is the crowning result of linear algebra, and it concerns matrices — or operators — with special symmetry. A real matrix $A$ is **symmetric** if $A^T = A$; a complex matrix is **Hermitian** (or self-adjoint) if $A^* = A$, where $A^* = \overline{A^T}$ is the **conjugate transpose**. These matrices arise throughout physics (Hamiltonians in quantum mechanics, covariance matrices in statistics) and are characterized by an extraordinary diagonalizability property.
+
+The spectral theorem for real symmetric matrices states: every real symmetric matrix has only real eigenvalues, and it can be diagonalized by an orthogonal matrix. In other words, if $A = A^T$, there exists an orthogonal matrix $Q$ (satisfying $Q^T Q = I$) and a diagonal matrix $\Lambda$ such that:
+
+$$A = Q \Lambda Q^T.$$
+
+The columns of $Q$ are orthonormal eigenvectors of $A$, and the diagonal entries of $\Lambda$ are the corresponding real eigenvalues. The complex analogue holds for Hermitian matrices, with orthogonal replaced by **unitary** ($Q^* Q = I$). This result was established through the combined work of Cauchy, Jacobi, and others in the nineteenth century and later given elegant operator-theoretic formulations by **David Hilbert** and **John von Neumann** in the early twentieth.
+
+The **spectral decomposition** gives a beautiful expansion. If $\lambda_1, \ldots, \lambda_k$ are the distinct eigenvalues of a symmetric matrix $A$ and $P_1, \ldots, P_k$ are the orthogonal projections onto the corresponding eigenspaces, then:
+
+$$A = \lambda_1 P_1 + \lambda_2 P_2 + \cdots + \lambda_k P_k.$$
+
+This "spectral" representation (the eigenvalues form the "spectrum" of the operator) makes it possible to compute functions of $A$ naturally: $f(A) = f(\lambda_1) P_1 + \cdots + f(\lambda_k) P_k$ for any function $f$, a technique called the **functional calculus**.
+
+The **singular value decomposition (SVD)** extends these ideas to arbitrary — not necessarily square or symmetric — matrices. Every $m \times n$ matrix $A$ can be written as $A = U \Sigma V^T$, where $U$ is $m \times m$ orthogonal, $V$ is $n \times n$ orthogonal, and $\Sigma$ is $m \times n$ diagonal with nonnegative entries $\sigma_1 \geq \sigma_2 \geq \cdots \geq 0$ called **singular values**. The SVD reveals the geometric action of $A$: it rotates (via $V^T$), scales (via $\Sigma$), and rotates again (via $U$). It provides the most informative and numerically stable decomposition available, and it underlies principal component analysis (PCA), data compression, latent semantic analysis, and the computation of the Moore-Penrose **pseudoinverse** $A^+ = V \Sigma^+ U^T$.
+
+**Quadratic forms** are polynomial functions $Q(x) = x^T A x$ defined by a symmetric matrix $A$. They arise in the classification of conic sections, in the second derivative test for multivariable functions, and in the stability analysis of dynamical systems. The spectral theorem shows that every quadratic form can be diagonalized: by changing coordinates via the eigenvectors of $A$, $Q$ becomes $\lambda_1 y_1^2 + \cdots + \lambda_n y_n^2$ — a sum of squares with signs determined by the eigenvalue signs. A quadratic form is **positive definite** if $Q(x) > 0$ for all $x \neq \mathbf{0}$, equivalently if all eigenvalues of $A$ are positive; **Sylvester's criterion** gives a practical test via the leading principal minors of $A$.
 
 ## Tensor Products and Multilinear Algebra
 
+Linear maps take one vector space input. **Multilinear maps** take multiple inputs and are linear in each one separately. A **bilinear map** $B: V \times W \to U$ satisfies $B(u + u', w) = B(u,w) + B(u',w)$ and $B(cu, w) = c B(u, w)$ (and analogously in the second argument). Familiar examples include the dot product on $\mathbb{R}^n$ (bilinear, $\mathbb{R}$-valued), the cross product on $\mathbb{R}^3$ (bilinear, $\mathbb{R}^3$-valued), and matrix multiplication (bilinear in the two matrix factors).
+
+The **tensor product** $V \otimes W$ is the universal recipient of bilinear maps out of $V \times W$. It is constructed as a vector space equipped with a bilinear map $\otimes: V \times W \to V \otimes W$ such that every bilinear map $B: V \times W \to U$ factors uniquely through $V \otimes W$ — there is a unique linear map $\tilde{B}: V \otimes W \to U$ with $B(v, w) = \tilde{B}(v \otimes w)$. This **universal property** characterizes $V \otimes W$ up to isomorphism. Concretely, if $\{e_1, \ldots, e_m\}$ is a basis for $V$ and $\{f_1, \ldots, f_n\}$ is a basis for $W$, then $\{e_i \otimes f_j : 1 \leq i \leq m, 1 \leq j \leq n\}$ is a basis for $V \otimes W$, giving:
+
+$$\dim(V \otimes W) = \dim(V) \cdot \dim(W).$$
+
+The tensor product appears across mathematics and physics: in quantum mechanics, the state space of a composite system is the tensor product of the state spaces of its parts; in differential geometry, tensors on a manifold are elements of iterated tensor products of the tangent and cotangent spaces; in representation theory, the tensor product of two representations is again a representation.
+
+The **exterior algebra** $\bigwedge V$ — due to **Hermann Grassmann** (1844) in his prescient but initially overlooked work *Die lineale Ausdehnungslehre* — gives a coordinate-free treatment of oriented volume. The **wedge product** $v \wedge w$ is an alternating bilinear operation: $v \wedge w = -(w \wedge v)$, so $v \wedge v = 0$. The exterior power $\bigwedge^k V$ is spanned by all products $v_1 \wedge \cdots \wedge v_k$, and if $\dim(V) = n$, then:
+
+$$\dim\!\left(\bigwedge^k V\right) = \binom{n}{k}.$$
+
+The top exterior power $\bigwedge^n V$ is one-dimensional, and the determinant is precisely the coordinate of $v_1 \wedge \cdots \wedge v_n$ in this one-dimensional space relative to a chosen orientation — a conceptually clean restatement of the Leibniz formula. The exterior algebra is also the algebraic foundation for **differential forms**, the language in which Stokes' theorem and the general theory of integration on manifolds is expressed.
+
 ## Jordan Normal Form
+
+Not every matrix is diagonalizable, but every square matrix over an algebraically closed field (such as $\mathbb{C}$) can be put into a nearly diagonal form. This is the **Jordan normal form**, named for **Camille Jordan** who proved its existence in 1870 in his *Traité des substitutions*. (Weierstrass had earlier established the result for the special case of matrices with prescribed invariant factors, but Jordan's proof in the language of linear substitutions is the one that shaped modern treatments.)
+
+The idea begins with **generalized eigenvectors**. If $\lambda$ is an eigenvalue of $A$ with algebraic multiplicity $k$, the corresponding **generalized eigenspace** is $G_\lambda = \ker((A - \lambda I)^k)$. Ordinary eigenvectors are generalized eigenvectors of "depth 1"; generalized eigenvectors of depth $d$ satisfy $(A - \lambda I)^d v = \mathbf{0}$ but $(A - \lambda I)^{d-1} v \neq \mathbf{0}$. A **Jordan chain** based at $v$ is a sequence $v, (A-\lambda I)v, (A-\lambda I)^2 v, \ldots$ descending until it reaches zero.
+
+A **Jordan block** of size $k$ for eigenvalue $\lambda$ is the $k \times k$ matrix:
+
+$$J_k(\lambda) = \begin{pmatrix} \lambda & 1 & 0 & \cdots & 0 \\ 0 & \lambda & 1 & \cdots & 0 \\ \vdots & & \ddots & \ddots & \vdots \\ 0 & \cdots & 0 & \lambda & 1 \\ 0 & \cdots & 0 & 0 & \lambda \end{pmatrix}.$$
+
+The Jordan normal form theorem asserts that every square matrix $A$ over $\mathbb{C}$ is similar to a block-diagonal matrix whose diagonal blocks are Jordan blocks. The sizes and eigenvalues of these Jordan blocks are uniquely determined by $A$ (up to reordering), making the Jordan form a complete invariant for similarity over $\mathbb{C}$. A matrix is diagonalizable if and only if all its Jordan blocks are $1 \times 1$, equivalently if and only if geometric and algebraic multiplicities agree for every eigenvalue.
+
+The **Cayley-Hamilton theorem** — proved independently by **Arthur Cayley** (1858) and **William Rowan Hamilton** in the context of quaternions — is a consequence: every matrix satisfies its own characteristic polynomial. If $p(\lambda) = \det(A - \lambda I)$, then $p(A) = 0$ (the zero matrix). This result makes it possible to express high powers of $A$ in terms of lower ones and to compute the **minimal polynomial** of $A$, the monic polynomial of least degree annihilating $A$. The Jordan form gives precise control over the minimal polynomial: each Jordan block of size $k$ for $\lambda$ contributes the factor $(\lambda - \lambda_i)^k$ to the minimal polynomial.
+
+The matrix **exponential** $e^A = I + A + \frac{A^2}{2!} + \frac{A^3}{3!} + \cdots$ is the key to solving linear systems of differential equations $\dot{x} = Ax$, whose solution is $x(t) = e^{tA} x(0)$. The Jordan form makes $e^{tA}$ computable: for a Jordan block $J_k(\lambda)$, the exponential is upper-triangular with $e^{\lambda t}$ on the diagonal and polynomial times exponential entries above it, reflecting the fact that generalized eigenvectors lead to solutions of the form $e^{\lambda t}$ multiplied by a polynomial in $t$. The stability of the system — whether solutions grow, decay, or oscillate — is governed entirely by the real parts of the eigenvalues.

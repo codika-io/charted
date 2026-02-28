@@ -5,20 +5,127 @@ parent: mathematics/algebra
 order: 4
 color: "#ef4444"
 difficulty: advanced
-prerequisites: []
-status: stub
+prerequisites: ["mathematics/algebra/abstract-algebra", "mathematics/algebra/linear-algebra"]
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: "2026-02-28"
 ---
+
+Representation theory is the study of how abstract algebraic objects — primarily groups and algebras — act on vector spaces through linear transformations, thereby turning abstract symmetry into concrete matrices that can be computed and classified. By translating the language of abstract algebra into the language of linear algebra, representation theory occupies a privileged position at the intersection of geometry, combinatorics, number theory, and physics. Its methods have reshaped the understanding of symmetry across mathematics and the sciences, from the classification of elementary particles to the harmonic analysis of signals on graphs.
 
 ## Foundations of Group Representations
 
+The central definition is elegant: a **representation** of a group $G$ on a vector space $V$ over a field $k$ is a group homomorphism $\rho: G \to \mathrm{GL}(V)$, where $\mathrm{GL}(V)$ denotes the group of invertible linear transformations of $V$. In other words, each group element $g \in G$ is assigned an invertible linear map $\rho(g): V \to V$, and this assignment respects the group structure: $\rho(gh) = \rho(g)\rho(h)$ for all $g, h \in G$, and $\rho(e) = \mathrm{id}_V$ where $e$ is the identity element. When $V$ is finite-dimensional of dimension $n$, choosing a basis allows us to write each $\rho(g)$ as an invertible $n \times n$ matrix; the **dimension** of the representation is $n$.
+
+A representation is **faithful** if $\rho$ is injective — no two distinct group elements act by the same transformation. The **trivial representation** sends every $g$ to the identity on a one-dimensional space, and while it is the least faithful, it is often the most useful structurally. Two representations $\rho: G \to \mathrm{GL}(V)$ and $\sigma: G \to \mathrm{GL}(W)$ are **isomorphic** (or equivalent) when there exists a linear isomorphism $T: V \to W$ such that $T \circ \rho(g) = \sigma(g) \circ T$ for all $g \in G$. Isomorphic representations are indistinguishable from the group's perspective, and the classification problem asks for a complete list of isomorphism classes.
+
+A **subrepresentation** is a subspace $U \subseteq V$ that is stable under the action: $\rho(g)(u) \in U$ for all $g \in G$ and $u \in U$. Such a subspace is also called a $G$-invariant subspace. A representation with no subrepresentations other than $\{0\}$ and $V$ itself is called **irreducible** (or **simple**), and these are the atoms of representation theory — every representation, under favorable conditions, decomposes into a direct sum of irreducibles. The question of when and how this decomposition occurs is the first major theorem of the subject.
+
+That favorable condition is provided by **Maschke's theorem**, proved by **Heinrich Maschke** in 1898: if $G$ is a finite group and the characteristic of $k$ does not divide $|G|$, then every representation of $G$ is **completely reducible**, meaning it decomposes as a direct sum of irreducible representations. The proof is constructive — given any invariant subspace $U \subseteq V$, one produces a complementary invariant subspace by averaging a projection over all group elements. When the characteristic of $k$ divides $|G|$, this averaging breaks down and the theory becomes far richer and more subtle; this is the realm of **modular representation theory**, pioneered by **Richard Brauer** in the mid-twentieth century.
+
+**Schur's lemma**, due to **Issai Schur** around 1905, is the second pillar of the foundations. It states that any $G$-equivariant linear map (an **intertwining operator** or **morphism of representations**) between two irreducible representations is either zero or an isomorphism. As a consequence, if $k$ is algebraically closed (for instance $k = \mathbb{C}$), then any intertwining operator from an irreducible representation to itself is a scalar multiple of the identity. Schur's lemma is the reason that irreducible representations behave like the simplest possible building blocks — they admit no non-trivial self-maps — and it underlies every orthogonality relation in character theory.
+
 ## Representations of Finite Groups
+
+When $G$ is a finite group and $k = \mathbb{C}$, the theory of representations is essentially complete and breathtakingly beautiful. The **group algebra** $\mathbb{C}[G]$ is the vector space with basis $\{e_g : g \in G\}$ equipped with multiplication extending the group law: $e_g \cdot e_h = e_{gh}$. Representations of $G$ correspond exactly to modules over $\mathbb{C}[G]$, and the Wedderburn structure theorem — a cornerstone of ring theory — tells us that
+
+$$\mathbb{C}[G] \;\cong\; \bigoplus_{i=1}^r \mathrm{Mat}_{d_i}(\mathbb{C}),$$
+
+a direct sum of matrix algebras, where the sum runs over the irreducible representations $V_1, \ldots, V_r$ of $G$, and $d_i = \dim V_i$. Comparing dimensions immediately gives the fundamental identity $|G| = \sum_{i=1}^r d_i^2$: the order of the group equals the sum of the squares of the dimensions of the irreducible representations.
+
+The **regular representation** is the representation of $G$ on $\mathbb{C}[G]$ by left multiplication: $g \cdot e_h = e_{gh}$. It contains every irreducible representation $V_i$ exactly $d_i$ times, encoding the full representation-theoretic structure of the group in a single object.
+
+The irreducible representations of specific families of groups reveal the interplay between group structure and linear algebra at its most explicit. The cyclic group $\mathbb{Z}/n\mathbb{Z}$ has exactly $n$ irreducible representations, all one-dimensional, given by $\rho_k(m) = e^{2\pi i mk/n}$ for $k = 0, 1, \ldots, n-1$. This family is the source of the discrete Fourier transform: decomposing a function on $\mathbb{Z}/n\mathbb{Z}$ into irreducible components is exactly computing its Fourier transform.
+
+The symmetric group $S_n$ provides the richest example in classical representation theory. Its irreducible representations over $\mathbb{C}$ are indexed by **partitions** of $n$ — ways of writing $n = \lambda_1 + \lambda_2 + \cdots + \lambda_k$ with $\lambda_1 \geq \lambda_2 \geq \cdots \geq \lambda_k > 0$. To each partition $\lambda$ one associates a **Young diagram** (introduced by **Alfred Young** in 1900), a left-justified array of boxes with $\lambda_i$ boxes in row $i$. The irreducible representation $S^\lambda$ corresponding to $\lambda$ — called a **Specht module** — is constructed from **standard Young tableaux**, fillings of the diagram with the numbers $1, \ldots, n$ that increase across rows and down columns. The dimension of $S^\lambda$ is the number of such tableaux, and the elegant **hook-length formula** computes it:
+
+$$\dim S^\lambda = \frac{n!}{\prod_{(i,j) \in \lambda} h(i,j)},$$
+
+where $h(i,j)$ is the **hook length** at position $(i,j)$, the number of boxes directly to the right of $(i,j)$ plus the number directly below it, plus one for $(i,j)$ itself. This formula, discovered by **Frame, Robinson, and Thrall** in 1954, packages an intricate counting problem into a single product over the diagram.
 
 ## Induced Representations and Reciprocity
 
+Given a subgroup $H \leq G$ and a representation $(\sigma, W)$ of $H$, there are two canonical operations relating representations of $H$ to representations of $G$. The simpler is **restriction**: given any representation $(\rho, V)$ of $G$, the same vector space $V$ with the action restricted to $H$ is denoted $\mathrm{Res}^G_H V$ and is a representation of $H$. Going the other direction requires more work.
+
+The **induced representation** $\mathrm{Ind}^G_H W$ is constructed as follows: form the space of all functions $f: G \to W$ satisfying $f(hg) = \sigma(h) f(g)$ for all $h \in H$ and $g \in G$, and let $G$ act by right translation, $(g \cdot f)(x) = f(xg)$. Equivalently, if $g_1, \ldots, g_m$ are coset representatives for $H \backslash G$, then $\mathrm{Ind}^G_H W \cong \bigoplus_{i=1}^m g_i W$ as vector spaces, with $G$ acting by permuting the cosets and applying $\sigma$ within each. The dimension of the induced representation is $[G : H] \cdot \dim W$.
+
+The fundamental relationship between restriction and induction is **Frobenius reciprocity**, established by **Ferdinand Georg Frobenius** around 1898. It states that for any representation $V$ of $G$ and any representation $W$ of $H$:
+
+$$\mathrm{Hom}_G\!\left(\mathrm{Ind}^G_H W,\, V\right) \;\cong\; \mathrm{Hom}_H\!\left(W,\, \mathrm{Res}^G_H V\right).$$
+
+In terms of characters and their inner product $\langle \chi, \psi \rangle_G = \frac{1}{|G|} \sum_{g \in G} \chi(g) \overline{\psi(g)}$, this becomes
+
+$$\langle \mathrm{Ind}^G_H \chi_W,\, \chi_V \rangle_G = \langle \chi_W,\, \mathrm{Res}^G_H \chi_V \rangle_H.$$
+
+Frobenius reciprocity is indispensable for computing character tables: to determine how an irreducible of $G$ restricts to $H$, or conversely which irreducibles of $G$ appear in an induced representation, one computes a single inner product rather than decomposing the representation directly.
+
+**Mackey's theorem**, due to **George Mackey** in the 1950s, refines induction further by analyzing how $\mathrm{Res}^G_K \mathrm{Ind}^G_H W$ decomposes when $K$ is another subgroup of $G$. The answer is expressed in terms of **double cosets** $H \backslash G / K$ and involves restricting and inducing along the intersection subgroups $H \cap g^{-1}Kg$ for representatives $g$ of the double cosets. Mackey's theorem is the key tool in **Clifford theory**, which analyzes how representations of a group $G$ relate to those of a normal subgroup $N$, allowing one to build the representation theory of $G$ from that of $N$ and the action of $G/N$.
+
 ## Representations of Lie Groups and Algebras
+
+For Lie groups — groups equipped with a smooth manifold structure compatible with the group operations — the story unfolds through the infinitesimal lens of Lie algebras. A **continuous representation** of a Lie group $G$ on a finite-dimensional complex vector space $V$ is a continuous (equivalently, smooth) group homomorphism $\rho: G \to \mathrm{GL}(V)$. Differentiating at the identity gives a **Lie algebra representation** $d\rho: \mathfrak{g} \to \mathfrak{gl}(V)$, a Lie algebra homomorphism from $\mathfrak{g} = \mathrm{Lie}(G)$ to the endomorphism algebra of $V$. For connected, simply connected Lie groups, this correspondence is an equivalence: representations of $G$ correspond bijectively to representations of $\mathfrak{g}$.
+
+For compact Lie groups such as $\mathrm{SU}(n)$, $\mathrm{SO}(n)$, and $\mathrm{Sp}(2n)$, Maschke's theorem generalizes: every continuous representation is completely reducible. The proof uses integration over the compact group (via the **Haar measure**) to produce invariant inner products, making every representation unitary and hence completely reducible.
+
+The classification of irreducible representations of semisimple Lie algebras — compact or complex — rests on the **highest weight theorem**, the culmination of work by **Élie Cartan** in the early twentieth century. Fix a **Cartan subalgebra** $\mathfrak{h} \subseteq \mathfrak{g}$, the maximal commutative subalgebra consisting of semisimple elements; for $\mathfrak{sl}_n$ this is the diagonal matrices. For any representation $V$ of $\mathfrak{g}$, the action of $\mathfrak{h}$ on $V$ is simultaneously diagonalizable, decomposing $V$ into **weight spaces**:
+
+$$V = \bigoplus_{\lambda \in \mathfrak{h}^*} V_\lambda, \quad V_\lambda = \{v \in V : h \cdot v = \lambda(h) v \text{ for all } h \in \mathfrak{h}\}.$$
+
+The linear functionals $\lambda$ for which $V_\lambda \neq 0$ are called **weights**, and the structure of the weight spaces encodes the entire representation. The **root system** $\Phi \subseteq \mathfrak{h}^*$ of $\mathfrak{g}$ (the weights of the adjoint representation) organizes the raising and lowering operators that move between weight spaces.
+
+A weight $\lambda$ is the **highest weight** of a representation if $V_\lambda \neq 0$ and $V_{\lambda + \alpha} = 0$ for all positive roots $\alpha$. The highest weight theorem states that every finite-dimensional irreducible representation of a semisimple Lie algebra $\mathfrak{g}$ is uniquely determined by its highest weight $\lambda$, and that $\lambda$ must be a **dominant integral weight** — an element of the weight lattice lying in the positive Weyl chamber. Conversely, for every dominant integral weight there exists a unique (up to isomorphism) irreducible representation $L(\lambda)$ with that highest weight. This gives a complete, explicit classification.
+
+The simplest example is $\mathfrak{sl}_2(\mathbb{C})$, the Lie algebra of $2 \times 2$ traceless complex matrices, spanned by $e = \begin{pmatrix} 0 & 1 \\ 0 & 0 \end{pmatrix}$, $f = \begin{pmatrix} 0 & 0 \\ 1 & 0 \end{pmatrix}$, and $h = \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix}$ with relations $[h, e] = 2e$, $[h, f] = -2f$, $[e, f] = h$. For each non-negative integer $n$, there is a unique $(n+1)$-dimensional irreducible representation $V_n$ with highest weight $n$, having a basis of weight vectors $v_n, v_{n-2}, \ldots, v_{-n}$ on which $h$ acts by the corresponding eigenvalue and $e$, $f$ act as raising and lowering operators. These representations classify the angular momentum states of quantum mechanics, where $n = 2j$ for spin-$j$ particles.
 
 ## Character Theory and Symmetry
 
+The **character** of a representation $(\rho, V)$ is the function $\chi_\rho: G \to k$ defined by $\chi_\rho(g) = \mathrm{tr}(\rho(g))$, the trace of the linear map $\rho(g)$. Since trace is invariant under conjugation, $\chi_\rho$ is a **class function**: it takes the same value on all elements in the same conjugacy class. Characters capture the essential invariant of a representation in a single function, and over $\mathbb{C}$ they determine the representation up to isomorphism.
+
+The inner product of two class functions on a finite group $G$ is
+
+$$\langle \chi, \psi \rangle = \frac{1}{|G|} \sum_{g \in G} \chi(g) \overline{\psi(g)}.$$
+
+The **orthogonality relations** for characters, derived by Frobenius and Schur, state that the characters of the irreducible representations form an **orthonormal basis** for the space of class functions:
+
+$$\langle \chi_i, \chi_j \rangle = \delta_{ij},$$
+
+where $\chi_1, \ldots, \chi_r$ are the characters of the distinct irreducible representations. Since the dimension of the space of class functions equals the number of conjugacy classes of $G$, this implies the beautiful combinatorial fact that **the number of irreducible representations equals the number of conjugacy classes**.
+
+The **character table** of $G$ is the $r \times r$ matrix whose $(i, c)$ entry is $\chi_i(g_c)$, where $g_c$ is a representative of the $c$-th conjugacy class. Its rows are the irreducible characters, and the orthogonality relations make both the rows and columns orthogonal systems (with appropriate normalizations). The character table is a compact, complete summary of the group's representation theory and can be used to detect structural properties of $G$ — for instance, a subgroup $N$ is normal if and only if it is a union of conjugacy classes, and the dimensions $d_i$ each divide $|G|$ (a non-trivial theorem).
+
+Among the key character operations: the character of a direct sum $V \oplus W$ is $\chi_V + \chi_W$; the character of a tensor product $V \otimes W$ is $\chi_V \cdot \chi_W$ (the pointwise product); and the character of the dual representation $V^*$ is the complex conjugate $\overline{\chi_V}$. The **Frobenius-Schur indicator**
+
+$$\nu_2(\chi) = \frac{1}{|G|} \sum_{g \in G} \chi(g^2) \in \{-1, 0, 1\}$$
+
+detects whether an irreducible representation is real ($\nu_2 = 1$), quaternionic ($\nu_2 = -1$), or genuinely complex ($\nu_2 = 0$), providing fine structural information that the character alone does not immediately reveal.
+
+For compact Lie groups, character theory extends via the **Weyl character formula**, proven by **Hermann Weyl** in 1925. For a representation $L(\lambda)$ of a semisimple Lie algebra with highest weight $\lambda$, the character (as a function on the Cartan subalgebra, or equivalently as a formal sum in the representation ring) is
+
+$$\chi_{L(\lambda)} = \frac{\sum_{w \in W} (-1)^{\ell(w)} e^{w(\lambda + \rho)}}{\sum_{w \in W} (-1)^{\ell(w)} e^{w(\rho)}},$$
+
+where $W$ is the Weyl group, $\ell(w)$ is the length of the Weyl group element $w$, and $\rho$ is the half-sum of positive roots. This formula, a ratio of alternating Weyl group sums, encodes the dimensions of all weight spaces in a single elegant expression and implies the Weyl dimension formula as a special case.
+
 ## Categorical and Geometric Approaches
 
+The modern perspective treats the **category of representations** $\mathrm{Rep}(G)$ as the primary object of study rather than individual representations. This category is an **abelian category** — it has kernels, cokernels, and exact sequences — and moreover carries a natural **tensor product** operation, making it a **symmetric monoidal category**. The unit object is the trivial representation. The existence of duals makes it a **rigid** category.
+
+**Tannaka-Krein duality**, developed by **Tadao Tannaka** and **Mark Krein** in the 1930s and given its modern categorical form by **Alexander Grothendieck** and later **Pierre Deligne**, reverses this construction: one can recover the group $G$ entirely from the abstract category $\mathrm{Rep}(G)$ together with its **fiber functor** (the forgetful functor to vector spaces). This means the group and its representation theory carry exactly the same information, a profound duality that motivates the theory of Tannakian categories and is the conceptual foundation of the Langlands program.
+
+**Quiver representations** provide a combinatorial approach to representations of algebras more general than group algebras. A **quiver** is a directed graph, and a representation of a quiver assigns a vector space to each vertex and a linear map to each arrow. Path algebras of quivers are prototypical examples of finite-dimensional algebras, and their representation theory is controlled by **Gabriel's theorem** (1972): a connected quiver has only finitely many indecomposable representations if and only if its underlying graph is a Dynkin diagram of type $A_n$, $D_n$, $E_6$, $E_7$, or $E_8$. The finite-type indecomposables are in bijection with the positive roots of the corresponding root system. Gabriel's theorem is one of the most striking results in algebra — the Dynkin diagrams, originally arising in the classification of simple Lie algebras, reappear in an entirely different combinatorial context.
+
+**Geometric representation theory** reformulates representation-theoretic questions in terms of sheaves on algebraic varieties. The **Kazhdan-Lusztig polynomials**, defined by **David Kazhdan** and **George Lusztig** in 1979, were originally conjectured to compute the multiplicities of irreducible representations of semisimple Lie algebras in Verma modules. Their proof, accomplished by **Beilinson-Bernstein** and **Brylinski-Kashiwara** in 1981, went through the geometry of flag varieties and the theory of $\mathcal{D}$-modules — differential equations on algebraic varieties. The key tool was the **Riemann-Hilbert correspondence**, which relates $\mathcal{D}$-modules to perverse sheaves and identifies the Kazhdan-Lusztig polynomials with the intersection cohomology of Schubert varieties.
+
 ## Applications and Special Topics
+
+The impact of representation theory on physics is profound and direct. The **rotation group** $\mathrm{SO}(3)$ and its double cover $\mathrm{SU}(2)$ are the symmetry groups of quantum mechanical angular momentum. The irreducible representations of $\mathrm{SU}(2)$ are precisely the spin-$j$ representations $V_{2j}$ for $j = 0, \frac{1}{2}, 1, \frac{3}{2}, \ldots$, providing the mathematical framework for spin, angular momentum quantization, and the addition of angular momenta via the Clebsch-Gordan decomposition. The **Wigner-Eckart theorem** expresses how physical observables transform under rotation, converting selection rules in atomic spectroscopy into statements about Clebsch-Gordan coefficients.
+
+In particle physics, the representations of the Lie group $\mathrm{SU}(3)$ organize the quark model. **Murray Gell-Mann** and **Yuval Ne'eman** independently proposed in 1961 that hadrons fall into multiplets corresponding to irreducible representations of an approximate $\mathrm{SU}(3)$ flavor symmetry. The famous **Eightfold Way** identified the eight lightest mesons with the adjoint representation and predicted the existence of the $\Omega^-$ baryon (observed in 1964) from the structure of the 10-dimensional representation. The gauge symmetry of the Standard Model, $\mathrm{SU}(3) \times \mathrm{SU}(2) \times \mathrm{U}(1)$, determines the allowed interactions of all fundamental particles through the representations under which they transform.
+
+Representation theory also unifies and generalizes classical Fourier analysis. For a locally compact abelian group $G$, the **Pontryagin dual** $\hat{G}$ — the group of continuous homomorphisms $G \to \mathrm{U}(1)$ — parametrizes the irreducible unitary representations. The **Plancherel theorem** expresses the $L^2$ decomposition:
+
+$$\|f\|_{L^2(G)}^2 = \|\hat{f}\|_{L^2(\hat{G})}^2,$$
+
+generalizing Parseval's identity from classical Fourier analysis. For nonabelian compact groups, the **Peter-Weyl theorem** (1927) gives the analogous decomposition of $L^2(G)$ into matrix coefficient functions of irreducible representations. These results provide the group-theoretic foundation for harmonic analysis on spheres, hyperbolic spaces, and homogeneous manifolds — with applications ranging from signal processing on graphs to analysis of molecules in chemistry via the symmetry of molecular vibrations.
+
+The **Langlands program**, proposed by **Robert Langlands** in a 1967 letter to **André Weil**, is the overarching conjecture that unifies representation theory with number theory. It predicts deep correspondences between automorphic representations of reductive groups over adele rings and Galois representations — connecting the spectral decomposition of $L^2(\mathrm{GL}_n(\mathbb{Q}) \backslash \mathrm{GL}_n(\mathbb{A}_\mathbb{Q}))$ to the arithmetic of number fields. Special cases of the Langlands correspondence — such as the modularity theorem for elliptic curves, whose proof by **Andrew Wiles** (1995) settled Fermat's Last Theorem — rank among the deepest achievements in modern mathematics, and the program as a whole remains one of the most active frontiers of mathematical research today.
