@@ -5,20 +5,117 @@ parent: mathematics/analysis
 order: 5
 color: "#ef4444"
 difficulty: advanced
-prerequisites: []
-status: stub
+prerequisites: ["mathematics/analysis/real-analysis", "mathematics/analysis/measure-theory"]
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: "2026-02-28"
 ---
+
+Harmonic analysis is the art and science of decomposing functions into simpler oscillatory components — sines, cosines, complex exponentials — and then reconstructing them from those pieces. Born from the study of vibrating strings and heat flow in the eighteenth and nineteenth centuries, the subject has grown into one of the most powerful and far-reaching fields in mathematics, touching partial differential equations, number theory, signal processing, and the abstract theory of groups. The central miracle is that a single function, no matter how complicated, can be faithfully encoded by the collection of its frequency components and recovered from them exactly.
 
 ## Fourier Series and Convergence
 
+The story begins with **periodic functions** — functions that repeat themselves after a fixed interval. For concreteness, consider functions defined on the circle $\mathbb{T} = \mathbb{R}/\mathbb{Z}$, which we can think of as functions $f: [0, 1) \to \mathbb{C}$ with $f(0) = f(1)$. The guiding insight, due to **Jean-Baptiste Joseph Fourier** in his 1822 *Théorie analytique de la chaleur*, is that any reasonable periodic function can be written as a superposition of pure oscillations of the form $e^{2\pi i n x}$ for integers $n$.
+
+The **Fourier coefficients** of a function $f \in L^1(\mathbb{T})$ are defined by
+
+$$\hat{f}(n) = \int_0^1 f(x)\, e^{-2\pi i n x}\, dx, \qquad n \in \mathbb{Z}.$$
+
+The corresponding **Fourier series** is the formal expression $\sum_{n=-\infty}^{\infty} \hat{f}(n)\, e^{2\pi i n x}$. Whether and in what sense this series converges back to $f$ is a subtle question that drove a century of mathematical development. The family $\{e^{2\pi i n x}\}_{n \in \mathbb{Z}}$ forms an **orthonormal basis** for the Hilbert space $L^2(\mathbb{T})$, with inner product $\langle f, g \rangle = \int_0^1 f(x)\overline{g(x)}\, dx$. This orthonormality immediately gives **Parseval's identity**:
+
+$$\sum_{n=-\infty}^{\infty} |\hat{f}(n)|^2 = \|f\|_{L^2}^2,$$
+
+which says that the total energy of a function equals the sum of the energies of its frequency components.
+
+Pointwise convergence of Fourier series is more delicate. The **Dirichlet kernel** $D_N(x) = \sum_{n=-N}^{N} e^{2\pi i n x} = \frac{\sin((2N+1)\pi x)}{\sin(\pi x)}$ represents the partial sum operator: the $N$-th partial sum of the Fourier series of $f$ is the convolution $S_N f = f * D_N$. Unfortunately, $D_N$ oscillates wildly and its $L^1$ norm grows like $\log N$, which causes difficulties. For continuous functions, the partial sums need not converge pointwise everywhere; **du Bois-Reymond** constructed a continuous function whose Fourier series diverges at a point in 1876. A landmark result of **Lennart Carleson** in 1966 showed, however, that for every $f \in L^2(\mathbb{T})$, the Fourier series converges to $f$ almost everywhere — a theorem that resolved a question posed by Luzin and that contributed to Carleson's 2006 Abel Prize.
+
+Summability methods recover lost convergence by averaging the partial sums. The **Fejér kernel** $K_N = \frac{1}{N} \sum_{k=0}^{N-1} D_k$ is non-negative and has $L^1$ norm equal to $1$, making it an **approximate identity**. The Fejér summation theorem states that for any continuous periodic function, the arithmetic means of the partial sums (Cesàro means) converge uniformly. This is a much cleaner result than pointwise convergence and is the cornerstone of classical approximation theory. The **Riemann-Lebesgue lemma** provides a fundamental constraint: $\hat{f}(n) \to 0$ as $|n| \to \infty$ for any $f \in L^1(\mathbb{T})$. Moreover, the smoothness of $f$ governs the decay rate of its Fourier coefficients — if $f$ is $k$ times continuously differentiable, then $|\hat{f}(n)| = O(|n|^{-k})$.
+
 ## The Fourier Transform
+
+On the real line $\mathbb{R}$, periodicity gives way to general functions in $L^1(\mathbb{R}^n)$, and the Fourier series is replaced by the **Fourier transform**. For $f \in L^1(\mathbb{R}^n)$, the Fourier transform is
+
+$$\hat{f}(\xi) = \int_{\mathbb{R}^n} f(x)\, e^{-2\pi i \xi \cdot x}\, dx, \qquad \xi \in \mathbb{R}^n.$$
+
+The variable $\xi$ is the **frequency** (or **wave number**) and the transform $\hat{f}(\xi)$ measures how much of the frequency $\xi$ is present in $f$. The Fourier transform has a constellation of remarkable algebraic properties that make it indispensable across mathematics and physics. It converts **differentiation** into **multiplication**: if $f$ is differentiable, then $\widehat{\partial_j f}(\xi) = 2\pi i \xi_j \hat{f}(\xi)$. This is the key that unlocks the theory of partial differential equations — an operator like the Laplacian $\Delta$ becomes, under the Fourier transform, simply multiplication by $-4\pi^2 |\xi|^2$.
+
+The transform also interacts beautifully with **convolution**. The convolution of two functions is defined by $(f * g)(x) = \int_{\mathbb{R}^n} f(x-y) g(y)\, dy$, and the fundamental identity $\widehat{f * g} = \hat{f} \cdot \hat{g}$ says that convolution in physical space corresponds to pointwise multiplication in frequency space. Conversely, pointwise multiplication in physical space becomes convolution in frequency space. This duality between multiplication and convolution is one of the deepest structural facts in analysis.
+
+The **inversion formula** says that under suitable conditions on $f$ and $\hat{f}$, one can recover $f$ from its transform:
+
+$$f(x) = \int_{\mathbb{R}^n} \hat{f}(\xi)\, e^{2\pi i \xi \cdot x}\, d\xi.$$
+
+This is valid, for example, when both $f$ and $\hat{f}$ belong to $L^1(\mathbb{R}^n)$. The Fourier transform was pioneered by Fourier himself, formalized rigorously by **Cauchy** and **Dirichlet** in the nineteenth century, and extended to its modern functional-analytic form by **Norbert Wiener** and others in the early twentieth century. It is the cornerstone of all subsequent developments in harmonic analysis.
 
 ## Plancherel's Theorem and L2 Theory
 
+The definition of the Fourier transform as an integral formula $\hat{f}(\xi) = \int f(x) e^{-2\pi i \xi \cdot x} dx$ requires $f \in L^1(\mathbb{R}^n)$ to make sense — the integral must converge. But the space $L^2(\mathbb{R}^n)$ of square-integrable functions is the natural setting for energy methods and quantum mechanics, and a function in $L^2$ need not be in $L^1$. The bridge between the two is **Plancherel's theorem**, proved by **Michel Plancherel** in 1910.
+
+The theorem states that the Fourier transform extends uniquely from $L^1 \cap L^2$ to a **unitary isomorphism** of $L^2(\mathbb{R}^n)$ onto itself. Concretely, for every $f \in L^2(\mathbb{R}^n)$,
+
+$$\|\hat{f}\|_{L^2} = \|f\|_{L^2},$$
+
+and the inner product is also preserved: $\langle \hat{f}, \hat{g} \rangle = \langle f, g \rangle$. This is **Parseval's identity** in the $L^2$ setting. The extension is constructed by approximation: for $f \in L^2$, take a sequence $f_n \in L^1 \cap L^2$ converging to $f$ in $L^2$, define $\hat{f}$ as the $L^2$-limit of $\hat{f}_n$, and check that the result is independent of the approximating sequence.
+
+Plancherel's theorem has profound consequences. It means that the Fourier transform is an invertible linear isometry of $L^2(\mathbb{R}^n)$, so it preserves all the Hilbert space structure. The fact that it is unitary — not merely an isometry, but one whose inverse is also an isometry — means the inverse Fourier transform is just the adjoint of the Fourier transform. The $L^2$ theory of the Fourier transform is therefore extremely clean and complete.
+
+Beyond $L^2$, the **Riesz-Thorin interpolation theorem** (a complex interpolation method) yields the **Hausdorff-Young inequality**: for $1 \leq p \leq 2$ and its conjugate exponent $q$ (with $\frac{1}{p} + \frac{1}{q} = 1$),
+
+$$\|\hat{f}\|_{L^q} \leq \|f\|_{L^p}.$$
+
+This interpolates between the trivial $L^1 \to L^\infty$ bound $\|\hat{f}\|_\infty \leq \|f\|_1$ and the Plancherel isometry $L^2 \to L^2$. The **Hardy spaces** $H^p$ — spaces of functions whose Fourier transform is supported on the positive half-line (or more generally, functions that extend to analytic functions in the upper half-plane with appropriate growth bounds) — provide the right function spaces for studying the boundary behavior of analytic functions and the endpoint behavior of singular integral operators.
+
 ## Schwartz Space and Distributions
+
+Both $L^1(\mathbb{R}^n)$ and $L^2(\mathbb{R}^n)$ have shortcomings as domains for the Fourier transform. The **Schwartz space** $\mathcal{S}(\mathbb{R}^n)$, introduced by **Laurent Schwartz** in his development of distribution theory (for which he won the Fields Medal in 1950), is the ideal domain. A function $f: \mathbb{R}^n \to \mathbb{C}$ belongs to $\mathcal{S}(\mathbb{R}^n)$ if it is smooth and all its partial derivatives decay faster than any polynomial at infinity:
+
+$$\sup_{x \in \mathbb{R}^n} |x^\alpha \partial^\beta f(x)| < \infty \quad \text{for all multi-indices } \alpha, \beta.$$
+
+The Schwartz space is invariant under the Fourier transform — the transform of a Schwartz function is again a Schwartz function. Moreover, the Fourier transform is a topological automorphism of $\mathcal{S}(\mathbb{R}^n)$. The space is dense in every $L^p(\mathbb{R}^n)$ for $1 \leq p < \infty$, making it a convenient dense subspace for approximation arguments.
+
+The dual space $\mathcal{S}'(\mathbb{R}^n)$ is the space of **tempered distributions** — continuous linear functionals on $\mathcal{S}(\mathbb{R}^n)$. Every locally integrable function with at most polynomial growth defines a tempered distribution via $T_f(\varphi) = \int f(x)\varphi(x)\, dx$. But $\mathcal{S}'$ also contains objects with no classical interpretation: the **Dirac delta** $\delta_0(\varphi) = \varphi(0)$ is a tempered distribution, as is the derivative of any distribution. The Fourier transform extends from $\mathcal{S}$ to $\mathcal{S}'$ by duality: $\hat{T}(\varphi) = T(\hat{\varphi})$. Under this extension, $\widehat{\delta_0} = 1$ (the constant function) and $\hat{1} = \delta_0$, a striking illustration of the duality between point concentration in space and perfect spread in frequency.
+
+Distributions provide the natural language for the **fundamental solutions** of linear PDEs. A fundamental solution of a linear partial differential operator $L$ is a distribution $E$ satisfying $LE = \delta_0$. Once $E$ is known, the solution to $Lu = f$ is given by convolution $u = E * f$. For the Laplacian in $\mathbb{R}^n$ ($n \geq 3$), the fundamental solution is $E(x) = c_n |x|^{2-n}$; the Fourier transform reduces finding $E$ to the algebraic equation $-4\pi^2 |\xi|^2 \hat{E}(\xi) = 1$, which gives $\hat{E}(\xi) = -\frac{1}{4\pi^2 |\xi|^2}$. The **Whittaker-Shannon-Kotelnikov sampling theorem** is another beautiful application: a band-limited function (one whose Fourier transform has compact support) is completely determined by its values at a discrete set of sample points, and can be reconstructed exactly from those samples — the mathematical foundation of all digital audio and signal processing.
 
 ## Singular Integral Operators
 
+Not every natural operator in analysis is bounded on $L^2$ by a simple Plancherel argument. **Singular integral operators** are linear operators whose kernels have a non-integrable singularity, yet which turn out to be bounded on $L^p$ spaces through subtle cancellation. The systematic study of such operators was developed by **Alberto Calderón** and **Antoni Zygmund** in a landmark series of papers beginning in 1952.
+
+The prototypical example is the **Hilbert transform** on $\mathbb{R}$:
+
+$$(Hf)(x) = \text{p.v.}\, \frac{1}{\pi} \int_{-\infty}^{\infty} \frac{f(y)}{x - y}\, dy,$$
+
+where "p.v." denotes the principal value — the integral is interpreted as $\lim_{\varepsilon \to 0} \int_{|x-y| > \varepsilon} \frac{f(y)}{x-y} dy$. The Hilbert transform arises naturally in complex analysis (as the operator that maps the real part of a boundary value to its harmonic conjugate), in signal processing (where it produces the analytic signal), and throughout PDE theory. Its Fourier-side action is simply multiplication by $-i\, \text{sgn}(\xi)$, which shows immediately that $H$ is bounded on $L^2$ with $\|H\|_{L^2 \to L^2} = 1$. The deep result is that $H$ is also bounded on $L^p(\mathbb{R})$ for every $1 < p < \infty$.
+
+The **Riesz transforms** $R_j f = \text{p.v.}\, c_n \int \frac{x_j - y_j}{|x-y|^{n+1}} f(y)\, dy$ are the $n$-dimensional generalizations of the Hilbert transform, one for each coordinate direction. They satisfy $\sum_j R_j^2 = -I$ (the negative identity), connecting them to the Laplacian: $R_j R_k \Delta = \partial_j \partial_k$. Together with the Hilbert transform, the Riesz transforms are the fundamental building blocks of the Calderón-Zygmund theory.
+
+A **Calderón-Zygmund kernel** is a function $K: \mathbb{R}^n \setminus \{0\} \to \mathbb{C}$ satisfying: a size condition $|K(x)| \leq C|x|^{-n}$, a smoothness condition $|\nabla K(x)| \leq C|x|^{-n-1}$, and a cancellation condition requiring that the mean of $K$ on spheres centered at the origin vanishes. The corresponding singular integral operator $Tf = \text{p.v.}\, K * f$ is bounded on $L^p(\mathbb{R}^n)$ for all $1 < p < \infty$, and satisfies a **weak $(1,1)$ bound**: $|\{x : |Tf(x)| > \lambda\}| \leq C\lambda^{-1} \|f\|_{L^1}$. The proof of $L^p$ boundedness uses the **Calderón-Zygmund decomposition** of a function into a "good" part that is bounded and a "bad" part concentrated on small cubes — a technique of extraordinary versatility that appears throughout modern analysis.
+
 ## Littlewood-Paley Theory and Wavelets
 
+**Littlewood-Paley theory** is a technique for analyzing functions by decomposing them in frequency space into dyadic shells and then recombining. The idea is due to **John Edensor Littlewood** and **Raymond Paley** in papers from the 1930s, and it provides a unified framework for $L^p$ estimates that is far more flexible than direct Fourier analysis.
+
+Fix a smooth function $\psi: \mathbb{R}^n \to \mathbb{R}$ supported in the annulus $\{1/2 \leq |\xi| \leq 2\}$ such that $\sum_{j \in \mathbb{Z}} \psi(2^{-j} \xi) = 1$ for $\xi \neq 0$. Define the **dyadic frequency projections** by $\widehat{P_j f}(\xi) = \psi(2^{-j}\xi)\hat{f}(\xi)$, so that $P_j f$ contains only the frequency components of $f$ in the shell $\{|\xi| \sim 2^j\}$. The **Littlewood-Paley square function** is
+
+$$Sf(x) = \left(\sum_{j \in \mathbb{Z}} |P_j f(x)|^2\right)^{1/2}.$$
+
+The fundamental result of Littlewood-Paley theory is that for $1 < p < \infty$, the $L^p$ norm of $f$ is equivalent to the $L^p$ norm of $Sf$:
+
+$$c_p \|f\|_{L^p} \leq \|Sf\|_{L^p} \leq C_p \|f\|_{L^p}.$$
+
+This equivalence is enormously useful: to prove that an operator $T$ is bounded on $L^p$, it often suffices to show that $T$ acts "well" on each dyadic piece $P_j f$ separately and then recombine using the square function. The Littlewood-Paley square function estimate is the engine behind the **Mikhlin multiplier theorem** and the **Hörmander multiplier theorem**, which give sufficient conditions on a multiplier $m(\xi)$ — in terms of derivative bounds on dyadic shells — for the operator $\hat{f} \mapsto m(\xi)\hat{f}$ to be bounded on $L^p$.
+
+**Wavelets** are a related but distinct tool, developed starting in the 1980s by **Yves Meyer**, **Ingrid Daubechies**, **Stéphane Mallat**, and others. A **wavelet** is a function $\psi \in L^2(\mathbb{R})$ such that the family $\{\psi_{j,k}(x) = 2^{j/2}\psi(2^j x - k)\}_{j,k \in \mathbb{Z}}$ forms an orthonormal basis for $L^2(\mathbb{R})$. The parameter $j$ controls the scale (frequency) and $k$ controls the translation (position). Unlike Fourier analysis, which localizes perfectly in frequency but not at all in space, wavelets provide **simultaneous localization in space and frequency** — a property quantified by the **uncertainty principle**, which states that the product of a function's spread in space and its spread in frequency is bounded below.
+
+The construction of orthonormal wavelet bases is accomplished through **multiresolution analysis (MRA)**, a nested sequence of closed subspaces $\cdots \subset V_{-1} \subset V_0 \subset V_1 \subset \cdots \subset L^2(\mathbb{R})$ with $\overline{\bigcup_j V_j} = L^2(\mathbb{R})$ and $\bigcap_j V_j = \{0\}$. The wavelet $\psi$ is constructed from the orthogonal complement of $V_0$ in $V_1$. **Daubechies wavelets**, discovered by Ingrid Daubechies in 1988, are the canonical family of compactly supported orthonormal wavelets; they have widespread application in image compression (JPEG 2000 uses wavelets rather than the Fourier-based DCT of JPEG), signal denoising, and numerical analysis. **Besov spaces** $B^s_{p,q}$ and **Triebel-Lizorkin spaces** $F^s_{p,q}$ provide a unified family of function spaces — encompassing Sobolev spaces, Hölder spaces, and $L^p$ spaces as special cases — that can be characterized precisely in terms of the sizes of the Littlewood-Paley pieces $P_j f$.
+
 ## Harmonic Analysis on Groups
+
+The deepest generalization of Fourier analysis replaces the real line or the circle by an arbitrary **locally compact abelian group** $G$. The theory, developed principally by **André Weil** in his 1940 treatise *L'intégration dans les groupes topologiques et ses applications*, shows that every locally compact abelian group possesses a unique (up to scalar) translation-invariant measure — the **Haar measure** — and that a complete Fourier analysis can be developed on $G$ using this measure.
+
+The **dual group** $\hat{G}$ is the group of continuous homomorphisms from $G$ to the circle group $\mathbb{T}$, called **characters**. The Fourier transform of $f \in L^1(G)$ is defined by $\hat{f}(\chi) = \int_G f(x) \overline{\chi(x)}\, d\mu(x)$ for $\chi \in \hat{G}$. The **Pontryagin duality theorem** states that $G$ is canonically isomorphic to the dual of $\hat{G}$ — that is, $\hat{\hat{G}} \cong G$. This profound result unifies and extends the classical duality between a periodic function on $\mathbb{R}/\mathbb{Z}$ and its Fourier series (indexed by $\mathbb{Z}$), and between a function on $\mathbb{R}$ and its Fourier transform (also on $\mathbb{R}$, since $\hat{\mathbb{R}} \cong \mathbb{R}$). On any locally compact abelian group, Plancherel's theorem holds: the Fourier transform extends to a unitary isomorphism from $L^2(G)$ to $L^2(\hat{G})$.
+
+The standard examples illuminate the generality. When $G = \mathbb{T}$ (the circle), $\hat{G} = \mathbb{Z}$ and the Fourier transform is the classical Fourier series. When $G = \mathbb{R}$, $\hat{G} = \mathbb{R}$ and the transform is the classical Fourier integral. When $G = \mathbb{Z}$, $\hat{G} = \mathbb{T}$ and the transform is the **discrete-time Fourier transform** of signal processing. When $G = \mathbb{Z}/N\mathbb{Z}$, $\hat{G} = \mathbb{Z}/N\mathbb{Z}$ and the transform is the **discrete Fourier transform (DFT)**, computed efficiently by the **fast Fourier transform (FFT)** algorithm of Cooley and Tukey (1965), one of the most important algorithms of the twentieth century.
+
+For **non-abelian** locally compact groups, the Fourier transform takes a more complex form: the role of characters is played by unitary **irreducible representations**. The **Peter-Weyl theorem** for compact groups states that the matrix coefficients of all irreducible unitary representations form an orthonormal basis for $L^2(G)$. For the group $\mathrm{SU}(2)$, these are the Wigner $D$-matrices, essential in quantum mechanics for describing the rotation of angular momentum states. The **Plancherel formula** for non-abelian groups expresses $\|f\|_{L^2(G)}^2$ as an integral over the unitary dual $\hat{G}$ (the set of equivalence classes of irreducible unitary representations) of Hilbert-Schmidt norms of "operator-valued Fourier transforms." For Lie groups such as $\mathrm{SL}(2, \mathbb{R})$, working out this Plancherel decomposition was a central achievement of **Harish-Chandra** in the 1950s and 1960s, and it is foundational to the **Langlands program** — one of the deepest ongoing projects in mathematics, connecting representation theory, automorphic forms, and number theory. Harmonic analysis on groups thus serves as both the beginning and the cutting edge of the subject.

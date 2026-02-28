@@ -5,20 +5,145 @@ parent: mathematics/analysis
 order: 7
 color: "#ef4444"
 difficulty: advanced
-prerequisites: []
-status: stub
+prerequisites: ["mathematics/analysis/ordinary-differential-equations", "mathematics/analysis/functional-analysis"]
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: "2026-02-28"
 ---
+
+Partial differential equations are the mathematical language through which the physical world speaks: heat spreads, waves propagate, electric fields arrange themselves, and fluids flow according to laws that are fundamentally equations relating a function to its partial derivatives. Unlike ordinary differential equations, which describe how a quantity evolves along a single dimension, PDEs govern phenomena that vary simultaneously across space and time, making them both incomparably richer and far more difficult to solve. Their study has driven the development of much of modern analysis, from Fourier's decomposition of functions into sine waves to the Sobolev spaces and weak solution theory that underpin the entire contemporary framework.
 
 ## Classification of PDEs
 
+Before one can hope to solve a PDE, one must understand what kind of equation one is dealing with. The classification of PDEs is not a purely aesthetic exercise — different types demand fundamentally different methods, encode different physical intuitions, and possess different qualitative properties.
+
+A **partial differential equation** involves an unknown function $u$ of several variables $x_1, x_2, \ldots, x_n$ and its partial derivatives up to some order. A second-order linear PDE in two variables $x$ and $y$ has the general form
+
+$$A u_{xx} + 2B u_{xy} + C u_{yy} + D u_x + E u_y + F u = G,$$
+
+where the coefficients $A, B, C, D, E, F, G$ may depend on $x$ and $y$. The behavior of such an equation is governed by the **discriminant** $\Delta = B^2 - AC$, borrowed from the classification of conic sections. When $\Delta < 0$, the equation is **elliptic**; when $\Delta = 0$, it is **parabolic**; when $\Delta > 0$, it is **hyperbolic**. The canonical examples are, respectively, the Laplace equation $u_{xx} + u_{yy} = 0$, the heat equation $u_t = u_{xx}$, and the wave equation $u_{tt} = u_{xx}$.
+
+This classification extends to higher dimensions and variable coefficients. For a general second-order operator $\mathcal{L}u = \sum_{i,j} a_{ij}(x) \partial_i \partial_j u + \text{lower-order terms}$, the type at a point $x$ is determined by the eigenvalues of the coefficient matrix $(a_{ij})$: the equation is **elliptic** if all eigenvalues have the same sign, **hyperbolic** if one eigenvalue has the opposite sign from the rest, and **parabolic** if one eigenvalue vanishes. The deeper reason this classification matters is that each type corresponds to a distinct information-propagation structure. Elliptic equations encode equilibrium states where influence is felt everywhere simultaneously. Parabolic equations describe irreversible diffusion with infinite propagation speed. Hyperbolic equations model wave-like phenomena with a finite **speed of propagation** — information travels only within a cone, called the **light cone** or **domain of dependence**.
+
+Well-posedness, formalized by **Jacques Hadamard** around 1902, requires that a problem possess a solution, that the solution be unique, and that it depend continuously on the data. Each PDE type pairs naturally with a specific class of auxiliary conditions: elliptic equations are paired with boundary conditions on a closed domain, parabolic equations require an initial condition plus boundary conditions, and hyperbolic equations typically require initial conditions on position and velocity. Matching the wrong conditions to the wrong type — such as imposing an initial value problem on Laplace's equation — leads to the spectacularly ill-posed **backward heat equation**, where arbitrarily small perturbations in the data produce unboundedly large changes in the solution.
+
+The **method of characteristics** provides the deepest geometric insight into this classification for first-order and hyperbolic equations. Characteristics are curves (or surfaces) along which information propagates. For the first-order equation $a(x,y) u_x + b(x,y) u_y = c$, characteristics are the integral curves of the vector field $(a, b)$, and the solution is constant along each characteristic. For hyperbolic second-order equations, two families of real characteristics exist and govern the finite-speed propagation of singularities. For elliptic equations, characteristics are complex-valued — there are no real curves along which data propagates, which is why boundary data on the entire boundary must be specified.
+
 ## Elliptic Equations: Laplace, Poisson, and General Theory
+
+Elliptic equations describe systems in equilibrium. When a thin conducting plate reaches thermal equilibrium, its temperature satisfies **Laplace's equation** $\Delta u = 0$, where $\Delta = \partial_{x_1}^2 + \cdots + \partial_{x_n}^2$ is the **Laplace operator**. Solutions to Laplace's equation are called **harmonic functions**, and they possess extraordinary regularity: every harmonic function is real-analytic. The Poisson equation $\Delta u = f$ is the non-homogeneous version, describing, for instance, the electrostatic potential generated by a charge distribution $f$.
+
+The first remarkable property of harmonic functions is the **mean value property**: the value of a harmonic function at any point equals the average of its values on any sphere centered at that point,
+
+$$u(x) = \frac{1}{|\partial B_r(x)|} \int_{\partial B_r(x)} u \, dS,$$
+
+where $B_r(x)$ is a ball of radius $r$ centered at $x$. This single identity implies an extraordinary wealth of consequences. The **maximum principle** follows immediately: a harmonic function attains its maximum and minimum on the boundary of any bounded domain, never in the interior. This principle provides uniqueness for the **Dirichlet problem** — the problem of finding $u$ with $\Delta u = 0$ in a domain $\Omega$ and $u = g$ on $\partial\Omega$ — because if $u$ and $v$ are two solutions, their difference $w = u - v$ is harmonic and zero on the boundary, hence zero everywhere. The French mathematician **Siméon Denis Poisson** gave the explicit formula for the solution in the disk in the early nineteenth century, and **Bernhard Riemann** elevated the Dirichlet problem to a central place in function theory through his use of Dirichlet's principle.
+
+The fundamental tool for representing solutions is the **Green's function** $G(x, y)$ for the Laplacian on a domain $\Omega$. The Green's function encodes how the solution at $x$ depends on the source at $y$ and satisfies $-\Delta_x G(x, y) = \delta(x - y)$ with $G(x, y) = 0$ for $x \in \partial\Omega$. Using Green's representation formula, any harmonic function in $\Omega$ can be written as
+
+$$u(x) = -\int_{\partial\Omega} u(y) \frac{\partial G}{\partial \nu_y}(x, y) \, dS(y) + \int_\Omega G(x, y) f(y) \, dy,$$
+
+where $\nu_y$ is the outward normal at $y \in \partial\Omega$. In free space $\mathbb{R}^n$ with $n \geq 3$, the fundamental solution is $\Phi(x) = c_n |x|^{2-n}$, where $c_n$ is a dimensional constant; in $\mathbb{R}^2$ it is $\Phi(x) = -\frac{1}{2\pi} \log|x|$.
+
+For general elliptic operators beyond the Laplacian, the modern approach relies on the **Lax-Milgram theorem** from functional analysis. Given a bilinear form $a(u, v)$ that is continuous and coercive on a Hilbert space $H$, Lax-Milgram guarantees a unique solution $u \in H$ to $a(u, v) = \langle f, v \rangle$ for all test functions $v$. This abstract framework simultaneously provides existence and uniqueness for a broad class of elliptic boundary value problems. The **Fredholm alternative** handles the more delicate case where coercivity fails, establishing that either the homogeneous problem has only the trivial solution (and the inhomogeneous problem has a unique solution for every right-hand side) or the homogeneous problem has nontrivial solutions (and the inhomogeneous problem has solutions only for right-hand sides orthogonal to those nontrivial solutions).
+
+Regularity theory for elliptic equations is one of the crowning achievements of twentieth-century analysis. The central result of **elliptic regularity** states that if $u$ is a weak solution of $\mathcal{L}u = f$ and if $f \in H^k(\Omega)$ (the Sobolev space of functions with $k$ square-integrable derivatives), then $u \in H^{k+2}(\Omega)$, gaining two derivatives relative to the data. By iterating this **bootstrapping argument**, a solution with smooth data becomes smooth itself. Near the boundary, additional regularity requires the domain boundary $\partial\Omega$ to be sufficiently smooth. The **Schauder estimates** provide an analogous theory in Holder spaces, asserting that if $f \in C^{k,\alpha}$ then $u \in C^{k+2,\alpha}$.
 
 ## Parabolic Equations and the Heat Equation
 
+The **heat equation** $u_t = k \Delta u$ was introduced by **Joseph Fourier** in his 1822 masterpiece *Théorie analytique de la chaleur*. Here $u(x, t)$ is temperature at position $x$ and time $t$, and $k > 0$ is thermal diffusivity. To solve it, Fourier decomposed the initial temperature distribution into sinusoidal modes and showed that each mode decays exponentially in time — an idea that gave birth to **Fourier analysis**. The heat equation is the prototypical parabolic PDE, and its study illuminates the entire parabolic theory.
+
+The solution to the Cauchy problem (initial data on all of $\mathbb{R}^n$) is given by convolution with the **heat kernel**:
+
+$$u(x, t) = \int_{\mathbb{R}^n} \Phi(x - y, t) \, u_0(y) \, dy, \qquad \Phi(x, t) = \frac{1}{(4\pi k t)^{n/2}} e^{-|x|^2/(4kt)}.$$
+
+The heat kernel is a Gaussian that broadens and flattens as $t$ increases, expressing the physical spreading of heat. Several qualitative features stand out immediately. First, the solution is instantly smooth for $t > 0$ no matter how rough the initial data — a **smoothing effect** absent from hyperbolic equations. Second, and perhaps surprisingly, the solution at any point $(x, t)$ with $t > 0$ depends on the initial data at every point $y \in \mathbb{R}^n$: perturbations propagate at **infinite speed**, in stark contrast to wave equations. This is a mathematical artifact of the idealized model; real heat conduction is governed by quantum mechanics at short scales.
+
+For bounded domains, the method of **separation of variables** and **eigenfunction expansion** provides explicit solutions. Seeking $u(x, t) = X(x) T(t)$ in $\Omega \times (0, \infty)$ with $u = 0$ on $\partial\Omega$ reduces the heat equation to two ODEs: $T' + \lambda k T = 0$ and $-\Delta X = \lambda X$. The second is the eigenvalue problem for the Laplacian, which has a sequence of eigenvalues $0 < \lambda_1 \leq \lambda_2 \leq \cdots \to \infty$ with corresponding eigenfunctions $\phi_n$ that form a complete orthonormal basis of $L^2(\Omega)$. The solution is then
+
+$$u(x, t) = \sum_{n=1}^\infty c_n e^{-\lambda_n k t} \phi_n(x), \qquad c_n = \int_\Omega u_0(y) \phi_n(y) \, dy.$$
+
+Each mode decays exponentially, with the lowest eigenvalue $\lambda_1$ governing the long-time behavior: $\|u(\cdot, t)\|_{L^2} \sim e^{-\lambda_1 k t}$ as $t \to \infty$.
+
+The parabolic maximum principle asserts that the maximum of a solution to $u_t - \Delta u = 0$ over the parabolic boundary (the bottom and sides of a space-time cylinder) is also the maximum over the entire closed cylinder. This powerful principle governs comparison, uniqueness, and stability: if two solutions agree at $t = 0$ and on $\partial\Omega$ for all $t > 0$, they agree everywhere. **Duhamel's principle** extends the framework to non-homogeneous equations $u_t - \Delta u = f$: the solution is built by treating each instantaneous source $f(\cdot, s)$ as an initial condition for a separate heat equation started at time $s$, then integrating over $s$.
+
+The **backward heat equation** $u_t = -\Delta u$ is the time-reversal of the heat equation and is catastrophically ill-posed in the sense of Hadamard. The reason is that the forwards heat equation destroys information by smoothing, so reversing time requires reconstructing information from a smoothed state — an exponentially unstable operation. This ill-posedness is of practical importance in inverse problems, where one wishes to recover a past temperature distribution from present measurements.
+
 ## Hyperbolic Equations and Wave Phenomena
+
+The **wave equation** $u_{tt} = c^2 \Delta u$ governs vibrating strings ($n = 1$), sound ($n = 3$), and electromagnetic radiation ($n = 3$). Here $c > 0$ is the propagation speed. Unlike the heat equation, the wave equation is time-reversible and preserves information: what is true now was also true in the past, at least in the classical setting. The wave equation was studied intensely in the eighteenth century by **Jean le Rond d'Alembert**, **Leonhard Euler**, and **Daniel Bernoulli**, who disagreed vigorously about the nature of its solutions — a dispute that helped crystallize the modern concept of a function.
+
+In one spatial dimension, **d'Alembert's formula** gives the complete solution to the initial value problem $u(x, 0) = \phi(x)$, $u_t(x, 0) = \psi(x)$:
+
+$$u(x, t) = \frac{\phi(x + ct) + \phi(x - ct)}{2} + \frac{1}{2c} \int_{x - ct}^{x + ct} \psi(s) \, ds.$$
+
+This formula makes transparent the defining feature of hyperbolic equations: the **domain of dependence**. The value $u(x, t)$ depends only on initial data in the interval $[x - ct, x + ct]$, the segment swept out by characteristics running backward from $(x, t)$ at speed $\pm c$. Any perturbation of data outside this interval has no effect on $u(x, t)$. Conversely, the **domain of influence** of a point $(x_0, 0)$ is the cone $\{(x, t) : |x - x_0| \leq ct\}$ — the set of space-time points that can be affected by data at $x_0$.
+
+In three spatial dimensions, the solution is given by **Kirchhoff's formula**:
+
+$$u(x, t) = \frac{\partial}{\partial t}\left(\frac{1}{4\pi c^2 t} \int_{|y - x| = ct} \phi(y) \, dS(y)\right) + \frac{1}{4\pi c^2 t} \int_{|y - x| = ct} \psi(y) \, dS(y).$$
+
+A crucial observation: in three dimensions, the value $u(x, t)$ depends only on data on the sphere $|y - x| = ct$, not on data inside the sphere. This is **Huygens' principle** — sharp signals in three dimensions remain sharp, whereas in two dimensions (and other even dimensions), a signal spreads into a trailing wake. The reason Huygens' principle holds in odd dimensions but fails in even ones is one of the more beautiful results in PDE theory, connected to the theory of the wave operator in different dimensions.
+
+The wave equation conserves a natural **energy**. For the homogeneous wave equation, the quantity
+
+$$E(t) = \frac{1}{2} \int_\Omega \left(u_t^2 + c^2 |\nabla u|^2\right) dx$$
+
+satisfies $\frac{d}{dt} E(t) = 0$, so $E(t) = E(0)$ for all time. Energy conservation provides uniqueness (if two solutions have the same initial data, their difference has zero energy, hence is zero) and stability. Nonlinear hyperbolic equations, such as **conservation laws** of the form $u_t + f(u)_x = 0$, exhibit more complex behavior: smooth initial data can develop jump discontinuities (shocks) in finite time. The **Rankine-Hugoniot condition** governs the speed of a shock, and **entropy conditions** select the physically meaningful weak solution among multiple candidates.
 
 ## Variational Methods and Weak Solutions
 
+The history of variational methods in PDE theory begins with **Dirichlet's principle**, which asserts that the harmonic function on a domain $\Omega$ with prescribed boundary values $g$ is the function minimizing the **Dirichlet energy**
+
+$$E[u] = \int_\Omega |\nabla u|^2 \, dx$$
+
+among all functions agreeing with $g$ on $\partial\Omega$. **Riemann** used this principle freely, but **Weierstrass** showed in 1870 that a minimizing sequence need not converge — the infimum might not be attained. This crisis was resolved by **David Hilbert** around 1900 through the development of functional analysis, culminating in the **direct method in the calculus of variations**: one shows that a minimizing sequence is bounded in a suitable function space, extracts a weakly convergent subsequence by compactness, and then uses lower semicontinuity of the energy to confirm that the limit is indeed a minimizer.
+
+The notion of a **weak solution** is the central conceptual innovation that enables modern PDE theory. Classical solutions require enough regularity to substitute directly into the PDE; weak solutions broaden the solution concept by moving derivatives onto smooth **test functions** $\varphi \in C_c^\infty(\Omega)$ through integration by parts. For the Poisson equation $-\Delta u = f$, the weak formulation asks for $u \in H^1_0(\Omega)$ (functions with one weak derivative that vanish on $\partial\Omega$, in the $L^2$ sense) such that
+
+$$\int_\Omega \nabla u \cdot \nabla \varphi \, dx = \int_\Omega f \varphi \, dx \qquad \text{for all } \varphi \in H^1_0(\Omega).$$
+
+This formulation makes sense even when $f$ is merely in $L^2(\Omega)$ and $u$ lacks the two classical derivatives needed to write $\Delta u$ pointwise. The Lax-Milgram theorem guarantees existence and uniqueness of weak solutions for a broad class of elliptic problems, and elliptic regularity then shows that the weak solution is as smooth as the data permit.
+
+The **Euler-Lagrange equation** connects variational problems to PDEs. If $u$ minimizes a functional of the form $\mathcal{F}[u] = \int_\Omega L(x, u, \nabla u) \, dx$, then $u$ satisfies $-\sum_i \partial_{x_i} L_{p_i} + L_u = 0$. For the Dirichlet energy, $L = |\nabla u|^2 / 2$, giving $-\Delta u = 0$. For the **minimal surface** functional $L = \sqrt{1 + |\nabla u|^2}$, the Euler-Lagrange equation becomes the minimal surface equation
+
+$$\operatorname{div}\left(\frac{\nabla u}{\sqrt{1 + |\nabla u|^2}}\right) = 0,$$
+
+a quasi-linear elliptic PDE. Weak formulations and variational methods unite large swaths of PDE theory into a single coherent framework, providing existence results for elliptic, parabolic, and even hyperbolic problems in energy spaces naturally suited to each type.
+
 ## Function Spaces and Regularity Theory
 
+The modern treatment of PDEs is inseparable from a hierarchy of **function spaces** designed to measure the regularity of solutions. At the top of the hierarchy sit the classical smooth spaces $C^k(\Omega)$ and Holder spaces $C^{k,\alpha}(\Omega)$; at the foundational level sit the **Sobolev spaces** $W^{k,p}(\Omega)$, which are the workhorses of contemporary PDE analysis.
+
+The **Sobolev space** $W^{k,p}(\Omega)$ consists of all functions in $L^p(\Omega)$ whose weak derivatives up to order $k$ also lie in $L^p(\Omega)$, equipped with the norm
+
+$$\|u\|_{W^{k,p}(\Omega)} = \left(\sum_{|\alpha| \leq k} \int_\Omega |D^\alpha u|^p \, dx\right)^{1/p}.$$
+
+The space $H^k(\Omega) = W^{k,2}(\Omega)$ is a Hilbert space, making it particularly amenable to the techniques of functional analysis. The **weak derivative** $D^\alpha u$ is defined by the integration-by-parts identity $\int_\Omega (D^\alpha u) \varphi = (-1)^{|\alpha|} \int_\Omega u D^\alpha \varphi$ for all test functions $\varphi$, bypassing any requirement that $u$ be classically differentiable. The weak derivative was developed independently by **Sergei Sobolev** and **Jean Leray** in the 1930s, largely motivated by the needs of fluid mechanics and the Navier-Stokes equations.
+
+**Sobolev embedding theorems** are among the deepest and most useful results in analysis. They assert that, under appropriate dimensional conditions, membership in $W^{k,p}$ implies pointwise regularity. The critical case is governed by the **Sobolev exponent** $p^* = np/(n - kp)$ for $kp < n$: the Sobolev embedding $W^{k,p}(\Omega) \hookrightarrow L^{p^*}(\Omega)$ holds continuously. When $kp > n$, functions in $W^{k,p}$ are Holder continuous: $W^{k,p}(\Omega) \hookrightarrow C^{k - n/p - 1, \alpha}(\Omega)$ for appropriate $\alpha$. These embeddings explain why solutions to elliptic equations gain regularity: if $f \in L^2$ and $u \in H^1$ satisfies an elliptic equation, then elliptic regularity lifts $u$ to $H^2$, which by Sobolev embedding may already be continuous.
+
+**Distribution theory**, developed systematically by **Laurent Schwartz** in the 1940s (for which he received the Fields Medal in 1950), provides the broadest possible framework for generalized functions. A distribution is a continuous linear functional on the space $\mathcal{D}(\Omega) = C_c^\infty(\Omega)$ of test functions. Every locally integrable function $f$ defines a distribution via $\varphi \mapsto \int_\Omega f \varphi \, dx$, but there are distributions — such as the **Dirac delta** $\delta_x$ and its derivatives — that correspond to no function at all. The power of distributions is that every distribution can be differentiated arbitrarily many times: $\partial_i T$ is the distribution defined by $\varphi \mapsto -T(\partial_i \varphi)$. This allows one to speak rigorously of the Laplacian of a Green's function or the derivative of a shock wave, without any classical pointwise meaning.
+
+The **trace theorem** handles boundary values in the Sobolev framework. Functions in $H^1(\Omega)$ need not be continuous up to $\partial\Omega$, so their boundary values cannot be defined pointwise. Nevertheless, the **trace operator** $\gamma_0 : H^1(\Omega) \to H^{1/2}(\partial\Omega)$ is a well-defined, bounded linear map that extends the restriction map from smooth functions. This allows boundary conditions to be imposed in the weak formulation in a mathematically rigorous way.
+
+**Compact embeddings** — specifically the **Rellich-Kondrachov theorem**, which asserts that $W^{1,p}(\Omega) \hookrightarrow L^p(\Omega)$ is compact when $\Omega$ is bounded — are essential for extracting convergent subsequences in existence proofs. This compactness result is the functional-analytic backbone of the direct method: a bounded sequence in $H^1$ has a subsequence converging strongly in $L^2$, which is precisely the convergence needed to pass limits through nonlinear terms.
+
 ## Green's Functions and Numerical Methods
+
+**Green's functions** are the quintessential tool for converting PDE boundary value problems into explicit integral representations. For a linear differential operator $\mathcal{L}$ on a domain $\Omega$ with specified boundary conditions, the Green's function $G(x, y)$ is the response of the system at $x$ to a unit point source at $y$. Once $G$ is known, the solution to $\mathcal{L}u = f$ is
+
+$$u(x) = \int_\Omega G(x, y) f(y) \, dy.$$
+
+Green's functions were introduced by the self-taught British mathematician **George Green** in his 1828 *Essay on the Application of Mathematical Analysis to the Theories of Electricity and Magnetism*, a work that was largely ignored for two decades before being recognized as foundational. The construction of the Green's function for specific domains exploits symmetry and the method of images: for the Laplacian on the half-space $\mathbb{R}^n_+$, the Green's function is $G(x, y) = \Phi(x - y) - \Phi(x - y^*)$, where $y^*$ is the reflection of $y$ across the boundary, so that $G$ vanishes on $\partial\mathbb{R}^n_+$.
+
+For the heat equation, the fundamental solution $\Phi(x, t) = (4\pi t)^{-n/2} e^{-|x|^2/(4t)}$ plays the role of the Green's function on all of $\mathbb{R}^n$. More generally, the **heat kernel** on a bounded domain carries geometric information about $\Omega$: the spectrum of the Laplacian can be recovered from the short-time asymptotics of $\int_\Omega G(x, x, t) \, dx$, a connection captured by the celebrated formula of **Mark Kac**: "Can one hear the shape of a drum?" — can one determine $\Omega$ from the eigenvalues of its Laplacian? The answer, provided by Carolyn Gordon, David Webb, and Scott Wolpert in 1992, is no: non-isometric domains can share the same eigenvalue spectrum.
+
+When explicit Green's functions are unavailable — which is the generic case for irregular domains or variable-coefficient operators — **numerical methods** take over. The three main classes are finite difference methods, finite element methods, and spectral methods. **Finite difference methods** replace derivatives by difference quotients on a grid: $u_{xx}(x) \approx (u(x+h) - 2u(x) + u(x-h))/h^2$. They are simple to implement and analyze, and the **Courant-Friedrichs-Lewy (CFL) condition** dictates the stability constraint for explicit schemes applied to hyperbolic equations: the time step $\Delta t$ must satisfy $c \Delta t / h \leq 1$, ensuring that the numerical domain of dependence contains the true domain of dependence.
+
+**Finite element methods (FEM)** work directly with the weak formulation. One approximates $u$ in a finite-dimensional subspace $V_h \subset H^1_0(\Omega)$ (typically piecewise polynomial functions on a triangulation of $\Omega$) and finds $u_h \in V_h$ satisfying the weak equation for all $v_h \in V_h$. Galerkin's method — named after **Boris Galerkin**, who developed it for structural mechanics in 1915 — yields a linear system $Ku = f$ where $K$ is the **stiffness matrix** with entries $K_{ij} = a(\phi_j, \phi_i)$. The method is supported by a complete error theory: **Cea's lemma** shows that the FEM approximation is quasi-optimal, $\|u - u_h\|_{H^1} \leq C \inf_{v_h \in V_h} \|u - v_h\|_{H^1}$, and polynomial approximation theory then gives convergence rates in terms of mesh size $h$ and polynomial degree. Adaptive refinement driven by a posteriori error estimators allows one to concentrate computational effort where the solution is least regular.
+
+**Spectral methods** expand the solution in a globally smooth basis — Fourier modes or Chebyshev polynomials — and achieve exponential convergence rates for smooth solutions, far surpassing the algebraic rates of finite differences and finite elements. They are most effective for problems on simple geometries with smooth data, such as in weather prediction, fluid simulations, and quantum mechanics.
+
+The interplay of analysis and computation that PDE theory demands has made it one of the richest and most active areas of mathematics. From Fourier's original heat equation to the Navier-Stokes equations governing turbulent flow (whose global regularity remains one of the Clay Millennium Prize Problems) and to the emerging field of physics-informed neural networks, the subject continues to grow, always driven by the same essential tension: between the physical world's inexhaustible complexity and mathematics' drive to find structure within it.

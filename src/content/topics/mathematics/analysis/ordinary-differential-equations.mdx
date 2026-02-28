@@ -5,20 +5,161 @@ parent: mathematics/analysis
 order: 6
 color: "#ef4444"
 difficulty: intermediate
-prerequisites: []
-status: stub
+prerequisites: ["mathematics/analysis/real-analysis"]
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: "2026-02-28"
 ---
+
+Ordinary differential equations are the mathematical language in which nature writes its laws of change. Wherever a quantity evolves in time — the position of a planet, the voltage across a circuit, the concentration of a chemical species, the size of a population — an ODE lurks behind the phenomenon, relating the rate of change of the quantity to its current value. The subject stretches from the seventeenth century, when Newton and Leibniz invented the calculus partly in order to solve such equations, through Poincaré's late-nineteenth-century geometric revolution, all the way to modern dynamical systems theory and numerical computation.
 
 ## First-Order Differential Equations
 
+A **first-order ordinary differential equation** (ODE) is a relation of the form $F(x, y, y') = 0$, where $y = y(x)$ is an unknown function and $y' = dy/dx$ is its derivative. In most situations of practical interest we can write it in the **explicit form** $y' = f(x, y)$ for some given function $f$. A **solution** on an interval $I$ is a differentiable function $\phi : I \to \mathbb{R}$ that satisfies the equation identically: $\phi'(x) = f(x, \phi(x))$ for all $x \in I$.
+
+The simplest and most important class is the **separable equation**, where $f$ factors as a product $g(x) h(y)$. The equation $y' = g(x) h(y)$ can be formally separated and integrated:
+
+$$\int \frac{dy}{h(y)} = \int g(x)\, dx + C.$$
+
+This method goes back to Leibniz and Johann Bernoulli, who used it to solve the catenary problem in 1691. The result is typically an implicit relation between $y$ and $x$, which may or may not yield an explicit formula for $y$.
+
+The next class is the **linear first-order equation** $y' + P(x) y = Q(x)$. The key tool is the **integrating factor** $\mu(x) = e^{\int P(x)\, dx}$, which converts the left side into an exact derivative:
+
+$$\frac{d}{dx}\bigl[\mu(x)\, y\bigr] = \mu(x)\, Q(x).$$
+
+A single integration then yields the general solution. The structure is transparent: every solution is a sum of the **homogeneous solution** (the solution when $Q = 0$) and a **particular solution** driven by $Q$. This superposition principle is the defining feature of linearity and will pervade everything that follows.
+
+Beyond separable and linear equations lie the classical special types. A **Bernoulli equation** $y' + P(x) y = Q(x) y^n$ is nonlinear but is tamed by the substitution $v = y^{1-n}$, which reduces it to a linear equation. A **homogeneous equation** $y' = f(y/x)$ is handled by $v = y/x$. An **exact equation** $M(x,y)\,dx + N(x,y)\,dy = 0$ is one for which $\partial M/\partial y = \partial N/\partial x$, so that $M\,dx + N\,dy$ is the exact differential of some **potential function** $\Psi(x,y)$; the general solution is then $\Psi(x,y) = C$. When exactness fails, one seeks an **integrating factor** $\mu(x,y)$ that restores it.
+
+The geometric picture is indispensable. The equation $y' = f(x,y)$ assigns to each point $(x,y)$ in the plane a slope $f(x,y)$, forming a **direction field** (or slope field). Solution curves are precisely those that are tangent to the direction field at every point. Drawing a direction field — even roughly, by hand — reveals qualitative behaviour (equilibria, funnels, separatrices) without solving the equation. This geometric thinking, systematized by Poincaré in the 1880s, was a conceptual revolution: it shifted attention from explicit formulas to the global structure of the solution set.
+
 ## Existence and Uniqueness Theorems
+
+A fundamental question precedes any computation: does the equation even have a solution, and if so, is it unique? The answer depends delicately on the regularity of the right-hand side $f$.
+
+An **initial value problem (IVP)** pairs the ODE $y' = f(x, y)$ with the condition $y(x_0) = y_0$. The solution must pass through the specified point $(x_0, y_0)$. The foundational result is the **Picard-Lindelöf theorem** (also called the Cauchy-Lipschitz theorem):
+
+**Theorem (Picard-Lindelöf).** If $f$ is continuous on a rectangle $R = \{|x - x_0| \le a,\, |y - y_0| \le b\}$ and satisfies a **Lipschitz condition** in $y$ on $R$, meaning there exists $L > 0$ such that
+
+$$|f(x, y_1) - f(x, y_2)| \le L\,|y_1 - y_2|$$
+
+for all $(x, y_1), (x, y_2) \in R$, then there exists $h > 0$ such that the IVP has a unique solution on $[x_0 - h, x_0 + h]$.
+
+The proof is constructive. Define the **Picard iteration** $\phi_0(x) = y_0$ and
+
+$$\phi_{n+1}(x) = y_0 + \int_{x_0}^{x} f\bigl(t, \phi_n(t)\bigr)\, dt.$$
+
+One shows that $\{\phi_n\}$ is a Cauchy sequence in the Banach space $C[x_0-h, x_0+h]$ under the sup norm, and its limit is the unique solution. The argument is an instance of the **Banach contraction mapping theorem**, making this one of the places where real analysis — completeness, uniform convergence — enters ODE theory decisively. This is why real analysis is a prerequisite: the existence and uniqueness theory is functional-analytic at its core.
+
+Without the Lipschitz condition, uniqueness can fail. The classical example is $y' = y^{1/2}$, $y(0) = 0$: both $y \equiv 0$ and $y = x^2/4$ are solutions, because $f(x,y) = y^{1/2}$ fails to be Lipschitz near $y = 0$. **Peano's theorem** (1886) guarantees existence under mere continuity of $f$, but not uniqueness.
+
+A solution need not exist for all time. The ODE $y' = y^2$, $y(0) = 1$ has the explicit solution $y = 1/(1-x)$, which blows up at $x = 1$. The **maximal interval of existence** is the largest interval on which the solution remains defined. A general fact is that if the solution does not exist globally, it must "escape to infinity" in finite time: either $|y(x)| \to \infty$ or $x$ approaches a boundary of the domain of $f$.
+
+**Continuous dependence on initial data** is equally important. If $(x_0, y_0)$ is perturbed slightly to $(x_0, \tilde y_0)$, how much does the solution change? Under the Lipschitz condition, the answer is controlled by **Gronwall's inequality**: if two solutions $\phi$ and $\tilde\phi$ satisfy $|\phi(x_0) - \tilde\phi(x_0)| \le \delta$, then
+
+$$|\phi(x) - \tilde\phi(x)| \le \delta\, e^{L|x - x_0|}$$
+
+on any common interval of existence. Solutions thus depend continuously — indeed, smoothly — on initial conditions and on parameters appearing in $f$. This is the mathematical foundation for the physical intuition that small measurement errors lead only to small prediction errors, at least over bounded time horizons.
 
 ## Linear Systems and Matrix Exponentials
 
+Many real-world models involve several interacting quantities described by a **system of first-order ODEs**. When written in vector form, the system $\mathbf{x}' = A\mathbf{x}$ (where $\mathbf{x} \in \mathbb{R}^n$ and $A$ is an $n \times n$ constant matrix) is the centerpiece of linear ODE theory and the direct analogue of the scalar equation $y' = ay$.
+
+The scalar equation $y' = ay$ has the solution $y(t) = e^{at} y(0)$. By analogy, the vector system $\mathbf{x}' = A\mathbf{x}$, $\mathbf{x}(0) = \mathbf{x}_0$, has the solution $\mathbf{x}(t) = e^{At} \mathbf{x}_0$, where the **matrix exponential** is defined by the convergent power series:
+
+$$e^{At} = \sum_{k=0}^{\infty} \frac{(At)^k}{k!} = I + At + \frac{A^2 t^2}{2!} + \frac{A^3 t^3}{3!} + \cdots$$
+
+Computing $e^{At}$ in practice is easiest when $A$ is **diagonalizable**: if $A = PDP^{-1}$ with $D = \mathrm{diag}(\lambda_1, \ldots, \lambda_n)$, then $e^{At} = P\, e^{Dt}\, P^{-1} = P\, \mathrm{diag}(e^{\lambda_1 t}, \ldots, e^{\lambda_n t})\, P^{-1}$. Each column of $Pe^{Dt}$ is an independent solution of the form $e^{\lambda_i t} \mathbf{v}_i$, where $\mathbf{v}_i$ is an eigenvector corresponding to $\lambda_i$. The general solution is thus a superposition of these **normal modes**:
+
+$$\mathbf{x}(t) = c_1 e^{\lambda_1 t} \mathbf{v}_1 + c_2 e^{\lambda_2 t} \mathbf{v}_2 + \cdots + c_n e^{\lambda_n t} \mathbf{v}_n.$$
+
+When $A$ has complex eigenvalues $\lambda = \alpha \pm i\beta$, the corresponding complex normal modes combine via Euler's formula into real oscillatory solutions of the form $e^{\alpha t} \cos(\beta t)$ and $e^{\alpha t} \sin(\beta t)$. When $A$ is not diagonalizable, it possesses a **Jordan normal form** $J = P^{-1}AP$, and the matrix exponential involves polynomials in $t$ multiplied by exponentials.
+
+For non-autonomous systems $\mathbf{x}' = A(t)\mathbf{x}$, the solution is expressed through the **fundamental matrix** $\Phi(t)$, which satisfies $\Phi' = A(t)\Phi$ with $\Phi(0) = I$. The general solution is $\mathbf{x}(t) = \Phi(t)\mathbf{x}_0$. When a forcing term is added, giving $\mathbf{x}' = A(t)\mathbf{x} + \mathbf{b}(t)$, the **variation of parameters formula** (or Duhamel's principle) gives the particular solution:
+
+$$\mathbf{x}(t) = \Phi(t)\mathbf{x}_0 + \Phi(t) \int_0^t \Phi(s)^{-1} \mathbf{b}(s)\, ds.$$
+
+Higher-order scalar equations also fit into this framework. The equation $y^{(n)} + a_{n-1} y^{(n-1)} + \cdots + a_1 y' + a_0 y = g(t)$ is converted to a first-order system by setting $x_1 = y$, $x_2 = y'$, and so on, yielding a system with the **companion matrix** of the characteristic polynomial $\lambda^n + a_{n-1}\lambda^{n-1} + \cdots + a_0$. The characteristic roots $\lambda_i$ determine the nature of solutions entirely: real roots give exponential behaviour, complex roots give oscillatory behaviour, and the multiplicity of a root determines whether polynomial factors $t^k$ appear.
+
 ## Phase Portraits and Qualitative Analysis
+
+For an autonomous two-dimensional system $\mathbf{x}' = \mathbf{F}(\mathbf{x})$ (where $\mathbf{F}$ does not depend explicitly on $t$), the **phase portrait** is the collection of all trajectories in the $xy$-plane. Each trajectory is a solution curve parameterized by time, and the phase portrait reveals the global geometric structure of the dynamical system at a glance.
+
+**Equilibrium points** (also called **fixed points** or **critical points**) are solutions $\mathbf{x}^*$ satisfying $\mathbf{F}(\mathbf{x}^*) = \mathbf{0}$. Near an isolated equilibrium, the behaviour of trajectories is determined by the **linearization**: replace $\mathbf{F}$ by its Jacobian matrix $J = D\mathbf{F}(\mathbf{x}^*)$ evaluated at the equilibrium. The eigenvalues of $J$ classify the local type of the equilibrium:
+
+- If both eigenvalues are real and negative: **stable node** (all trajectories approach $\mathbf{x}^*$).
+- If both are real and positive: **unstable node** (all trajectories recede from $\mathbf{x}^*$).
+- If one eigenvalue is positive and one negative: **saddle point** (stable and unstable manifolds cross at $\mathbf{x}^*$).
+- If eigenvalues are complex $\alpha \pm i\beta$ with $\alpha < 0$: **stable spiral** (trajectories spiral in).
+- If $\alpha > 0$: **unstable spiral**.
+- If $\alpha = 0$: **center** (closed orbits in the linearization; nonlinear behaviour requires higher-order analysis).
+
+The **Hartman-Grobman theorem** makes the linearization rigorous: near a **hyperbolic** equilibrium (one where no eigenvalue has zero real part), the nonlinear flow is topologically conjugate to the linear flow of its Jacobian. In other words, the phase portrait of the nonlinear system is homeomorphically equivalent to that of the linearization near hyperbolic fixed points.
+
+Beyond equilibria, **limit cycles** are isolated closed trajectories — periodic orbits that are not part of a continuous family of closed orbits. The van der Pol oscillator $\ddot{x} - \mu(1-x^2)\dot{x} + x = 0$ (introduced by Balthasar van der Pol in 1920 while studying vacuum tube circuits) is the archetype: for any $\mu > 0$, it possesses a unique, globally attracting limit cycle. The **Bendixson-Dulac criterion** provides a sufficient condition for the absence of limit cycles in a region: if $\nabla \cdot (h\mathbf{F})$ does not change sign in a simply connected region (for some smooth $h$), then no closed orbit lies entirely within it. The **Poincaré-Bendixson theorem** is its constructive companion: if a trajectory in $\mathbb{R}^2$ is bounded and its $\omega$-limit set contains no equilibria, then that $\omega$-limit set must be a limit cycle.
+
+Global objects in the phase portrait include **stable and unstable manifolds** of saddle points, which partition the phase plane into regions of qualitatively different behaviour, **homoclinic orbits** (trajectories that connect a saddle to itself), and **heteroclinic orbits** (connecting two distinct saddle points). These global invariant manifolds are the "skeletons" around which the rest of the dynamics organizes itself.
 
 ## Stability Theory
 
+The informal question "do solutions eventually settle down near the equilibrium?" is made precise by **Lyapunov stability theory**, developed by Aleksandr Lyapunov in his 1892 doctoral thesis — one of the most influential documents in applied mathematics.
+
+An equilibrium $\mathbf{x}^*$ is **stable in the sense of Lyapunov** if for every $\varepsilon > 0$ there exists $\delta > 0$ such that $|\mathbf{x}(0) - \mathbf{x}^*| < \delta$ implies $|\mathbf{x}(t) - \mathbf{x}^*| < \varepsilon$ for all $t \ge 0$. It is **asymptotically stable** if it is stable and there exists $\delta > 0$ such that $|\mathbf{x}(0) - \mathbf{x}^*| < \delta$ implies $\mathbf{x}(t) \to \mathbf{x}^*$ as $t \to \infty$. It is **globally asymptotically stable** if the convergence holds for all initial data.
+
+The power of Lyapunov's approach is that it can certify stability without solving the ODE explicitly. A **Lyapunov function** is a smooth function $V : U \to [0, \infty)$ (for some neighbourhood $U$ of $\mathbf{x}^*$) satisfying:
+
+1. $V(\mathbf{x}^*) = 0$ and $V(\mathbf{x}) > 0$ for $\mathbf{x} \ne \mathbf{x}^*$ (positive definiteness),
+2. $\dot{V}(\mathbf{x}) = \nabla V(\mathbf{x}) \cdot \mathbf{F}(\mathbf{x}) \le 0$ along every trajectory (non-increase of $V$).
+
+If $\dot{V} \le 0$, the equilibrium is stable; if $\dot{V} < 0$ (negative definiteness), it is asymptotically stable. The function $V$ plays the role of an abstract energy: the system can only stay the same or "lose energy" over time. For the pendulum, the physical energy $E = \frac{1}{2}\dot\theta^2 + (1 - \cos\theta)$ is a Lyapunov function; its non-increase along trajectories confirms stability of the rest position.
+
+Constructing Lyapunov functions is an art rather than a science: there is no general algorithm. For linear systems $\mathbf{x}' = A\mathbf{x}$, if all eigenvalues of $A$ have negative real parts, then the **Lyapunov equation** $A^T P + PA = -Q$ has a unique positive-definite solution $P$ for any positive-definite $Q$, and $V(\mathbf{x}) = \mathbf{x}^T P \mathbf{x}$ is a Lyapunov function. For nonlinear systems, quadratic functions, logarithmic functions, and combinations tailored to the specific vector field must be found heuristically. **LaSalle's invariance principle** is a powerful refinement: even if $\dot{V} \le 0$ rather than $\dot{V} < 0$, trajectories converge to the largest invariant subset of $\{\dot{V} = 0\}$, which can be shown to be $\{\mathbf{x}^*\}$ in many cases, still giving asymptotic stability.
+
+The **linearization stability theorem** unifies the two approaches: for a hyperbolic equilibrium, the eigenvalue sign conditions of the Jacobian give the same conclusion as any Lyapunov analysis. Stability at non-hyperbolic equilibria (where some eigenvalue has zero real part) is genuinely harder and requires either normal forms, center manifold reduction, or a direct Lyapunov construction.
+
 ## Sturm-Liouville Theory and Boundary Value Problems
 
+A qualitatively different type of problem arises when conditions are imposed at two separate points rather than at a single initial time. A **two-point boundary value problem** (BVP) consists of a second-order ODE together with conditions at both endpoints of an interval $[a, b]$.
+
+The central framework is the **Sturm-Liouville problem**: find functions $y$ and numbers $\lambda$ satisfying
+
+$$\frac{d}{dx}\!\left[p(x) y'\right] - q(x) y + \lambda w(x) y = 0, \quad x \in [a,b],$$
+
+subject to separated boundary conditions $\alpha_1 y(a) + \alpha_2 y'(a) = 0$ and $\beta_1 y(b) + \beta_2 y'(b) = 0$, where $p > 0$, $w > 0$, and $p$, $q$, $w$ are sufficiently smooth. This problem was introduced by Jacques Charles François Sturm and Joseph Liouville in a celebrated series of memoirs published between 1836 and 1838 — a landmark moment in the development of spectral theory.
+
+The numbers $\lambda$ for which nontrivial solutions exist are called **eigenvalues** and the corresponding solutions $y_n$ are **eigenfunctions**. The fundamental results are:
+
+- The eigenvalues form an infinite sequence $\lambda_1 < \lambda_2 < \lambda_3 < \cdots \to +\infty$.
+- The eigenfunctions are orthogonal with respect to the weight $w$:
+
+$$\int_a^b y_m(x)\, y_n(x)\, w(x)\, dx = 0 \quad \text{for } m \ne n.$$
+
+- The eigenfunctions are **complete**: any sufficiently regular function $f$ on $[a,b]$ can be expanded in a **generalized Fourier series** $f(x) = \sum_{n=1}^\infty c_n y_n(x)$, with coefficients $c_n = \langle f, y_n \rangle_w / \|y_n\|_w^2$, and the series converges in the weighted $L^2$ sense.
+- The $n$-th eigenfunction has exactly $n-1$ zeros in the open interval $(a,b)$ — the **Sturm oscillation theorem**.
+
+The Sturm-Liouville framework unifies a host of classical special function theories. The **Bessel equation** $x^2 y'' + x y' + (\lambda^2 x^2 - n^2) y = 0$ is a singular Sturm-Liouville problem (singular because $p(0) = 0$) whose eigenfunctions are **Bessel functions** $J_n$, essential in problems with cylindrical symmetry. The **Legendre equation** $(1-x^2)y'' - 2x y' + \ell(\ell+1) y = 0$ on $[-1,1]$ is another singular problem, with **Legendre polynomials** $P_\ell$ as eigenfunctions, fundamental to problems with spherical symmetry. These arise naturally when separation of variables is applied to PDEs such as Laplace's, heat, and wave equations.
+
+When a nonhomogeneous source $h(x)$ is present, the solution of $Ly = h$ (where $L$ is the Sturm-Liouville operator) is written using a **Green's function** $G(x, \xi)$:
+
+$$y(x) = \int_a^b G(x, \xi)\, h(\xi)\, d\xi.$$
+
+The Green's function is constructed by piecing together solutions of the homogeneous equation on either side of $\xi$, with a jump discontinuity in the derivative at $x = \xi$ determined by the source singularity. Green's functions are the ODE-level precursors of the integral operators that become central in functional analysis and the study of PDEs.
+
 ## Bifurcation Theory and Special Functions
+
+In many physical models, the equations governing a system depend on a **parameter** $\mu$ (temperature, flow speed, coupling strength). As $\mu$ varies, equilibria can appear, disappear, merge, or change stability. A **bifurcation** is a qualitative change in the structure of the solution set as $\mu$ passes through a critical value $\mu_c$, called the **bifurcation point**.
+
+The catalogue of local bifurcations is organized by normal forms — simplified model equations that capture the essential dynamics near each bifurcation type:
+
+The **saddle-node bifurcation** is the most generic: two equilibria (one stable, one unstable) collide and annihilate as $\mu$ decreases past $\mu_c$. The normal form is $y' = \mu - y^2$. For $\mu > 0$ there are two equilibria $y = \pm\sqrt{\mu}$; at $\mu = 0$ they merge; for $\mu < 0$ there are none. This bifurcation underlies the sudden "tipping point" transitions observed in climate science, ecology, and economics.
+
+The **transcritical bifurcation** occurs when two equilibria cross and exchange stability; its normal form is $y' = \mu y - y^2$. Both equilibria persist for all $\mu$, but at $\mu = 0$ they swap their stability character. The logistic model of population growth features this structure.
+
+The **pitchfork bifurcation** appears in systems with a symmetry that prevents the saddle-node: the normal form $y' = \mu y - y^3$ has a single equilibrium $y = 0$ for $\mu < 0$, and for $\mu > 0$ the origin becomes unstable while two new symmetric equilibria $y = \pm\sqrt{\mu}$ are born (the **supercritical** or **forward** pitchfork). Buckling of an elastic beam is the prototypical example.
+
+The most dynamically rich local bifurcation is the **Hopf bifurcation**, formalized by Eberhard Hopf in 1942. Here an equilibrium loses stability as a pair of complex conjugate eigenvalues of the Jacobian crosses the imaginary axis. Simultaneously, a limit cycle is born (in the supercritical case) or annihilated (in the subcritical case). The frequency of the newborn oscillation near the bifurcation is approximately $\beta = \mathrm{Im}(\lambda)$ at $\mu = \mu_c$, and its amplitude grows like $\sqrt{|\mu - \mu_c|}$. The Hopf bifurcation is the mathematical explanation for spontaneous oscillations in biological clocks, chemical reactions (the Belousov-Zhabotinsky reaction), and fluid dynamics (the von Kármán vortex street).
+
+**Global bifurcations** involve large-scale changes in the phase portrait that cannot be detected by local analysis near a single equilibrium. In a **homoclinic bifurcation**, a limit cycle grows until it collides with a saddle point, forming a homoclinic orbit at the critical parameter value; for $\mu$ beyond this value, the limit cycle disappears. Heteroclinic bifurcations involve connections between distinct saddle points. These global events can trigger transitions between qualitatively different modes of behaviour — from periodic oscillation to chaos — making their analysis essential in understanding complex physical systems.
+
+The study of how families of ODEs depend on parameters is now the province of **dynamical systems theory**, a field shaped decisively by Poincaré's geometric vision, by Birkhoff's work in the 1920s and 1930s, and by the flowering of chaos theory after Lorenz's 1963 discovery of sensitive dependence on initial conditions in a three-dimensional ODE. Modern bifurcation theory, backed by center manifold theorems, normal form algorithms, and numerical continuation software, remains one of the most active and applicable areas of mathematics.

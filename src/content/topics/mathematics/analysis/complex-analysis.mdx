@@ -5,20 +5,149 @@ parent: mathematics/analysis
 order: 2
 color: "#ef4444"
 difficulty: intermediate
-prerequisites: []
-status: stub
+prerequisites: ["mathematics/analysis/real-analysis"]
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: "2026-02-28"
 ---
+
+Complex analysis is the study of functions of a complex variable, and it stands among the most beautiful and powerful branches of mathematics. What begins as a straightforward extension of real calculus — replacing the real line $\mathbb{R}$ with the complex plane $\mathbb{C}$ — turns out to impose far more stringent constraints on functions, yielding a theory of extraordinary rigidity and elegance. Differentiable functions in the complex sense, called **holomorphic functions**, are automatically infinitely differentiable, expressible as convergent power series, and governed by their values on arbitrarily small regions — a rigidity that has no analogue in real analysis, and which gives rise to some of the most striking theorems in all of mathematics.
 
 ## Complex Numbers and Holomorphic Functions
 
+The **complex numbers** $\mathbb{C}$ are the set of all expressions of the form $z = x + iy$, where $x$ and $y$ are real numbers and $i$ is the **imaginary unit** satisfying $i^2 = -1$. The real number $x = \operatorname{Re}(z)$ is the **real part** of $z$, and $y = \operatorname{Im}(z)$ is its **imaginary part**. The **modulus** of $z$ is $|z| = \sqrt{x^2 + y^2}$, the Euclidean distance from the origin, and the **complex conjugate** is $\bar{z} = x - iy$. Every nonzero complex number can also be written in **polar form**: $z = r e^{i\theta}$, where $r = |z|$ and $\theta = \arg(z)$ is the argument. This form rests on **Euler's formula**, $e^{i\theta} = \cos\theta + i\sin\theta$, one of the most celebrated identities in mathematics, which Leonhard Euler established in the eighteenth century.
+
+The complex plane inherits a metric from the modulus, and the resulting topology is identical to the standard topology on $\mathbb{R}^2$. One enriches this picture by adding a single point at infinity, forming the **Riemann sphere** $\hat{\mathbb{C}} = \mathbb{C} \cup \{\infty\}$, which can be identified geometrically with a sphere via stereographic projection. This compact space is the natural domain for rational functions and Möbius transformations.
+
+**Complex differentiability** is defined exactly as in real analysis: a function $f : U \to \mathbb{C}$ on an open set $U \subseteq \mathbb{C}$ is **complex differentiable** at $z_0 \in U$ if the limit
+
+$$f'(z_0) = \lim_{h \to 0} \frac{f(z_0 + h) - f(z_0)}{h}$$
+
+exists as a complex limit — that is, the difference quotient converges to the same value regardless of the direction in which $h$ approaches zero. This single condition, which looks identical to the real definition, is in fact far more restrictive: because $h$ can approach zero along any path in the plane, complex differentiability forces the two real partial derivatives to satisfy the **Cauchy-Riemann equations**. Writing $f(x+iy) = u(x,y) + iv(x,y)$ with real and imaginary parts $u$ and $v$, complex differentiability at a point requires
+
+$$\frac{\partial u}{\partial x} = \frac{\partial v}{\partial y}, \qquad \frac{\partial u}{\partial y} = -\frac{\partial v}{\partial x}.$$
+
+These equations encode the essence of complex analysis. They were known to Jean le Rond d'Alembert in the eighteenth century, systematically used by Cauchy in the early nineteenth century, and given their modern interpretation by Riemann in his 1851 doctoral dissertation. A function $f$ is called **holomorphic** on $U$ if it is complex differentiable at every point of $U$. An immediate consequence of the Cauchy-Riemann equations is that the real part $u$ and imaginary part $v$ of any holomorphic function are both **harmonic** — they satisfy Laplace's equation $\Delta u = \Delta v = 0$ — making complex analysis indispensable in potential theory, electrostatics, and fluid dynamics.
+
+Polynomials $p(z) = a_n z^n + \cdots + a_0$, rational functions, the exponential $e^z = e^x(\cos y + i\sin y)$, and the trigonometric functions $\sin z = (e^{iz} - e^{-iz})/(2i)$ and $\cos z = (e^{iz} + e^{-iz})/2$ are all holomorphic on their natural domains. The **complex logarithm** $\log z = \ln|z| + i\arg z$ is multivalued, since the argument is determined only modulo $2\pi$; fixing a branch by restricting to $\theta \in (-\pi, \pi)$ gives the **principal logarithm** $\text{Log}\, z$, holomorphic on $\mathbb{C} \setminus (-\infty, 0]$.
+
+Isolated **singularities** — points where a function fails to be holomorphic — are classified into three types. A **removable singularity** is one where the function remains bounded near the singular point and can be extended holomorphically by assigning an appropriate value. A **pole** of order $m$ is a point $z_0$ where $|f(z)| \to \infty$ as $z \to z_0$, and near which $f(z) = g(z)/(z-z_0)^m$ for some holomorphic nonvanishing $g$. An **essential singularity** is every other isolated singularity, and near such a point the behavior of $f$ is wildly erratic: by the **Casorati-Weierstrass theorem**, the image of any punctured neighborhood of an essential singularity is dense in $\mathbb{C}$.
+
 ## Complex Integration and Cauchy's Theorems
+
+The theory of integration in the complex plane is built on **contour integrals**. A **contour** $\gamma$ is a piecewise smooth curve in $\mathbb{C}$, parameterized as $\gamma : [a, b] \to \mathbb{C}$. The contour integral of a continuous function $f$ along $\gamma$ is defined by
+
+$$\int_\gamma f(z)\, dz = \int_a^b f(\gamma(t))\, \gamma'(t)\, dt.$$
+
+This definition reduces a complex integral to a pair of real line integrals, but its behavior is governed by theorems that have no real counterpart. The fundamental estimate is the **ML inequality**: if $|f(z)| \leq M$ for all $z$ on $\gamma$ and $\gamma$ has length $L$, then $\left|\int_\gamma f(z)\, dz\right| \leq ML$. This simple bound is used constantly to show that integrals over auxiliary contours — such as large semicircles in residue calculations — vanish in the limit.
+
+**Cauchy's theorem** is the cornerstone of complex analysis. In its simplest form, it states that if $f$ is holomorphic throughout a simply connected open set $U$ and $\gamma$ is any closed contour in $U$, then
+
+$$\oint_\gamma f(z)\, dz = 0.$$
+
+This theorem, established by Augustin-Louis Cauchy in the 1820s, asserts that the integral of a holomorphic function around any loop depends only on the topological structure of the domain, not on the specific path. The proof in full generality uses either Goursat's lemma — which establishes the result for triangles without assuming continuity of $f'$ — or Green's theorem in conjunction with the Cauchy-Riemann equations. Morera's theorem provides the converse: if $\int_\gamma f\, dz = 0$ for every closed triangle in $U$, then $f$ is holomorphic on $U$, giving a powerful tool for proving holomorphicity by integration.
+
+**Cauchy's integral formula** is the most powerful consequence of Cauchy's theorem. If $f$ is holomorphic in an open set containing a closed disk $\overline{D}(z_0, r)$ and $\gamma$ is the boundary circle traversed counterclockwise, then for any $z$ strictly inside $\gamma$:
+
+$$f(z) = \frac{1}{2\pi i} \oint_\gamma \frac{f(w)}{w - z}\, dw.$$
+
+This extraordinary formula says that the values of a holomorphic function inside a disk are completely determined by its values on the boundary — a property with no real analogue. Differentiating under the integral sign, one obtains formulas for all derivatives:
+
+$$f^{(n)}(z) = \frac{n!}{2\pi i} \oint_\gamma \frac{f(w)}{(w - z)^{n+1}}\, dw.$$
+
+This immediately implies that every holomorphic function is **infinitely differentiable** — a striking contrast with real analysis, where a function can be once differentiable but not twice. From Cauchy's integral formula also follows **Liouville's theorem**: if $f$ is holomorphic on all of $\mathbb{C}$ (an **entire function**) and bounded, then $f$ is constant. The elegant proof applies the integral formula to $f'(z)$, bounds the resulting integral on a circle of radius $R$, and lets $R \to \infty$. Liouville's theorem gives one of the shortest proofs of the **fundamental theorem of algebra**: every non-constant polynomial with complex coefficients has a complex root, for if $p(z)$ had no root, then $1/p(z)$ would be a bounded entire function, hence constant.
 
 ## Laurent Series and Residue Calculus
 
+Every holomorphic function on a disk $|z - z_0| < r$ is representable as a convergent **Taylor series** $f(z) = \sum_{n=0}^\infty a_n (z - z_0)^n$. The coefficients are given by $a_n = f^{(n)}(z_0)/n!$, which can also be expressed as a contour integral via Cauchy's formula. This equivalence between holomorphic functions and convergent power series is the **identity theorem**: if two holomorphic functions agree on a set with an accumulation point in a connected open domain, they agree everywhere in that domain. The identity theorem is one of the most startling manifestations of the rigidity of complex analysis — a holomorphic function is entirely determined by its values on any non-discrete set.
+
+On an **annulus** $r < |z - z_0| < R$ centered at an isolated singularity, a holomorphic function is represented not by a Taylor series but by a **Laurent series**:
+
+$$f(z) = \sum_{n=-\infty}^{\infty} a_n (z - z_0)^n = \cdots + \frac{a_{-2}}{(z-z_0)^2} + \frac{a_{-1}}{z - z_0} + a_0 + a_1(z - z_0) + \cdots$$
+
+The **principal part** is the sum of terms with negative powers of $(z - z_0)$, and it encodes the nature of the singularity. If the principal part is identically zero, the singularity is removable. If the principal part is a finite sum with $a_{-m} \neq 0$ as the lowest term, the singularity is a pole of order $m$. If the principal part is an infinite series, the singularity is essential — a case covered by the remarkable **Picard's great theorem**: in any neighborhood of an essential singularity, a holomorphic function takes every complex value, with at most one exception, infinitely many times.
+
+The **residue** of $f$ at an isolated singularity $z_0$ is the coefficient $a_{-1}$ of $(z - z_0)^{-1}$ in the Laurent expansion:
+
+$$\operatorname{Res}(f, z_0) = a_{-1} = \frac{1}{2\pi i} \oint_{|z - z_0| = \varepsilon} f(z)\, dz.$$
+
+For a simple pole, the residue has the explicit formula $\operatorname{Res}(f, z_0) = \lim_{z \to z_0} (z - z_0) f(z)$. For a pole of order $m$, it is $\operatorname{Res}(f, z_0) = \frac{1}{(m-1)!} \lim_{z \to z_0} \frac{d^{m-1}}{dz^{m-1}}\left[(z - z_0)^m f(z)\right]$.
+
+The **residue theorem** is the central tool of complex integration. If $f$ is holomorphic inside and on a simple closed counterclockwise contour $\gamma$, except for finitely many isolated singularities $z_1, \ldots, z_k$ inside $\gamma$, then
+
+$$\oint_\gamma f(z)\, dz = 2\pi i \sum_{j=1}^k \operatorname{Res}(f, z_j).$$
+
+This theorem reduces a contour integral to a finite sum of residues, transforming what might be an intricate calculation into an algebraic task. Its applications to the evaluation of real integrals are spectacular. Integrals of rational functions over $\mathbb{R}$, improper integrals involving $\sin$ and $\cos$, and integrals with branch cuts can all be computed by choosing an appropriate contour in $\mathbb{C}$, applying the residue theorem, and extracting the real part. For instance, the Gaussian integral and the evaluation of $\zeta(2) = \pi^2/6$ both admit proofs via residue techniques. The argument principle — a consequence of the residue theorem applied to $f'/f$ — counts the number of zeros minus poles of $f$ inside a contour by tracking the winding of the image curve around the origin.
+
 ## Conformal Mappings and the Riemann Mapping Theorem
+
+A holomorphic function $f$ with nonvanishing derivative $f'(z_0) \neq 0$ at a point $z_0$ preserves angles between smooth curves through $z_0$, both in magnitude and orientation. Such a function is called **conformal** at $z_0$. Conformality is a local property — it holds at each point where the derivative is nonzero — and it gives holomorphic functions a geometric character that makes them powerful tools for solving boundary value problems.
+
+The simplest conformal maps are the **Möbius transformations** (or **linear fractional transformations**):
+
+$$f(z) = \frac{az + b}{cz + d}, \qquad ad - bc \neq 0.$$
+
+Every Möbius transformation is a bijection of the Riemann sphere $\hat{\mathbb{C}}$ to itself, mapping circles and lines to circles and lines (since lines can be regarded as circles through $\infty$). They form a group under composition, isomorphic to $PGL(2, \mathbb{C})$, and are determined by the images of three distinct points — a fact that makes them the key tool for mapping standard domains such as the upper half-plane and the unit disk to one another. The map $f(z) = (z - i)/(z + i)$ sends the upper half-plane $\mathbb{H} = \{z : \operatorname{Im}(z) > 0\}$ to the unit disk $\mathbb{D} = \{|z| < 1\}$, and every Möbius transformation preserving $\mathbb{D}$ has the form $e^{i\theta}(z - a)/(1 - \bar{a}z)$ for $|a| < 1$ and $\theta \in \mathbb{R}$.
+
+Other important conformal maps include the exponential $e^z$, which maps horizontal strips to sectors; the power function $z^n$, which maps a sector of angle $\pi/n$ to the upper half-plane; and the **Joukowski map** $z \mapsto z + 1/z$, which maps the exterior of the unit disk conformally to the exterior of a line segment and is used in aerodynamics to model flow around airfoils.
+
+The **Riemann mapping theorem**, proved by Bernhard Riemann in 1851 and given a rigorous proof by later mathematicians including Carathéodory and Koebe, is one of the most profound results in the subject. It states: every simply connected proper open subset $U$ of $\mathbb{C}$ is conformally equivalent to the open unit disk $\mathbb{D}$. That is, there exists a bijective holomorphic map $f : U \to \mathbb{D}$, and $f$ is uniquely determined by specifying the image of a single point $z_0 \in U$ and the argument of $f'(z_0)$. The proof uses the **Schwarz lemma** — which constrains holomorphic self-maps of the unit disk fixing the origin — together with a normal families argument: one maximizes $|f'(z_0)|$ over a suitably defined family of injective holomorphic maps, and shows that the maximizer maps $U$ onto all of $\mathbb{D}$. The theorem tells us that simply connected domains are topologically classified by their genus, but conformally there is essentially only one: the disk. Domains of higher connectivity require more parameters for their conformal classification, leading to moduli theory and Teichmüller theory.
+
+The **Schwarz-Christoffel formula** explicitly constructs the conformal map from the upper half-plane (or unit disk) to the interior of a polygon. If the polygon has vertices $w_1, \ldots, w_n$ with interior angles $\alpha_1 \pi, \ldots, \alpha_n \pi$, the map takes the form
+
+$$f(z) = A \int_0^z \prod_{k=1}^n (t - x_k)^{\alpha_k - 1}\, dt + B,$$
+
+where $x_1, \ldots, x_n$ are the preimages of the vertices on the real axis. This formula has extensive applications in electrostatics, heat flow, and fluid dynamics, as it reduces boundary value problems on complicated polygonal domains to standard problems on the half-plane.
 
 ## Analytic Continuation
 
+A holomorphic function defined on one open set can sometimes be extended to a larger domain while remaining holomorphic. This process, called **analytic continuation**, is one of the deepest ideas in complex analysis, revealing that many functions have a natural "maximal domain" far larger than their original definition.
+
+The theoretical basis is the identity theorem: if $f$ is holomorphic on a connected open set $U$ and $g$ is holomorphic on a connected open set $V$ with $U \cap V$ nonempty, and if $f = g$ on $U \cap V$, then $f$ and $g$ are said to be direct analytic continuations of each other. The continuation is unique — there is at most one way to extend $f$ holomorphically to any larger connected domain. This uniqueness has a profound consequence: a function defined by a convergent power series near one point is not a free object, but a fragment of a single globally determined holomorphic entity.
+
+The difficulty is that continuation along different paths may arrive at different values — a phenomenon called **monodromy**. For the principal logarithm $\text{Log}\, z$, continuing around the origin returns a value differing by $2\pi i$. This multivaluedness signals that the function does not have a single-valued holomorphic extension to $\mathbb{C} \setminus \{0\}$, but rather lives naturally on a larger space. Riemann's resolution of this difficulty was the invention of **Riemann surfaces**: one constructs a new space by "unrolling" the sheets corresponding to different branches of the function, gluing them together appropriately, so that what was multivalued on $\mathbb{C}$ becomes single-valued on the Riemann surface. The logarithm lives on a Riemann surface isomorphic (as a complex manifold) to $\mathbb{C}$ itself; the function $\sqrt{z}$ lives on a two-sheeted surface with a branch point at $0$, topologically a sphere with two punctures.
+
+A function whose natural domain cannot be extended beyond a given boundary is said to have a **natural boundary**. The classic example is $f(z) = \sum_{n=0}^\infty z^{2^n}$, which converges for $|z| < 1$ but cannot be continued to any larger domain — every point of the unit circle is a singularity. Such functions, called **lacunary series**, demonstrate that not every region is a domain of holomorphy.
+
+Analytic continuation underlies the definition of the **Riemann zeta function** $\zeta(s) = \sum_{n=1}^\infty n^{-s}$, originally defined for $\operatorname{Re}(s) > 1$. Riemann showed in 1859 that $\zeta$ continues analytically to the entire complex plane except for a simple pole at $s = 1$, and satisfies the functional equation $\zeta(s) = 2^s \pi^{s-1} \sin(\pi s/2)\, \Gamma(1-s)\, \zeta(1-s)$. The distribution of the zeros of $\zeta$ encodes deep information about the distribution of prime numbers, and the **Riemann hypothesis** — that all non-trivial zeros lie on the critical line $\operatorname{Re}(s) = 1/2$ — remains the most famous unsolved problem in mathematics.
+
 ## Entire and Meromorphic Functions
 
+A function that is holomorphic on all of $\mathbb{C}$ is called **entire**. The simplest examples are polynomials, the exponential, and the trigonometric functions. Liouville's theorem constrains entire functions severely: they cannot be bounded unless they are constant. The growth of an entire function is measured by its **order** $\rho$, defined by
+
+$$\rho = \limsup_{r \to \infty} \frac{\log \log M(r)}{\log r},$$
+
+where $M(r) = \max_{|z| = r} |f(z)|$. Polynomials have order $0$, the exponential has order $1$, and $e^{e^z}$ has infinite order. **Hadamard's factorization theorem** links the order of growth to the zero set: if $f$ is an entire function of finite order $\rho$ with zeros $\{a_n\}$ (listed with multiplicity, $a_n \neq 0$), then
+
+$$f(z) = z^m e^{g(z)} \prod_{n=1}^\infty E_p\!\left(\frac{z}{a_n}\right),$$
+
+where $g$ is a polynomial of degree at most $\rho$, $m$ is the order of the zero at the origin, $p \leq \rho$, and $E_p$ are the **Weierstrass elementary factors** $E_p(u) = (1-u)\exp\!\left(u + u^2/2 + \cdots + u^p/p\right)$, introduced to ensure convergence of the product.
+
+A **meromorphic function** on an open set $U$ is one that is holomorphic on $U$ except for isolated poles. Meromorphic functions on the Riemann sphere $\hat{\mathbb{C}}$ are precisely the rational functions, giving a clean algebraic classification. The partial fraction decomposition of rational functions generalizes to the **Mittag-Leffler theorem**: given any discrete set of points $\{z_k\}$ in $\mathbb{C}$ and prescribed principal parts at each, there exists a meromorphic function on $\mathbb{C}$ realizing those poles and principal parts. This provides a constructive complement to Weierstrass's theorem on entire functions.
+
+The **argument principle** connects the analytic and geometric aspects of meromorphic functions. If $f$ is meromorphic inside and on a simple closed contour $\gamma$ with $Z$ zeros and $P$ poles (counted with multiplicity) inside $\gamma$ and no zeros or poles on $\gamma$, then
+
+$$\frac{1}{2\pi i} \oint_\gamma \frac{f'(z)}{f(z)}\, dz = Z - P.$$
+
+The left side equals the winding number of the image curve $f \circ \gamma$ around $0$ — the number of times the image winds counterclockwise around the origin. **Rouché's theorem**, a consequence, states that if $|g(z)| < |f(z)|$ on $\gamma$, then $f$ and $f + g$ have the same number of zeros inside $\gamma$. This is invaluable for locating zeros of polynomials and perturbations thereof.
+
 ## Special Functions and Applications
+
+The **Gamma function** $\Gamma(s)$ extends the factorial to all complex numbers except nonpositive integers. For $\operatorname{Re}(s) > 0$ it is defined by the integral
+
+$$\Gamma(s) = \int_0^\infty t^{s-1} e^{-t}\, dt,$$
+
+which satisfies the functional equation $\Gamma(s+1) = s\Gamma(s)$ and gives $\Gamma(n) = (n-1)!$ for positive integers. Analytic continuation extends $\Gamma$ to a meromorphic function on $\mathbb{C}$ with simple poles at $s = 0, -1, -2, \ldots$. The **reflection formula** $\Gamma(s)\Gamma(1-s) = \pi / \sin(\pi s)$ and the **duplication formula** $\Gamma(s)\Gamma(s + 1/2) = \sqrt{\pi}\, 2^{1-2s}\, \Gamma(2s)$ are among its most important identities. Stirling's approximation $\Gamma(s) \sim \sqrt{2\pi/s}\, (s/e)^s$ as $|s| \to \infty$ describes the asymptotic growth.
+
+The **Riemann zeta function** $\zeta(s)$, already encountered in the context of analytic continuation, encodes the distribution of prime numbers through the **Euler product** $\zeta(s) = \prod_p (1 - p^{-s})^{-1}$, where the product is over all primes. The **prime number theorem** — that the number of primes up to $x$ is asymptotically $x / \ln x$ — follows from the fact that $\zeta(s)$ has no zeros on the line $\operatorname{Re}(s) = 1$, a result proved independently by Hadamard and de la Vallée Poussin in 1896 using complex-analytic methods.
+
+The **maximum modulus principle** is one of the most elegant results of complex analysis: if $f$ is holomorphic and nonconstant on a connected open set $U$, then $|f|$ attains no local maximum in the interior of $U$. It follows that the maximum of $|f|$ over any compact subset is attained on the boundary — a principle of enormous practical value in bounding holomorphic functions. A companion result, the **open mapping theorem**, states that any nonconstant holomorphic function maps open sets to open sets.
+
+The **Schwarz-Pick lemma** governs holomorphic self-maps of the unit disk. If $f : \mathbb{D} \to \mathbb{D}$ is holomorphic, then for any two points $z, w \in \mathbb{D}$,
+
+$$\left|\frac{f(z) - f(w)}{1 - \overline{f(w)}f(z)}\right| \leq \left|\frac{z - w}{1 - \bar{w}z}\right|,$$
+
+with equality throughout if and only if $f$ is a Möbius transformation preserving $\mathbb{D}$. This inequality says that holomorphic self-maps of the disk are contractions in the **hyperbolic metric** (the Poincaré metric) on the disk, giving complex analysis a direct connection to hyperbolic geometry.
+
+The applications of complex analysis extend across mathematics and physics. In **fluid dynamics**, the velocity field of an irrotational, incompressible two-dimensional flow can be encoded in a holomorphic function — the **complex potential** — and conformal mappings transform one flow geometry into another. In **electrostatics**, harmonic functions represent electric potentials, and conformal maps preserve the Laplace equation. In **signal processing**, the theory of the $z$-transform is a discrete-time version of complex analysis, and contour integration appears in the inverse Laplace transform. In **number theory**, the Prime Number Theorem, the functional equations of $L$-functions, and the methods of Hardy and Ramanujan all depend essentially on complex-analytic tools. And in **complex dynamics**, the iteration of holomorphic maps gives rise to the **Julia sets** and the **Mandelbrot set** — geometric objects of infinite complexity governed by the simple rule $z \mapsto z^2 + c$ — connecting complex analysis to the modern theory of dynamical systems and fractal geometry.
