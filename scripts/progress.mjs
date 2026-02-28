@@ -29,17 +29,18 @@ const DOMAIN_CONFIG = {
   'computer-science': {
     label: 'Computer Science',
     branches: [
-      'algorithms', 'data-structures', 'theory-of-computation',
-      'programming-languages', 'systems', 'machine-learning', 'cryptography',
+      'theoretical-foundations', 'programming-and-languages', 'systems',
+      'data-and-information', 'ai-and-machine-learning', 'graphics-and-vision',
+      'applied-and-interdisciplinary',
     ],
     names: {
-      'algorithms': 'Algorithms & Complexity',
-      'data-structures': 'Data Structures',
-      'theory-of-computation': 'Theory of Computation',
-      'programming-languages': 'Programming Languages',
-      'systems': 'Computer Systems',
-      'machine-learning': 'Machine Learning',
-      'cryptography': 'Cryptography',
+      'theoretical-foundations': 'Theoretical Foundations',
+      'programming-and-languages': 'Programming & Languages',
+      'systems': 'Systems',
+      'data-and-information': 'Data & Information',
+      'ai-and-machine-learning': 'AI & Machine Learning',
+      'graphics-and-vision': 'Graphics & Vision',
+      'applied-and-interdisciplinary': 'Applied & Interdisciplinary',
     },
   },
 };

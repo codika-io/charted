@@ -67,35 +67,37 @@ export const MATHEMATICS_EDGES: TopicEdge[] = [
 
 export const COMPUTER_SCIENCE_TOPICS: TopicNode[] = [
   { id: 'cs', label: 'Computer Science', slug: 'computer-science', x: 0, y: 0, size: 48 },
-  { id: 'algorithms', label: 'Algorithms', slug: 'computer-science/algorithms', x: -260, y: -100, size: 34 },
-  { id: 'data-structures', label: 'Data Structures', slug: 'computer-science/data-structures', x: -160, y: -200, size: 30 },
-  { id: 'theory-of-computation', label: 'Computation', slug: 'computer-science/theory-of-computation', x: 60, y: -200, size: 30 },
-  { id: 'programming-languages', label: 'Languages', slug: 'computer-science/programming-languages', x: 240, y: -100, size: 30 },
-  { id: 'systems', label: 'Systems', slug: 'computer-science/systems', x: -200, y: 80, size: 36 },
-  { id: 'machine-learning', label: 'Machine Learning', slug: 'computer-science/machine-learning', x: 200, y: 100, size: 36 },
-  { id: 'cryptography', label: 'Cryptography', slug: 'computer-science/cryptography', x: 40, y: 220, size: 30 },
+  { id: 'theoretical-foundations', label: 'Theory', slug: 'computer-science/theoretical-foundations', x: -260, y: -100, size: 34 },
+  { id: 'programming-and-languages', label: 'Languages', slug: 'computer-science/programming-and-languages', x: -160, y: -200, size: 30 },
+  { id: 'systems', label: 'Systems', slug: 'computer-science/systems', x: 60, y: -200, size: 36 },
+  { id: 'data-and-information', label: 'Data', slug: 'computer-science/data-and-information', x: 240, y: -100, size: 30 },
+  { id: 'ai-and-machine-learning', label: 'AI & ML', slug: 'computer-science/ai-and-machine-learning', x: -200, y: 80, size: 36 },
+  { id: 'graphics-and-vision', label: 'Graphics', slug: 'computer-science/graphics-and-vision', x: 200, y: 100, size: 30 },
+  { id: 'applied-and-interdisciplinary', label: 'Applied', slug: 'computer-science/applied-and-interdisciplinary', x: 40, y: 220, size: 30 },
 ];
 
 export const COMPUTER_SCIENCE_EDGES: TopicEdge[] = [
   // From center
-  { source: 'cs', target: 'algorithms' },
-  { source: 'cs', target: 'data-structures' },
-  { source: 'cs', target: 'theory-of-computation' },
-  { source: 'cs', target: 'programming-languages' },
+  { source: 'cs', target: 'theoretical-foundations' },
+  { source: 'cs', target: 'programming-and-languages' },
   { source: 'cs', target: 'systems' },
-  { source: 'cs', target: 'machine-learning' },
-  { source: 'cs', target: 'cryptography' },
+  { source: 'cs', target: 'data-and-information' },
+  { source: 'cs', target: 'ai-and-machine-learning' },
+  { source: 'cs', target: 'graphics-and-vision' },
+  { source: 'cs', target: 'applied-and-interdisciplinary' },
   // Foundational links
-  { source: 'algorithms', target: 'data-structures' },
-  { source: 'algorithms', target: 'theory-of-computation' },
-  { source: 'theory-of-computation', target: 'programming-languages' },
-  { source: 'data-structures', target: 'systems' },
+  { source: 'theoretical-foundations', target: 'programming-and-languages' },
+  { source: 'theoretical-foundations', target: 'systems' },
+  { source: 'theoretical-foundations', target: 'ai-and-machine-learning' },
+  { source: 'theoretical-foundations', target: 'applied-and-interdisciplinary' },
   // Cross-links
-  { source: 'algorithms', target: 'machine-learning' },
-  { source: 'data-structures', target: 'machine-learning' },
-  { source: 'algorithms', target: 'cryptography' },
-  { source: 'theory-of-computation', target: 'cryptography' },
-  { source: 'systems', target: 'cryptography' },
+  { source: 'programming-and-languages', target: 'systems' },
+  { source: 'systems', target: 'data-and-information' },
+  { source: 'data-and-information', target: 'ai-and-machine-learning' },
+  { source: 'ai-and-machine-learning', target: 'graphics-and-vision' },
+  { source: 'systems', target: 'applied-and-interdisciplinary' },
+  { source: 'theoretical-foundations', target: 'data-and-information' },
+  { source: 'ai-and-machine-learning', target: 'applied-and-interdisciplinary' },
 ];
 
 // Isometric projection helpers

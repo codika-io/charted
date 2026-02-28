@@ -1,12 +1,28 @@
 ---
-title: Computer Systems
-description: The architecture and engineering of hardware and software systems — from processors to distributed networks.
+title: Systems
+description: The design and implementation of computing systems — from hardware architecture to operating systems, networks, and distributed computing.
 parent: computer-science
-order: 5
+order: 3
 color: "#3b82f6"
 difficulty: intermediate
-prerequisites: ["computer-science/data-structures"]
-status: stub
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: "2026-02-28"
 ---
 
-Computer Systems is where theory meets engineering — how machines are built, how they communicate, and how software manages their complexity. The sub-topics below progress from architecture to distributed systems.
+The Systems branch of computer science is concerned with the design, construction, and analysis of the computing machinery that turns abstract algorithms into tangible results. Where other branches study what can be computed in principle, systems asks how computation is realized in practice — how transistors are organized into processors, how software manages hardware resources, how data traverses continents in milliseconds, and how thousands of machines cooperate to behave as one. This is the domain where theory meets silicon, where mathematical elegance must contend with clock frequencies, cache miss penalties, packet loss, and the stubborn physical reality that light itself is too slow for a nanosecond-scale world.
+
+The story begins with Computer Architecture, the discipline that defines the interface between hardware and software. From John von Neumann's 1945 draft report on the EDVAC, which established the stored-program concept, through the RISC revolution championed by David Patterson and John Hennessy in the 1980s, to the multicore era precipitated by the end of Dennard scaling, computer architecture has shaped every generation of computing. Understanding how instruction sets are designed, how pipelines extract parallelism, how cache hierarchies exploit locality, and how modern processors predict the future of branching control flow is foundational to every other systems topic.
+
+Built atop the processor sits the Operating System, the layer of software that virtualizes hardware and makes it usable. The lineage runs from the batch monitors of the 1950s through the revolutionary time-sharing systems at MIT and Bell Labs — where Ken Thompson, Dennis Ritchie, and their colleagues created Unix in 1969 — to the microkernels, hypervisors, and container runtimes of today. Operating Systems introduces process and thread management, CPU scheduling, virtual memory, file systems, concurrency and synchronization, and the security mechanisms that isolate users and programs from one another. It is the gateway to understanding how software coexists with hardware.
+
+Once individual machines are understood, Computer Networks extends the picture to communication between them. The field's intellectual architecture is the layered protocol stack: physical signals at the bottom, data-link framing and error control above, network-layer routing with IP, transport-layer reliability with TCP, and the rich ecosystem of application protocols — DNS, HTTP, TLS — at the top. From the ARPANET experiments of the late 1960s overseen by Vint Cerf and Bob Kahn, through the standardization of TCP/IP, to the modern internet carrying exabytes of traffic per day, networking is the connective tissue of all distributed computation.
+
+With networking in place, two branches diverge. Distributed Systems confronts the challenge of making multiple autonomous machines work together despite partial failures, asynchronous communication, and the absence of a global clock. Leslie Lamport's foundational work on logical clocks and the Paxos consensus algorithm, the CAP theorem articulated by Eric Brewer, and the practical engineering of systems like Google's Spanner and Apache Kafka define this territory. Distributed Systems covers consensus, replication and consistency models, large-scale data processing frameworks, microservices, fault tolerance, and the cloud computing platforms that host the world's workloads.
+
+Running in parallel — and deeply intertwined with networking — is Cybersecurity, the discipline devoted to protecting systems and data from adversaries. From the early formalization of access control models by Bell and LaPadula through the modern landscape of advanced persistent threats, ransomware, and nation-state attackers, cybersecurity spans cryptographic foundations, authentication and authorization, web application vulnerabilities, network defense, malware analysis, and privacy-preserving technologies. It is a field where the defender must be right every time and the attacker need be right only once.
+
+Finally, Parallel Computing addresses the question of how to harness many processing elements simultaneously. Gene Amdahl's sobering law on the limits of speedup, the shared-memory programming model embodied by OpenMP, the message-passing paradigm of MPI, and the massively parallel architectures of modern GPUs all belong here. As single-core performance stagnated in the mid-2000s, parallelism became not a luxury but the primary path to greater computational power, driving the field from niche supercomputing into every laptop, phone, and data center on the planet.
+
+Together, these six sub-topics form a coherent progression: from the hardware that executes instructions, to the software that manages it, to the networks that connect machines, to the distributed and parallel systems that scale computation across them, and to the security principles that keep it all trustworthy. Mastering the Systems branch means understanding not just how computers work, but how the entire infrastructure of modern digital civilization is engineered.

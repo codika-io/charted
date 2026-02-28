@@ -14,14 +14,14 @@ import { MATHEMATICS_TOPICS, MATHEMATICS_EDGES, COMPUTER_SCIENCE_TOPICS, COMPUTE
         <!-- Text -->
         <div class="flex-1 text-center lg:text-left">
           <h1 class="text-5xl md:text-7xl mb-6 tracking-tight">
-            Chart<span class="text-surface-900">ed</span>
+            Chart<span id="hero-ed" class="text-surface-900" style="transition: color 0.3s ease">ed</span>
           </h1>
           <p class="text-xl md:text-2xl text-surface-600 max-w-xl leading-relaxed">
             An interactive, open-source atlas of the sciences.
             Explore how fields connect, evolve, and build on each other.
           </p>
           <div class="mt-8 flex gap-4 justify-center lg:justify-start">
-            <div class="relative group">
+            <div id="hero-dropdown" class="relative group">
               <span
                 class="inline-block font-mono text-sm uppercase tracking-wider bg-surface-900 text-white px-6 py-3 group-hover:bg-surface-700 transition-colors cursor-default"
                 data-hover-sound
@@ -34,6 +34,7 @@ import { MATHEMATICS_TOPICS, MATHEMATICS_EDGES, COMPUTER_SCIENCE_TOPICS, COMPUTE
                   class="block font-mono text-sm uppercase tracking-wider text-white px-6 py-3 whitespace-nowrap hover:brightness-110 transition-all"
                   style="background-color: #dc2626;"
                   data-hover-sound
+                  data-hero-domain="mathematics"
                 >
                   Mathematics
                 </a>
@@ -42,6 +43,7 @@ import { MATHEMATICS_TOPICS, MATHEMATICS_EDGES, COMPUTER_SCIENCE_TOPICS, COMPUTE
                   class="block font-mono text-sm uppercase tracking-wider text-white px-6 py-3 whitespace-nowrap hover:brightness-110 transition-all"
                   style="background-color: #2563eb;"
                   data-hover-sound
+                  data-hero-domain="computer-science"
                 >
                   Computer Science
                 </a>
@@ -60,7 +62,7 @@ import { MATHEMATICS_TOPICS, MATHEMATICS_EDGES, COMPUTER_SCIENCE_TOPICS, COMPUTE
 
         <!-- Isometric illustration -->
         <div class="flex-1 flex justify-center">
-          <svg viewBox="0 0 400 360" width="400" height="360" class="w-full max-w-md">
+          <svg id="hero-chart" viewBox="0 0 400 360" width="400" height="360" class="w-full max-w-md">
             <!-- Axes -->
             <g stroke="#d4d4d4" stroke-width="1" stroke-dasharray="4 3">
               <line x1="60" y1="280" x2="340" y2="280" />
@@ -73,48 +75,54 @@ import { MATHEMATICS_TOPICS, MATHEMATICS_EDGES, COMPUTER_SCIENCE_TOPICS, COMPUTE
               <line x1="270" y1="280" x2="270" y2="40" />
             </g>
 
-            <!-- Block 1: tall red -->
-            <g>
-              <polygon points="130,240 160,225 160,140 130,155" fill="#ef4444" opacity="0.5" />
-              <polygon points="130,240 100,225 100,140 130,155" fill="#ef4444" opacity="0.7" />
-              <polygon points="100,140 130,125 160,140 130,155" fill="#ef4444" opacity="0.9" />
-              <polygon points="100,140 130,125 160,140 130,155" fill="none" stroke="#ef4444" stroke-width="1.5" />
-              <polygon points="130,240 160,225 160,140 130,155" fill="none" stroke="#ef4444" stroke-width="1" opacity="0.6" />
-              <polygon points="130,240 100,225 100,140 130,155" fill="none" stroke="#ef4444" stroke-width="1" opacity="0.6" />
+            <!-- Block 0: cx=130 baseY=240 hw=30 neutral wh=50 -->
+            <g id="hero-block-0">
+              <polygon points="130,240 160,225 160,175 130,190" fill="#a3a3a3" opacity="0.5" />
+              <polygon points="130,240 100,225 100,175 130,190" fill="#a3a3a3" opacity="0.7" />
+              <polygon points="100,175 130,160 160,175 130,190" fill="#a3a3a3" opacity="0.9" />
+              <polygon points="100,175 130,160 160,175 130,190" fill="none" stroke="#a3a3a3" stroke-width="1.5" opacity="0.9" />
+              <polygon points="130,240 160,225 160,175 130,190" fill="none" stroke="#a3a3a3" stroke-width="1" opacity="0.6" />
+              <polygon points="130,240 100,225 100,175 130,190" fill="none" stroke="#a3a3a3" stroke-width="1" opacity="0.6" />
             </g>
 
-            <!-- Block 2: medium blue -->
-            <g>
-              <polygon points="200,260 230,245 230,190 200,205" fill="#3b82f6" opacity="0.5" />
-              <polygon points="200,260 170,245 170,190 200,205" fill="#3b82f6" opacity="0.7" />
-              <polygon points="170,190 200,175 230,190 200,205" fill="#3b82f6" opacity="0.9" />
-              <polygon points="170,190 200,175 230,190 200,205" fill="none" stroke="#3b82f6" stroke-width="1.5" />
+            <!-- Block 1: cx=200 baseY=260 hw=30 neutral wh=40 -->
+            <g id="hero-block-1">
+              <polygon points="200,260 230,245 230,205 200,220" fill="#a3a3a3" opacity="0.5" />
+              <polygon points="200,260 170,245 170,205 200,220" fill="#a3a3a3" opacity="0.7" />
+              <polygon points="170,205 200,190 230,205 200,220" fill="#a3a3a3" opacity="0.9" />
+              <polygon points="170,205 200,190 230,205 200,220" fill="none" stroke="#a3a3a3" stroke-width="1.5" opacity="0.9" />
+              <polygon points="200,260 230,245 230,205 200,220" fill="none" stroke="#a3a3a3" stroke-width="1" opacity="0.6" />
+              <polygon points="200,260 170,245 170,205 200,220" fill="none" stroke="#a3a3a3" stroke-width="1" opacity="0.6" />
             </g>
 
-            <!-- Block 3: short red -->
-            <g>
-              <polygon points="270,270 300,255 300,230 270,245" fill="#fca5a5" opacity="0.5" />
-              <polygon points="270,270 240,255 240,230 270,245" fill="#fca5a5" opacity="0.7" />
-              <polygon points="240,230 270,215 300,230 270,245" fill="#fca5a5" opacity="0.9" />
-              <polygon points="240,230 270,215 300,230 270,245" fill="none" stroke="#ef4444" stroke-width="1.5" />
+            <!-- Block 2: cx=270 baseY=270 hw=30 neutral wh=30 -->
+            <g id="hero-block-2">
+              <polygon points="270,270 300,255 300,225 270,240" fill="#a3a3a3" opacity="0.5" />
+              <polygon points="270,270 240,255 240,225 270,240" fill="#a3a3a3" opacity="0.7" />
+              <polygon points="240,225 270,210 300,225 270,240" fill="#a3a3a3" opacity="0.9" />
+              <polygon points="240,225 270,210 300,225 270,240" fill="none" stroke="#a3a3a3" stroke-width="1.5" opacity="0.9" />
+              <polygon points="270,270 300,255 300,225 270,240" fill="none" stroke="#a3a3a3" stroke-width="1" opacity="0.6" />
+              <polygon points="270,270 240,255 240,225 270,240" fill="none" stroke="#a3a3a3" stroke-width="1" opacity="0.6" />
             </g>
 
-            <!-- Block 4: tall narrow blue -->
-            <g>
-              <polygon points="200,200 220,190 220,100 200,110" fill="#3b82f6" opacity="0.4" />
-              <polygon points="200,200 180,190 180,100 200,110" fill="#3b82f6" opacity="0.6" />
-              <polygon points="180,100 200,90 220,100 200,110" fill="#3b82f6" opacity="0.85" />
-              <polygon points="180,100 200,90 220,100 200,110" fill="none" stroke="#3b82f6" stroke-width="1.5" />
+            <!-- Block 3: cx=200 baseY=200 hw=20 neutral wh=50 -->
+            <g id="hero-block-3">
+              <polygon points="200,200 220,190 220,140 200,150" fill="#a3a3a3" opacity="0.5" />
+              <polygon points="200,200 180,190 180,140 200,150" fill="#a3a3a3" opacity="0.7" />
+              <polygon points="180,140 200,130 220,140 200,150" fill="#a3a3a3" opacity="0.9" />
+              <polygon points="180,140 200,130 220,140 200,150" fill="none" stroke="#a3a3a3" stroke-width="1.5" opacity="0.9" />
+              <polygon points="200,200 220,190 220,140 200,150" fill="none" stroke="#a3a3a3" stroke-width="1" opacity="0.6" />
+              <polygon points="200,200 180,190 180,140 200,150" fill="none" stroke="#a3a3a3" stroke-width="1" opacity="0.6" />
             </g>
 
             <!-- Floating point markers -->
-            <circle cx="130" cy="120" r="4" fill="#ef4444" />
-            <circle cx="200" cy="85" r="4" fill="#3b82f6" />
-            <circle cx="270" cy="210" r="3" fill="#ef4444" opacity="0.6" />
+            <circle id="hero-dot-0" cx="130" cy="150" r="4" fill="#a3a3a3" />
+            <circle id="hero-dot-1" cx="200" cy="120" r="4" fill="#a3a3a3" />
+            <circle id="hero-dot-2" cx="270" cy="205" r="3" fill="#a3a3a3" opacity="0.6" />
 
             <!-- Connecting dotted lines -->
-            <line x1="130" y1="120" x2="200" y2="85" stroke="#a3a3a3" stroke-width="1" stroke-dasharray="3 3" opacity="0.5" />
-            <line x1="200" y1="85" x2="270" y2="210" stroke="#a3a3a3" stroke-width="1" stroke-dasharray="3 3" opacity="0.5" />
+            <line id="hero-line-0" x1="130" y1="150" x2="200" y2="120" stroke="#a3a3a3" stroke-width="1" stroke-dasharray="3 3" opacity="0.5" />
+            <line id="hero-line-1" x1="200" y1="120" x2="270" y2="205" stroke="#a3a3a3" stroke-width="1" stroke-dasharray="3 3" opacity="0.5" />
 
             <!-- Axis labels -->
             <text x="340" y="295" font-size="10" fill="#a3a3a3" text-anchor="end" style="font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.1em;">breadth</text>
@@ -186,4 +194,163 @@ import { MATHEMATICS_TOPICS, MATHEMATICS_EDGES, COMPUTER_SCIENCE_TOPICS, COMPUTE
       Start Contributing
     </a>
   </section>
+
+  <!-- Hero chart animation script -->
+  <script>
+    const GEOM = [
+      { cx: 130, baseY: 240, hw: 30 },
+      { cx: 200, baseY: 260, hw: 30 },
+      { cx: 270, baseY: 270, hw: 30 },
+      { cx: 200, baseY: 200, hw: 20 },
+    ];
+
+    const DOTS = [
+      { cx: 130, block: 0, offset: 10 },
+      { cx: 200, block: 3, offset: 10 },
+      { cx: 270, block: 2, offset: 5 },
+    ];
+
+    const GRAY = [163, 163, 163]; // #a3a3a3
+    const RED = [239, 68, 68];    // #ef4444
+    const RED_L = [252, 165, 165]; // #fca5a5
+    const BLUE = [59, 130, 246];  // #3b82f6
+    const BLUE_L = [147, 197, 253]; // #93c5fd
+    const DARK = [23, 23, 23];    // #171717 (surface-900)
+
+    const STATES: Record<string, { heights: number[]; colors: number[][]; accent: number[]; edColor: number[] }> = {
+      neutral: {
+        heights: [50, 40, 30, 50],
+        colors: [GRAY, GRAY, GRAY, GRAY],
+        accent: GRAY,
+        edColor: DARK,
+      },
+      mathematics: {
+        heights: [100, 70, 40, 100],
+        colors: [RED, RED, RED_L, RED],
+        accent: RED,
+        edColor: RED,
+      },
+      'computer-science': {
+        heights: [40, 95, 65, 110],
+        colors: [BLUE, BLUE, BLUE_L, BLUE],
+        accent: BLUE,
+        edColor: BLUE,
+      },
+    };
+
+    // Current animated values
+    const cur = {
+      wh: [50, 40, 30, 50],
+      colors: [GRAY.slice(), GRAY.slice(), GRAY.slice(), GRAY.slice()],
+      accent: GRAY.slice(),
+      edColor: DARK.slice(),
+    };
+
+    let target = 'neutral';
+    let raf = 0;
+
+    // DOM refs
+    const blocks = [0, 1, 2, 3].map(i =>
+      document.getElementById(`hero-block-${i}`)!.querySelectorAll('polygon')
+    );
+    const dots = [0, 1, 2].map(i => document.getElementById(`hero-dot-${i}`)!);
+    const lines = [0, 1].map(i => document.getElementById(`hero-line-${i}`)!);
+    const edSpan = document.getElementById('hero-ed')!;
+
+    function toHex(rgb: number[]) {
+      return '#' + rgb.map(c => Math.round(c).toString(16).padStart(2, '0')).join('');
+    }
+
+    function pts(cx: number, baseY: number, hw: number, wh: number) {
+      const bR = baseY - hw / 2;
+      const tR = bR - wh;
+      return {
+        right: `${cx},${baseY} ${cx + hw},${bR} ${cx + hw},${tR} ${cx},${baseY - wh}`,
+        left: `${cx},${baseY} ${cx - hw},${bR} ${cx - hw},${tR} ${cx},${baseY - wh}`,
+        top: `${cx - hw},${tR} ${cx},${baseY - hw - wh} ${cx + hw},${tR} ${cx},${baseY - wh}`,
+      };
+    }
+
+    function lerpArr(a: number[], b: number[], t: number) {
+      for (let i = 0; i < a.length; i++) a[i] += (b[i] - a[i]) * t;
+    }
+
+    function settled(a: number[], b: number[], eps: number) {
+      return a.every((v, i) => Math.abs(v - b[i]) < eps);
+    }
+
+    function snap(a: number[], b: number[], eps: number) {
+      if (settled(a, b, eps)) { for (let i = 0; i < a.length; i++) a[i] = b[i]; return true; }
+      return false;
+    }
+
+    function animate() {
+      const s = STATES[target];
+      let done = true;
+      const E = 0.25;
+
+      for (let i = 0; i < 4; i++) {
+        // Height
+        cur.wh[i] += (s.heights[i] - cur.wh[i]) * E;
+        if (Math.abs(cur.wh[i] - s.heights[i]) < 0.3) cur.wh[i] = s.heights[i]; else done = false;
+
+        // Color
+        lerpArr(cur.colors[i], s.colors[i], E);
+        if (!snap(cur.colors[i], s.colors[i], 1)) done = false;
+
+        // Update polygons
+        const { cx, baseY, hw } = GEOM[i];
+        const p = pts(cx, baseY, hw, cur.wh[i]);
+        const col = toHex(cur.colors[i]);
+        const polys = blocks[i];
+        polys[0].setAttribute('points', p.right); polys[0].setAttribute('fill', col);
+        polys[1].setAttribute('points', p.left); polys[1].setAttribute('fill', col);
+        polys[2].setAttribute('points', p.top); polys[2].setAttribute('fill', col);
+        polys[3].setAttribute('points', p.top); polys[3].setAttribute('stroke', col);
+        polys[4].setAttribute('points', p.right); polys[4].setAttribute('stroke', col);
+        polys[5].setAttribute('points', p.left); polys[5].setAttribute('stroke', col);
+      }
+
+      // Accent (dots + lines)
+      lerpArr(cur.accent, s.accent, E);
+      if (!snap(cur.accent, s.accent, 1)) done = false;
+      const acHex = toHex(cur.accent);
+
+      for (let i = 0; i < DOTS.length; i++) {
+        const d = DOTS[i];
+        const { baseY, hw } = GEOM[d.block];
+        dots[i].setAttribute('cy', String(baseY - hw - cur.wh[d.block] - d.offset));
+        dots[i].setAttribute('fill', acHex);
+      }
+
+      const dotCys = DOTS.map(d => {
+        const { baseY, hw } = GEOM[d.block];
+        return baseY - hw - cur.wh[d.block] - d.offset;
+      });
+      lines[0].setAttribute('y1', String(dotCys[0])); lines[0].setAttribute('y2', String(dotCys[1]));
+      lines[0].setAttribute('stroke', acHex);
+      lines[1].setAttribute('y1', String(dotCys[1])); lines[1].setAttribute('y2', String(dotCys[2]));
+      lines[1].setAttribute('stroke', acHex);
+
+      // "ed" color
+      lerpArr(cur.edColor, s.edColor, 0.45);
+      if (!snap(cur.edColor, s.edColor, 1)) done = false;
+      edSpan.style.color = toHex(cur.edColor);
+
+      if (!done) raf = requestAnimationFrame(animate); else raf = 0;
+    }
+
+    function transitionTo(state: string) {
+      target = state;
+      if (!raf) raf = requestAnimationFrame(animate);
+    }
+
+    document.querySelectorAll<HTMLElement>('[data-hero-domain]').forEach(el => {
+      el.addEventListener('mouseenter', () => transitionTo(el.dataset.heroDomain!));
+    });
+
+    document.getElementById('hero-dropdown')!.addEventListener('mouseleave', () => {
+      transitionTo('neutral');
+    });
+  </script>
 </BaseLayout>
