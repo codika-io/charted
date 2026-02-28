@@ -5,20 +5,134 @@ parent: mathematics/geometry
 order: 1
 color: "#ef4444"
 difficulty: beginner
-prerequisites: []
-status: stub
+prerequisites: ["mathematics/algebra/linear-algebra"]
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: "2026-02-28"
 ---
+
+Geometry is the oldest branch of mathematics, and for two thousand years it meant exactly one thing: the system codified by Euclid around 300 BCE in his masterwork *Elements*. Then, in the nineteenth century, mathematicians discovered that Euclid's system is not the only logically consistent geometry — there are others, built on different assumptions about parallel lines and the nature of space. This discovery was one of the most disorienting and liberating events in intellectual history, reshaping mathematics, physics, and philosophy in ways that are still unfolding today.
 
 ## Axiomatic Foundations and Hilbert's Axioms
 
+Euclid organized all of plane geometry from five fundamental postulates. The first four are simple and intuitively clear: a straight line can be drawn between any two points; a finite straight line can be extended indefinitely; a circle can be drawn with any center and radius; and all right angles are equal. The fifth postulate — the **parallel postulate** — is conspicuously more complex in its original form: if a line crosses two other lines such that the interior angles on one side sum to less than two right angles, the two lines will eventually meet on that side. Equivalently, in the formulation attributed to the Scottish mathematician John Playfair, through any point not on a given line there is exactly one line parallel to the given line.
+
+For over two millennia, mathematicians suspected that the fifth postulate was not truly independent — that it could be derived from the other four. Gerolamo Saccheri in 1733 and Johann Heinrich Lambert in 1766 both attempted proofs by contradiction: assume the fifth postulate fails and derive an absurdity. They produced a rich body of theorems from the negated postulate, but never found a genuine contradiction — because none exists. The independence of the parallel postulate was not established until the nineteenth century, when models of geometry were constructed in which the first four postulates hold but the fifth fails.
+
+**David Hilbert**, in his 1899 *Grundlagen der Geometrie* (*Foundations of Geometry*), gave the definitive modern treatment of the axiomatic basis for Euclidean geometry. Hilbert identified three undefined primitive notions — point, line, and plane — and organized the axioms into five groups: **incidence axioms** (specifying how points lie on lines and planes), **betweenness axioms** (ordering points on a line), **congruence axioms** (defining when segments and angles are equal), **continuity axioms** (including the Archimedean property and completeness), and the **parallel axiom**. This framework was a decisive advance over Euclid because it made every assumption explicit. Euclid had quietly used intuitions about betweenness and continuity that his postulates did not actually guarantee; Hilbert's axioms leave nothing implicit.
+
+The power of Hilbert's approach lies in what it reveals about independence. To show that an axiom is independent of the others, one constructs a **model** — a mathematical structure satisfying all axioms except the one under scrutiny. Hilbert showed that by modifying the parallel axiom while keeping all others, one obtains not an inconsistency but a different, equally valid geometry. This definitively closed the two-thousand-year-old debate about the fifth postulate: it cannot be proved from the rest, and its negation opens the door to genuinely new geometric worlds.
+
 ## Classical Euclidean Geometry
+
+Within the Euclidean framework, an extraordinary wealth of theorems emerges. The geometry of **triangles** is particularly rich, centering on the interplay between angles, sides, and special points. The classical congruence criteria — **Side-Angle-Side (SAS)**, **Angle-Side-Angle (ASA)**, and **Side-Side-Side (SSS)** — determine when two triangles are identical up to rigid motion. For similarity, the **AA (Angle-Angle)** criterion suffices. Building on these, one proves that the three **medians** of a triangle meet at the **centroid**, which divides each median in the ratio $2:1$. The three **altitudes** meet at the **orthocenter**; the three angle bisectors at the **incenter**; the three perpendicular bisectors of the sides at the **circumcenter**. Euler observed in 1765 that the centroid, orthocenter, and circumcenter are always collinear, lying on the **Euler line** — a remarkable coincidence that has no obvious reason until one understands the symmetry structure behind it.
+
+Circle geometry contributes equally compelling results. The **power of a point** with respect to a circle is the quantity $d^2 - r^2$, where $d$ is the distance from the point to the center and $r$ is the radius. When a line through the point meets the circle at two points $A$ and $B$, the power equals $PA \cdot PB$ regardless of the direction of the line — a fact that unifies a large family of theorems about chords and secants. The **radical axis** of two circles is the locus of points having equal power with respect to both circles; it is a straight line perpendicular to the line of centers, and for three circles the three pairwise radical axes meet at a single **radical center**.
+
+Among the gems of classical Euclidean geometry are two collinearity theorems of great age. **Menelaus's theorem** (from the first century CE) states that if a transversal cuts the three sides of triangle $ABC$ (or their extensions) at points $D$, $E$, $F$, then
+
+$$\frac{AF}{FB} \cdot \frac{BD}{DC} \cdot \frac{CE}{EA} = -1$$
+
+where the ratios are signed. **Ceva's theorem** (from Giovanni Ceva, 1678) gives the condition for three cevians — lines from vertices to opposite sides — to be concurrent:
+
+$$\frac{AF}{FB} \cdot \frac{BD}{DC} \cdot \frac{CE}{EA} = +1.$$
+
+These two results look almost identical, yet one characterizes collinearity and the other concurrence — a duality that hints at deeper structure.
 
 ## Transformations and Symmetry Groups
 
+A transformation of the plane is a bijection from the plane to itself. The **isometries** — distance-preserving transformations — form the **Euclidean group** $E(2)$, and their study reveals the hidden algebraic skeleton of Euclidean geometry. In the plane, every isometry is one of four types: a **translation** (sliding without rotation), a **rotation** (turning about a fixed center), a **reflection** (flipping across a line), or a **glide reflection** (reflecting and then translating along the mirror line). This classification is complete: there are no other possibilities.
+
+Isometries that preserve orientation (translations and rotations) form the subgroup of **direct isometries**, while reflections and glide reflections **reverse orientation**. The composition of two reflections in parallel lines is a translation; the composition of two reflections in intersecting lines is a rotation by twice the angle between the lines. These composition rules give the Euclidean group its algebraic structure and make isometries far more tractable to study than they might first appear.
+
+Extending isometries to **similarity transformations** — maps that scale all distances by a fixed positive ratio $k$ — yields the **similarity group**. Similarities preserve angles but not distances, and they include **homotheties** (scaling about a fixed point) and **spiral similarities** (rotation composed with scaling). Any figure that can be mapped to another by a similarity is geometrically identical in all respects except scale.
+
+The classification of **symmetric patterns** uses group theory in a deep way. A **frieze group** describes the symmetries of a pattern that repeats along one direction (like a wallpaper border); there are exactly seven distinct frieze groups up to isomorphism. A **wallpaper group** describes the symmetries of a repeating planar pattern; there are exactly **17** distinct wallpaper groups, a result proved rigorously in the late nineteenth century and confirmed by crystallographic experiments. The analogous classification in three dimensions gives **230 space groups**, which govern the symmetry of all crystal structures. That these counts are finite and explicit is far from obvious — it requires both geometric insight and group theory, and it connects pure mathematics directly to chemistry and materials science.
+
 ## Projective and Affine Geometry
+
+**Projective geometry** arises from asking: what properties of a figure survive when it is photographed from different angles or projected onto a different plane? Distances and angles do not survive; ratios do not survive in general. What does survive is incidence: if three points are collinear, their images are collinear. This observation, which goes back to Girard Desargues in the seventeenth century, motivates a geometry built entirely on incidence.
+
+The projective plane $\mathbb{RP}^2$ is constructed from the Euclidean plane by adding **points at infinity** — one for each direction, with antipodal directions identified. Two parallel lines in the Euclidean plane meet at the point at infinity corresponding to their common direction. The **line at infinity** consists of all such ideal points. In $\mathbb{RP}^2$, any two distinct points determine a unique line, and any two distinct lines meet at a unique point — the asymmetry between "intersecting" and "parallel" disappears entirely.
+
+**Homogeneous coordinates** make this precise. A point in $\mathbb{RP}^2$ is represented by a triple $[x:y:w]$ where not all entries are zero, with $[x:y:w]$ and $[\lambda x:\lambda y:\lambda w]$ representing the same point for any nonzero $\lambda$. The affine plane embeds as the locus $w \neq 0$, with $[x:y:w]$ corresponding to the Euclidean point $(x/w, y/w)$; the line at infinity is $w = 0$.
+
+Projective transformations — **homographies** — are represented by invertible $3 \times 3$ matrices acting on homogeneous coordinates. The invariant of projective geometry is the **cross-ratio**: given four collinear points $A, B, C, D$, the cross-ratio
+
+$$[A, B; C, D] = \frac{AC \cdot BD}{BC \cdot AD}$$
+
+(with appropriate sign conventions) is preserved by every projective transformation. The cross-ratio is the projective geometry's fundamental measurement tool, and every projective invariant can ultimately be expressed in terms of it.
+
+**Affine geometry** occupies the middle ground between projective and Euclidean geometry. An affine space retains the notion of parallelism but discards angles and absolute distances. Affine transformations are invertible linear maps followed by translations; they preserve ratios of lengths along parallel lines and the property of being parallel, but they may distort angles and lengths. The hierarchy — projective geometry at the top, with affine and then Euclidean geometry obtained by adding more structure — is precisely the organization that Felix Klein would later identify as the key to understanding all of geometry.
 
 ## Hyperbolic Geometry
 
+Suppose we replace Euclid's parallel postulate with its negation: through a given point not on a given line, there are **infinitely many lines** that do not intersect the given line. This is the **hyperbolic parallel postulate**, and the geometry that results — **hyperbolic geometry** — is the most important of the non-Euclidean geometries.
+
+The discovery of hyperbolic geometry came independently and almost simultaneously in the 1820s. **Nikolai Ivanovich Lobachevsky**, a Russian mathematician, published his *Imaginary Geometry* in 1829, systematically developing the theorems of a geometry in which the angle sum of a triangle is strictly less than $\pi$. **János Bolyai**, a Hungarian mathematician, arrived at the same results independently and published them in 1832 as an appendix to his father's textbook — one of the most extraordinary mathematical appendices ever written. **Carl Friedrich Gauss** had also explored these ideas privately but never published them; his correspondence reveals that he anticipated the discovery but shrank from the controversy he expected it would cause.
+
+The existence of a consistent model was established by **Eugenio Beltrami** in 1868, definitively proving that hyperbolic geometry is as consistent as Euclidean geometry. The **Poincaré disk model**, developed by **Henri Poincaré** in the 1880s, represents the hyperbolic plane as the open unit disk $\{(x,y) : x^2 + y^2 < 1\}$. In this model, **hyperbolic lines** are diameters of the disk and circular arcs that meet the boundary circle at right angles. The boundary circle itself — the **circle at infinity** — represents the ideal points that are "infinitely far" from any interior point. The metric is
+
+$$ds^2 = \frac{4(dx^2 + dy^2)}{(1 - x^2 - y^2)^2},$$
+
+which has the remarkable property that the distances near the boundary stretch enormously — distances that look small in the picture are metrically enormous. The **Poincaré half-plane model** places the hyperbolic plane in the upper half of the complex plane $\{z \in \mathbb{C} : \text{Im}(z) > 0\}$ with metric $ds^2 = (dx^2 + dy^2)/y^2$; it is particularly convenient for computations.
+
+In hyperbolic geometry, the **angle sum of a triangle** is always strictly less than $\pi$, and the deficit $\pi - (\alpha + \beta + \gamma)$ — the **angular defect** — is proportional to the area of the triangle. Specifically,
+
+$$\text{Area}(T) = k^2(\pi - \alpha - \beta - \gamma)$$
+
+for a triangle with angles $\alpha$, $\beta$, $\gamma$ in a hyperbolic plane of curvature $-1/k^2$. This means that in hyperbolic geometry, there is an absolute scale: you can determine whether two triangles are congruent from their angles alone. There is no notion of similar but non-congruent triangles. Given three angles summing to less than $\pi$, there is (up to isometry) exactly one triangle with those angles.
+
+The **hyperbolic trigonometry** governing these triangles involves the classical hyperbolic functions. For a right triangle with legs $a$, $b$ and hypotenuse $c$ in a hyperbolic plane of curvature $-1$ (taking the curvature constant $k = 1$), the hyperbolic Pythagorean theorem states:
+
+$$\cosh c = \cosh a \cosh b.$$
+
+Compare this with the Euclidean $c^2 = a^2 + b^2$, recovered in the limit of small triangles where $\cosh x \approx 1 + x^2/2$. The law of cosines in hyperbolic geometry takes the form
+
+$$\cosh c = \cosh a \cosh b - \sinh a \sinh b \cos C,$$
+
+which structurally parallels its Euclidean counterpart but with hyperbolic functions replacing ordinary ones.
+
 ## Elliptic and Inversive Geometry
 
+**Elliptic geometry** arises from the other possible modification of the parallel postulate: through any point not on a given line, there are **no lines** parallel to the given line — every pair of lines meets. The natural model is the sphere $S^2$, where lines are interpreted as **great circles** (the intersections of the sphere with planes through the center). Any two great circles meet in exactly two antipodal points. If we want a geometry where any two lines meet in exactly one point, we **identify antipodal points**, obtaining the **real projective plane** $\mathbb{RP}^2$. This is **elliptic geometry** proper — a geometry of positive curvature, in contrast to the negative curvature of hyperbolic geometry.
+
+In spherical (and hence elliptic) geometry, the angle sum of a triangle is strictly greater than $\pi$. The excess $(\alpha + \beta + \gamma) - \pi$ is called the **spherical excess**, and by the **Gauss-Bonnet theorem** applied to a spherical triangle with area $A$ on a sphere of radius $R$,
+
+$$\alpha + \beta + \gamma = \pi + \frac{A}{R^2}.$$
+
+This formula, established rigorously in the nineteenth century, captures a deep principle: the curvature of a surface can be detected by measuring the angle sums of triangles. On a flat plane the excess is zero; on a positively curved sphere it is positive; on a negatively curved hyperbolic plane it is negative. This connection between angle defect/excess and curvature is a precursor to the profound Gauss-Bonnet theorem for surfaces in differential geometry.
+
+Spherical trigonometry, developed over centuries for navigational and astronomical purposes, gives explicit formulas. The **spherical law of cosines** for a spherical triangle with sides $a, b, c$ (measured as angles at the center) and opposite angles $A, B, C$ is:
+
+$$\cos c = \cos a \cos b + \sin a \sin b \cos C.$$
+
+There is a second, dual form involving the angles directly, reflecting the pole-polar duality of spherical geometry. **Napier's rules** provide mnemonic shortcuts for right spherical triangles and were indispensable to navigators for centuries.
+
+**Inversive geometry** is the study of **circle inversion** — the transformation that maps a point $P$ at distance $r$ from the center $O$ of a reference circle of radius $k$ to the point $P'$ on ray $OP$ at distance $k^2/r$. Points inside the circle map outside and vice versa; points on the circle are fixed; the center maps to the "point at infinity." Inversion transforms circles and lines into circles and lines (where a line is treated as a circle of infinite radius), and it is **conformal** — it preserves angles between curves. This angle-preserving property makes inversion a powerful tool: difficult problems involving tangent circles can be transformed by inversion into simpler configurations.
+
+The **Möbius transformations** — maps of the form $z \mapsto (az + b)/(cz + d)$ on the complex plane, with $ad - bc \neq 0$ — are exactly the orientation-preserving transformations of inversive geometry. They form a group isomorphic to $PSL(2, \mathbb{C})$, and they are precisely the conformal (angle-preserving) bijections of the Riemann sphere $\mathbb{C} \cup \{\infty\}$. The subgroup mapping the unit disk to itself consists of the hyperbolic isometries in the Poincaré disk model — making inversive geometry and hyperbolic geometry deeply intertwined. This connection, clarified in the late nineteenth century, is one of the most beautiful unifications in mathematics.
+
 ## Klein's Erlangen Program
+
+By 1872, geometry had proliferated into an apparently disconnected collection of subjects: Euclidean geometry, affine geometry, projective geometry, hyperbolic geometry, elliptic geometry, inversive geometry, and more. **Felix Klein**, a young German mathematician, unified them all in a single conceptual framework in his 1872 Erlangen lecture, which became known as the **Erlangen Program**.
+
+Klein's central insight was that every geometry can be defined by a set $X$ together with a group $G$ of transformations acting on $X$, and that the subject matter of that geometry is the study of properties invariant under $G$. Different geometries correspond to different groups, arranged in a hierarchy by the inclusions between those groups.
+
+| Geometry | Transformation Group | Key Invariants |
+|---|---|---|
+| Projective | $PGL(n+1, \mathbb{R})$ | Incidence, cross-ratio |
+| Affine | Affine group $\mathbb{R}^n \rtimes GL(n)$ | Parallelism, ratio of lengths on parallel lines |
+| Similarity | Similarity group | Shape, angles |
+| Euclidean | Euclidean group $E(n)$ | Distance, angles, area |
+| Hyperbolic | $PO(n,1)$ | Hyperbolic distance, angle |
+| Elliptic | $O(n+1)$ | Spherical distance, angle |
+
+The group inclusions reflect geometric specializations. The affine group is a subgroup of the projective group, so affine geometry is projective geometry with more structure. Adding the metric structure cuts down to the Euclidean group. Swapping the Euclidean parallel axiom for the hyperbolic one corresponds to swapping the Euclidean isometry group for the hyperbolic isometry group $PO(n,1)$, which preserves the hyperboloid model.
+
+Klein's program also explains the relationship between projective and non-Euclidean geometries in a concrete way. In the projective plane, choose a **conic** (a non-degenerate quadric curve) as a special "absolute." The group of projective transformations preserving this conic defines a geometry. Choosing the absolute to be a circle — the unit circle in the Poincaré disk model — yields hyperbolic geometry. Choosing it to be empty (an imaginary conic) yields elliptic geometry. Choosing a degenerate absolute recovers Euclidean geometry. The three geometries are thus distinguished by the type of their absolute conic within projective geometry — a classification discovered by **Arthur Cayley** in 1859, before Klein unified it all.
+
+The Erlangen Program was transformative not only in geometry but in mathematics generally. It established group theory as the organizing principle for mathematical structure, and it foreshadowed the role that symmetry groups would play throughout twentieth-century mathematics and physics — from the classification of crystals to the standard model of particle physics. In modern language, Klein was describing what we now call a **homogeneous space**: a space on which a Lie group acts transitively, with geometry defined by the invariants of that action. This abstraction became the foundation of differential geometry, representation theory, and much of modern mathematical physics.
+
+The discovery of non-Euclidean geometry and its systematization via the Erlangen Program permanently changed humanity's relationship with mathematics. Before the nineteenth century, Euclidean geometry was considered not just one description of space but the necessary and only possible description — a mirror of physical reality and of rational thought itself. The existence of consistent alternatives showed that mathematical axioms are not forced on us by the nature of reality but are choices, and that different choices lead to different but equally valid mathematical worlds. It raised, acutely, the empirical question of which geometry describes the actual universe — a question that Einstein's general relativity would eventually answer by showing that physical spacetime is neither Euclidean nor simply hyperbolic or elliptic, but a curved Riemannian manifold whose curvature is determined by the distribution of matter and energy.

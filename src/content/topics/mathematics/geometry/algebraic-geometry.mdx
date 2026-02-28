@@ -5,20 +5,138 @@ parent: mathematics/geometry
 order: 3
 color: "#ef4444"
 difficulty: advanced
-prerequisites: []
-status: stub
+prerequisites: ["mathematics/algebra/commutative-algebra", "mathematics/algebra/abstract-algebra"]
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: "2026-02-28"
 ---
+
+Algebraic geometry is the study of geometric objects defined by polynomial equations, and the profound correspondence between these geometric shapes and algebraic structures such as rings and ideals. It occupies a singular position in mathematics — the meeting place of algebra, geometry, topology, and number theory — and has served as the proving ground for some of the deepest ideas of the twentieth century, from the classification of surfaces to the proof of Fermat's Last Theorem. What began as the study of curves and surfaces in the plane has evolved, through the revolutionary work of Alexander Grothendieck and his school, into a vast and unified theory of schemes that encompasses classical geometry and arithmetic simultaneously.
 
 ## Affine Varieties and Coordinate Rings
 
+The simplest objects in algebraic geometry are **affine varieties**, the geometric counterparts of polynomial equations over a field. Fix an algebraically closed field $k$ (for most classical purposes, $k = \mathbb{C}$, the complex numbers) and consider **affine $n$-space** $\mathbb{A}^n = k^n$, the set of all $n$-tuples of elements of $k$. Given a collection of polynomials $f_1, \ldots, f_r \in k[x_1, \ldots, x_n]$, their **zero set** or **vanishing locus** is
+
+$$V(f_1, \ldots, f_r) = \{ p \in \mathbb{A}^n : f_1(p) = \cdots = f_r(p) = 0 \}.$$
+
+Such a set is called an **affine algebraic variety**. Familiar examples abound: a single linear polynomial defines a hyperplane; the polynomial $x^2 + y^2 - 1$ defines the unit circle (over $\mathbb{C}$, this is a smooth curve without boundary); $y^2 = x^3$ defines a **cuspidal cubic**, a curve with a singular point at the origin where the tangent direction collapses.
+
+The key insight — one that drives the entire subject — is that geometric properties of a variety are encoded in algebra. The passage from geometry to algebra runs through the **ideal** of a variety. Given a subset $V \subseteq \mathbb{A}^n$, its **vanishing ideal** is
+
+$$I(V) = \{ f \in k[x_1, \ldots, x_n] : f(p) = 0 \text{ for all } p \in V \}.$$
+
+This ideal is radical: if $f^m \in I(V)$ for some positive integer $m$, then $f \in I(V)$. Conversely, every radical ideal arises this way over an algebraically closed field, by Hilbert's Nullstellensatz. From the ideal we extract the **coordinate ring** of the variety, defined as the quotient
+
+$$k[V] = k[x_1, \ldots, x_n] / I(V).$$
+
+This ring records precisely the polynomial functions on $V$: two polynomials represent the same function on $V$ if and only if their difference vanishes on $V$, i.e., belongs to $I(V)$. The coordinate ring is a finitely generated reduced $k$-algebra, and the dictionary between varieties and such rings is one of the cornerstones of classical algebraic geometry.
+
+The **Zariski topology** is the natural topology on an affine variety: a subset is **closed** if and only if it is itself a variety, i.e., the zero set of some collection of polynomials. This topology is very coarse compared to the classical topology on $\mathbb{C}^n$ — every nonempty open set is dense — but it is ideally adapted to algebraic questions. Irreducibility plays a central role: a variety is **irreducible** if it cannot be written as the union of two proper closed subvarieties. Irreducible affine varieties correspond precisely to **prime ideals** in the polynomial ring, and their coordinate rings are integral domains.
+
+The **dimension** of a variety is defined as the length of the longest chain of irreducible closed subvarieties. For an affine variety $V \subseteq \mathbb{A}^n$ cut out by a prime ideal $\mathfrak{p}$, this coincides with the **Krull dimension** of the coordinate ring $k[V]$, which in turn equals the transcendence degree of the fraction field of $k[V]$ over $k$. Lines and plane curves have dimension one, surfaces have dimension two, and affine $n$-space itself has dimension $n$.
+
 ## Hilbert's Nullstellensatz
+
+The **Nullstellensatz** — German for "zero-point theorem" — is the fundamental bridge between algebra and geometry in the affine setting. It was proved by **David Hilbert** in 1893 as part of his systematic algebraization of invariant theory, and it remains the cornerstone on which all of classical algebraic geometry rests.
+
+The theorem comes in two forms. The **weak Nullstellensatz** asserts that if $f_1, \ldots, f_r \in k[x_1, \ldots, x_n]$ have no common zero in $\mathbb{A}^n$ (over an algebraically closed field $k$), then there exist polynomials $g_1, \ldots, g_r$ such that
+
+$$g_1 f_1 + \cdots + g_r f_r = 1.$$
+
+In other words, the ideal $(f_1, \ldots, f_r)$ must be the entire ring $k[x_1, \ldots, x_n]$ — the polynomials generate the unit ideal. The geometric content is immediate: a system of polynomial equations has no common solution if and only if algebraic witnesses to inconsistency exist.
+
+The **strong Nullstellensatz** extends this to a perfect correspondence. For any ideal $I \subseteq k[x_1, \ldots, x_n]$,
+
+$$I(V(I)) = \sqrt{I},$$
+
+where $\sqrt{I} = \{ f : f^m \in I \text{ for some } m \geq 1 \}$ is the **radical** of $I$. This says: a polynomial vanishes on the variety $V(I)$ if and only if some power of it lies in $I$. As a consequence, there is an inclusion-reversing bijection
+
+$$\{ \text{radical ideals in } k[x_1, \ldots, x_n] \} \;\longleftrightarrow\; \{ \text{affine varieties in } \mathbb{A}^n \}$$
+
+taking an ideal $I$ to $V(I)$ and a variety $V$ to $I(V)$. Prime ideals correspond to irreducible varieties; maximal ideals correspond to points. This dictionary is functorial: morphisms of varieties correspond to $k$-algebra homomorphisms of coordinate rings, running in the opposite direction. Two affine varieties are isomorphic as geometric objects if and only if their coordinate rings are isomorphic as $k$-algebras.
+
+The Nullstellensatz also has algorithmic consequences. **Gröbner bases**, introduced by **Bruno Buchberger** in his 1965 doctoral thesis, provide a constructive method for computing in quotient rings, deciding ideal membership, and determining whether a system of polynomial equations has solutions. They form the computational backbone of computer algebra systems and connect algebraic geometry to the world of symbolic computation.
+
+The correspondence encoded by the Nullstellensatz extends in spirit to much broader settings. In modern algebraic geometry, the passage from a ring $R$ to its **spectrum** $\mathrm{Spec}(R)$ — the set of all prime ideals, equipped with a topology and a sheaf of rings — generalizes the variety-to-coordinate-ring dictionary to arbitrary commutative rings. This generalization, due to Grothendieck, is the foundation of scheme theory, which we take up later.
 
 ## Projective Varieties and Curves
 
+Affine varieties suffer from a fundamental defect: they are not **complete**, meaning that sequences of points can "escape to infinity." The standard remedy is to work in **projective space**. **Projective $n$-space** over $k$, written $\mathbb{P}^n$, is the set of equivalence classes of nonzero vectors in $k^{n+1}$, where two vectors are equivalent if one is a scalar multiple of the other. A point in $\mathbb{P}^n$ is written with **homogeneous coordinates** $[x_0 : x_1 : \cdots : x_n]$.
+
+A polynomial $F \in k[x_0, \ldots, x_n]$ does not have a well-defined value at a point of $\mathbb{P}^n$ unless it is homogeneous, since rescaling coordinates rescales the polynomial. But the zero set of a homogeneous polynomial is well-defined, and a **projective variety** is the common zero set of a collection of homogeneous polynomials. Projective varieties are compact in the classical topology over $\mathbb{C}$, which makes them far more tractable analytically — and they encode classical affine varieties as open dense subsets.
+
+The most fundamental class of projective varieties is that of **algebraic curves** — varieties of dimension one. The classification of smooth projective curves over $\mathbb{C}$ is one of the triumphs of nineteenth-century mathematics. The key invariant is the **genus** $g$, which counts the number of "holes" in the corresponding Riemann surface. A rational curve (genus $0$) is isomorphic to $\mathbb{P}^1$. An **elliptic curve** (genus $1$) is a smooth plane cubic $y^2 = f(x)$ where $f$ has degree three and no repeated roots; it carries a natural group structure and sits at the heart of modern number theory. Curves of genus $g \geq 2$ are "hyperbolic" — they have finitely many automorphisms, by a theorem of **Hurwitz** (1893), and they form continuous families parametrized by moduli.
+
+**Bezout's theorem** governs the intersections of projective plane curves. If $C$ and $D$ are projective plane curves of degrees $m$ and $n$ with no common component, then they intersect in exactly $mn$ points, counted with appropriate multiplicity. This beautiful result — which collapses to elementary algebra in special cases ($m = n = 1$ gives the intersection of two lines at one point) — requires projective space for its clean formulation, because parallel lines in the affine plane meet "at infinity" in $\mathbb{P}^2$. Bezout's theorem is a prototype for the more sophisticated intersection theory that dominates modern algebraic geometry.
+
+The **Riemann-Roch theorem** for curves is the central computational tool on curves, expressing the dimension of the space of meromorphic functions with prescribed poles and zeros. For a smooth projective curve $C$ of genus $g$ and a divisor $D$ (a formal integer combination of points), it states
+
+$$\ell(D) - \ell(K_C - D) = \deg(D) - g + 1,$$
+
+where $\ell(D)$ denotes the dimension of the space of global sections of the associated line bundle and $K_C$ is the **canonical divisor**. The Riemann-Roch theorem controls embeddings of curves into projective space, the dimension of linear systems, and almost every other quantitative aspect of curve theory.
+
 ## Divisors, Line Bundles, and Sheaves
+
+As algebraic geometry matured in the twentieth century, it became clear that the objects living on varieties — functions, differential forms, vector fields — are at least as important as the varieties themselves. The language of **sheaves** provides the right framework for tracking how these objects vary locally.
+
+A **divisor** on a smooth variety $X$ is a formal finite integer combination of irreducible closed subvarieties of codimension one:
+
+$$D = \sum_i n_i Y_i, \quad n_i \in \mathbb{Z}.$$
+
+Divisors form an abelian group under addition. A **principal divisor** is one of the form $(f) = \sum v_{Y_i}(f) \cdot Y_i$, where $v_{Y_i}(f)$ is the order of vanishing of the rational function $f$ along $Y_i$. Two divisors are **linearly equivalent** if their difference is principal. The group of divisors modulo linear equivalence is the **Picard group** $\mathrm{Pic}(X)$, a fundamental invariant that captures, among other things, the possible "twistings" of line bundles on $X$.
+
+A **line bundle** (or **invertible sheaf**) $\mathcal{L}$ on a variety $X$ is a sheaf of $\mathcal{O}_X$-modules that is locally free of rank one — locally it looks like the sheaf $\mathcal{O}_U$ on some open set $U$. The global sections $H^0(X, \mathcal{L})$ are the "twisted functions" on $X$, and their span in projective space defines a **linear system** that can be used to map $X$ into projective space. A line bundle $\mathcal{L}$ is **very ample** if its sections define an embedding of $X$ into $\mathbb{P}^N$ for some $N$; it is **ample** if some positive tensor power is very ample.
+
+The broader notion of a **sheaf** $\mathcal{F}$ on $X$ assigns to each open set $U \subseteq X$ an abelian group (or module, or ring) $\mathcal{F}(U)$, together with restriction maps that are compatible in the natural sense. The key sheaf-theoretic axiom — that sections on an open cover can be uniquely glued when they agree on overlaps — makes sheaves the right tool for passing between local and global data. The **structure sheaf** $\mathcal{O}_X$ is the sheaf of regular functions on $X$; a **coherent sheaf** is roughly one that is locally presented by finitely many generators and relations over $\mathcal{O}_X$.
+
+**Sheaf cohomology** measures the obstruction to lifting local data to global sections. For a coherent sheaf $\mathcal{F}$ on a projective variety $X$, the cohomology groups $H^i(X, \mathcal{F})$ are finite-dimensional vector spaces (by a theorem of **Jean-Pierre Serre**, 1955), and they control the geometry of $X$ in precise and powerful ways. **Serre duality** relates $H^i(X, \mathcal{F})$ to $H^{n-i}(X, \mathcal{F}^\vee \otimes \omega_X)$, where $\omega_X$ is the **dualizing sheaf** and $n = \dim X$ — a far-reaching generalization of the classical duality for differential forms on a Riemann surface.
 
 ## Schemes and Modern Algebraic Geometry
 
+The classical theory of varieties, powerful as it is, encounters fundamental limitations when one wants to work over non-algebraically-closed fields, or to study families of varieties parametrized by varying data, or to incorporate arithmetic information about integer solutions. The theory of **schemes**, developed by **Alexander Grothendieck** and his collaborators in the *Éléments de géométrie algébrique* (EGA) beginning in the late 1950s, resolves all of these difficulties at once.
+
+The basic object is the **spectrum** of a commutative ring $R$, written $\mathrm{Spec}(R)$. As a set, $\mathrm{Spec}(R)$ consists of all prime ideals of $R$. It carries the **Zariski topology**, in which the closed sets are of the form $V(\mathfrak{a}) = \{ \mathfrak{p} : \mathfrak{a} \subseteq \mathfrak{p} \}$ for ideals $\mathfrak{a} \subseteq R$. It also carries the **structure sheaf** $\mathcal{O}_{\mathrm{Spec}(R)}$, which assigns to a basic open set $D(f) = \mathrm{Spec}(R) \setminus V(f)$ the localized ring $R[f^{-1}]$. The pair $(\mathrm{Spec}(R), \mathcal{O}_{\mathrm{Spec}(R)})$ is an **affine scheme**, and an **affine scheme** is a locally ringed space isomorphic to one of this form.
+
+A **scheme** is a locally ringed space $(X, \mathcal{O}_X)$ that is locally isomorphic to an affine scheme — just as a manifold is a topological space locally homeomorphic to $\mathbb{R}^n$. The scheme framework immediately encompasses a vast range of objects:
+
+| Object | Corresponding scheme |
+|---|---|
+| Affine variety over $k$ | $\mathrm{Spec}(k[x_1,\ldots,x_n]/I)$ |
+| The integers | $\mathrm{Spec}(\mathbb{Z})$ |
+| A number field | $\mathrm{Spec}(\mathcal{O}_K)$ and its generic fiber |
+| A family of varieties | A morphism $X \to S$ of schemes |
+
+Crucially, **generic points** appear naturally in the scheme-theoretic picture. In $\mathrm{Spec}(k[x,y])$, the prime ideal $(0)$ is the generic point of the whole plane, while $(x-a, y-b)$ for $(a,b) \in k^2$ is the closed point corresponding to $(a,b)$. Generic points, which have no classical geometric counterpart, allow one to speak of "the general behavior" of a polynomial without specifying where to evaluate it — a precise and enormously useful concept.
+
+**Morphisms of schemes** are morphisms of locally ringed spaces: continuous maps $f: X \to S$ together with a ring homomorphism $f^\#: \mathcal{O}_S \to f_* \mathcal{O}_X$ on structure sheaves. Grothendieck's insight was to adopt a **relative perspective**: rather than studying a single scheme $X$ in isolation, one studies a morphism $X \to S$ (a "scheme over $S$," or a "family of $X$-type objects parametrized by $S$"). Many classical properties — being smooth, being proper, having connected fibers — are best formulated as properties of a morphism rather than of a single object.
+
+A morphism $f: X \to S$ is **smooth** if it is locally of finite presentation, flat, and its geometric fibers are smooth varieties. **Flat morphisms** are those for which the base-change functor is exact — they represent "continuously varying families" in a precise algebraic sense. The concept of **étale morphisms** — those that are smooth of relative dimension zero — plays the role of local isomorphisms in algebraic geometry, and the **étale topology** (where coverings are étale rather than open) is the right topology for cohomological purposes, particularly over fields of positive characteristic.
+
 ## Moduli Spaces and Toric Varieties
 
+One of the most far-reaching ideas in modern algebraic geometry is the notion of a **moduli space** — a geometric space whose points parametrize isomorphism classes of some class of geometric objects. Rather than studying a single variety, one studies the space of all such varieties, thereby turning a classification problem into a geometric one.
+
+The simplest moduli problem is the classification of smooth projective curves of genus $g$. For $g \geq 2$, the **moduli space of curves** $\mathcal{M}_g$ is a quasi-projective variety of dimension $3g - 3$ (computed by Riemann in 1857 via a parameter count). Points of $\mathcal{M}_g$ are in bijection with isomorphism classes of smooth curves of genus $g$. Its natural compactification, the **Deligne-Mumford compactification** $\overline{\mathcal{M}}_g$ introduced in 1969, adds boundary strata parametrizing stable nodal curves — curves with mild singularities. The geometry of $\overline{\mathcal{M}}_g$ has been intensively studied; its intersection theory encodes the Witten-Kontsevich theorem and connects to two-dimensional quantum gravity.
+
+The problem of constructing moduli spaces leads naturally to **Geometric Invariant Theory (GIT)**, developed by **David Mumford** in his 1965 book *Geometric Invariant Theory*. When a reductive algebraic group $G$ acts on a variety $X$, one wants to form the quotient $X/G$ as a variety. GIT provides a principled way to do this by selecting a $G$-linearized line bundle $\mathcal{L}$ and declaring a point $x \in X$ to be **semistable** if some positive power of $\mathcal{L}$ has a $G$-invariant global section not vanishing at $x$. The GIT quotient $X /\!\!/ G$ is the projective spectrum of the ring of invariants, and it parametrizes semistable orbits.
+
+**Toric varieties** are a class of algebraic varieties with an exceptionally rich and accessible structure: they are varieties that contain an algebraic torus $(k^*)^n$ as a dense open subset, with the torus acting on itself by multiplication. Every toric variety is encoded combinatorially by a **fan** — a collection of cones in $\mathbb{R}^n$ satisfying certain compatibility conditions. Each cone $\sigma$ in the fan corresponds to an affine piece $\mathrm{Spec}(k[\sigma^\vee \cap \mathbb{Z}^n])$ of the toric variety, and the fan prescribes how these affine pieces are glued together.
+
+This combinatorial description makes toric varieties into a testing ground for conjectures and a source of explicit examples throughout algebraic geometry. The projective spaces $\mathbb{P}^n$, the Hirzebruch surfaces, and many other standard varieties are toric. **Fano toric varieties** — those whose anticanonical divisor is ample — are classified by the reflexive polytopes of their fans; in dimension four, there are 473,800,776 such polytopes, enumerated computationally. Mirror symmetry for Calabi-Yau hypersurfaces in toric varieties, developed by **Victor Batyrev** in the 1990s, has driven deep connections between algebraic geometry and theoretical physics.
+
 ## Derived Categories and Motivic Geometry
+
+The most recent and far-reaching developments in algebraic geometry involve replacing varieties with more sophisticated algebraic objects that remember not just cohomology groups but the entire structure of sheaves and their relationships.
+
+The **derived category** $D^b(\mathrm{Coh}(X))$ of coherent sheaves on a smooth projective variety $X$ is a triangulated category that encodes all cohomological information about sheaves simultaneously. Two smooth projective varieties $X$ and $Y$ are said to be **Fourier-Mukai partners** if there exists an equivalence $D^b(\mathrm{Coh}(X)) \simeq D^b(\mathrm{Coh}(Y))$ — a **derived equivalence** — even if $X$ and $Y$ are not isomorphic as varieties. The fundamental example, due to **Shigeru Mukai** in 1981, shows that an abelian variety and its dual are derived equivalent. Since then, a rich theory of **Fourier-Mukai transforms** has developed, with applications to the McKay correspondence, the geometry of K3 surfaces, and string theory.
+
+**Homological mirror symmetry**, conjectured by **Maxim Kontsevich** in 1994, proposes an equivalence between the derived category of coherent sheaves on a complex algebraic variety $X$ and the **Fukaya category** of the mirror symplectic manifold $\check{X}$ — a category built from Lagrangian submanifolds and their intersection theory. This conjecture unites algebraic geometry and symplectic topology in a single categorical framework, and it has been verified in a growing number of cases.
+
+The theory of **motives** represents an even more ambitious program: to construct a universal cohomology theory for algebraic varieties that maps to all known cohomology theories (singular, étale, de Rham, crystalline) via natural comparison isomorphisms. The theory of **pure motives** was sketched by Grothendieck in the 1960s. A correspondence between two smooth projective varieties $X$ and $Y$ is an algebraic cycle in $X \times Y$, and motives are formal objects built from varieties and correspondences, subject to the identification of isomorphic cycles. The **standard conjectures** — a set of general statements about algebraic cycles, still largely open — would make the category of pure motives a semisimple abelian category, but proving them remains one of the central open problems in algebraic geometry.
+
+**Étale cohomology**, constructed by **Michael Artin** and Grothendieck in the 1960s and completed by **Pierre Deligne**, assigns to each variety over a field $k$ and each prime $\ell$ invertible in $k$ a sequence of cohomology groups $H^i_{\text{ét}}(X, \mathbb{Z}_\ell)$ that behave like singular cohomology groups but are defined purely algebraically. Deligne's proof of the Weil conjectures in 1974 — using étale cohomology and the Lefschetz trace formula — was a landmark achievement, demonstrating that deep analytic facts about the number of solutions to polynomial equations over finite fields could be understood through the geometry of associated varieties over the complex numbers.
+
+**Derived algebraic geometry**, pioneered in the 2000s by **Bertrand Toën**, **Gabriele Vezzosi**, and **Jacob Lurie**, replaces commutative rings with simplicial commutative rings or $E_\infty$-ring spectra, and varieties with **derived schemes** or **spectral schemes**. This framework resolves classical problems of deformation theory and intersection theory — where ordinary scheme theory gives "wrong" answers due to non-transversality — by computing intersections in a higher categorical framework that automatically keeps track of all derived data. The theory is technically demanding, requiring the full machinery of $\infty$-categories as developed in Lurie's *Higher Topos Theory* (2009), but it has already produced spectacular applications in the theory of moduli spaces, the geometric Langlands program, and topological field theory.
+
+Algebraic geometry today stands as one of the richest and most active areas of mathematics. Its classical questions — which curves exist, how many lines lie on a cubic surface, when can a Diophantine equation be solved — remain open in their most general forms, and the modern machinery of schemes, derived categories, and motivic cohomology continues to yield new tools for attacking them. The subject draws together commutative algebra, category theory, algebraic topology, and mathematical physics into a single coherent vision, and its deepest theorems — the Weil conjectures, the Mordell conjecture (proved by **Gerd Faltings** in 1983), the proof of Fermat's Last Theorem via modularity of elliptic curves — rank among the greatest mathematical achievements of the modern era.

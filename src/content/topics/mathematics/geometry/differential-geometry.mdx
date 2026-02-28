@@ -5,20 +5,151 @@ parent: mathematics/geometry
 order: 2
 color: "#ef4444"
 difficulty: intermediate
-prerequisites: []
-status: stub
+prerequisites: ["mathematics/analysis/real-analysis", "mathematics/algebra/linear-algebra"]
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: "2026-02-28"
 ---
+
+Differential geometry is the study of smooth shapes using the tools of calculus, offering a mathematical language precise enough to measure how curved a surface is, how parallel transport around a loop can rotate a vector, and why gravity is indistinguishable from the curvature of spacetime. Growing out of classical investigations into curves and surfaces in three-dimensional space, the subject was transformed in the nineteenth and twentieth centuries into a vast theory of smooth manifolds that underpins modern physics, topology, and global analysis. The discipline stands at the crossroads of Real Analysis, Linear Algebra, and topology, and its methods reach from soap-film problems and robotics to the Einstein field equations and gauge theory.
 
 ## Curves and Surfaces in Euclidean Space
 
+The natural starting point is the study of objects that can be parametrized smoothly in ordinary three-dimensional space. A **parametric curve** is a smooth map $\alpha: I \to \mathbb{R}^3$ from an interval $I \subset \mathbb{R}$. The curve is called **regular** if its velocity vector $\alpha'(t) \neq 0$ at every point, ensuring the curve has a well-defined direction everywhere. From a regular curve one can always reparametrize by **arc length** $s(t) = \int_{t_0}^t |\alpha'(u)|\, du$, obtaining a unit-speed curve $\alpha(s)$ with $|\alpha'(s)| = 1$. This canonical parametrization is the gateway to the central invariants of curve theory.
+
+For a unit-speed curve, the **curvature** $\kappa(s) = |\alpha''(s)|$ measures how rapidly the tangent direction is turning. The **Frenet-Serret apparatus**, developed by **Jean-Frédéric Frenet** and **Joseph Alfred Serret** in the early 1850s, organizes the local geometry of a space curve into three mutually orthogonal unit vectors: the **tangent** $T = \alpha'$, the **principal normal** $N = T'/|T'|$, and the **binormal** $B = T \times N$. These evolve according to the Frenet-Serret equations:
+
+$$T' = \kappa N, \qquad N' = -\kappa T + \tau B, \qquad B' = -\tau N,$$
+
+where $\tau$ is the **torsion**, measuring how quickly the curve twists out of its osculating plane. A curve with $\kappa > 0$ everywhere and $\tau = 0$ everywhere lies in a plane; a curve with both constant $\kappa$ and constant $\tau$ is a circular helix. The fundamental theorem of space curves asserts that $\kappa$ and $\tau$ together determine the curve up to rigid motion in $\mathbb{R}^3$ — a complete analogy with how mass determines a particle's trajectory under a given force law.
+
+Surfaces require two parameters. A **regular parametrized surface** is a smooth map $\mathbf{r}: U \to \mathbb{R}^3$, where $U \subset \mathbb{R}^2$ is open, such that the partial derivative vectors $\mathbf{r}_u$ and $\mathbf{r}_v$ are linearly independent at every point. The **first fundamental form** is the induced inner product on the tangent plane:
+
+$$\mathrm{I} = E\, du^2 + 2F\, du\, dv + G\, dv^2,$$
+
+with coefficients $E = \mathbf{r}_u \cdot \mathbf{r}_u$, $F = \mathbf{r}_u \cdot \mathbf{r}_v$, $G = \mathbf{r}_v \cdot \mathbf{r}_v$. This single object encodes all **intrinsic** measurements — arc lengths, angles, and areas computed entirely within the surface. The **second fundamental form**
+
+$$\mathrm{II} = L\, du^2 + 2M\, du\, dv + N\, dv^2,$$
+
+with $L = \mathbf{r}_{uu} \cdot \hat{n}$, $M = \mathbf{r}_{uv} \cdot \hat{n}$, $N = \mathbf{r}_{vv} \cdot \hat{n}$ (where $\hat{n}$ is the unit normal), captures **extrinsic** bending — how the surface curves through the ambient space. From these two forms one extracts the **principal curvatures** $\kappa_1, \kappa_2$, the eigenvalues of the **shape operator** (or Weingarten map) $S = -dn$. Their average $H = (\kappa_1 + \kappa_2)/2$ is the **mean curvature**, and their product $K = \kappa_1 \kappa_2$ is the **Gaussian curvature** — a quantity whose deep significance would be revealed by Gauss himself.
+
 ## Gauss-Bonnet Theorem and Intrinsic Geometry
+
+Gauss's most celebrated contribution to geometry is his *Theorema Egregium* ("remarkable theorem"), proved around 1827 and published in his *Disquisitiones Generales circa Superficies Curvas*. The theorem states that the Gaussian curvature $K$ is an **intrinsic** quantity: it can be computed entirely from the first fundamental form, without any reference to how the surface sits in $\mathbb{R}^3$. The explicit formula, in terms of the Christoffel symbols derived from $E, F, G$, is:
+
+$$K = \frac{1}{(EG - F^2)^2} \det \begin{pmatrix} -\tfrac{1}{2}E_{vv} + F_{uv} - \tfrac{1}{2}G_{uu} & \tfrac{1}{2}E_u & F_u - \tfrac{1}{2}E_v \\ F_v - \tfrac{1}{2}G_u & E & F \\ \tfrac{1}{2}G_v & F & G \end{pmatrix} - \cdots$$
+
+The conceptual consequence is profound: an ant living on the surface, unable to see the ambient space, can nevertheless measure $K$ by studying how fast the circumference of small circles deviates from $2\pi r$. A flat piece of paper ($K = 0$) can be rolled into a cylinder without distortion, whereas a sphere ($K > 0$) cannot be flattened without tearing. This intrinsic perspective liberated geometry from its dependence on an embedding space.
+
+A **geodesic** on a surface is a curve whose geodesic curvature — the component of its acceleration tangent to the surface — vanishes identically. Geodesics are the intrinsic analogues of straight lines: they are locally length-minimizing and satisfy the geodesic differential equations:
+
+$$\frac{d^2 u^k}{ds^2} + \sum_{i,j} \Gamma^k_{ij} \frac{du^i}{ds} \frac{du^j}{ds} = 0,$$
+
+where $\Gamma^k_{ij}$ are the **Christoffel symbols** of the first kind, expressible in terms of first derivatives of $E, F, G$. Great circles on a sphere are geodesics; straight lines on a flat plane are geodesics; geodesics on the hyperbolic plane satisfy Lobachevsky's non-Euclidean geometry.
+
+The **Gauss-Bonnet theorem** ties the local differential geometry of a surface to its global topology in a single breathtaking formula. For a compact oriented surface $M$ with piecewise smooth boundary $\partial M$ and isolated corner angles $\theta_i$:
+
+$$\int_{\partial M} \kappa_g\, ds + \iint_M K\, dA + \sum_i (\pi - \theta_i) = 2\pi \chi(M),$$
+
+where $\kappa_g$ is the geodesic curvature along the boundary and $\chi(M)$ is the **Euler characteristic** of $M$. For a closed surface (no boundary), this simplifies to:
+
+$$\iint_M K\, dA = 2\pi \chi(M).$$
+
+This equation, proved in full generality by **Pierre Ossian Bonnet** in 1848 building on Gauss's local computations, shows that the total curvature of a closed surface is a topological invariant. A sphere has $\chi = 2$ and $\iint K\, dA = 4\pi$; a torus has $\chi = 0$ and total curvature zero regardless of how it is shaped. No continuous deformation can change $\chi$, so no deformation can change the total curvature. Gauss-Bonnet is the prototype of every theorem in mathematics that bridges local analytic data with global topological invariants.
 
 ## Smooth Manifolds and Differential Forms
 
+The insight that geometry should be intrinsic — that a surface carries its own structure independent of any ambient space — motivates the definition of a **smooth manifold**, the central object of modern differential geometry. An $n$-dimensional smooth manifold $M$ is a topological space equipped with an **atlas**: a collection of overlapping **charts** $\{(U_\alpha, \varphi_\alpha)\}$, where each $U_\alpha$ is an open subset of $M$ and each $\varphi_\alpha: U_\alpha \to \mathbb{R}^n$ is a homeomorphism onto an open set in $\mathbb{R}^n$. The key requirement is that the **transition maps** $\varphi_\beta \circ \varphi_\alpha^{-1}$ are smooth wherever they are defined. This allows calculus — derivatives, integrals, differential equations — to be performed on $M$ through coordinate charts, while the smooth transition condition ensures all such computations are consistent across overlapping charts.
+
+Examples abound: $\mathbb{R}^n$ itself (one chart), the $n$-sphere $S^n$ (two stereographic projection charts), the $n$-torus $T^n$, the real projective space $\mathbb{RP}^n$, matrix Lie groups such as $GL(n, \mathbb{R})$ and $SO(n)$, and the space of all Riemannian metrics on a given manifold. Smooth maps between manifolds, diffeomorphisms, and submanifolds all carry over naturally from the classical theory of smooth maps in $\mathbb{R}^n$.
+
+At each point $p \in M$, the **tangent space** $T_pM$ is an $n$-dimensional vector space. Its elements can be defined abstractly as **derivations** — linear maps $v: C^\infty(M) \to \mathbb{R}$ satisfying the Leibniz rule $v(fg) = v(f)g(p) + f(p)v(g)$. A **vector field** $X$ assigns to each point $p$ a tangent vector $X_p \in T_pM$ in a smooth way. Vector fields can be added, scaled, and composed; their **Lie bracket** $[X, Y]$ captures the failure of commutativity and is itself a vector field. The union $TM = \bigsqcup_{p \in M} T_pM$ forms the **tangent bundle**, a $2n$-dimensional smooth manifold in its own right.
+
+**Differential forms** are the objects designed to be integrated on manifolds. A $k$-**form** $\omega$ on $M$ assigns to each point an alternating $k$-linear functional on the tangent space. In local coordinates $x^1, \ldots, x^n$, a $k$-form is written:
+
+$$\omega = \sum_{i_1 < i_2 < \cdots < i_k} \omega_{i_1 \cdots i_k}\, dx^{i_1} \wedge dx^{i_2} \wedge \cdots \wedge dx^{i_k},$$
+
+where the **wedge product** $dx^i \wedge dx^j = -dx^j \wedge dx^i$ enforces antisymmetry. The **exterior derivative** $d$ sends $k$-forms to $(k+1)$-forms via:
+
+$$d\omega = \sum_{i_1 < \cdots < i_k} \sum_j \frac{\partial \omega_{i_1 \cdots i_k}}{\partial x^j} dx^j \wedge dx^{i_1} \wedge \cdots \wedge dx^{i_k}.$$
+
+The defining property $d^2 = 0$ — that the exterior derivative applied twice always gives zero — is both a calculation and a deep organizing principle. It leads directly to **Stokes's theorem** in its modern general form: for an oriented compact $n$-manifold with boundary $\partial M$ and any $(n-1)$-form $\omega$,
+
+$$\int_M d\omega = \int_{\partial M} \omega.$$
+
+This single equation unifies the fundamental theorem of calculus, Green's theorem, the classical Stokes theorem for surfaces in $\mathbb{R}^3$, and the divergence theorem. A form $\omega$ is **closed** if $d\omega = 0$ and **exact** if $\omega = d\eta$ for some form $\eta$. Since $d^2 = 0$, every exact form is closed. The quotient groups $H^k(M) = \ker d / \operatorname{im} d$ are the **de Rham cohomology** groups of $M$, which turn out to be topological invariants — they coincide, by the de Rham theorem, with the singular cohomology groups $H^k(M; \mathbb{R})$.
+
 ## Connections and Covariant Derivatives
+
+On a general smooth manifold, ordinary partial differentiation of a vector field is not intrinsically defined — the result depends on the coordinate chart chosen. A **connection** (or **covariant derivative**) $\nabla$ is an additional structure on a manifold that specifies how to differentiate vector fields (and, more generally, sections of vector bundles) in a coordinate-independent way. Formally, a connection assigns to each pair of vector fields $X, Y$ a new vector field $\nabla_X Y$, subject to the rules:
+
+$$\nabla_{fX} Y = f \nabla_X Y, \qquad \nabla_X(fY) = (Xf)Y + f\nabla_X Y,$$
+
+for all smooth functions $f$. In local coordinates, the connection is encoded by $n^3$ smooth functions — the **Christoffel symbols** $\Gamma^k_{ij}$ — defined by $\nabla_{\partial_i} \partial_j = \sum_k \Gamma^k_{ij} \partial_k$.
+
+A central concept is **parallel transport**: given a curve $\gamma(t)$ in $M$ and a tangent vector $v_0$ at $\gamma(0)$, there is a unique way to "carry" $v_0$ along $\gamma$ while keeping it parallel with respect to $\nabla$. The parallel-transported vector $V(t)$ satisfies the ordinary differential equation $\nabla_{\dot\gamma} V = 0$. Carrying a vector around a closed loop and returning to the starting point, one generally arrives at a different vector — the **holonomy** of the connection. This failure of parallel transport to be path-independent is precisely the curvature.
+
+The **curvature tensor** of $\nabla$ is the $(1,3)$-tensor field $R$ defined by:
+
+$$R(X, Y)Z = \nabla_X \nabla_Y Z - \nabla_Y \nabla_X Z - \nabla_{[X,Y]} Z.$$
+
+In coordinates, $R^l{}_{kij} = \partial_i \Gamma^l_{jk} - \partial_j \Gamma^l_{ik} + \sum_m (\Gamma^l_{im}\Gamma^m_{jk} - \Gamma^l_{jm}\Gamma^m_{ik})$. Flatness — the condition that parallel transport is path-independent — is equivalent to $R = 0$ everywhere. The **torsion tensor** $T(X, Y) = \nabla_X Y - \nabla_Y X - [X, Y]$ measures a different kind of asymmetry. A connection with $T = 0$ is called **symmetric** or **torsion-free**.
+
+On a Riemannian manifold $(M, g)$, there is a unique torsion-free connection compatible with the metric (meaning $\nabla g = 0$): the **Levi-Civita connection**, first studied systematically by **Tullio Levi-Civita** and **Gregorio Ricci-Curbastro** around 1900 in the context of the absolute differential calculus. Its Christoffel symbols are given entirely by the metric:
+
+$$\Gamma^k_{ij} = \frac{1}{2} g^{kl} \left( \partial_i g_{jl} + \partial_j g_{il} - \partial_l g_{ij} \right).$$
+
+The existence and uniqueness of the Levi-Civita connection is the **fundamental theorem of Riemannian geometry**. With it, geodesics acquire an intrinsic characterization as the curves of zero acceleration: $\nabla_{\dot\gamma}\dot\gamma = 0$.
 
 ## Riemannian Geometry and Curvature
 
+A **Riemannian metric** $g$ on a smooth manifold $M$ is a smoothly varying inner product on each tangent space: at each point $p$, $g_p$ is a symmetric positive-definite bilinear form on $T_pM$. The metric $g$ assigns lengths to tangent vectors ($|v|^2 = g(v,v)$), angles between vectors, lengths of curves by integration, and volumes of regions. The pair $(M, g)$ is a **Riemannian manifold**. This framework was introduced by **Bernhard Riemann** in his legendary 1854 Habilitation lecture *Über die Hypothesen, welche der Geometrie zu Grunde liegen* ("On the Hypotheses that Lie at the Foundations of Geometry"), delivered in Göttingen at Gauss's request. Riemann proposed measuring geometry intrinsically by specifying a quadratic form on tangent vectors at every point — a generalization so vast that it encompassed both classical Euclidean and non-Euclidean geometry as special cases.
+
+The **Riemann curvature tensor** $R$ of the Levi-Civita connection contains the complete local curvature information of a Riemannian manifold. By contracting its indices, one obtains coarser but more tractable curvature quantities. The **Ricci tensor** is $\mathrm{Ric}_{ij} = R^k{}_{ikj}$, the trace of the Riemann tensor over two of its indices. The **scalar curvature** $\mathrm{Scal} = g^{ij} \mathrm{Ric}_{ij}$ is the trace of the Ricci tensor with respect to $g$, a single smooth function on $M$. In dimension two, all of these reduce to Gaussian curvature.
+
+The **sectional curvature** $K(\sigma)$ of a 2-plane $\sigma \subset T_pM$ is the Gaussian curvature of the geodesic surface swept out by geodesics tangent to $\sigma$:
+
+$$K(\sigma) = \frac{g(R(u,v)v, u)}{g(u,u)g(v,v) - g(u,v)^2},$$
+
+for any basis $\{u, v\}$ of $\sigma$. Spaces of **constant sectional curvature** $k$ are the model geometries: for $k > 0$, the round sphere $S^n(1/\sqrt{k})$; for $k = 0$, Euclidean space $\mathbb{R}^n$; for $k < 0$, **hyperbolic space** $\mathbb{H}^n$, the unique simply connected complete Riemannian manifold of constant negative curvature. These three families are the generalized geometries that **Felix Klein** organized into the Erlangen Program.
+
+Curvature controls the behavior of geodesics through the **Jacobi equation**. If $\gamma$ is a geodesic and $J$ is a vector field along $\gamma$ representing an infinitesimal variation through geodesics, then $J$ satisfies:
+
+$$\nabla_{\dot\gamma}\nabla_{\dot\gamma} J + R(J, \dot\gamma)\dot\gamma = 0.$$
+
+Solutions $J$ are called **Jacobi fields**. Positive curvature causes geodesics to focus (as on a sphere, where meridians converge at the poles), while negative curvature causes them to spread apart (as in hyperbolic space). A **conjugate point** along $\gamma$ is a point where a non-zero Jacobi field vanishes; beyond the first conjugate point, geodesics cease to minimize length. The **Bonnet-Myers theorem** (1941) states that if $\mathrm{Ric} \geq (n-1)k > 0$, then $M$ is compact with diameter at most $\pi/\sqrt{k}$; the **Cartan-Hadamard theorem** states that if $M$ is complete and has everywhere non-positive sectional curvature, then $M$ is diffeomorphic to $\mathbb{R}^n$. These comparison theorems show how curvature conditions force global topological conclusions — a recurrent and profound theme.
+
+**Einstein manifolds** satisfy $\mathrm{Ric} = \lambda g$ for some constant $\lambda$. In Lorentzian signature (one time dimension), this is precisely the Einstein field equations of general relativity in vacuum. The Ricci flow equation $\partial_t g_{ij} = -2\,\mathrm{Ric}_{ij}$, introduced by **Richard Hamilton** in 1982 and used by **Grigori Perelman** in 2003 to prove the Poincaré conjecture, deforms a Riemannian metric by its Ricci curvature in a manner analogous to the heat equation smoothing out rough temperature distributions.
+
 ## Fiber Bundles and Characteristic Classes
 
+Classical vector analysis in $\mathbb{R}^3$ deals with vector fields as globally defined objects. On a general manifold, however, there may be no non-vanishing global vector field — a fact related to the famous "hairy ball theorem," which states that $S^2$ admits no non-vanishing continuous tangent vector field. The correct framework for handling such globally-defined families of vector spaces over a base space is that of **fiber bundles**.
+
+A **vector bundle** of rank $r$ over a manifold $M$ is a manifold $E$ together with a smooth surjection $\pi: E \to M$ such that each fiber $E_p = \pi^{-1}(p)$ is an $r$-dimensional vector space, and $E$ is locally diffeomorphic to $U \times \mathbb{R}^r$ in a way that respects the linear structure on each fiber. The tangent bundle $TM$ is the prototypical example. A **section** of $E$ is a smooth map $s: M \to E$ with $\pi \circ s = \text{id}_M$ — a generalization of a vector field.
+
+A **principal bundle** $P \to M$ with **structure group** $G$ is a bundle whose fibers are copies of a Lie group $G$ acting freely and transitively. Principal bundles encode the gauge-theoretic data of physics: a connection on a principal $G$-bundle is precisely a gauge field, and its curvature is the field strength. The **Yang-Mills equations** (1954), central to the standard model of particle physics, are the Euler-Lagrange equations for the Yang-Mills functional $\int_M |F_\nabla|^2\, \mathrm{vol}_g$ on connections of a principal bundle.
+
+**Characteristic classes** are cohomology classes of a vector bundle that measure global topological obstructions. They are defined so that pullback along any bundle map sends characteristic classes of the target bundle to those of the source — making them natural, or functorial. The **Chern classes** $c_k(E) \in H^{2k}(M; \mathbb{Z})$ of a complex vector bundle $E$ are the most important in complex geometry. For a rank-$r$ bundle with curvature $2$-form $\Omega$, the **Chern-Weil theory** constructs representatives of $c_k(E)$ via the characteristic polynomial of the curvature matrix:
+
+$$\det\!\left(I + \frac{i}{2\pi}\Omega\right) = \sum_{k=0}^r c_k(E).$$
+
+**Pontrjagin classes** $p_k(E) \in H^{4k}(M; \mathbb{Z})$ play the same role for real bundles. **Stiefel-Whitney classes** $w_k(E) \in H^k(M; \mathbb{Z}/2)$ are mod-$2$ obstructions: $w_1$ measures orientability, $w_2$ measures the existence of a spin structure. These classes were developed in the 1930s–1950s by **Hassler Whitney**, **Shiing-Shen Chern**, **Lev Pontrjagin**, and others working at the interface of topology and geometry.
+
 ## Symplectic Geometry and Index Theory
+
+Classical mechanics provided one of the deepest motivations for the geometric structures described in this section. **Symplectic geometry** studies manifolds equipped with a closed non-degenerate 2-form — the mathematical abstraction of phase space in Hamiltonian mechanics. A **symplectic manifold** $(M, \omega)$ is a smooth manifold $M$ carrying a 2-form $\omega$ satisfying $d\omega = 0$ (closedness) and the non-degeneracy condition that $\omega^n = \omega \wedge \cdots \wedge \omega$ ($n$ times, where $\dim M = 2n$) is everywhere non-vanishing. By **Darboux's theorem** (1882), any symplectic manifold looks locally like $\mathbb{R}^{2n}$ with the standard form $\omega_0 = \sum_{i=1}^n dp_i \wedge dq^i$: there are no local symplectic invariants, in stark contrast to Riemannian geometry, which has the full curvature tensor.
+
+Given a smooth function $H: M \to \mathbb{R}$ (the **Hamiltonian**), the **Hamiltonian vector field** $X_H$ is defined by $\iota_{X_H}\omega = dH$ (i.e., $\omega(X_H, \cdot) = dH$). The integral curves of $X_H$ satisfy Hamilton's equations:
+
+$$\dot{q}^i = \frac{\partial H}{\partial p_i}, \qquad \dot{p}_i = -\frac{\partial H}{\partial q^i}.$$
+
+The **Poisson bracket** $\{f, g\} = \omega(X_f, X_g)$ measures how quickly $g$ changes along the flow of $X_f$; a function $f$ is conserved along the Hamiltonian flow if and only if $\{H, f\} = 0$. Symmetries of the Hamiltonian give rise to conserved quantities through a symplectic version of Noether's theorem, encoded in the **moment map** $\mu: M \to \mathfrak{g}^*$ for a Lie group action, where $\mathfrak{g}^*$ is the dual of the Lie algebra.
+
+The **Atiyah-Singer index theorem** (1963) is one of the twentieth century's great theorems, connecting analysis, topology, and geometry in a single formula. The **index** of an elliptic differential operator $D: \Gamma(E) \to \Gamma(F)$ on a compact manifold is $\text{ind}(D) = \dim \ker D - \dim \ker D^*$ — an integer measuring the "signed count" of solutions. The index theorem states:
+
+$$\text{ind}(D) = \int_M \hat{A}(M) \wedge \text{ch}(E - F),$$
+
+where $\hat{A}(M)$ is the $\hat{A}$-genus built from Pontrjagin classes of $M$, and $\text{ch}$ is the Chern character. In the special case where $D$ is the de Rham operator $d + d^*$, the index is the Euler characteristic $\chi(M)$, recovering a generalization of Gauss-Bonnet. When $D$ is the Dirac operator on a spin manifold, the index counts the number of harmonic spinors, linking spectral theory to topology in the deepest possible way. **Michael Atiyah** and **Isadore Singer** received the Abel Prize in 2004 largely for this theorem and the industry it spawned.
+
+The index theorem lies downstream of the machinery developed throughout differential geometry — curvature tensors, characteristic classes, connections — and it points toward the frontier research areas of the subject: Ricci flow and geometric evolution equations, Kähler-Einstein metrics, and the emerging interplay with quantum field theory and string theory. Understanding differential geometry is thus not merely an exercise in classical mathematics but a preparation for engaging with the deepest open problems in geometry, topology, and mathematical physics.

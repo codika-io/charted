@@ -5,22 +5,155 @@ parent: mathematics/probability
 order: 2
 color: "#ef4444"
 difficulty: intermediate
-prerequisites: []
-status: stub
+prerequisites: ["mathematics/probability/probability-theory"]
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: "2026-02-28"
 ---
+
+Mathematical statistics is the discipline that transforms probability theory into a rigorous framework for learning from data. Where probability theory asks "given a model, what outcomes should we expect?", statistics inverts the question: "given outcomes we have observed, what can we conclude about the model?" This inversion — from data to inference — is at once a simple idea and an endlessly deep one, carrying consequences that touch every quantitative science.
 
 ## Foundations of Statistical Inference
 
+The enterprise of statistical inference begins with a **statistical model**: a family of probability distributions $\{P_\theta : \theta \in \Theta\}$ indexed by an unknown **parameter** $\theta$ that ranges over a **parameter space** $\Theta$. We observe data $X_1, X_2, \ldots, X_n$, assumed to be drawn from some particular $P_{\theta_0}$ — the true but unknown distribution — and our goal is to say something useful about $\theta_0$. The model is **parametric** when $\Theta \subseteq \mathbb{R}^d$ for some finite $d$, and **nonparametric** when $\Theta$ is an infinite-dimensional space such as the collection of all continuous densities.
+
+The **likelihood function** is the central object linking data to parameters. Given observations $x_1, \ldots, x_n$ from a model with density or mass function $f(x;\theta)$, the likelihood is
+
+$$L(\theta) = \prod_{i=1}^n f(x_i; \theta),$$
+
+and the **log-likelihood** is $\ell(\theta) = \sum_{i=1}^n \log f(x_i; \theta)$. Crucially, the likelihood is viewed as a function of $\theta$ for fixed data — not as a probability over $\theta$. It measures how compatible each parameter value is with what we actually observed. **Ronald Aylmer Fisher**, in a series of papers beginning in 1912 and consolidated in his 1922 paper "On the Mathematical Foundations of Theoretical Statistics," essentially single-handedly constructed the modern framework: he introduced the likelihood function, maximum likelihood estimation, sufficient statistics, and the concept of information, all within a few years of revolutionary output.
+
+A **sufficient statistic** $T(X_1, \ldots, X_n)$ captures everything the sample has to say about $\theta$: formally, the conditional distribution of the data given $T$ does not depend on $\theta$. The **Fisher-Neyman factorization theorem** characterizes sufficiency elegantly: $T$ is sufficient if and only if the likelihood factors as $L(\theta) = g(T(x), \theta) \cdot h(x)$, where $h$ does not depend on $\theta$. For the normal model with known variance, the sample mean $\bar{X}$ is sufficient for the mean parameter; for the Poisson, the sample sum $\sum X_i$ is sufficient for the rate. The **exponential family** — distributions of the form $f(x;\theta) = h(x) \exp\{\eta(\theta)^T T(x) - A(\theta)\}$ — is the natural setting for sufficiency, as $T(x)$ is always sufficient and the family has elegant mathematical properties that recur throughout statistics.
+
+**Completeness** adds a further regularity: a sufficient statistic $T$ is complete if the only function $g(T)$ satisfying $\mathbb{E}_\theta[g(T)] = 0$ for all $\theta$ is $g \equiv 0$ almost everywhere. Completeness, combined with sufficiency, enables uniqueness results in estimation theory. The concept is due to **Erich Leo Lehmann** and **Henry Scheffé**, whose 1950 and 1955 papers gave it its modern form.
+
 ## Point Estimation and Maximum Likelihood
+
+A **point estimator** is any statistic $\hat{\theta} = \hat{\theta}(X_1, \ldots, X_n)$ used to produce a single value as a guess for the unknown $\theta$. The simplest quality criterion is **bias**: the bias of $\hat{\theta}$ is $\text{Bias}(\hat{\theta}) = \mathbb{E}_\theta[\hat{\theta}] - \theta$. An estimator with zero bias is called **unbiased**. Unbiasedness is a natural desideratum, but it is not sufficient on its own — among all unbiased estimators, we prefer those with smaller variance. The gold standard is the **Uniformly Minimum Variance Unbiased Estimator (UMVUE)**: the unique unbiased estimator that achieves minimum variance simultaneously for every value of $\theta$.
+
+The **Rao-Blackwell theorem** provides a constructive route to UMVUEs. It states that if $\hat{\theta}$ is any unbiased estimator and $T$ is a sufficient statistic, then the conditional expectation $\tilde{\theta} = \mathbb{E}[\hat{\theta} \mid T]$ is also unbiased and has variance no greater than that of $\hat{\theta}$ at every $\theta$. Conditioning on a sufficient statistic can only improve an estimator. The **Lehmann-Scheffé theorem** completes the picture: if $T$ is a complete sufficient statistic and $g(T)$ is unbiased for $\theta$, then $g(T)$ is the unique UMVUE.
+
+The **maximum likelihood estimator (MLE)** maximizes the likelihood over $\Theta$:
+
+$$\hat{\theta}_{\text{MLE}} = \operatorname*{arg\,max}_{\theta \in \Theta} \ell(\theta) = \operatorname*{arg\,max}_{\theta \in \Theta} \sum_{i=1}^n \log f(X_i; \theta).$$
+
+The MLE may not be unbiased — the MLE for the variance of a normal distribution is biased downward — but it enjoys a remarkable collection of large-sample properties under mild regularity conditions: consistency, asymptotic normality, and asymptotic efficiency. The MLE is also **equivariant under reparametrization**: if $\psi = g(\theta)$ and $\hat{\theta}$ is the MLE of $\theta$, then $g(\hat{\theta})$ is the MLE of $\psi$. This invariance is a practically important feature absent from the UMVUE framework.
+
+The **method of moments** is an older and simpler approach, attributed in systematic form to **Karl Pearson** around 1894: equate the first $k$ population moments $\mu_j(\theta) = \mathbb{E}_\theta[X^j]$ to the corresponding sample moments $m_j = n^{-1}\sum X_i^j$, and solve for $\theta$. Method of moments estimators are typically consistent and asymptotically normal, but rarely efficient. Their main virtue is computational: they often yield explicit closed-form formulas when the MLE equations are analytically intractable.
 
 ## Cramer-Rao Theory and Fisher Information
 
+The **score function** is the gradient of the log-likelihood with respect to $\theta$:
+
+$$s(\theta; x) = \frac{\partial}{\partial \theta} \log f(x; \theta).$$
+
+Under regularity conditions (primarily, that differentiation and integration can be exchanged), the expected score is zero: $\mathbb{E}_\theta[s(\theta; X)] = 0$. The **Fisher information** $\mathcal{I}(\theta)$ is the variance of the score:
+
+$$\mathcal{I}(\theta) = \mathbb{E}_\theta\!\left[\left(\frac{\partial}{\partial \theta} \log f(X; \theta)\right)^2\right] = -\mathbb{E}_\theta\!\left[\frac{\partial^2}{\partial \theta^2} \log f(X; \theta)\right].$$
+
+Fisher information measures how sharply the log-likelihood peaks around its maximum — equivalently, how much information a single observation carries about $\theta$. For $n$ independent and identically distributed observations, the total Fisher information is simply $n \mathcal{I}(\theta)$.
+
+The **Cramér-Rao lower bound** (CRLB) is the fundamental limitation on estimation precision. It states that for any unbiased estimator $\hat{\theta}$,
+
+$$\text{Var}_\theta(\hat{\theta}) \geq \frac{1}{n\mathcal{I}(\theta)}.$$
+
+The bound was discovered independently by **Harald Cramér** and **C. R. Rao** in 1945-1946. The proof is a beautiful application of the Cauchy-Schwarz inequality. In the multiparameter case, the bound generalizes: for an unbiased estimator of $\theta \in \mathbb{R}^d$, the covariance matrix satisfies $\text{Cov}(\hat{\theta}) \succeq \mathcal{I}(\theta)^{-1}$, where $\mathcal{I}(\theta)$ is now the $d \times d$ Fisher information matrix and $\succeq$ denotes the positive semidefinite ordering.
+
+An estimator that achieves the Cramér-Rao bound for all $\theta$ is called **efficient**. Such estimators exist if and only if the score function has the form $s(\theta; x) = \mathcal{I}(\theta)(\hat{\theta}(x) - \theta)$ — a condition met exactly within the exponential family. When the bound is not achieved for finite $n$, it is often achieved asymptotically: the MLE satisfies
+
+$$\sqrt{n}(\hat{\theta}_{\text{MLE}} - \theta_0) \xrightarrow{d} \mathcal{N}(0, \mathcal{I}(\theta_0)^{-1}),$$
+
+making it **asymptotically efficient** — no regular estimator can do better in large samples. This asymptotic optimality result, proved rigorously by **Lucien Le Cam** through the theory of **Local Asymptotic Normality (LAN)**, is one of the central achievements of twentieth-century statistics.
+
 ## Hypothesis Testing and Confidence Intervals
+
+In **hypothesis testing**, we are asked to choose between a **null hypothesis** $H_0: \theta \in \Theta_0$ and an **alternative** $H_1: \theta \in \Theta_1$. A **test** is a rule for deciding which hypothesis to accept, typically encoded by a rejection region $R$: we reject $H_0$ when the data falls in $R$. There are two kinds of errors: a **Type I error** (rejecting $H_0$ when it is true) occurs with probability $\alpha = P_\theta(\text{reject} \mid \theta \in \Theta_0)$, and a **Type II error** (failing to reject $H_0$ when $H_1$ is true) occurs with probability $\beta = P_\theta(\text{not reject} \mid \theta \in \Theta_1)$. The **power** of a test at a specific $\theta \in \Theta_1$ is $1 - \beta$. The goal is to control Type I error at a specified level $\alpha$ while maximizing power.
+
+The cornerstone of classical hypothesis testing is the **Neyman-Pearson lemma** (1933). For a simple null $H_0: \theta = \theta_0$ against a simple alternative $H_1: \theta = \theta_1$, the **most powerful test** at level $\alpha$ rejects when the likelihood ratio exceeds a threshold:
+
+$$\Lambda(x) = \frac{L(\theta_1; x)}{L(\theta_0; x)} > c_\alpha.$$
+
+This result is exactly optimal: no other level-$\alpha$ test has higher power against $\theta_1$. When the alternative is composite — a range of parameter values rather than a single point — the story is more subtle. A **uniformly most powerful (UMP) test** dominates all competitors simultaneously for every $\theta \in \Theta_1$. UMP tests exist in one-parameter exponential families for one-sided hypotheses; for two-sided alternatives, they generally do not exist, and one must settle for **unbiased** or **invariant** tests.
+
+The **likelihood ratio test (LRT)** extends naturally to composite hypotheses. Its statistic is
+
+$$\Lambda_n = -2\log\frac{\sup_{\theta \in \Theta_0} L(\theta)}{\sup_{\theta \in \Theta} L(\theta)} = 2[\ell(\hat{\theta}_{\text{MLE}}) - \ell(\hat{\theta}_0)],$$
+
+where $\hat{\theta}_0$ is the restricted MLE under $H_0$. **Wilks' theorem** (1938) states that under $H_0$ and regularity conditions, $\Lambda_n \xrightarrow{d} \chi^2_r$, where $r = \dim(\Theta) - \dim(\Theta_0)$ is the number of constraints imposed by the null. This provides asymptotic critical values without requiring knowledge of the exact null distribution. The **Wald test** and **score test** (Rao test) are asymptotically equivalent to the LRT under the null, forming a classical trinity of large-sample tests.
+
+A **confidence interval** at level $1-\alpha$ is a data-dependent interval $[L(X), U(X)]$ satisfying $P_\theta(L(X) \leq \theta \leq U(X)) \geq 1-\alpha$ for all $\theta$. There is a deep duality between hypothesis tests and confidence intervals: the set of parameter values not rejected by a level-$\alpha$ test constitutes a level-$1-\alpha$ confidence set. A standard construction uses a **pivotal quantity** — a function of the data and parameter whose distribution is free of $\theta$. For the normal mean with known variance, $Z = \sqrt{n}(\bar{X} - \mu)/\sigma$ is standard normal, yielding the familiar interval $\bar{X} \pm z_{\alpha/2} \sigma/\sqrt{n}$.
 
 ## Bayesian Inference
 
+The Bayesian approach to statistics begins with a **prior distribution** $\pi(\theta)$ that encodes beliefs about $\theta$ before observing data. Upon observing $x$, Bayes' theorem yields the **posterior distribution**:
+
+$$\pi(\theta \mid x) = \frac{f(x \mid \theta)\, \pi(\theta)}{\int f(x \mid \theta')\, \pi(\theta')\, d\theta'} \propto f(x \mid \theta)\, \pi(\theta).$$
+
+The posterior combines prior belief and data evidence, and all Bayesian inference flows from it. A point estimate might be the **posterior mean** $\hat{\theta}_{\text{Bayes}} = \mathbb{E}[\theta \mid x]$ (optimal under squared error loss), the **posterior median** (optimal under absolute error loss), or the **posterior mode** (the MAP estimate). A **credible interval** $[a, b]$ with $P(\theta \in [a,b] \mid x) = 1-\alpha$ provides an interval estimate with a direct probability interpretation that frequentist confidence intervals lack.
+
+The Bayesian framework was articulated philosophically by **Thomas Bayes** in his posthumous 1763 essay, formalized mathematically by **Pierre-Simon Laplace** in his *Théorie analytique des probabilités* (1812), and given its modern decision-theoretic foundation by **Leonard Jimmie Savage** in *The Foundations of Statistics* (1954) and **Bruno de Finetti** in his theory of subjective probability. For centuries, Bayesian and frequentist approaches were competing philosophical camps; modern statistics increasingly views them as complementary tools.
+
+A **conjugate prior** is one that yields a posterior in the same parametric family. The beta-binomial pair is the canonical example: if $\theta \sim \text{Beta}(\alpha, \beta)$ and $X \mid \theta \sim \text{Binomial}(n, \theta)$, then
+
+$$\theta \mid X \sim \text{Beta}(\alpha + X,\; \beta + n - X).$$
+
+The prior parameters $\alpha$ and $\beta$ act as pseudo-counts from imaginary previous observations, and updating simply adds real observations to them. Conjugate pairs exist for every exponential family model — a consequence of the algebraic structure of these families. When no conjugate prior is available, **Markov Chain Monte Carlo (MCMC)** methods — Metropolis-Hastings, Gibbs sampling, Hamiltonian Monte Carlo — allow approximate posterior computation for arbitrarily complex models.
+
+The choice of prior is the most contested aspect of Bayesian inference. **Jeffreys priors** are **non-informative** priors derived from the Fisher information: $\pi_J(\theta) \propto \sqrt{\det \mathcal{I}(\theta)}$. They are invariant under reparametrization — a crucial property ensuring that the "uninformative" label is consistent regardless of how the problem is framed. **Bernardo's reference priors** generalize this idea to maximize the expected Kullback-Leibler divergence between prior and posterior, formalizing the notion that the data should contribute maximally to inference.
+
+The **Bayes factor** $B_{01} = P(x \mid H_0) / P(x \mid H_1)$ compares two models by their marginal likelihoods. A Bayes factor greater than 1 favors $H_0$; values exceeding 10 or 100 are often described as strong or decisive evidence. The Bayes factor automatically penalizes more complex models — the so-called **Occam factor** — without requiring an explicit penalty term, making it a principled approach to model selection. Its asymptotic behavior is captured by the **Bayesian Information Criterion (BIC)**: $\text{BIC} = -2\ell(\hat{\theta}) + d\log n$, where $d$ is the number of parameters.
+
 ## Decision Theory and Admissibility
+
+**Statistical decision theory**, developed largely by **Abraham Wald** in his 1950 monograph *Statistical Decision Functions*, provides a unified framework for all of statistics. A **decision problem** consists of a parameter space $\Theta$, an action space $\mathcal{A}$, and a **loss function** $L(\theta, a)$ measuring the cost of taking action $a$ when the truth is $\theta$. The **risk** of a decision rule $\delta$ is its expected loss: $R(\theta, \delta) = \mathbb{E}_\theta[L(\theta, \delta(X))]$.
+
+A rule $\delta_1$ **dominates** $\delta_2$ if $R(\theta, \delta_1) \leq R(\theta, \delta_2)$ for all $\theta$, with strict inequality for at least one $\theta$. A rule is **admissible** if no rule dominates it. Admissibility is a minimal sanity condition: an inadmissible rule can be improved without sacrificing performance anywhere. Remarkably, every admissible rule (under mild conditions) is either a Bayes rule for some prior or a limit of Bayes rules — this is the **complete class theorem**, which gives Bayesian inference a frequentist justification: Bayesian procedures are the only ones that can be admissible.
+
+The most celebrated result in decision theory is the **James-Stein phenomenon**. In 1961, **Willard James** and **Charles Stein** demonstrated that for $p \geq 3$ dimensions, the sample mean $\bar{X}$ (the natural, unbiased, MLE estimator of the mean of a multivariate normal) is **inadmissible** under squared error loss. The **James-Stein estimator**
+
+$$\hat{\mu}_{JS} = \left(1 - \frac{p-2}{\|X\|^2}\right)X$$
+
+uniformly dominates $X$ as an estimator of the mean vector $\mu \in \mathbb{R}^p$. This result, which won Stein the Rietz Lecture prize and helped reshape statistical thinking, says that shrinking all coordinates simultaneously toward zero — even if they are measuring unrelated quantities — yields a better estimator. The effect is counterintuitive but mathematically inescapable: "borrowing strength" across coordinates pays dividends.
+
+A **minimax** decision rule minimizes the worst-case risk: $\delta^* = \operatorname{arg\,min}_\delta \sup_\theta R(\theta, \delta)$. Minimax rules protect against the worst case; Bayes rules minimize Bayes risk $r(\pi, \delta) = \int R(\theta, \delta)\, \pi(\theta)\, d\theta$ for a given prior $\pi$. When a Bayes rule has constant risk over $\Theta$, it is simultaneously minimax — a powerful connection between the two paradigms. The least favorable prior — the prior that makes the inference problem hardest — is the prior for which the Bayes risk equals the minimax risk.
 
 ## Asymptotic Theory and Nonparametric Methods
 
+Large-sample theory makes statistical inference tractable. The three workhorses are the **Law of Large Numbers** (consistency of sample averages), the **Central Limit Theorem** (asymptotic normality of sums), and the **delta method** (asymptotic normality of smooth transformations). If $\sqrt{n}(\bar{X} - \mu) \xrightarrow{d} \mathcal{N}(0, \sigma^2)$ and $g$ is differentiable at $\mu$ with $g'(\mu) \neq 0$, then
+
+$$\sqrt{n}(g(\bar{X}) - g(\mu)) \xrightarrow{d} \mathcal{N}(0, [g'(\mu)]^2 \sigma^2).$$
+
+This simple observation — that smooth functions of asymptotically normal statistics are asymptotically normal — underpins an enormous portion of applied statistical practice.
+
+**Consistency** of the MLE under Cramér's regularity conditions follows from the uniform law of large numbers applied to the average log-likelihood. Under stronger regularity (Wald's conditions), the MLE is also **asymptotically normal** with covariance matrix equal to the inverse Fisher information. The theory was made rigorous by **Cramér** (1946), **Wald** (1949), and substantially generalized by **Le Cam** (1953, 1960) through his theory of convergence of experiments, which shows that the MLE achieves the asymptotic minimax lower bound among all estimators.
+
+**Nonparametric statistics** abandons parametric model assumptions. The **empirical distribution function** $\hat{F}_n(t) = n^{-1}\sum \mathbf{1}(X_i \leq t)$ is the canonical nonparametric estimator of the CDF. The **Glivenko-Cantelli theorem** guarantees $\sup_t |\hat{F}_n(t) - F(t)| \to 0$ almost surely. At a finer scale, the process $\sqrt{n}(\hat{F}_n - F)$ converges in distribution to a **Brownian bridge** — the content of **Donsker's theorem** (1952), which was the first major result in **empirical process theory** and remains the engine behind much of modern nonparametric asymptotics.
+
+**Kernel density estimation** provides a smooth estimate of the unknown density $f$. Given a kernel $K$ (a symmetric density) and bandwidth $h > 0$, the estimator is
+
+$$\hat{f}_h(x) = \frac{1}{nh}\sum_{i=1}^n K\!\left(\frac{x - X_i}{h}\right).$$
+
+The mean integrated squared error balances a squared bias term of order $h^4$ and a variance term of order $(nh)^{-1}$, yielding an optimal bandwidth $h^* \sim n^{-1/5}$ and minimax rate $n^{-4/5}$ — slower than the parametric $n^{-1}$ rate, reflecting the cost of not knowing $f$'s shape. The theory of such minimax rates — establishing matching upper and lower bounds for estimation in function classes — was developed by **Farrell** (1972), **Stone** (1980, 1982), and systematized in the minimax framework of **Ibragimov and Khasminskii** (1981).
+
+**Rank-based tests** are entirely nonparametric: the **Wilcoxon signed-rank test**, the **Mann-Whitney U test**, and **Kruskal-Wallis test** replace raw data with ranks, rendering their null distributions free of any distributional assumption. The **permutation test** is even more fundamental: by computing the test statistic over all possible reassignments of treatment labels, it produces an exact finite-sample $p$-value under the null hypothesis of exchangeability.
+
 ## High-Dimensional Statistics
+
+Classical asymptotic theory assumes the dimension $d$ is fixed as $n \to \infty$. Modern data challenges this: genomics, imaging, natural language processing, and finance routinely produce datasets where the number of parameters $p$ grows with — or even vastly exceeds — $n$. High-dimensional statistics is the rigorous study of inference when $p/n \to \rho > 0$ or $p \gg n$.
+
+In the **high-dimensional linear regression** problem $Y = X\beta + \varepsilon$ with $p > n$, the ordinary least squares estimator does not even exist (the system is underdetermined). The **Lasso**, introduced by **Robert Tibshirani** in 1996, imposes an $\ell_1$ penalty:
+
+$$\hat{\beta}_\lambda = \operatorname*{arg\,min}_{\beta \in \mathbb{R}^p} \left\{\frac{1}{2n}\|Y - X\beta\|_2^2 + \lambda\|\beta\|_1\right\}.$$
+
+The $\ell_1$ penalty promotes **sparsity** — setting many coefficients exactly to zero — making it simultaneously a regularizer and a variable selector. Under **restricted eigenvalue conditions** on $X$ and when the true $\beta^*$ is $s$-sparse, the Lasso achieves the oracle rate $\|\hat{\beta} - \beta^*\|_2^2 = O(s\log p / n)$, a result due to **Bickel, Ritov, and Tsybakov** (2009). This rate is minimax optimal up to logarithmic factors.
+
+**Concentration inequalities** are the analytical backbone of high-dimensional theory. **Hoeffding's inequality** bounds the tail of a sum of bounded independent random variables:
+
+$$P\!\left(\sum_{i=1}^n (X_i - \mathbb{E}[X_i]) \geq t\right) \leq \exp\!\left(-\frac{2t^2}{\sum_{i=1}^n (b_i - a_i)^2}\right),$$
+
+where $a_i \leq X_i \leq b_i$ almost surely. **Bernstein's inequality** sharpens this when variance is known to be small. **Sub-Gaussian** and **sub-exponential** concentration extend these ideas to broader classes of random variables, and are essential for bounding estimation error in high dimensions.
+
+The behavior of the sample covariance matrix in high dimensions is qualitatively different from the classical regime. When $p/n \to \rho \in (0,\infty)$, the empirical spectral distribution of the sample covariance converges to the **Marchenko-Pastur law** — a deterministic distribution that depends only on $\rho$ and the population spectrum. This **random matrix theory** result, due to **Marchenko and Pastur** (1967), explains why classical principal component analysis misbehaves in high dimensions: the sample eigenvalues are systematically biased away from the population eigenvalues, and PCA can detect a signal only when the population eigenvalue exceeds the so-called **BBP threshold** (Baik, Ben Arous, and Péché, 2005).
+
+High-dimensional statistics connects naturally to machine learning theory, information theory, and computational complexity. The phenomenon of **phase transitions** — sharp boundaries in parameter space between regimes where estimation is possible and where it is not — has been identified in problems ranging from sparse signal recovery (compressed sensing) to community detection in networks. These phase transitions arise from fundamental information-theoretic limits, computed via **Fano's inequality** and related tools, that no estimator can overcome regardless of computational cost. The interplay between statistical and computational barriers — what is information-theoretically possible versus what can be achieved with polynomial-time algorithms — is one of the most active frontiers in the field.
