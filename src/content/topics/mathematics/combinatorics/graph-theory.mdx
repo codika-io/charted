@@ -5,22 +5,113 @@ parent: mathematics/combinatorics
 order: 3
 color: "#ef4444"
 difficulty: intermediate
-prerequisites: []
-status: stub
+prerequisites: ["mathematics/combinatorics/enumerative-combinatorics"]
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: "2026-02-28"
 ---
+
+Graph theory is the mathematical study of networks — abstract structures made of **vertices** (points) connected by **edges** (lines) that capture relationships between objects. Born from Leonid Euler's famous solution to the Königsberg bridge problem in 1736, it has grown into one of the most widely applied branches of discrete mathematics, providing the language and tools for reasoning about everything from social networks and transport systems to molecular bonds and the internet. The subject bridges pure mathematics — with deep connections to algebra, topology, and analysis — and computational practice, where its algorithms underpin some of the most important software ever written.
 
 ## Foundational Concepts and Graph Classes
 
+A **graph** $G = (V, E)$ consists of a finite set of vertices $V$ and a set of edges $E \subseteq \binom{V}{2}$, where each edge is an unordered pair of distinct vertices. The **order** of $G$ is $|V|$ and the **size** is $|E|$. The **degree** $\deg(v)$ of a vertex $v$ counts the number of edges incident to it. One of the first nontrivial observations in graph theory is the **Handshaking Lemma**: since every edge contributes exactly two to the total degree count,
+
+$$\sum_{v \in V} \deg(v) = 2|E|.$$
+
+An immediate consequence is that the number of odd-degree vertices is always even — a fact that already rules out many hypothetical graph configurations. When edges are given orientations, the result is a **directed graph** (or **digraph**), where each edge $e = (u, v)$ has a tail $u$ and a head $v$, and the notions of in-degree and out-degree replace the single degree of the undirected case.
+
+Several families of graphs appear so frequently they deserve names. The **complete graph** $K_n$ has $n$ vertices with every pair connected by an edge, yielding $\binom{n}{2}$ edges and every vertex of degree $n-1$. A **bipartite graph** partitions its vertex set into two independent sets $A$ and $B$ so that every edge runs between $A$ and $B$ — no edge has both endpoints in the same part. The complete bipartite graph $K_{m,n}$ has $mn$ edges. A graph is **$k$-regular** if every vertex has degree exactly $k$; the Petersen graph, a 3-regular graph on 10 vertices, is the most famous small example, appearing as a counterexample or extremal case across a remarkable number of graph-theoretic conjectures.
+
+A graph can be encoded as an **adjacency matrix** $A$, where $A_{ij} = 1$ if $\{i,j\} \in E$ and $0$ otherwise. This representation enables linear-algebraic techniques, but for sparse graphs (where $|E|$ is much smaller than $|V|^2$), the **adjacency list** representation — storing, for each vertex, the list of its neighbors — is far more memory-efficient. Two graphs are **isomorphic** if there is a bijection between their vertex sets that preserves adjacency; determining whether two graphs are isomorphic is a problem of great theoretical interest whose computational complexity is not yet fully settled.
+
 ## Trees, Connectivity, and Network Flows
+
+A **walk** in a graph is a sequence of vertices $v_0, v_1, \ldots, v_k$ where $\{v_i, v_{i+1}\} \in E$ for each $i$. A walk with no repeated vertices is a **path**; a closed walk with no repeated vertices (except that the first and last vertex coincide) is a **cycle**. A graph is **connected** if there is a path between every pair of vertices. A connected acyclic graph is a **tree**. Trees are, in a precise sense, the minimally connected graphs: removing any edge disconnects the graph, and adding any edge creates a cycle. A tree on $n$ vertices always has exactly $n-1$ edges.
+
+Cayley's formula, proved by Arthur Cayley in 1889, gives the number of labeled trees on $n$ vertices as $n^{n-2}$ — a striking result with a beautiful bijective proof using **Prüfer sequences**. Each labeled tree on $\{1, 2, \ldots, n\}$ corresponds uniquely to a sequence of length $n-2$ with entries from $\{1, \ldots, n\}$, and since there are $n^{n-2}$ such sequences, the formula follows. This was one of the earliest demonstrations of the power of bijective reasoning in combinatorics.
+
+A **spanning tree** of a connected graph $G$ is a subgraph that contains all vertices of $G$ and is a tree. When edges carry real-valued **weights**, the **minimum spanning tree** (MST) problem asks for the spanning tree of smallest total weight. Two greedy algorithms, both dating to the 1950s, solve this efficiently: **Kruskal's algorithm** builds the MST by repeatedly adding the cheapest edge that does not create a cycle, while **Prim's algorithm** grows a single tree from a seed vertex, at each step adding the cheapest edge leaving the current tree. The correctness of both rests on the **cut property**: for any partition of the vertices into two parts, the minimum-weight edge crossing the cut belongs to some MST.
+
+**Connectivity** admits both vertex and edge measures. The **vertex connectivity** $\kappa(G)$ is the smallest number of vertices whose removal disconnects $G$ (or makes it trivial); the **edge connectivity** $\lambda(G)$ is the analogous number for edges. By a classical result, $\kappa(G) \leq \lambda(G) \leq \delta(G)$, where $\delta(G)$ is the minimum degree. **Menger's theorem** — proved by Karl Menger in 1927 — gives a deep duality: the maximum number of internally vertex-disjoint paths between two vertices $s$ and $t$ equals the minimum number of vertices whose removal separates $s$ from $t$.
+
+This duality is the conceptual foundation of **network flow theory**. A **flow network** is a directed graph with a source $s$, a sink $t$, and a non-negative capacity $c(u,v)$ on each edge. A **flow** assigns a value $f(u,v)$ to each edge satisfying capacity constraints ($0 \leq f(u,v) \leq c(u,v)$) and conservation at internal vertices (flow in equals flow out). The **max-flow min-cut theorem**, discovered independently by Ford and Fulkerson and by Elias, Feinstein, and Shannon in the mid-1950s, states that the maximum value of a flow from $s$ to $t$ equals the minimum capacity of an $s$-$t$ cut:
+
+$$\max\text{-flow} = \min\text{-cut}.$$
+
+The **Ford-Fulkerson method** computes maximum flow by repeatedly finding augmenting paths; with careful bookkeeping (as in Edmonds and Karp's BFS-based variant), it runs in $O(VE^2)$ time.
 
 ## Eulerian and Hamiltonian Graphs
 
+The very origins of graph theory lie in a question about traversal. In 1736, the citizens of Königsberg, Prussia, wondered whether it was possible to walk through the city crossing each of its seven bridges exactly once. Leonid Euler observed that such a walk is possible only if the graph of landmasses and bridges has at most two vertices of odd degree, and he proved his observation rigorously — establishing not just a solution to the puzzle, but the first theorem of graph theory.
+
+An **Eulerian circuit** in a graph is a closed walk that uses every edge exactly once. Euler's theorem states: a connected graph has an Eulerian circuit if and only if every vertex has even degree. When exactly two vertices have odd degree, the graph admits an **Eulerian trail** (an open walk using every edge exactly once) starting and ending at those two vertices. The constructive algorithm, due to Hierholzer, runs in linear time: start anywhere, follow edges arbitrarily without repeating them until you return to the start, then splice in additional circuits at vertices where unused edges remain. The analogous problem for directed graphs has the same character: an Eulerian circuit exists if and only if the graph is connected and every vertex has equal in-degree and out-degree.
+
+A **Hamiltonian path** visits every vertex exactly once; a **Hamiltonian cycle** additionally returns to its starting vertex. Despite the superficial similarity to Eulerian paths, the Hamiltonian problem is dramatically harder. There is no simple degree-based criterion that is both necessary and sufficient, and the problem of deciding whether a Hamiltonian cycle exists is **NP-complete** (as shown by Karp in 1972). What we do have are sufficient conditions. **Dirac's theorem** (1952) guarantees a Hamiltonian cycle in any graph with $n \geq 3$ vertices where every vertex has degree at least $n/2$:
+
+$$\delta(G) \geq \frac{n}{2} \implies G \text{ is Hamiltonian.}$$
+
+**Ore's theorem** (1960) relaxes this to a condition on pairs of non-adjacent vertices: if $\deg(u) + \deg(v) \geq n$ for every non-adjacent pair $\{u,v\}$, then $G$ is Hamiltonian. The **Traveling Salesman Problem** — find the minimum-weight Hamiltonian cycle in a complete weighted graph — is one of the most intensively studied NP-hard optimization problems; Christofides' 1976 algorithm achieves a $\frac{3}{2}$-approximation for metric instances.
+
 ## Graph Coloring and Chromatic Properties
+
+A **proper vertex coloring** of a graph assigns a color to each vertex so that no two adjacent vertices share the same color. The minimum number of colors needed is the **chromatic number** $\chi(G)$. Coloring is the formalization of a broad class of conflict-avoidance problems: scheduling tasks that share resources, assigning frequencies to radio transmitters, and timetabling exams all reduce to graph coloring instances.
+
+Simple bounds on $\chi(G)$ are easy to state. The **clique number** $\omega(G)$ — the size of the largest complete subgraph — is a lower bound: $\chi(G) \geq \omega(G)$, since any clique requires as many colors as it has vertices. The **greedy algorithm** provides an upper bound: coloring vertices in some order and assigning the smallest available color uses at most $\Delta(G) + 1$ colors, where $\Delta(G)$ is the maximum degree. **Brooks' theorem** (1941) tightens this considerably: for any connected graph that is neither a complete graph nor an odd cycle, $\chi(G) \leq \Delta(G)$.
+
+The four-color problem — whether every planar graph is 4-colorable — captivated mathematicians for over a century after Francis Guthrie raised it in 1852. It was resolved only in 1976 by Appel and Haken using an exhaustive computer-assisted case analysis of 1,936 reducible configurations, a proof method that was controversial at the time but has since been validated and streamlined. The **Four Color Theorem** states:
+
+$$\text{Every planar graph satisfies } \chi(G) \leq 4.$$
+
+**Edge coloring** is the analogous problem for edges: assign colors to edges so that no two edges sharing a vertex receive the same color. The minimum number of colors needed is the **edge chromatic number** $\chi'(G)$, also called the **chromatic index**. **Vizing's theorem** (1964) shows that $\chi'(G)$ is either $\Delta(G)$ or $\Delta(G) + 1$, classifying graphs into Class 1 or Class 2 respectively. The **chromatic polynomial** $P(G, k)$ counts the number of proper $k$-colorings of $G$ and is always a polynomial in $k$; the deletion-contraction recurrence $P(G, k) = P(G - e, k) - P(G / e, k)$ enables recursive computation and connects coloring theory to the broader **Tutte polynomial**, which encodes both coloring and flow information.
 
 ## Matching Theory and Factors
 
+A **matching** in a graph is a set of edges with no two sharing a vertex — a set of pairwise non-adjacent edges. A **maximum matching** has the largest possible number of edges. This models assignment problems: pairing students with advisors, workers with jobs, or organ donors with recipients. A matching is **perfect** if it covers every vertex; perfect matchings exist only when $|V|$ is even and the graph is sufficiently well-connected.
+
+**Berge's theorem** (1957) characterizes maximum matchings via augmenting paths: a matching $M$ is maximum if and only if there is no **augmenting path** — a path that starts and ends on unmatched vertices and alternates between edges not in $M$ and edges in $M$. This structural insight immediately yields an algorithm: find augmenting paths and extend the matching until none remain.
+
+For bipartite graphs, the theory is especially clean. **Hall's marriage theorem** (1935) gives a necessary and sufficient condition for a perfect matching on one side: a bipartite graph $G = (A \cup B, E)$ has a matching that saturates every vertex in $A$ if and only if $|N(S)| \geq |S|$ for every $S \subseteq A$, where $N(S)$ denotes the set of neighbors of $S$ in $B$. The theorem's name comes from the romantic interpretation: a set of men can all be matched with a woman they know if and only if every subset of men collectively knows enough women. **König's theorem** for bipartite graphs adds a wonderful duality: the maximum matching size equals the minimum vertex cover size (the minimum number of vertices touching every edge).
+
+For general (non-bipartite) graphs, the key obstacle is **odd cycles**: they prevent a direct augmenting-path algorithm from working. Jack Edmonds overcame this in 1965 with his celebrated **blossom algorithm**, which contracts odd cycles (blossoms) into single vertices, finds augmenting paths in the contracted graph, and then lifts the solution back. The blossom algorithm was significant beyond its immediate result: it was one of the first polynomial-time algorithms for a seemingly hard combinatorial problem, and it influenced the development of the theory of efficient algorithms. Edmonds simultaneously introduced the concept of **polyhedral combinatorics**, describing the matching polytope as the convex hull of incidence vectors of perfect matchings.
+
 ## Planarity and Topological Graph Theory
+
+A graph is **planar** if it can be drawn in the plane with no edges crossing. Planar graphs are fundamental in applications (printed circuit boards, geographic maps) and in pure theory (the four-color theorem applies precisely to them). Euler's formula is the key structural result: for any connected planar graph,
+
+$$V - E + F = 2,$$
+
+where $F$ counts faces (including the unbounded outer face). This immediately implies that any simple planar graph satisfies $E \leq 3V - 6$, and bipartite planar graphs satisfy the tighter bound $E \leq 2V - 4$. Both bounds show that dense graphs cannot be planar.
+
+The complete graphs $K_5$ and the complete bipartite graph $K_{3,3}$ are the two minimal non-planar graphs, as established by **Kuratowski's theorem** (1930): a graph is planar if and only if it contains no subdivision of $K_5$ or $K_{3,3}$ as a subgraph. A **subdivision** replaces each edge with a path; Wagner's equivalent formulation uses the stronger notion of a **graph minor** (obtained by contracting, deleting, or isolating edges). Planarity can be tested algorithmically in linear time by the Hopcroft-Tarjan algorithm (1974).
+
+The Robertson-Seymour theorem, completed after two decades of work ending in 2004, is one of the deepest results in combinatorics: every minor-closed family of graphs has a finite set of **forbidden minors**. Planarity is the prototypical example, with $K_5$ and $K_{3,3}$ as the two forbidden minors. The theorem implies that every minor-closed property (planarity, embeddability on a surface of fixed genus, bounded treewidth) can in principle be decided by checking a finite list of obstructions, though identifying those lists is often a separate hard problem.
 
 ## Spectral Graph Theory
 
+The **adjacency matrix** $A$ of a graph $G$ on $n$ vertices encodes the graph's structure as a symmetric $\{0,1\}$-matrix, and its eigenvalues $\lambda_1 \geq \lambda_2 \geq \cdots \geq \lambda_n$ (the **spectrum** of $G$) encode a surprising amount of combinatorial information. The **Laplacian matrix** $L = D - A$, where $D$ is the diagonal degree matrix, is equally fundamental: it is positive semidefinite, has non-negative eigenvalues $0 = \mu_1 \leq \mu_2 \leq \cdots \leq \mu_n$, and the multiplicity of the zero eigenvalue equals the number of connected components. The second-smallest Laplacian eigenvalue $\mu_2$, called the **algebraic connectivity** or **Fiedler value**, measures how well-connected the graph is.
+
+The connection between eigenvalues and combinatorial expansion is captured by the **Cheeger inequality**. Define the **edge expansion** (or isoperimetric number) of $G$ as
+
+$$h(G) = \min_{S \subseteq V,\; |S| \leq n/2} \frac{|E(S, \bar{S})|}{\min(|S|, |\bar{S}|)},$$
+
+measuring how hard it is to separate the graph into two large pieces. The Cheeger inequality relates $h(G)$ to $\mu_2$:
+
+$$\frac{\mu_2}{2} \leq h(G) \leq \sqrt{2 \mu_2 \cdot \lambda_{\max}}.$$
+
+Graphs with large $\mu_2$ (or equivalently large $h(G)$) are called **expanders** — they are highly connected, have short diameters, and random walks mix quickly. Expanders have applications ranging from error-correcting codes and pseudorandom generators to robust network design. **Ramanujan graphs** are $d$-regular expanders achieving the Alon-Boppana spectral bound $\lambda_2 \leq 2\sqrt{d-1}$; their existence and explicit construction (by Lubotzky, Phillips, and Sarnak in 1988) was a major achievement connecting number theory, representation theory, and graph theory.
+
+Spectral methods have practical applications in data science. **Spectral clustering** uses the Fiedler eigenvector — the eigenvector corresponding to $\mu_2$ — to partition the graph into communities: the sign or magnitude of each vertex's coordinate in this eigenvector assigns it to one side of the "best" cut. The **PageRank** algorithm, the foundation of Google's original search engine, computes the stationary distribution of a random walk on the web graph, which corresponds to the leading eigenvector of a modified adjacency matrix.
+
 ## Random Graphs and Extremal Theory
+
+How does a typical graph look? The **Erdős-Rényi random graph** model $G(n, p)$, introduced by Erdős and Rényi in 1960, provides a probabilistic answer: each of the $\binom{n}{2}$ potential edges is included independently with probability $p$. One of the central phenomena in the theory is the existence of sharp **threshold functions**: for many graph properties $\mathcal{P}$, there is a critical probability $p^*(n)$ such that a graph in $G(n,p)$ possesses $\mathcal{P}$ with high probability (tending to 1 as $n \to \infty$) when $p \gg p^*(n)$, and fails to possess $\mathcal{P}$ with high probability when $p \ll p^*(n)$.
+
+The most dramatic threshold is the **giant component phase transition**. When $p < \frac{1}{n}$, all connected components of $G(n,p)$ are small (logarithmic in size). When $p > \frac{1}{n}$, a single **giant component** of size $\Theta(n)$ emerges suddenly, and all other components remain small. This discontinuous jump, discovered by Erdős and Rényi, was one of the first observations of a phase transition in discrete mathematics, and it foreshadowed connections to statistical physics that remain active today. The connectivity threshold is sharper: $G(n, p)$ is connected with high probability when $p \geq \frac{\ln n + \omega(n)}{n}$ for any $\omega(n) \to \infty$.
+
+**Extremal graph theory** asks: among all graphs on $n$ vertices that avoid some forbidden subgraph $H$, what is the maximum number of edges? The answer is the **Turán number** $\text{ex}(n, H)$. **Turán's theorem** (1941) solves this for $H = K_{r+1}$ (the complete graph on $r+1$ vertices): the maximum is achieved by the **Turán graph** $T(n, r)$, which partitions $n$ vertices into $r$ equal parts and connects every pair of vertices in different parts:
+
+$$\text{ex}(n, K_{r+1}) = \left(1 - \frac{1}{r}\right)\frac{n^2}{2} + O(n).$$
+
+For bipartite forbidden subgraphs, the Kővári-Sós-Turán theorem gives an upper bound, and the exact asymptotics often remain open. The **probabilistic method**, pioneered by Erdős, provides lower bounds through a simple but powerful idea: if a random construction has a positive probability of avoiding all bad properties, then a good construction must exist. This existential technique — proving existence without an explicit construction — is one of the most influential tools in modern combinatorics, uniting random graphs with extremal theory.

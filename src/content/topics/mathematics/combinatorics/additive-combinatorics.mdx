@@ -5,14 +5,99 @@ parent: mathematics/combinatorics
 order: 5
 color: "#ef4444"
 difficulty: advanced
-prerequisites: []
-status: stub
+prerequisites: ["mathematics/number-theory/elementary-number-theory", "mathematics/combinatorics/enumerative-combinatorics"]
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: "2026-02-28"
 ---
+
+Additive combinatorics sits at the crossroads of combinatorics, number theory, and harmonic analysis, asking a deceptively simple question: what can we say about a set of integers if we know something about how it behaves under addition? The field has produced some of the most striking results in modern mathematics — among them the proof that the prime numbers contain arbitrarily long arithmetic progressions — by combining elementary counting arguments with deep tools from Fourier analysis and ergodic theory. Its methods have reshaped our understanding of structure and randomness in arithmetic, and they continue to drive progress on some of the hardest open problems in mathematics.
 
 ## Sumsets and Additive Structure
 
+The central object of additive combinatorics is the **sumset**. Given two finite sets $A$ and $B$ of integers (or, more generally, of elements in an abelian group), their sumset is
+
+$$A + B = \{a + b : a \in A,\, b \in B\}.$$
+
+The size of $A + B$ tells us something fundamental about the arithmetic structure of $A$ and $B$. If $A$ and $B$ are "spread out" and arithmetically independent, we expect $|A + B|$ to be close to $|A| \cdot |B|$ — the maximum possible. If, on the other hand, $A$ and $B$ are highly structured, the sumset can be much smaller.
+
+The extreme case is when $A = B$ is an **arithmetic progression** (AP) — a set of the form $\{a, a+d, a+2d, \ldots, a+(n-1)d\}$ for some common difference $d$. For such a set, $|A + A| = 2|A| - 1$, the smallest possible value (modulo constant factors). Intuitively, the sumset of an arithmetic progression is just a longer arithmetic progression — addition does not create new elements because all the spacing is regular. This observation motivates the central heuristic of the field: **a set with a small sumset must look like an arithmetic progression**.
+
+The **doubling constant** of a set $A$ is defined as $K = |A + A| / |A|$. A set $A$ is said to have **small doubling** if $K$ is bounded by a constant. Sets with small doubling are the main objects of study in additive combinatorics. They are sets where addition "compresses" rather than "expands," indicating hidden arithmetic regularity.
+
+A foundational result in this direction is the **Cauchy-Davenport theorem**, proved independently by Augustin-Louis Cauchy in 1813 and Harold Davenport in 1935. It states that for nonempty subsets $A$ and $B$ of $\mathbb{Z}/p\mathbb{Z}$ (integers modulo a prime $p$),
+
+$$|A + B| \geq \min(p, |A| + |B| - 1).$$
+
+This is a sharp lower bound: it says the sumset cannot be too small relative to the sizes of $A$ and $B$, and equality holds precisely when $A$ and $B$ are arithmetic progressions with the same common difference. Cauchy's proof used a polynomial argument; later proofs by Davenport and others introduced more combinatorial flavour. The theorem remains a cornerstone of additive combinatorics over finite fields and has spawned generations of generalizations.
+
+Another key tool is the **Plünnecke-Ruzsa inequality**, which controls iterated sumsets. If $|A + B| \leq K|A|$, then for all nonneg integers $m$ and $n$,
+
+$$|mB - nB| \leq K^{m+n}|A|,$$
+
+where $mB - nB$ denotes the set of all sums of $m$ elements of $B$ minus $n$ elements of $B$. This remarkable result, due to Helmut Plünnecke with simplified proofs by Imre Ruzsa, shows that small doubling in one direction controls growth in all iterated directions. Ruzsa's combinatorial simplification in the 1990s was especially influential, and the Plünnecke-Ruzsa framework became the standard language for additive structure.
+
+The **Erdős-Ginzburg-Ziv theorem** (1961) illustrates another face of additive combinatorics — **zero-sum theory**. It states that among any $2n - 1$ integers, we can always find $n$ of them whose sum is divisible by $n$. The bound $2n - 1$ is sharp: choosing $n - 1$ copies of $0$ and $n - 1$ copies of $1$ modulo $n$ shows that $2n - 2$ elements may not suffice. Zero-sum problems ask about the existence of subsets or subsequences with a prescribed sum, and they connect additive combinatorics to combinatorial group theory and algebraic number theory.
+
 ## Freiman's Theorem and Inverse Problems
 
-## Arithmetic Progressions and Szemeredi's Theorem
+The philosophy of **inverse problems** in additive combinatorics is to take a combinatorial conclusion — such as "the sumset is small" — and reverse-engineer the algebraic structure that must have caused it. Rather than asking how large the sumset of a given structured set can be, we ask: if the sumset is small, what structure must the original set have?
+
+**Freiman's theorem**, proved by Gregory Freiman in the 1960s and published fully in his 1973 monograph, is the central result in this direction. It answers the question: if $A$ is a finite set of integers with $|A + A| \leq K|A|$, what can we say about $A$? Freiman's answer is that $A$ must be contained in a **generalized arithmetic progression** (GAP) of bounded rank and size.
+
+A generalized arithmetic progression of rank $r$ is a set of the form
+
+$$P = \{a_0 + x_1 d_1 + x_2 d_2 + \cdots + x_r d_r : 0 \leq x_i \leq N_i\}$$
+
+for integers $a_0, d_1, \ldots, d_r$ and positive integers $N_1, \ldots, N_r$. A GAP of rank $1$ is just an ordinary arithmetic progression. A GAP of rank $2$ looks like a rectangular grid of integers, a GAP of rank $3$ like a box, and so on. Freiman's theorem asserts that for every $K$ there exist constants $r(K)$ and $C(K)$ such that any set $A$ with $|A + A| \leq K|A|$ is contained in a GAP of rank at most $r(K)$ and size at most $C(K)|A|$.
+
+The original proof by Freiman was difficult and relied on geometry of numbers. Ruzsa gave a cleaner proof in 1994 using covering arguments and the Plünnecke inequality. Later, Gowers and others made the dependence of $r$ and $C$ on $K$ more explicit, and the **polynomial Freiman-Ruzsa conjecture** (now a theorem, proved by Gowers building on work of Sanders, and resolved in full by Gowers, Green, Manners, and Tao in 2023) sharpened the bound to polynomial dependence on $K$.
+
+A central intermediate object in the theory is the **Bohr set**. For a set $R$ of frequencies modulo $p$ and a parameter $\delta > 0$, the Bohr set $\mathrm{Bohr}(R, \delta)$ consists of all integers $n$ for which $\|rn/p\| \leq \delta$ for all $r \in R$ (where $\|\cdot\|$ denotes distance to the nearest integer). Bohr sets arise naturally when one uses Fourier analysis to detect additive structure, and they serve as the "right" generalization of arithmetic progressions in that setting. The connection between Bohr sets and GAPs is deep and is central to the Fourier-analytic approach to Freiman's theorem.
+
+The generalization of Freiman's theorem to other abelian groups — for instance, to $\mathbb{F}_p^n$, the vector space over a prime field — takes a particularly clean form. In that setting, the role of generalized arithmetic progressions is played by **cosets of subgroups**, and Freiman's theorem becomes: a set with small doubling in $\mathbb{F}_p^n$ is efficiently covered by a subspace. This result, due to Ruzsa, is both cleaner and more algebraically transparent than its integer counterpart, and it has been the proving ground for many of the Fourier-analytic techniques now used across additive combinatorics.
+
+## Arithmetic Progressions and Szemerédi's Theorem
+
+One of the oldest and most influential problems in combinatorial number theory is: how dense must a set of integers be before it is guaranteed to contain an arithmetic progression of length $k$? The answer is given by **Szemerédi's theorem**, one of the landmark theorems of twentieth-century mathematics.
+
+The story begins with Erdős and Turán, who conjectured in 1936 that every set of positive integers with positive upper density must contain arithmetic progressions of every finite length. The **upper density** of a set $A \subseteq \mathbb{N}$ is
+
+$$\overline{d}(A) = \limsup_{N \to \infty} \frac{|A \cap \{1, 2, \ldots, N\}|}{N}.$$
+
+The Erdős-Turán conjecture says: if $\overline{d}(A) > 0$, then $A$ contains an AP of length $k$ for every $k \geq 1$.
+
+The first major progress was Klaus Roth's 1953 theorem, which proved the case $k = 3$: any subset of $\{1, \ldots, N\}$ with density at least $C / \log \log N$ contains a 3-term AP. Roth's proof was revolutionary — it introduced the **Fourier-analytic method** into combinatorics, decomposing the characteristic function of $A$ into Fourier modes and exploiting the large Fourier coefficients to find structure. The argument established the "density increment" strategy: either $A$ has unusually large Fourier coefficients (it is "structured") and we can find a long AP on which $A$ is denser, or it is "pseudorandom" and a direct counting argument finds APs.
+
+The case $k = 4$ resisted until 1969, when Endre Szemerédi proved it using combinatorial methods. Then, in 1975, Szemerédi proved the full conjecture for all $k$ — a tour de force of combinatorial ingenuity that introduced the **Szemerédi Regularity Lemma** as a key tool. This lemma, which we state informally, says that the vertex set of any sufficiently large graph can be partitioned into a bounded number of parts such that most pairs of parts behave like random bipartite graphs (they are "regular"). The regularity lemma has since become one of the most powerful tools in extremal graph theory and combinatorics.
+
+To state Szemerédi's theorem precisely: for every $\delta > 0$ and every integer $k \geq 1$, there exists $N_0(\delta, k)$ such that for all $N \geq N_0(\delta, k)$, every subset $A \subseteq \{1, 2, \ldots, N\}$ with $|A| \geq \delta N$ contains an arithmetic progression of length $k$.
+
+In 1977, Hillel Furstenberg gave a completely different proof of Szemerédi's theorem using **ergodic theory** — specifically, his **multiple recurrence theorem**: for any measure-preserving system $(X, \mathcal{B}, \mu, T)$ and any set $E$ with $\mu(E) > 0$,
+
+$$\liminf_{N \to \infty} \frac{1}{N} \sum_{n=1}^{N} \mu(E \cap T^{-n}E \cap T^{-2n}E \cap \cdots \cap T^{-(k-1)n}E) > 0.$$
+
+Furstenberg's correspondence principle translates the combinatorial problem (finding APs in dense sets) into a question about multiple recurrence in a dynamical system. Although the ergodic proof is non-quantitative, it revealed profound connections between combinatorics and ergodic theory that have been fruitful ever since.
+
+The quantitative question — how small can the density of a $k$-AP-free set be? — remains active. For $k = 3$, the bound was improved successively by Bourgain, Green, Tao, and others, before the breakthrough result of Bloom and Sisask in 2021, who showed that any 3-AP-free subset of $\{1, \ldots, N\}$ has density $O((\log N)^{-1-c})$ for an absolute constant $c > 0$, surpassing the logarithmic barrier for the first time. The full quantitative Szemerédi problem for $k \geq 4$ remains one of the great open challenges.
 
 ## Connections to Number Theory
+
+The most spectacular application of additive combinatorics to number theory is the **Green-Tao theorem**, proved by Ben Green and Terence Tao in 2004 and published in 2008. It states that the prime numbers contain arithmetic progressions of arbitrarily large length. More precisely: for every $k \geq 1$, there exist prime numbers $p_1 < p_2 < \cdots < p_k$ forming an arithmetic progression.
+
+The result had been suspected for a very long time — Lagrange and Waring discussed the problem in the eighteenth century, and Dickson conjectured in 1904 that there should be infinitely many $k$-term AP of primes for each $k$ — but it seemed hopelessly out of reach. The primes have density zero in the integers (by the prime number theorem, there are approximately $N / \log N$ primes up to $N$), so Szemerédi's theorem does not apply directly to them. Green and Tao circumvented this obstacle with a remarkable generalization.
+
+The key idea is the **relative Szemerédi theorem**: rather than finding APs in dense subsets of $\{1, \ldots, N\}$, one can find APs in dense subsets of a suitably "pseudorandom" sparse set. Green and Tao constructed a **pseudorandom measure** — a weight function on integers that mimics many properties of the uniform measure on $\{1, \ldots, N\}$, but is supported on the primes (more precisely, on the "almost primes" in a suitable sense, using sieves). They then proved that Szemerédi's theorem holds relative to any pseudorandom measure, and finally verified that the primes have sufficient density with respect to this measure.
+
+The proof draws together additive combinatorics (Szemerédi's theorem), analytic number theory (sieve theory, exponential sums), and harmonic analysis (higher-order Fourier analysis). Tao subsequently developed the theory of **Gowers norms** and **higher-order Fourier analysis** as a systematic framework for understanding and generalizing these results. The Gowers $U^k$ norm of a function $f : \mathbb{Z}/N\mathbb{Z} \to \mathbb{C}$ measures its correlation with degree-$(k-1)$ polynomial phases, and functions with small Gowers norm contain APs at the expected frequency.
+
+The connection to the **Waring-Goldbach problem** runs deep. Goldbach's conjecture — that every even integer greater than $2$ is the sum of two primes — remains open, but additive combinatorics has yielded unconditional results on related problems. Vinogradov's theorem (1937), proved using exponential sums (the **Hardy-Littlewood-Vinogradov circle method**), shows that every sufficiently large odd integer is the sum of three primes. The circle method itself is a meeting point of analytic number theory and additive combinatorics: one writes the counting function for representations as an integral and divides the circle into "major arcs" (where the integrand is large and structured) and "minor arcs" (where it is small and treated as an error term).
+
+The **polynomial method** has also opened a new front in additive combinatorics with number-theoretic applications. Zeev Dvir's 2009 proof of the finite field Kakeya conjecture used a spectacularly simple polynomial argument: if a set contains a line in every direction, a polynomial vanishing on it would have to have too high a degree to exist, giving a contradiction. This polynomial approach was subsequently extended by Croot, Lev, Pach, and independently by Ellenberg and Gijswijt to solve the **cap set problem**: what is the maximum size of a subset of $\mathbb{F}_3^n$ containing no 3-term arithmetic progression? The answer, proved in 2016, is $O(2.756^n)$, exponentially smaller than the ambient space $3^n$. The cap set problem had been open for decades and the polynomial method solution was startlingly short — just a few pages. The technique has since been adapted to study related problems over integers and has led to improved bounds on the density of 3-AP-free sets.
+
+The **sum-product phenomenon** bridges additive and multiplicative combinatorics. The Erdős-Szemerédi conjecture (1983) states that for any finite set $A$ of real numbers, either the sumset $A + A$ or the product set $A \cdot A = \{ab : a, b \in A\}$ must be large:
+
+$$\max(|A + A|, |A \cdot A|) \geq C|A|^{2 - \varepsilon}$$
+
+for every $\varepsilon > 0$. The intuition is that a set cannot simultaneously have strong additive and multiplicative structure — it would have to look both like an arithmetic progression (small $A + A$) and like a geometric progression (small $A \cdot A$), and these two types of regularity are incompatible. Bourgain, Katz, and Tao proved a version of the sum-product estimate in finite fields $\mathbb{F}_p$, and these estimates have had remarkable applications to combinatorics of incidences and to exponential sums in analytic number theory. The sum-product phenomenon continues to drive connections between additive combinatorics and the surrounding mathematical landscape.
