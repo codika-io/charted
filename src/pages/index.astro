@@ -21,12 +21,32 @@ import { MATHEMATICS_TOPICS, MATHEMATICS_EDGES, COMPUTER_SCIENCE_TOPICS, COMPUTE
             Explore how fields connect, evolve, and build on each other.
           </p>
           <div class="mt-8 flex gap-4 justify-center lg:justify-start">
-            <a
-              href="#mathematics"
-              class="inline-block font-mono text-sm uppercase tracking-wider bg-surface-900 text-white px-6 py-3 hover:bg-surface-800 transition-colors"
-            >
-              Explore the map
-            </a>
+            <div class="relative group">
+              <span
+                class="inline-block font-mono text-sm uppercase tracking-wider bg-surface-900 text-white px-6 py-3 group-hover:bg-surface-700 transition-colors cursor-default"
+                data-hover-sound
+              >
+                Explore the maps
+              </span>
+              <div class="absolute top-full left-0 min-w-full opacity-0 invisible translate-y-1 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-200 z-10">
+                <a
+                  href="#mathematics"
+                  class="block font-mono text-sm uppercase tracking-wider text-white px-6 py-3 whitespace-nowrap hover:brightness-110 transition-all"
+                  style="background-color: #dc2626;"
+                  data-hover-sound
+                >
+                  Mathematics
+                </a>
+                <a
+                  href="#computer-science"
+                  class="block font-mono text-sm uppercase tracking-wider text-white px-6 py-3 whitespace-nowrap hover:brightness-110 transition-all"
+                  style="background-color: #2563eb;"
+                  data-hover-sound
+                >
+                  Computer Science
+                </a>
+              </div>
+            </div>
             <a
               href="https://github.com/codika-io/charted"
               target="_blank"
