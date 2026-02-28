@@ -6,15 +6,81 @@ order: 2
 color: "#ef4444"
 difficulty: beginner
 prerequisites: ["mathematics/logic/propositional-logic"]
-status: stub
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: "2026-02-28"
 ---
+
+First-order logic (FOL), also called predicate logic or quantificational logic, extends the propositional logic introduced in the prerequisite topic by adding predicates, variables ranging over objects, and quantifiers that express statements about "all" or "some" elements of a domain. Where propositional logic can only say "it is raining" or "it is not raining," first-order logic can say "for every natural number $n$, there exists a prime $p$ greater than $n$." This expressive leap makes FOL the standard formal language of mathematics: virtually every theorem in algebra, analysis, and geometry can be stated as a first-order sentence interpreted over an appropriate structure.
 
 ## Predicate Logic and Quantification
 
+The language of first-order logic builds on the propositional connectives ($\neg, \land, \lor, \to, \leftrightarrow$) established in propositional logic, but introduces three new ingredients: **terms**, **predicates**, and **quantifiers**. Terms are the names for objects — they include **constants** (like $0$ or $c$), **variables** (like $x$, $y$, $z$), and expressions built from **function symbols** applied to other terms (like $f(x)$ or $s(s(0))$ for the successor of the successor of zero). Predicates are the properties and relations we assert about terms: a unary predicate $P(x)$ might mean "$x$ is prime," while a binary predicate $R(x, y)$ might mean "$x$ is less than $y$." An **atomic formula** is a predicate applied to the appropriate number of terms, such as $P(f(x))$ or $R(x, c)$.
+
+The real power of first-order logic comes from the **quantifiers**. The **universal quantifier** $\forall x$ asserts that a formula holds for every element of the domain, and the **existential quantifier** $\exists x$ asserts that it holds for at least one. A formula like $\forall x \, (P(x) \to \exists y \, R(x, y))$ says "for every $x$, if $P(x)$ holds, then there exists some $y$ such that $R(x, y)$ holds." The formal syntax of first-order logic is defined recursively: atomic formulas are formulas; if $\varphi$ and $\psi$ are formulas, so are $\neg \varphi$, $(\varphi \land \psi)$, $(\varphi \lor \psi)$, $(\varphi \to \psi)$, $\forall x \, \varphi$, and $\exists x \, \varphi$.
+
+A crucial distinction arises between **free** and **bound** variables. In the formula $\forall x \, R(x, y)$, the variable $x$ is bound by the quantifier $\forall x$, while $y$ is free — its value must be supplied externally. A **sentence** is a formula with no free variables; only sentences have definite truth values in a given structure. **Substitution** — replacing a free variable $x$ with a term $t$ in a formula $\varphi$, written $\varphi[t/x]$ — must be done carefully to avoid **variable capture**, where a free variable in $t$ accidentally becomes bound by a quantifier in $\varphi$. Capture-free substitution is essential for the soundness of quantifier rules in proof systems.
+
+Two important syntactic transformations deserve mention. **Prenex normal form** moves all quantifiers to the front of a formula, producing an equivalent formula of the shape $Q_1 x_1 \, Q_2 x_2 \, \cdots \, Q_n x_n \, \psi$, where each $Q_i$ is $\forall$ or $\exists$ and $\psi$ is quantifier-free. **Skolemization** eliminates existential quantifiers by introducing new function symbols: a formula $\forall x \, \exists y \, R(x, y)$ becomes $\forall x \, R(x, f(x))$, where $f$ is a fresh Skolem function. This transformation preserves satisfiability (though not logical equivalence) and is fundamental to automated theorem proving.
+
+Historically, first-order logic originates in Gottlob Frege's *Begriffsschrift* (1879), a landmark work that introduced quantifiers and variables into formal logic for the first time, breaking decisively from the Aristotelian syllogistic tradition that had dominated logic for over two millennia. Charles Sanders Peirce independently developed a notation for quantified logic in the 1880s. The modern notation and systematic treatment were refined by Giuseppe Peano, Bertrand Russell, and Alfred North Whitehead in the early twentieth century, culminating in the formalization that became standard by the 1930s.
+
 ## Structures, Interpretations, and Satisfaction
+
+A first-order language is pure syntax — symbols without meaning. To determine whether a sentence is true or false, we need a **structure** (also called a **model** or **interpretation**) that gives meaning to each symbol. Formally, a first-order structure $\mathcal{M}$ for a language $\mathcal{L}$ consists of:
+
+- A non-empty set $M$, called the **domain** (or **universe**) of the structure.
+- For each constant symbol $c$ in $\mathcal{L}$, an element $c^{\mathcal{M}} \in M$.
+- For each $n$-ary function symbol $f$ in $\mathcal{L}$, a function $f^{\mathcal{M}} : M^n \to M$.
+- For each $n$-ary predicate symbol $P$ in $\mathcal{L}$, a relation $P^{\mathcal{M}} \subseteq M^n$.
+
+For example, the structure $(\mathbb{N}, 0, S, +, \cdot, <)$ interprets the language of arithmetic by taking the natural numbers as the domain, $0$ as the constant zero, $S$ as the successor function, and $+$, $\cdot$, $<$ with their usual meanings.
+
+The definition of truth in a structure is due to Alfred Tarski, who in his seminal 1933 paper formalized the **satisfaction relation** $\mathcal{M} \models \varphi[s]$, read "$\mathcal{M}$ satisfies $\varphi$ under variable assignment $s$." Here $s$ is a function mapping variables to elements of $M$. The definition proceeds recursively:
+
+$$\mathcal{M} \models P(t_1, \ldots, t_n)[s] \quad \text{iff} \quad (t_1^{\mathcal{M}}[s], \ldots, t_n^{\mathcal{M}}[s]) \in P^{\mathcal{M}}$$
+
+$$\mathcal{M} \models \neg \varphi[s] \quad \text{iff} \quad \mathcal{M} \not\models \varphi[s]$$
+
+$$\mathcal{M} \models (\varphi \land \psi)[s] \quad \text{iff} \quad \mathcal{M} \models \varphi[s] \text{ and } \mathcal{M} \models \psi[s]$$
+
+$$\mathcal{M} \models \forall x \, \varphi[s] \quad \text{iff} \quad \text{for every } a \in M, \; \mathcal{M} \models \varphi[s(x/a)]$$
+
+$$\mathcal{M} \models \exists x \, \varphi[s] \quad \text{iff} \quad \text{there exists } a \in M \text{ such that } \mathcal{M} \models \varphi[s(x/a)]$$
+
+where $s(x/a)$ denotes the assignment that agrees with $s$ everywhere except that it maps $x$ to $a$, and $t^{\mathcal{M}}[s]$ denotes the element of $M$ obtained by evaluating term $t$ under the interpretation $\mathcal{M}$ and assignment $s$. The clauses for $\lor$, $\to$, and $\leftrightarrow$ follow from their definitions in terms of $\neg$ and $\land$ (as in propositional logic).
+
+A sentence $\varphi$ is **valid** (written $\models \varphi$) if $\mathcal{M} \models \varphi$ for every structure $\mathcal{M}$ in the appropriate language. A sentence $\varphi$ is a **logical consequence** of a set of sentences $\Gamma$ (written $\Gamma \models \varphi$) if every structure satisfying all sentences in $\Gamma$ also satisfies $\varphi$. Two structures $\mathcal{M}$ and $\mathcal{N}$ are **elementarily equivalent**, written $\mathcal{M} \equiv \mathcal{N}$, if they satisfy exactly the same first-order sentences. Elementary equivalence is a weaker relation than isomorphism: there exist non-isomorphic structures that satisfy the same sentences, a phenomenon explored further in model theory.
 
 ## Proof Systems for First-Order Logic
 
+As established in propositional logic, a proof system provides a purely syntactic method for deriving valid formulas and logical consequences without reference to semantic notions like truth and models. First-order proof systems extend propositional ones with rules for the quantifiers.
+
+In **natural deduction**, there are four quantifier rules, each with important variable conditions. **Universal elimination** ($\forall$-elim) allows us to conclude $\varphi[t/x]$ from $\forall x \, \varphi$ for any term $t$ — we may instantiate a universal statement with any object. **Universal introduction** ($\forall$-intro) allows us to conclude $\forall x \, \varphi$ from a derivation of $\varphi$ in which $x$ is an **arbitrary** variable — meaning $x$ does not appear free in any undischarged assumption. This side condition is what prevents us from illegitimately generalizing from a special case. **Existential introduction** ($\exists$-intro) allows us to conclude $\exists x \, \varphi$ from $\varphi[t/x]$ for any term $t$ — if a particular witness satisfies the formula, then something does. **Existential elimination** ($\exists$-elim) allows us to derive a conclusion $\psi$ from $\exists x \, \varphi$ by assuming $\varphi[c/x]$ for a fresh constant $c$ and deriving $\psi$, provided $c$ does not appear in $\psi$ or in any undischarged assumptions other than $\varphi[c/x]$.
+
+**Hilbert-style systems** for first-order logic extend propositional Hilbert systems with additional axiom schemas and the rule of **universal generalization**: from $\varphi$, infer $\forall x \, \varphi$ (with the appropriate variable conditions). Typical additional axiom schemas include the instantiation axiom $\forall x \, \varphi \to \varphi[t/x]$ (provided $t$ is free for $x$ in $\varphi$) and the distribution axiom $\forall x \, (\varphi \to \psi) \to (\forall x \, \varphi \to \forall x \, \psi)$. **Sequent calculus** for FOL extends Gentzen's propositional sequent calculus with left and right rules for each quantifier, and Gentzen's cut-elimination theorem (the *Hauptsatz*) extends to the first-order case, yielding a proof of the subformula property.
+
+A particularly important proof method is **resolution**, adapted for first-order logic by John Alan Robinson in 1965. Resolution works on formulas in clausal form (a conjunction of disjunctions of literals) and applies a single inference rule: from clauses $C \lor P(s_1, \ldots, s_n)$ and $D \lor \neg P(t_1, \ldots, t_n)$, derive $C\sigma \lor D\sigma$, where $\sigma$ is a **most general unifier** (MGU) of $P(s_1, \ldots, s_n)$ and $P(t_1, \ldots, t_n)$. Robinson's **unification algorithm** computes the MGU — the most general substitution that makes two terms identical. Resolution combined with Skolemization forms the basis of automated theorem proving systems and is the engine behind logic programming languages like Prolog.
+
 ## Completeness and Compactness Theorems
 
+The **completeness theorem**, proved by Kurt Godel in his 1930 doctoral dissertation, is one of the most important results in mathematical logic. It establishes a perfect correspondence between semantic truth and syntactic provability in first-order logic:
+
+$$\text{If } \Gamma \models \varphi, \text{ then } \Gamma \vdash \varphi.$$
+
+In words: every logically valid first-order sentence has a formal proof, and every logical consequence of a set of axioms can be derived from those axioms using the rules of a sound proof system. Combined with the converse direction — **soundness**, which states that $\Gamma \vdash \varphi$ implies $\Gamma \models \varphi$ — this means that the syntactic notion of provability and the semantic notion of logical consequence coincide exactly for first-order logic. This is a remarkable and non-obvious fact; as we will see, it fails for stronger logics like second-order logic.
+
+Godel's original proof constructed a model from syntax. In 1949, Leon Henkin gave an elegant alternative proof strategy, now the standard presentation. **Henkin's method** proceeds in three steps: (1) extend the set $\Gamma$ to a **maximally consistent** set $\Gamma^*$ — one that is consistent and cannot be extended with any new sentence without becoming inconsistent; (2) add **Henkin witnesses** so that for every sentence $\exists x \, \varphi(x)$ in $\Gamma^*$, there is a constant $c$ with $\varphi(c) \in \Gamma^*$; and (3) construct the **term model** (or **Henkin model**) whose domain consists of equivalence classes of closed terms and whose interpretation is dictated by $\Gamma^*$. The key insight is that a maximally consistent set with witnesses already encodes a complete description of a model.
+
+The **compactness theorem** is an immediate corollary of completeness: a set of first-order sentences $\Gamma$ has a model if and only if every finite subset of $\Gamma$ has a model. The proof is short — if $\Gamma$ has no model, then $\Gamma \models \bot$ (a contradiction), so by completeness $\Gamma \vdash \bot$, but any formal proof uses only finitely many premises, so some finite $\Gamma_0 \subseteq \Gamma$ already proves $\bot$, meaning $\Gamma_0$ has no model. Compactness can also be proved directly using ultraproducts, without appealing to completeness.
+
+Compactness has profound and sometimes surprising consequences. It implies the existence of **non-standard models of arithmetic** — models of the first-order Peano axioms that contain "numbers" greater than every standard natural number. To see this, add to the Peano axioms a new constant $c$ and the sentences $c > 0$, $c > 1$, $c > 2$, and so on. Every finite subset has a model (just interpret $c$ as a sufficiently large standard number), so by compactness the entire set has a model — but in any such model, $c$ must be greater than every standard natural number. This shows that first-order logic cannot pin down the natural numbers up to isomorphism, a limitation explored further in model theory and addressed more precisely by the categoricity results discussed there.
+
 ## Extensions and Decidability
+
+The **Lowenheim-Skolem theorem**, one of the earliest results in model theory, reveals a fundamental limitation of first-order logic. The **downward** Lowenheim-Skolem theorem (Lowenheim, 1915; Skolem, 1920) states that if a first-order theory has a model of any infinite cardinality, then it has a countable model. The **upward** Lowenheim-Skolem theorem extends this: if a theory in a countable language has an infinite model, then it has models of every infinite cardinality. Together, these results show that first-order logic cannot distinguish between different infinite cardinalities — a consequence known as **Skolem's paradox** when applied to set theory, since ZFC (if consistent) has a countable model, yet proves the existence of uncountable sets.
+
+A natural question is whether first-order validity is **decidable** — is there an algorithm that, given any first-order sentence $\varphi$, determines whether $\models \varphi$? The answer is no. In 1936, Alonzo Church and Alan Turing independently proved that the set of valid first-order sentences is **undecidable**: there is no Turing machine that correctly classifies every sentence as valid or invalid. This result, connecting logic to computability theory, is one of the foundational theorems of theoretical computer science. However, certain restricted fragments of first-order logic are decidable. **Monadic first-order logic** (where all predicates are unary) was shown decidable by Lowenheim. The **two-variable fragment** $\text{FO}^2$ (formulas using at most two distinct variables) is decidable, as is the **guarded fragment** introduced by Andréka, van Benthem, and Németi in 1998.
+
+**Second-order logic** extends first-order logic by allowing quantification not just over individual elements but over predicates and functions on the domain. This dramatically increases expressive power: second-order logic can characterize the natural numbers up to isomorphism (via the second-order Peano axioms) and can express properties like "the domain is finite" or "the graph is connected," which are not first-order expressible. However, this power comes at a steep cost. By **Lindstrom's theorem** (1969), first-order logic is the strongest logic satisfying both the compactness theorem and the downward Lowenheim-Skolem theorem. Second-order logic satisfies neither: it lacks compactness, and Godel's completeness theorem fails for it — there is no sound and complete proof system for second-order validity. This tradeoff between expressive power and metalogical properties is a central theme in the study of logical systems, explored further in model theory and type theory.

@@ -6,13 +6,135 @@ order: 1
 color: "#ef4444"
 difficulty: beginner
 prerequisites: []
-status: stub
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: "2026-02-28"
 ---
+
+Propositional logic is the study of how the truth or falsity of complex statements is determined by the truth or falsity of their parts. It is the simplest formal logical system and the foundation upon which all of mathematical reasoning is built. By stripping language down to atomic propositions connected by logical operators, propositional logic gives us a precise, mechanical way to determine when an argument is valid — making it the entry point to the entire Logic branch and, in many ways, to mathematics itself.
 
 ## Propositional Language and Connectives
 
+The basic building blocks of propositional logic are **atomic propositions** (also called **propositional variables**) — statements that are either true or false, with no internal structure that the logic can see. We typically write them as lowercase letters $p$, $q$, $r$, and so on. The statement "it is raining" might be represented as $p$; the statement "the ground is wet" as $q$. On their own, atomic propositions say very little. The expressive power of the system comes from combining them with **logical connectives**.
+
+There are five standard connectives, each corresponding to an operation on truth values:
+
+| Connective | Symbol | Name | Reading |
+|---|---|---|---|
+| Negation | $\neg$ | NOT | "not $p$" |
+| Conjunction | $\land$ | AND | "$p$ and $q$" |
+| Disjunction | $\lor$ | OR | "$p$ or $q$" |
+| Conditional | $\to$ | IF...THEN | "if $p$ then $q$" |
+| Biconditional | $\leftrightarrow$ | IF AND ONLY IF | "$p$ if and only if $q$" |
+
+Negation is the only **unary** connective — it applies to a single formula. The other four are **binary**, combining two formulas into one. These connectives are not arbitrary choices; they capture the most common patterns of logical reasoning in everyday mathematics and in natural language.
+
+Not every string of symbols is a meaningful formula. The **well-formed formulas** (wffs) of propositional logic are defined recursively:
+
+1. Every propositional variable $p_1, p_2, p_3, \ldots$ is a well-formed formula.
+2. If $\varphi$ is a well-formed formula, then $\neg \varphi$ is a well-formed formula.
+3. If $\varphi$ and $\psi$ are well-formed formulas, then $(\varphi \land \psi)$, $(\varphi \lor \psi)$, $(\varphi \to \psi)$, and $(\varphi \leftrightarrow \psi)$ are well-formed formulas.
+4. Nothing else is a well-formed formula.
+
+This recursive definition ensures that every formula has a unique parsing. In practice, we drop outer parentheses and adopt a standard **precedence** ordering to reduce clutter: $\neg$ binds tightest, then $\land$, then $\lor$, then $\to$, and finally $\leftrightarrow$ binds loosest. Under these conventions, the expression $\neg p \land q \to r$ is parsed as $((\neg p) \land q) \to r$, not as $\neg(p \land (q \to r))$.
+
+The historical roots of this system lie in the work of **George Boole**, whose 1854 treatise *The Laws of Thought* recast Aristotelian logic as an algebra of classes, effectively creating what we now call Boolean algebra. Boole showed that logical reasoning could be reduced to symbolic calculation — a revolutionary insight. Around the same time, **Augustus De Morgan** formulated the laws that bear his name, establishing a deep duality between conjunction and disjunction. Together, Boole and De Morgan transformed logic from a branch of philosophy into a branch of mathematics, setting the stage for everything that would follow in formal logic and, eventually, computer science.
+
 ## Truth Tables and Semantic Evaluation
+
+To determine whether a compound formula is true or false, we need a **truth valuation** — an assignment of truth values (True or False, often written $\mathbf{T}$ and $\mathbf{F}$, or $1$ and $0$) to every propositional variable in the formula. Once such an assignment is fixed, the truth value of any compound formula is computed mechanically by evaluating each connective according to its definition. The tool for displaying all possible evaluations is the **truth table**, a technique that was introduced in essentially its modern form by **Ludwig Wittgenstein** in his 1921 *Tractatus Logico-Philosophicus* and independently by Emil Post.
+
+Here are the truth tables for all five standard connectives:
+
+**Negation:**
+
+| $p$ | $\neg p$ |
+|---|---|
+| $\mathbf{T}$ | $\mathbf{F}$ |
+| $\mathbf{F}$ | $\mathbf{T}$ |
+
+**Conjunction and Disjunction:**
+
+| $p$ | $q$ | $p \land q$ | $p \lor q$ |
+|---|---|---|---|
+| $\mathbf{T}$ | $\mathbf{T}$ | $\mathbf{T}$ | $\mathbf{T}$ |
+| $\mathbf{T}$ | $\mathbf{F}$ | $\mathbf{F}$ | $\mathbf{T}$ |
+| $\mathbf{F}$ | $\mathbf{T}$ | $\mathbf{F}$ | $\mathbf{T}$ |
+| $\mathbf{F}$ | $\mathbf{F}$ | $\mathbf{F}$ | $\mathbf{F}$ |
+
+**Conditional and Biconditional:**
+
+| $p$ | $q$ | $p \to q$ | $p \leftrightarrow q$ |
+|---|---|---|---|
+| $\mathbf{T}$ | $\mathbf{T}$ | $\mathbf{T}$ | $\mathbf{T}$ |
+| $\mathbf{T}$ | $\mathbf{F}$ | $\mathbf{F}$ | $\mathbf{F}$ |
+| $\mathbf{F}$ | $\mathbf{T}$ | $\mathbf{T}$ | $\mathbf{F}$ |
+| $\mathbf{F}$ | $\mathbf{F}$ | $\mathbf{T}$ | $\mathbf{T}$ |
+
+The conditional $p \to q$ is the connective that most often puzzles newcomers: it is false only when the antecedent $p$ is true and the consequent $q$ is false. In all other cases, including when $p$ is false, the conditional is true. This is the **material conditional**, and while it does not capture every nuance of "if...then" in English, it is precisely the reading that makes mathematical reasoning work — a theorem with a false hypothesis is vacuously true.
+
+With truth tables in hand, we can classify formulas into three categories. A **tautology** is a formula that evaluates to $\mathbf{T}$ under every possible truth assignment — it is logically necessary. A **contradiction** is a formula that evaluates to $\mathbf{F}$ under every assignment — it is logically impossible. A **contingency** is a formula that is true under some assignments and false under others. For example, $p \lor \neg p$ is a tautology (the law of excluded middle), $p \land \neg p$ is a contradiction, and $p \to q$ is a contingency.
+
+Two formulas $\varphi$ and $\psi$ are **logically equivalent**, written $\varphi \equiv \psi$, when they have the same truth value under every assignment. Among the most important equivalences are **De Morgan's laws**:
+
+$$\neg(p \land q) \;\equiv\; \neg p \lor \neg q$$
+
+$$\neg(p \lor q) \;\equiv\; \neg p \land \neg q$$
+
+These laws express a fundamental duality: negation transforms conjunction into disjunction and vice versa. They are indispensable in simplifying formulas, constructing normal forms, and reasoning about circuits. The conditional also has a key equivalence: $p \to q \equiv \neg p \lor q$, which allows any formula involving $\to$ to be rewritten using only $\neg$ and $\lor$.
+
+As an extended example, consider evaluating whether $(p \to q) \land (q \to r) \to (p \to r)$ is a tautology. This formula asserts that implication is transitive — the "hypothetical syllogism." Constructing a truth table with $2^3 = 8$ rows (one for each combination of $p$, $q$, $r$) confirms that the formula evaluates to $\mathbf{T}$ in every row. This is our first taste of a pattern that will deepen considerably: truth tables can verify logical laws, but the number of rows grows exponentially with the number of variables, motivating the search for more efficient methods.
 
 ## Satisfiability and Logical Consequence
 
+A formula $\varphi$ is **satisfiable** if there exists at least one truth assignment under which $\varphi$ evaluates to $\mathbf{T}$. A formula is **unsatisfiable** (equivalently, a contradiction) if no such assignment exists. Every tautology is satisfiable, every contradiction is unsatisfiable, and every contingency is satisfiable but not a tautology. Satisfiability and validity are dual notions: $\varphi$ is a tautology if and only if $\neg \varphi$ is unsatisfiable.
+
+The central semantic concept is **logical consequence**. We say that a formula $\psi$ is a logical consequence of a set of formulas $\Gamma$, written $\Gamma \models \psi$, if every truth assignment that makes all formulas in $\Gamma$ true also makes $\psi$ true. Formally:
+
+$$\Gamma \models \psi \;\;\text{if and only if}\;\; \text{for every valuation } v, \; \text{if } v(\gamma) = \mathbf{T} \text{ for all } \gamma \in \Gamma, \text{ then } v(\psi) = \mathbf{T}.$$
+
+When $\Gamma$ is empty, $\models \psi$ simply means that $\psi$ is a tautology. When $\Gamma = \{\varphi\}$, the statement $\varphi \models \psi$ means that $\psi$ follows logically from $\varphi$ alone. Logical consequence is the precise formalization of what it means for an argument to be valid: the conclusion must be true whenever all the premises are true.
+
+One systematic method for checking validity is the **semantic tableau** (also called a truth tree). The idea is to assume the negation of the target formula and then decompose it by applying branching rules for each connective. If every branch eventually contains both a formula and its negation (a "closed" branch), then the original negation is unsatisfiable and the formula is a tautology. Tableaux provide a more structured approach than brute-force truth tables and generalize naturally to first-order logic, as we will see in First-Order Logic.
+
+Another important method is **propositional resolution**. In resolution, formulas are first converted to **clausal form** — a conjunction of clauses, where each clause is a disjunction of literals (a literal being a variable or its negation). The single resolution rule says: from the clauses $\{A \lor p\}$ and $\{B \lor \neg p\}$, derive the clause $\{A \lor B\}$. This rule is applied repeatedly until either the empty clause $\bot$ is derived (proving unsatisfiability) or no new clauses can be produced (proving satisfiability). Resolution is **refutation-complete** for propositional logic: if a set of clauses is unsatisfiable, resolution will eventually derive the empty clause. This completeness result, though elementary in the propositional case, foreshadows the deep role resolution plays in automated theorem proving for first-order logic.
+
+The question of whether a given propositional formula is satisfiable is known as the **SAT problem** (short for "satisfiability"). In 1971, **Stephen Cook** proved that SAT is **NP-complete** — it is at least as hard as every other problem in the complexity class NP. Leonid Levin independently obtained an equivalent result. The **Cook-Levin theorem** was a watershed moment: it established that if any efficient algorithm exists for SAT, then efficient algorithms exist for a vast class of computational problems. Whether such an algorithm exists is the famous $P$ vs $NP$ question, one of the Clay Millennium Prize Problems. Despite this worst-case hardness, modern SAT solvers — built on the DPLL algorithm and its successors — routinely solve instances with millions of variables, and they are among the most important tools in hardware verification, software testing, and artificial intelligence.
+
 ## Normal Forms and Equivalences
+
+Every propositional formula can be transformed into one of several **normal forms** — standardized shapes that simplify analysis and computation. The two most important are **Conjunctive Normal Form (CNF)** and **Disjunctive Normal Form (DNF)**.
+
+A formula is in **CNF** if it is a conjunction of clauses, where each clause is a disjunction of literals:
+
+$$(\ell_{1,1} \lor \ell_{1,2} \lor \cdots) \;\land\; (\ell_{2,1} \lor \ell_{2,2} \lor \cdots) \;\land\; \cdots$$
+
+A formula is in **DNF** if it is a disjunction of terms, where each term is a conjunction of literals:
+
+$$(\ell_{1,1} \land \ell_{1,2} \land \cdots) \;\lor\; (\ell_{2,1} \land \ell_{2,2} \land \cdots) \;\lor\; \cdots$$
+
+The conversion algorithm from an arbitrary formula to CNF proceeds in three steps. First, eliminate all biconditionals using $\varphi \leftrightarrow \psi \equiv (\varphi \to \psi) \land (\psi \to \varphi)$, and eliminate all conditionals using $\varphi \to \psi \equiv \neg \varphi \lor \psi$. Second, push negations inward using De Morgan's laws and eliminate double negations via $\neg \neg \varphi \equiv \varphi$, until negations apply only to atomic variables. Third, distribute $\lor$ over $\land$ using the equivalence $\varphi \lor (\psi \land \chi) \equiv (\varphi \lor \psi) \land (\varphi \lor \chi)$, until the formula has the required conjunctive structure. For DNF, the process is analogous but distributes $\land$ over $\lor$ in the final step. These conversions can cause an exponential blow-up in formula size — a CNF formula equivalent to a short DNF formula may have exponentially many clauses, and vice versa.
+
+A normal form is **canonical** when it is unique for each equivalence class of formulas. The **canonical DNF** (also called the full disjunctive normal form) for a formula with variables $p_1, \ldots, p_n$ contains exactly one term for each satisfying assignment, where each term mentions every variable exactly once (positively or negatively). Similarly, the **canonical CNF** contains one clause for each falsifying assignment. Canonical forms are unique but typically very large; they are useful more for theoretical analysis than for practical computation.
+
+The equivalences used in these conversions belong to a broader toolkit of logical identities that every logician carries:
+
+| Law | Identity |
+|---|---|
+| Commutativity | $p \land q \equiv q \land p$ and $p \lor q \equiv q \lor p$ |
+| Associativity | $(p \land q) \land r \equiv p \land (q \land r)$ and likewise for $\lor$ |
+| Distributivity | $p \land (q \lor r) \equiv (p \land q) \lor (p \land r)$ and dually |
+| Idempotence | $p \land p \equiv p$ and $p \lor p \equiv p$ |
+| Absorption | $p \land (p \lor q) \equiv p$ and $p \lor (p \land q) \equiv p$ |
+| Double negation | $\neg \neg p \equiv p$ |
+| De Morgan | $\neg(p \land q) \equiv \neg p \lor \neg q$ and $\neg(p \lor q) \equiv \neg p \land \neg q$ |
+| Identity | $p \land \mathbf{T} \equiv p$ and $p \lor \mathbf{F} \equiv p$ |
+| Annihilation | $p \land \mathbf{F} \equiv \mathbf{F}$ and $p \lor \mathbf{T} \equiv \mathbf{T}$ |
+| Complement | $p \land \neg p \equiv \mathbf{F}$ and $p \lor \neg p \equiv \mathbf{T}$ |
+
+These identities turn propositional logic into a **Boolean algebra**, connecting it directly to the algebraic tradition initiated by Boole.
+
+A natural question arises: do we really need all five connectives? A set of connectives is **functionally complete** if every possible truth function can be expressed using only connectives from that set. The sets $\{\neg, \land\}$ and $\{\neg, \lor\}$ are both functionally complete — each can simulate all other connectives through appropriate combinations. Even more remarkably, there exist single connectives that are functionally complete on their own. The **Sheffer stroke** $p \mid q$ (also written $p \uparrow q$), which represents NAND ("not both"), was shown by **Henry Sheffer** in 1913 to be one such connective. Its dual, the **Peirce arrow** $p \downarrow q$ (NOR, "neither...nor"), is the other. Since $\neg p \equiv p \mid p$ and $p \land q \equiv (p \mid q) \mid (p \mid q)$, the Sheffer stroke alone can express all of propositional logic. This result is not merely a curiosity: NAND gates are the fundamental building blocks of modern digital circuits, and the functional completeness of NAND is the theoretical reason that all of digital computation can be built from a single type of gate.
+
+Propositional logic, for all its simplicity, contains the seeds of far deeper ideas. The mechanical nature of truth-table evaluation anticipates the theory of computation. The distinction between syntax and semantics — between what can be derived and what is true — becomes the central drama of proof theory and the incompleteness theorems. And the language of propositions, connectives, and truth values will be extended with predicates, quantifiers, and variables when we move on to First-Order Logic, where the real power of formal reasoning begins.
