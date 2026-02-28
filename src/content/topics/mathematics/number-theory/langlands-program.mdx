@@ -5,16 +5,133 @@ parent: mathematics/number-theory
 order: 8
 color: "#ef4444"
 difficulty: advanced
-prerequisites: []
-status: stub
+prerequisites: ["mathematics/number-theory/elliptic-curves", "mathematics/number-theory/analytic-number-theory"]
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: "2026-02-28"
 ---
+
+The Langlands program is the closest thing mathematics has to a grand unified theory — a vast web of conjectures and theorems connecting number theory, representation theory, harmonic analysis, and algebraic geometry through unexpected and still only partially understood bridges. Proposed by **Robert Langlands** in a 1967 letter to André Weil and elaborated over the following decades, it predicts a deep correspondence between two seemingly unrelated worlds: the arithmetic world of Galois groups and their representations, and the analytic world of automorphic forms on reductive groups. Establishing these correspondences — even in special cases — has driven some of the most celebrated results in modern mathematics, including Andrew Wiles's proof of Fermat's Last Theorem and the Fields Medal work of Laurent Lafforgue, Ngô Bảo Châu, and Peter Scholze.
 
 ## Automorphic Forms and Representations
 
+To understand the Langlands program, one must first understand what it connects on the analytic side: the theory of **automorphic forms**. These generalize the classical theory of modular forms, which are complex-analytic functions on the upper half-plane satisfying a transformation law under the action of the modular group $\mathrm{SL}_2(\mathbb{Z})$ and its subgroups.
+
+Recall that a **modular form** of weight $k$ for a congruence subgroup $\Gamma \subset \mathrm{SL}_2(\mathbb{Z})$ is a holomorphic function $f \colon \mathcal{H} \to \mathbb{C}$ on the upper half-plane satisfying
+
+$$f\!\left(\frac{az + b}{cz + d}\right) = (cz + d)^k f(z) \quad \text{for all } \begin{pmatrix} a & b \\ c & d \end{pmatrix} \in \Gamma,$$
+
+together with a growth condition at the cusps. The classical examples — Eisenstein series, the Ramanujan delta function $\Delta(z) = q\prod_{n=1}^\infty (1-q^n)^{24}$ where $q = e^{2\pi i z}$ — encode remarkable arithmetic information in their Fourier coefficients.
+
+The modern approach absorbs modular forms into a broader framework by passing to the **adèles**. The **adèle ring** $\mathbb{A}_\mathbb{Q}$ is a restricted product of all completions of $\mathbb{Q}$ simultaneously:
+
+$$\mathbb{A}_\mathbb{Q} = \mathbb{R} \times \prod_p' \mathbb{Q}_p,$$
+
+where the prime on the product means we take elements $(x_p)$ with $x_p \in \mathbb{Z}_p$ for all but finitely many primes $p$. The adèles package local and global information into a single algebraic object, and they allow one to work with all congruence subgroups at once.
+
+An **automorphic representation** of a reductive group $G$ over $\mathbb{Q}$ — for instance $G = \mathrm{GL}_n$ — is an irreducible representation $\pi$ of the locally compact group $G(\mathbb{A}_\mathbb{Q})$ that appears (in a suitable sense) in the space $L^2(G(\mathbb{Q}) \backslash G(\mathbb{A}_\mathbb{Q}))$ of square-integrable automorphic functions. The **cuspidal** automorphic representations are the building blocks: they are those arising from cusp forms, functions that vanish along all "boundary" directions.
+
+Every cuspidal automorphic representation $\pi$ of $\mathrm{GL}_n(\mathbb{A}_\mathbb{Q})$ factors as a **restricted tensor product** over all places $v$ (the prime $p$ and the archimedean place $\infty$):
+
+$$\pi \cong \bigotimes_v' \pi_v,$$
+
+where each **local component** $\pi_v$ is an irreducible admissible representation of the local group $\mathrm{GL}_n(\mathbb{Q}_v)$. This factorization, established by the theory developed by Harish-Chandra, Jacquet, Langlands, and Flath in the 1960s and 70s, is one of the great structural theorems: global automorphic representations decompose cleanly into local pieces, and their **$L$-functions** factor accordingly as Euler products over all primes.
+
+Historically, the study of modular forms as functions carrying arithmetic data traces back to work of **Carl Friedrich Gauss** on theta series and **Bernhard Riemann**'s 1859 paper introducing his zeta function. The decisive modern turn came when **Erich Hecke** in the 1930s introduced the operators now bearing his name, showing that the Fourier coefficients of Hecke eigenforms are multiplicative and that their $L$-functions extend to entire functions satisfying functional equations. Langlands's 1967 letter recast this entire theory in the language of representation theory and gave it a new, vast horizon.
+
 ## Langlands Functoriality Conjecture
+
+The single most important conjecture in the entire program is the **principle of functoriality**. To state it, one must introduce the notion of an **$L$-group** (or Langlands dual group).
+
+Given a reductive group $G$ over a field $F$, its Langlands dual group ${}^L G$ is a complex reductive group whose root system is dual to that of $G$ (roots and coroots are swapped). For the groups most commonly appearing:
+
+- The dual of $\mathrm{GL}_n$ is $\mathrm{GL}_n(\mathbb{C})$.
+- The dual of $\mathrm{Sp}_{2n}$ is $\mathrm{SO}_{2n+1}(\mathbb{C})$, and vice versa.
+- The dual of $\mathrm{SL}_n$ is $\mathrm{PGL}_n(\mathbb{C})$.
+
+The $L$-group is ${}^L G = \hat{G} \rtimes W_F$, where $\hat{G}$ is the complex dual group and $W_F$ is the Weil group of $F$.
+
+Now, given two reductive groups $G$ and $H$ over $F$ and a **morphism of $L$-groups** $\rho \colon {}^L H \to {}^L G$, the principle of functoriality predicts:
+
+**Every automorphic representation $\pi_H$ of $H(\mathbb{A}_F)$ should give rise to an automorphic representation $\pi_G = \rho_*(\pi_H)$ of $G(\mathbb{A}_F)$, in a way compatible with the local correspondence at every place.**
+
+Precisely, if $\phi_v \colon W_{F_v} \to {}^L H$ is the local Langlands parameter of $\pi_{H,v}$ at a place $v$, then the parameter of $(\rho_*\pi_H)_v$ should be $\rho \circ \phi_v$.
+
+This is an astonishing prediction. It says that information encoded in the harmonic analysis of one group can be transported to another through purely algebraic data about their $L$-groups. Functoriality encompasses an enormous range of classical results as special cases:
+
+- **Base change**: lifting automorphic forms from $G(F)$ to $G(F')$ for a field extension $F'/F$, corresponding to the diagonal map on $L$-groups induced by the restriction-of-scalars.
+- **Endoscopy**: relating representations of $G$ to those of smaller "endoscopic" groups $H$, central to the stabilization of the Arthur-Selberg trace formula and proved by Ngô Bảo Châu in 2008 (for which he received the Fields Medal in 2010).
+- **Symmetric power lifts**: for $\mathrm{GL}_2$, the $n$-th symmetric power $\mathrm{Sym}^n$ of the standard representation of $\mathrm{GL}_2(\mathbb{C}) = {}^L \mathrm{GL}_2$ gives a map to ${}^L \mathrm{GL}_{n+1}$, conjecturally lifting automorphic representations of $\mathrm{GL}_2$ to $\mathrm{GL}_{n+1}$. These lifts have been established for $n \leq 4$ and partially for $n = 5$ through the work of Kim, Shahidi, and others.
 
 ## Galois Representations and Reciprocity
 
+On the arithmetic side of the Langlands correspondence sits the theory of **Galois representations**. These are continuous homomorphisms from the absolute Galois group $G_F = \mathrm{Gal}(\bar{F}/F)$ of a number field into a matrix group over a coefficient field, most commonly
+
+$$\rho \colon G_\mathbb{Q} \to \mathrm{GL}_n(\overline{\mathbb{Q}}_\ell)$$
+
+for some prime $\ell$ (the **$\ell$-adic representations**) or into $\mathrm{GL}_n(\mathbb{C})$ (the **Artin representations**, which have finite image).
+
+The **reciprocity conjecture** — the arithmetic-to-analytic direction of Langlands — predicts that every "motivic" Galois representation $\rho$ of dimension $n$ arises from a cuspidal automorphic representation $\pi(\rho)$ of $\mathrm{GL}_n(\mathbb{A}_\mathbb{Q})$. The matching condition is equality of $L$-functions:
+
+$$L(s, \rho) = L(s, \pi(\rho)).$$
+
+Here the **Artin $L$-function** is defined as an Euler product over primes:
+
+$$L(s, \rho) = \prod_p \det\!\left(1 - \rho(\mathrm{Frob}_p)\, p^{-s}\right)^{-1},$$
+
+where $\mathrm{Frob}_p$ is the Frobenius element at $p$. The **automorphic $L$-function** is defined by the Fourier coefficients of the associated eigenform. The conjecture that these two independently defined objects are equal is breathtaking in its scope.
+
+The foundational case $n = 1$ is **class field theory**, the crowning achievement of early 20th century algebraic number theory. Here, Galois representations to $\mathrm{GL}_1 = \mathbb{G}_m$ correspond to Dirichlet characters, and the matching of $L$-functions is the content of the Kronecker-Weber theorem and its generalizations by **Emil Artin** and **Teiji Takagi** in the 1920s. The local-global compatibility in this case is given by the **Artin reciprocity law**, which Artin proved in 1927: for an abelian extension $K/\mathbb{Q}$, the splitting of primes is entirely determined by congruence conditions, encoded by a Dirichlet character.
+
+For $n = 2$, the correspondence was the subject of the famous **Taniyama-Shimura conjecture** (now the **modularity theorem**), which asserts that every elliptic curve $E/\mathbb{Q}$ is modular: its $L$-function equals the $L$-function of a weight-2 cusp form for some $\Gamma_0(N)$. The $\ell$-adic Galois representation attached to $E$ via its $\ell$-power torsion points,
+
+$$\rho_{E,\ell} \colon G_\mathbb{Q} \to \mathrm{GL}_2(\mathbb{Z}_\ell),$$
+
+should then correspond to the automorphic representation generated by the modular form. This conjecture, proposed around 1955 by **Yutaka Taniyama** and developed by **Goro Shimura**, was proved for semistable elliptic curves by **Andrew Wiles** and **Richard Taylor** in 1995, completing the proof of Fermat's Last Theorem. The full theorem was established by Breuil, Conrad, Diamond, and Taylor in 2001.
+
+The general case for $\mathrm{GL}_n$ over $\mathbb{Q}$ (and more generally over totally real or CM fields) remains largely conjectural, though spectacular progress has been made through the theory of **Shimura varieties**, the Taylor-Wiles method, and the $p$-adic Langlands program.
+
 ## Geometric and p-adic Langlands Programs
 
+The classical Langlands program operates over global and local fields. Two powerful modern extensions have opened new frontiers.
+
+**Geometric Langlands** replaces the global field $\mathbb{Q}$ (or any number field) with the function field $\mathbb{F}_q(C)$ of an algebraic curve $C$ over a finite field, and then passes to the geometric limit where $\mathbb{F}_q$ is replaced by an algebraically closed field such as $\mathbb{C}$. In this setting, automorphic representations are replaced by **$\mathcal{D}$-modules** or **perverse sheaves** on moduli stacks of $G$-bundles, and Galois representations are replaced by **local systems** (flat connections) on $C$. The correspondence becomes:
+
+$$\left\{ \text{irreducible } \hat{G}\text{-local systems on } C \right\} \longleftrightarrow \left\{ \text{Hecke eigensheaves on } \mathrm{Bun}_G(C) \right\}$$
+
+where $\mathrm{Bun}_G(C)$ denotes the moduli stack of $G$-bundles on $C$. This geometric version, developed by **Alexander Beilinson**, **Vladimir Drinfeld**, **Edward Frenkel**, and many others from the 1990s onward, has powerful tools available from algebraic geometry — the formalism of derived categories, perverse sheaves, and the geometric Satake equivalence.
+
+The **geometric Satake equivalence** is one of the foundational theorems on the geometric side: it gives a tensor equivalence between the category of $\hat{G}$-representations and the category of $G(\mathcal{O})$-equivariant perverse sheaves on the affine Grassmannian $\mathrm{Gr}_G = G(\mathcal{K})/G(\mathcal{O})$ (where $\mathcal{K}$ is a formal Laurent series field and $\mathcal{O}$ its integers). This equivalence, proved by Mirković and Vilonen, makes the duality between $G$ and $\hat{G}$ geometric and functorial.
+
+The **$p$-adic Langlands program** is a different but equally rich generalization. Here, the coefficient field of Galois representations is taken to be a $p$-adic field, and the corresponding automorphic side consists of $p$-adic analytic representations of $p$-adic Lie groups. The simplest case, the $p$-adic local Langlands correspondence for $\mathrm{GL}_2(\mathbb{Q}_p)$, was established by **Pierre Colmez** around 2010 using the theory of $(\varphi, \Gamma)$-modules and a construction he called the "Montreal functor." The correspondence takes a 2-dimensional $p$-adic representation of $G_{\mathbb{Q}_p}$ and produces an admissible unitary Banach space representation of $\mathrm{GL}_2(\mathbb{Q}_p)$.
+
+Central to the $p$-adic program is the theory of **perfectoid spaces**, introduced by **Peter Scholze** in his 2012 thesis. Perfectoid spaces are a new class of geometric objects that live over $p$-adic fields and possess an unexpected tilting equivalence: any perfectoid space in characteristic $0$ has a "tilt" in characteristic $p$, and many geometric problems can be transferred between characteristics. Scholze's framework has been applied to prove cases of the weight-monodromy conjecture, to construct the **$p$-adic period domains** appearing in Langlands, and through his work with Weinstein, to give a moduli-theoretic interpretation of local Langlands. This body of work earned Scholze the Fields Medal in 2018.
+
 ## Progress and Open Problems
+
+Despite the program's depth and difficulty, the past three decades have seen a series of major breakthroughs that have established significant swaths of the conjectural picture.
+
+The **local Langlands correspondence for $\mathrm{GL}_n$** is fully established over local fields of characteristic $0$. The case of $\mathrm{GL}_1$ is local class field theory. For general $n$, the correspondence
+
+$$\left\{ \text{irreducible smooth representations of } \mathrm{GL}_n(F) \right\} \longleftrightarrow \left\{ \text{Weil-Deligne representations of } W_F \text{ of dimension } n \right\}$$
+
+was proved independently by **Michael Harris** and **Richard Taylor** (1998) and by **Guy Henniart** (2000). Over local fields of positive characteristic, the correspondence was proved by **Laurent Lafforgue** (2002) for function fields — a massive generalization of Drinfeld's earlier work on $\mathrm{GL}_2$ — for which Lafforgue received the Fields Medal.
+
+The **fundamental lemma**, a technical combinatorial identity central to the stabilization of the trace formula and hence to functoriality, resisted proof for over 20 years after Langlands and Shelstad formulated it. It was finally proved in full generality by **Ngô Bảo Châu** in 2008, using a geometric approach via Hitchin fibrations in algebraic geometry. This result unblocked an enormous range of further progress in the theory of endoscopy.
+
+For global fields, the situation is more partial. Key established cases include:
+
+- **Artin's reciprocity** and all abelian global Langlands (global class field theory).
+- **Modularity of elliptic curves** over $\mathbb{Q}$ (Taylor-Wiles, Breuil-Conrad-Diamond-Taylor).
+- **Serre's conjecture** on odd mod-$\ell$ representations of $G_\mathbb{Q}$, proved by Khare and Wintenberger (2009).
+- **Symmetric square and fourth power lifts** for $\mathrm{GL}_2$ over $\mathbb{Q}$ (Kim-Shahidi).
+- **Global Langlands for function fields** in all generality (L. Lafforgue for $\mathrm{GL}_n$; V. Lafforgue for general reductive groups, 2012).
+
+The major open problems are formidable. The **global Langlands correspondence for $\mathrm{GL}_n$ over number fields** remains conjectural beyond what follows from modularity lifting theorems and known cases of functoriality. The **automorphy of symmetric powers** $\mathrm{Sym}^n f$ for a cusp form $f$ is known for $n \leq 4$ and partly for $n = 5$; the full conjecture is wide open. The **Ramanujan conjecture** — that local components $\pi_v$ of cuspidal representations are tempered — is proved for holomorphic cusp forms over $\mathbb{Q}$ (Deligne, 1974, via the Weil conjectures) but remains open for general automorphic representations.
+
+Perhaps the most tantalizing open problem is the construction of the **Langlands group** $\mathcal{L}_F$: a conjectural topological group playing the role of the Weil group for the purposes of classifying all automorphic representations, not just those of algebraic origin. Its existence would unify the arithmetic and analytic sides of the program in a single object, but its construction remains entirely open.
+
+In the geometric setting, progress has been breathtaking. Building on Beilinson-Drinfeld and the work of many contributors, **Dennis Gaitsgory** and collaborators announced in 2022 a proof of the geometric Langlands conjecture over $\mathbb{C}$, establishing the full categorical equivalence in the de Rham setting. This represents one of the most ambitious proofs in modern mathematics, running to hundreds of pages and drawing on derived algebraic geometry, infinity-categories, and the full arsenal of modern algebraic geometry. Whether and how this geometric proof can be "arithmetized" — transferred back to the number field setting — is a central question driving current research.
+
+The Langlands program continues to expand its reach: recent work connects it to mathematical physics through the Kapustin-Witten approach (interpreting geometric Langlands as a topological twist of $\mathcal{N}=4$ super-Yang-Mills theory), to the arithmetic of Shimura varieties, and to the nascent **$p$-adic Langlands for $\mathrm{GL}_n$** beyond $\mathrm{GL}_2(\mathbb{Q}_p)$. The program that began as a letter to Weil in 1967 has grown into the organizing framework of a significant portion of 21st-century mathematics.

@@ -5,16 +5,97 @@ parent: mathematics/number-theory
 order: 3
 color: "#ef4444"
 difficulty: intermediate
-prerequisites: []
-status: stub
+prerequisites: ["mathematics/number-theory/elementary-number-theory"]
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: "2026-02-28"
 ---
+
+A **Diophantine equation** is a polynomial equation, in one or more unknowns, for which we seek integer — or sometimes rational — solutions. Named after the Alexandrian mathematician **Diophantus of Alexandria**, who compiled his landmark *Arithmetica* around 250 CE, this field sits at the intersection of elementary arithmetic and deep modern theory. The pursuit of integer solutions to polynomial equations drives some of the most celebrated results and most stubbornly open problems in all of mathematics, from the ancient Pythagorean triples to Andrew Wiles's twentieth-century proof of Fermat's Last Theorem.
 
 ## Linear Diophantine Equations
 
+The simplest Diophantine equations are linear, and they already reveal how the structure of the integers constrains what kinds of solutions are possible. A **linear Diophantine equation** in two variables has the form $ax + by = c$, where $a$, $b$, and $c$ are fixed integers and we seek integer pairs $(x, y)$.
+
+The key fact governing solvability is Bézout's identity, a cornerstone of elementary number theory: the equation $ax + by = c$ has an integer solution if and only if $\gcd(a, b)$ divides $c$. When the divisibility condition fails — say, we ask for $6x + 4y = 5$ — no integer solution can exist, since every value of $6x + 4y$ is even, yet the right-hand side is odd. When the condition holds, solutions not only exist but come in infinite families.
+
+Suppose $d = \gcd(a, b)$ divides $c$. We can find one particular solution $(x_0, y_0)$ using the **extended Euclidean algorithm**, which computes integers $s$ and $t$ such that $as + bt = d$. Multiplying through by $c/d$ gives a particular solution. From there, the **general solution** takes the form
+
+$$x = x_0 + \frac{b}{d}\,t, \qquad y = y_0 - \frac{a}{d}\,t, \qquad t \in \mathbb{Z}.$$
+
+The parameter $t$ ranges over all integers, generating an infinite arithmetic progression of solutions. Notice that consecutive solutions differ by the step sizes $b/d$ and $-a/d$, which are coprime to each other — a reflection of the fact that the solution lattice has a very regular structure.
+
+**Systems** of linear Diophantine equations are handled via the Chinese Remainder Theorem and its generalizations. The theorem, attributed to the Chinese mathematician Sun Tzu around the 3rd century CE, states that a system of congruences $x \equiv a_i \pmod{m_i}$ for pairwise coprime moduli $m_i$ has a unique solution modulo $m_1 m_2 \cdots m_k$. This is the Diophantine analogue of solving a linear system over a field, and it has applications ranging from ancient calendar calculations to modern cryptography.
+
+Linear Diophantine equations in three or more variables follow the same philosophy. The equation $a_1 x_1 + a_2 x_2 + \cdots + a_n x_n = c$ is solvable in integers if and only if $\gcd(a_1, \ldots, a_n)$ divides $c$, and when solvable, the solution space forms a lattice — a discrete, periodically-spaced set of points in $\mathbb{Z}^n$. The study of such lattices, and of shortest or most natural lattice vectors, connects linear Diophantine problems to modern lattice-based cryptography and to the geometry of numbers pioneered by **Hermann Minkowski** around 1896.
+
 ## Quadratic Forms and Sums of Squares
+
+Moving from linear to quadratic equations opens a much richer landscape, and the central objects are **quadratic forms** — homogeneous degree-2 polynomials in several variables. A **binary quadratic form** is an expression $f(x, y) = ax^2 + bxy + cy^2$ with integer coefficients, and the central question is: which integers $n$ can be represented as $f(x, y)$ for some integers $x$ and $y$?
+
+The **discriminant** of $f$ is $D = b^2 - 4ac$. Forms with the same discriminant are grouped together, and two forms $f$ and $g$ are **equivalent** if one can be transformed into the other by an invertible integer change of variables — such a transformation preserves which integers are represented. The collection of equivalence classes of forms with a fixed discriminant forms a finite group called the **class group**, whose order is the **class number** $h(D)$.
+
+The prototypical example is the form $x^2 + y^2$, which represents sums of two squares. A fundamental theorem, conjectured by **Albert Girard** in 1625 and proven by **Pierre de Fermat** (though Fermat, characteristically, left no written proof), states that an odd prime $p$ is a sum of two squares if and only if $p \equiv 1 \pmod{4}$. In other words, $p = x^2 + y^2$ has an integer solution precisely when $p$ is one more than a multiple of four. The prime $5 = 1^2 + 2^2$ qualifies; the prime $3$ does not. The full characterization of which integers $n$ are representable as $x^2 + y^2$ follows: $n$ is a sum of two squares if and only if in the prime factorization of $n$, every prime of the form $4k + 3$ appears to an even power.
+
+The elegant proof of Fermat's two-squares theorem uses the **Gaussian integers** $\mathbb{Z}[i] = \{a + bi : a, b \in \mathbb{Z}\}$, where $i^2 = -1$. In this ring, the norm of $a + bi$ is $a^2 + b^2$, and the question of writing an integer as a sum of two squares becomes a question of factoring in $\mathbb{Z}[i]$. The Gaussian integers form a **unique factorization domain**, and a prime $p \equiv 1 \pmod{4}$ factors in $\mathbb{Z}[i]$ as $p = \pi \bar{\pi}$ where $\pi$ and $\bar{\pi}$ are conjugate Gaussian primes — giving $p = \text{Re}(\pi)^2 + \text{Im}(\pi)^2$ directly.
+
+**Lagrange's four-square theorem**, proven in 1770 by **Joseph-Louis Lagrange**, goes further: every positive integer is the sum of four perfect squares. No fewer than four squares suffice in general, since integers of the form $4^a(8b + 7)$ cannot be written as a sum of three squares — a result also due to Legendre and Gauss. The form $x^2 + y^2 + z^2 + w^2$ has discriminant $-4$ and represents every positive integer without exception, making it the simplest universal quadratic form. The number of representations $r_4(n)$ of $n$ as a sum of four squares is given by the beautiful formula
+
+$$r_4(n) = 8 \sum_{\substack{d \mid n \\ 4 \nmid d}} d,$$
+
+a result connecting quadratic forms to divisibility sums and, ultimately, to modular forms — a thread we will pick up in the final section.
 
 ## Pell's Equation and Continued Fractions
 
+**Pell's equation** $x^2 - Dy^2 = 1$, where $D$ is a positive non-square integer, is perhaps the most celebrated Diophantine equation with infinitely many solutions. Despite its name, the equation was solved centuries before **John Pell** (1611–1685), who merely had his name attached to it through a historical misattribution by **Leonhard Euler**. The correct credit belongs to Indian mathematicians: the *chakravala* (cyclic) method for solving Pell's equation was developed by **Brahmagupta** in the 7th century and perfected by **Bhaskara II** around 1150 CE. European mathematicians, including **William Brouncker** and **Fermat** (who posed the problem as a challenge), rediscovered solutions in the 17th century.
+
+The equation always has a nontrivial solution when $D$ is not a perfect square. The smallest positive solution $(x_1, y_1)$, called the **fundamental solution**, generates all other solutions. If $(x_1, y_1)$ is the fundamental solution, then all solutions are given by
+
+$$(x_n + y_n \sqrt{D}) = (x_1 + y_1 \sqrt{D})^n, \qquad n = 1, 2, 3, \ldots$$
+
+This multiplicative structure — solutions forming a free cyclic group under the operation of multiplication in $\mathbb{Z}[\sqrt{D}]$ — is one of the most elegant facts in elementary number theory.
+
+The connection to **continued fractions** is indispensable for actually finding the fundamental solution. The continued fraction expansion of $\sqrt{D}$ is eventually periodic: it has the form $\sqrt{D} = [a_0; \overline{a_1, a_2, \ldots, a_k}]$. The **convergents** $p_n/q_n$ of this continued fraction provide the best rational approximations to $\sqrt{D}$, and the fundamental solution to Pell's equation is found among these convergents. Specifically, if $k$ is the period length of the continued fraction, then $(x_1, y_1) = (p_{k-1}, q_{k-1})$ when $k$ is even, and $(p_{2k-1}, q_{2k-1})$ when $k$ is odd.
+
+As a concrete example, consider $D = 2$. The continued fraction is $\sqrt{2} = [1; \overline{2}]$ with period $1$. The convergents begin $1/1, 3/2, 7/5, 17/12, \ldots$. Indeed, $3^2 - 2 \cdot 2^2 = 9 - 8 = 1$, so $(3, 2)$ is the fundamental solution. The sequence of solutions grows exponentially: $(3, 2), (17, 12), (99, 70), (577, 408), \ldots$, where each pair satisfies $x_n^2 - 2y_n^2 = 1$.
+
+The **generalized Pell equation** $x^2 - Dy^2 = N$ for $N \neq 1$ is more subtle. It may have no solutions, finitely many, or infinitely many depending on $N$ and $D$. Solutions to the generalized equation can be found by combining a particular solution with the solutions to the homogeneous equation $x^2 - Dy^2 = 1$.
+
+Pell's equation is not merely a curiosity of elementary number theory. In the language of algebraic number theory, solving $x^2 - Dy^2 = 1$ is equivalent to finding the **units** of the ring of integers $\mathbb{Z}[\sqrt{D}]$. **Dirichlet's unit theorem**, proven in 1846, generalizes this: the units of the ring of integers of any number field form a finitely generated abelian group, and for real quadratic fields $\mathbb{Q}(\sqrt{D})$, there is exactly one fundamental unit, just as Pell's equation has a fundamental solution generating all others. This connection elevates Pell's equation from an elementary puzzle to a gateway into algebraic number theory.
+
 ## Exponential Diophantine Equations
 
+When the exponents themselves become unknowns, equations grow dramatically more difficult. **Exponential Diophantine equations** involve variables appearing as exponents, and they are typically studied case by case, with each family requiring its own bespoke techniques.
+
+The equation $x^p - y^q = 1$ with $x, y, p, q > 1$ asks for consecutive perfect powers. Except for $8 = 2^3$ and $9 = 3^2$, are there any? This question, known as **Catalan's conjecture**, was posed by the Belgian mathematician **Eugène Catalan** in 1844. It remained open for over 150 years until **Preda Mihailescu** proved in 2002 that $8$ and $9$ are indeed the only consecutive perfect powers, confirming Catalan's conjecture. Mihailescu's proof uses the theory of **cyclotomic fields** — number fields generated by roots of unity — and shows that any solution to $x^p - y^q = 1$ would force a vast array of arithmetic constraints that turn out to be mutually contradictory.
+
+**Zsygmondy's theorem** (also attributed to **Birkhoff and Vandiver**) gives a powerful general tool for exponential problems. It states that for integers $a > b \geq 1$ with $\gcd(a, b) = 1$ and $n \geq 3$, the number $a^n - b^n$ has at least one prime factor that does not divide $a^k - b^k$ for any positive $k < n$ — a so-called **primitive prime divisor** — with only finitely many exceptions. This means that exponential sequences $a^n - b^n$ grow by acquiring genuinely new prime factors, ruling out many potential solutions to exponential equations by divisibility arguments.
+
+**Pillai's conjecture** asks whether for each fixed positive integer $k$, the equation $a^x - b^y = k$ has only finitely many solutions in positive integers $a, b, x, y$ with $\min(x, y) > 1$. This remains open in general and represents the "next level" beyond Catalan's theorem. Special cases are known — for instance, $a^x - b^y = 1$ (Catalan's case $k = 1$) is now settled — but the general conjecture requires tools not yet available.
+
+The **Lifting the Exponent Lemma** (LTE) is an elementary but powerful tool for exponential Diophantine problems. For an odd prime $p$ with $p \mid a - b$ and $p \nmid a$, $p \nmid b$, the lemma states
+
+$$v_p(a^n - b^n) = v_p(a - b) + v_p(n),$$
+
+where $v_p(m)$ denotes the largest power of $p$ dividing $m$. This gives precise control over the $p$-adic valuation of differences of powers and is a standard ingredient in competition mathematics as well as in more advanced research.
+
+**Divisibility sequences** provide another unifying framework. A sequence $(u_n)$ of integers is a **divisibility sequence** if $m \mid n$ implies $u_m \mid u_n$. The Fibonacci sequence and Lucas sequences are classic examples. Many exponential Diophantine problems reduce to questions about which terms of a divisibility sequence can be perfect powers or have unusually small prime factors, and Zsygmondy-type theorems give the sharpest available answers.
+
 ## Fermat's Last Theorem and Modern Methods
+
+**Fermat's Last Theorem** states that the equation $x^n + y^n = z^n$ has no solution in positive integers $x, y, z$ for any exponent $n \geq 3$. **Pierre de Fermat** famously claimed in 1637 — in a marginal note in his copy of Diophantus's *Arithmetica* — that he had found a marvelous proof, but that the margin was too small to contain it. This tantalizing comment set off over three and a half centuries of mathematical effort before the theorem was finally proven by **Andrew Wiles** in 1994, with a corrected argument completed in 1995 with **Richard Taylor**.
+
+The case $n = 4$ was settled by Fermat himself using **infinite descent** — his most powerful and original technique. The idea is to show that any supposed solution leads to a strictly smaller solution, contradicting the fact that positive integers are bounded below by zero. Specifically, Fermat proved there are no pythagorean triples $(a, b, c)$ with $c$ a perfect square, which handles $n = 4$. The case $n = 3$ was settled by **Leonhard Euler** in 1770, though his proof had a gap filled later. By the time of Wiles, the cases $n = 5$ (Legendre, 1825) and $n = 7$ (Lamé, 1839) were also known. Since it suffices to prove the theorem for prime exponents $p \geq 5$ (any composite $n$ reduces to a smaller case), the remaining obstacle was a vast family of infinitely many prime exponents.
+
+The modern proof proceeds through the **Modularity Theorem** (formerly the **Taniyama-Shimura-Weil conjecture**). The key steps are as follows. Suppose for contradiction that $a^p + b^p = c^p$ for some prime $p \geq 5$. **Gerhard Frey** observed in 1985 that one could construct from such a solution an elliptic curve
+
+$$E: y^2 = x(x - a^p)(x + b^p),$$
+
+now called the **Frey curve**. Frey conjectured that this curve would be too "weird" to be modular — that is, it could not correspond to any modular form. **Jean-Pierre Serre** formalized this intuition, and **Kenneth Ribet** proved in 1986 that the Frey curve cannot be modular, assuming the **epsilon conjecture** (now Ribet's theorem). Wiles then proved the crucial remaining piece: every **semistable elliptic curve** over $\mathbb{Q}$ is modular. Since the Frey curve is semistable, this gives a contradiction, proving there can be no solution.
+
+The **Modularity Theorem**, in its full form proven by **Christophe Breuil, Brian Conrad, Fred Diamond**, and **Richard Taylor** in 2001, states that every elliptic curve over $\mathbb{Q}$ is modular — that is, its L-function coincides with the L-function of a **modular form** of weight 2. This is a manifestation of the **Langlands program**, the vast web of conjectural and proven correspondences between arithmetic objects (Galois representations, elliptic curves, algebraic varieties) and analytic objects (automorphic forms, L-functions) that has dominated number theory since the 1960s.
+
+The proof of Fermat's Last Theorem did not resolve Diophantine questions — it opened them. The techniques developed by Wiles and collaborators immediately found applications to other exponential Diophantine equations. For instance, the **generalized Fermat equation** $x^p + y^q = z^r$ with $1/p + 1/q + 1/r < 1$ is conjectured (by **Beal**, with a prize offered) to have no coprime positive integer solutions, but this remains open. The **ABC conjecture**, proposed by **Joseph Oesterlé** and **David Masser** in 1985, is a single sweeping inequality that, if true, would imply Fermat's Last Theorem, Catalan's conjecture, and much more with a uniform argument; Shinichi Mochizuki claimed a proof in 2012 using his "Inter-universal Teichmüller theory," but the mathematical community has not yet reached a consensus on its validity.
+
+The thread connecting Pythagorean triples to Fermat's Last Theorem illustrates how Diophantine equations remain the sharpest lens through which number theorists examine the deep structure of the integers. The parametrization of Pythagorean triples as $(m^2 - n^2, 2mn, m^2 + n^2)$ — already known to the Babylonians and systematized by the Greeks — is at heart a statement about rational points on the unit circle $X^2 + Y^2 = 1$. The jump from degree 2 to degree 3 in the exponents transforms a completely solvable equation into an empty one, mediated by the full machinery of modern algebraic geometry. As we pass to higher dimensions and more general varieties, the interplay between algebraic structure and arithmetic solutions — the heart of what Diophantus began — continues to generate the deepest and most fertile questions in mathematics.

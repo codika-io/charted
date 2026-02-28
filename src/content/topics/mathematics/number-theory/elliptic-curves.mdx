@@ -5,16 +5,117 @@ parent: mathematics/number-theory
 order: 6
 color: "#ef4444"
 difficulty: advanced
-prerequisites: []
-status: stub
+prerequisites: ["mathematics/number-theory/algebraic-number-theory"]
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: "2026-02-28"
 ---
+
+Elliptic curves sit at a remarkable confluence of number theory, algebraic geometry, and complex analysis, combining the concrete arithmetic of Diophantine equations with the deep structural theory of algebraic groups. They emerged historically from the study of arc lengths on ellipses — hence the name — but their true importance lies in their rich group structure, which encodes profound arithmetic information and connects to some of the deepest open problems in mathematics. From the proof of Fermat's Last Theorem to the security of modern cryptographic systems, elliptic curves have become central objects in contemporary mathematics.
 
 ## Elliptic Curves over Global Fields
 
+An **elliptic curve** is, roughly speaking, a smooth projective curve of **genus one** equipped with a distinguished rational point. Over a field $K$ of characteristic not equal to 2 or 3, every such curve can be presented in **Weierstrass form**:
+
+$$y^2 = x^3 + ax + b$$
+
+where $a, b \in K$ and the **discriminant** $\Delta = -16(4a^3 + 27b^2)$ is nonzero. The nonvanishing of $\Delta$ is precisely the condition that the cubic on the right has no repeated roots, which is equivalent to the curve being smooth — that is, having no cusps or self-intersections. The additional point at infinity, which we call $\mathcal{O}$, makes the curve projectively complete and serves as the identity element of the group law.
+
+The group structure is the defining miracle of elliptic curves. Given two points $P = (x_1, y_1)$ and $Q = (x_2, y_2)$ on the curve, their sum $P + Q$ is defined geometrically: draw the line through $P$ and $Q$, find the third intersection point with the curve (which exists by Bezout's theorem, counting multiplicities and the point at infinity), and reflect across the $x$-axis. When $P = Q$, the line is the tangent at $P$. This **chord-and-tangent law** produces a genuine abelian group on the set of $K$-rational points $E(K)$, with the point at infinity $\mathcal{O}$ as identity and the reflection map $(x, y) \mapsto (x, -y)$ giving inverses. Explicitly, if $P \ne Q$ and $x_1 \ne x_2$, the slope of the secant line is $\lambda = (y_2 - y_1)/(x_2 - x_1)$, and the sum has coordinates:
+
+$$x_3 = \lambda^2 - x_1 - x_2, \qquad y_3 = \lambda(x_1 - x_3) - y_1.$$
+
+The **$j$-invariant** of a Weierstrass curve is the quantity $j = -1728 \cdot \frac{4 \cdot (4a)^3}{\Delta}$, which classifies elliptic curves up to isomorphism over an algebraically closed field. Two curves with the same $j$-invariant are isomorphic over the algebraic closure, though they may become non-isomorphic twists over a smaller field.
+
+When $K = \mathbb{Q}$, the arithmetic of $E(\mathbb{Q})$ becomes a central object of study. The rational points form a finitely generated abelian group, and the structure of this group — how many generators it needs, what torsion it contains — encodes deep information about the curve. The landmark theorem governing this structure is the subject of the next section. Historically, it was **Louis Mordell** who first established in 1922 that the group of rational points on a cubic curve is finitely generated, building on earlier work by **Henri Poincare**, who had observed around 1901 that the chord-and-tangent construction generates all rational points from finitely many.
+
 ## The Mordell-Weil Theorem
+
+The **Mordell-Weil theorem** is one of the foundational results of arithmetic geometry. It states that for an elliptic curve $E$ defined over a number field $K$, the group of $K$-rational points $E(K)$ is a finitely generated abelian group. By the structure theorem for finitely generated abelian groups, this means:
+
+$$E(K) \cong \mathbb{Z}^r \oplus E(K)_{\mathrm{tors}}$$
+
+where $r \geq 0$ is a non-negative integer called the **rank** of the curve and $E(K)_{\mathrm{tors}}$ is the finite **torsion subgroup** consisting of all points of finite order. Mordell proved the case $K = \mathbb{Q}$ in 1922; the full generalization to number fields was obtained by **Andre Weil** in his 1928 doctoral thesis, which is why the result bears both their names.
+
+The proof proceeds in two distinct stages. The first stage, called the **weak Mordell-Weil theorem**, establishes that the quotient group $E(K) / 2E(K)$ is finite. This is proved using Galois cohomology: one constructs a map from $E(K)/2E(K)$ into the **Selmer group** $S^{(2)}(E/K)$, which can be bounded using the class group and unit group of $K$ through the theory of algebraic number theory. The second stage is a **descent argument** using the **canonical height function** (also called the Neron-Tate height) $\hat{h}: E(K) \to \mathbb{R}_{\geq 0}$. This height is a positive definite quadratic form on $E(K)/E(K)_{\mathrm{tors}}$, satisfying $\hat{h}(2P) = 4\hat{h}(P)$ and $\hat{h}(P) = 0$ if and only if $P$ is a torsion point. By showing that any bounded-height subset of $E(K)$ is finite, one derives that the finite generation follows from the finiteness of $E(K)/2E(K)$.
+
+The **torsion subgroup** is remarkably constrained over $\mathbb{Q}$. A celebrated theorem of **Barry Mazur** from 1977 — one of the deepest results in the subject at the time — completely classifies all possible torsion subgroups for elliptic curves over $\mathbb{Q}$:
+
+$$E(\mathbb{Q})_{\mathrm{tors}} \in \{\mathbb{Z}/n\mathbb{Z} : 1 \leq n \leq 10, n = 12\} \cup \{\mathbb{Z}/2\mathbb{Z} \oplus \mathbb{Z}/2m\mathbb{Z} : 1 \leq m \leq 4\}.$$
+
+This is exactly 15 possibilities. Mazur's theorem is proved using the geometry of modular curves $X_1(N)$, which parametrize elliptic curves with a point of order $N$.
+
+The rank $r$ remains far more mysterious. It is not known whether the rank can be arbitrarily large — the **rank conjecture** predicts it can, and curves of rank up to 29 have been found experimentally — but no proof of unboundedness exists. Determining the rank of a specific curve is a difficult computational problem closely tied to the Birch and Swinnerton-Dyer conjecture discussed below. The **2-descent method** provides a systematic algorithm: one constructs the 2-Selmer group $S^{(2)}(E/K)$ and uses the exact sequence
+
+$$0 \to E(K)/2E(K) \to S^{(2)}(E/K) \to \Sha(E/K)[2] \to 0,$$
+
+where $\Sha(E/K)$ is the **Tate-Shafarevich group** — a mysterious group that measures the obstruction to the local-to-global principle. If $\Sha(E/K)$ is finite (which is conjectured but proved only in special cases), then 2-descent gives an upper bound on $r$.
 
 ## Elliptic Curves over Finite Fields
 
+When we reduce an elliptic curve modulo a prime $p$ — more precisely, when we study the curve $E$ over the finite field $\mathbb{F}_p$ — we enter a completely different but equally rich world. The group $E(\mathbb{F}_p)$ is a finite abelian group, and understanding its size and structure is both a deep theoretical question and a practical necessity for cryptography.
+
+For a curve $E: y^2 = x^3 + ax + b$ over $\mathbb{F}_p$, the number of points is given by $\#E(\mathbb{F}_p) = p + 1 - a_p$, where $a_p$ is an integer called the **trace of Frobenius**. The fundamental constraint on this trace is **Hasse's theorem**, proved by **Helmut Hasse** in 1933:
+
+$$|a_p| \leq 2\sqrt{p}.$$
+
+This bound says that $\#E(\mathbb{F}_p)$ lies in the interval $[p + 1 - 2\sqrt{p}, p + 1 + 2\sqrt{p}]$, an interval of length $4\sqrt{p}$ centered at $p + 1$. Hasse's proof used the theory of correspondences on curves and can be seen as a special case of the **Weil conjectures** (proved in full generality by **Pierre Deligne** in 1974).
+
+The Frobenius endomorphism $\phi_p: (x, y) \mapsto (x^p, y^p)$ is the key actor. It satisfies the characteristic polynomial equation
+
+$$\phi_p^2 - a_p \phi_p + p = 0$$
+
+as an endomorphism of $E$, where the roots $\alpha, \bar{\alpha}$ of this polynomial (complex conjugate numbers of absolute value $\sqrt{p}$) encode the point-counting information: $\#E(\mathbb{F}_{p^n}) = p^n + 1 - \alpha^n - \bar{\alpha}^n$.
+
+A curve is called **supersingular** if $a_p = 0$ (equivalently, if $p$ divides $a_p$, which for a prime $p \geq 5$ means $a_p = 0$). Supersingular curves have special endomorphism algebras — their endomorphism ring is a maximal order in a quaternion algebra — and their isogeny graphs have been central to post-quantum cryptography. All other curves are called **ordinary**.
+
+Computing $\#E(\mathbb{F}_p)$ efficiently is the **point-counting problem**. The naive algorithm takes $O(p)$ time by trying all $x \in \mathbb{F}_p$, but this is infeasible for cryptographic parameters where $p$ is a 256-bit prime. **Rene Schoof** broke through this barrier in 1985 with an algorithm running in polynomial time in $\log p$: it computes $a_p \pmod{\ell}$ for small primes $\ell$ by working with the $\ell$-torsion points $E[\ell]$ directly over $\mathbb{F}_p$, then combines the results using the Chinese Remainder Theorem. The **Elkies-Atkin improvements**, together with the Schoof-Elkies-Atkin (SEA) algorithm, make point counting fast in practice and are used routinely to generate secure elliptic curve parameters.
+
+The **elliptic curve discrete logarithm problem (ECDLP)** is the computational hardness assumption underlying **elliptic curve cryptography (ECC)**. Given points $P$ and $Q = nP$ in $E(\mathbb{F}_p)$, find $n$. Unlike the classical discrete logarithm problem in $\mathbb{F}_p^*$, no sub-exponential algorithm is known for the ECDLP in general (for carefully chosen curves). This allows cryptographic key sizes to be much smaller than in RSA while achieving equivalent security. **Neal Koblitz** and **Victor Miller** independently proposed using elliptic curves for cryptography in 1985, and today protocols such as ECDH key exchange and ECDSA digital signatures are ubiquitous in internet security and mobile devices.
+
 ## Higher-Dimensional Abelian Varieties
 
+Elliptic curves are **abelian varieties** of dimension one. The natural generalization to higher dimensions produces objects of fundamental importance across algebraic geometry and number theory. An **abelian variety** of dimension $g$ over a field $K$ is a projective algebraic group — that is, a smooth projective algebraic variety $A$ over $K$ that carries a group structure with algebraic multiplication and inversion maps. The dimension $g$ is the most basic invariant, and when $g = 1$ we recover elliptic curves.
+
+The simplest source of higher-dimensional abelian varieties is the **Jacobian** of an algebraic curve. Given a smooth projective curve $C$ of genus $g$ over $K$, its Jacobian $J(C)$ is an abelian variety of dimension $g$ that parametrizes degree-zero divisor classes on $C$. For $g = 1$, $J(C) \cong C$ itself (after choosing a basepoint), recovering the elliptic curve. For $g = 2$, the Jacobian is a surface whose points correspond to pairs of points on $C$ modulo the linear equivalence relation. The **Abel-Jacobi theorem** establishes that the map $C \to J(C)$ sending a point $P$ to the class of $P - P_0$ (for a fixed basepoint $P_0$) is an embedding, and the Mordell-Weil theorem extends: $J(C)(K)$ is finitely generated for $K$ a number field.
+
+Over the complex numbers, an abelian variety of dimension $g$ is analytically isomorphic to a complex torus $\mathbb{C}^g / \Lambda$, where $\Lambda \cong \mathbb{Z}^{2g}$ is a lattice satisfying the **Riemann relations** — positivity conditions that ensure the torus is algebraic. This is the content of a classical theorem, and it shows that the moduli of principally polarized abelian varieties of dimension $g$ is a quotient of the **Siegel upper half-space** $\mathcal{H}_g$ — the space of $g \times g$ symmetric complex matrices with positive definite imaginary part — by the symplectic group $\mathrm{Sp}_{2g}(\mathbb{Z})$. When $g = 1$, $\mathcal{H}_1$ is the classical upper half-plane, and this reduces to the familiar description of elliptic curves as quotients $\mathbb{C}/\Lambda$.
+
+The **Faltings height** is a real-valued function on abelian varieties over number fields that plays the role of the Neron-Tate height. **Gerd Faltings** introduced it in his celebrated 1983 paper proving the **Mordell conjecture** (now Faltings' theorem): a curve of genus $\geq 2$ over a number field has only finitely many rational points. Faltings proved this by bounding the Faltings height in families of abelian varieties, using the **isogeny theorem** (that two abelian varieties with the same $\ell$-adic representations are isogenous) as a key step. This was a revolutionary achievement — it settled a conjecture of **Louis Mordell** from 1922 and resolved many Diophantine questions at a stroke.
+
+An **isogeny** between abelian varieties $A$ and $B$ is a surjective algebraic group homomorphism with finite kernel. Two varieties are isogenous if an isogeny exists between them. Over finite fields, isogenies of elliptic curves can be computed using **Velu's formulas** (1971), which express the isogenous curve and the isogeny map explicitly in terms of the kernel subgroup. The graph of supersingular elliptic curves connected by isogenies of prime degree forms a **Ramanujan graph** — an expander with excellent mixing properties — and this structure underlies proposals for post-quantum key exchange such as the SIDH and CSIDH protocols.
+
 ## Birch and Swinnerton-Dyer Conjecture
+
+The **Birch and Swinnerton-Dyer (BSD) conjecture** is one of the seven Millennium Prize Problems selected by the Clay Mathematics Institute, with a one-million-dollar prize for its resolution. It is arguably the central open problem in the arithmetic of elliptic curves, connecting the algebraic structure of $E(\mathbb{Q})$ — which is discrete and algebraic — to the analytic behavior of an $L$-function at a single point.
+
+The **Hasse-Weil $L$-function** of an elliptic curve $E$ over $\mathbb{Q}$ encodes the point counts over all finite fields simultaneously. For each prime $p$ of good reduction, the local factor is:
+
+$$L_p(E, s) = \frac{1}{1 - a_p p^{-s} + p^{1-2s}},$$
+
+and the complete $L$-function is the Euler product:
+
+$$L(E, s) = \prod_{p \text{ good}} L_p(E, s)^{-1} \cdot \prod_{p \text{ bad}} L_p(E, s)^{-1},$$
+
+with modified factors at primes of bad reduction. This product converges absolutely for $\mathrm{Re}(s) > 3/2$. A profound consequence of the **modularity theorem** (see below) is that $L(E, s)$ extends to an entire function on $\mathbb{C}$ and satisfies a **functional equation** relating $L(E, s)$ and $L(E, 2-s)$ — exactly as the Riemann zeta function relates its values at $s$ and $1-s$.
+
+The **weak BSD conjecture** asserts:
+
+$$\mathrm{ord}_{s=1} L(E, s) = r = \mathrm{rank}\, E(\mathbb{Q}).$$
+
+That is, the order of vanishing of $L(E, s)$ at the central point $s = 1$ equals the algebraic rank of the group of rational points. The left-hand side is the **analytic rank** and can in principle be computed (or bounded) using analytic methods; the right-hand side is determined by the arithmetic of the curve. The conjecture says these two quantities — one analytic, one algebraic — always agree.
+
+The **strong BSD conjecture** refines this with a precise formula for the leading coefficient. Writing $L(E, s) \sim C \cdot (s-1)^r$ as $s \to 1$, the conjecture predicts:
+
+$$C = \frac{\Omega_E \cdot \mathrm{Reg}(E) \cdot \#\Sha(E/\mathbb{Q}) \cdot \prod_p c_p}{(\#E(\mathbb{Q})_{\mathrm{tors}})^2},$$
+
+where $\Omega_E$ is the real period of $E$, $\mathrm{Reg}(E)$ is the Neron-Tate regulator (the determinant of the height pairing matrix on a basis of the free part), $\Sha(E/\mathbb{Q})$ is the Tate-Shafarevich group, $c_p$ are local Tamagawa numbers, and $E(\mathbb{Q})_{\mathrm{tors}}$ is the torsion subgroup. This formula is analogous to the **analytic class number formula** from algebraic number theory, which expresses the residue of the Dedekind zeta function at $s = 1$ in terms of arithmetic invariants of the number field.
+
+**Bryan Birch** and **Peter Swinnerton-Dyer** formulated their conjecture in the early 1960s based on extensive numerical experiments using one of the early computers at Cambridge. They computed $\#E(\mathbb{F}_p)$ for many primes $p$ and observed that the product $\prod_{p \leq X} (\#E(\mathbb{F}_p)/p)$ grew like $(\log X)^r$ for curves of rank $r$ — behavior precisely consistent with an order-$r$ zero at $s = 1$.
+
+The conjecture is proved in many special cases. For curves of analytic rank 0, Kolyvagin's theory of **Euler systems** (1988) establishes that the algebraic rank is also 0 and that $\Sha$ is finite. For rank 1, **Heegner points** — special points on $E$ constructed from the theory of complex multiplication — give an explicit rational point of infinite order, and Kolyvagin's method proves rank equals 1. These methods use the modularity theorem and the theory of **Kolyvagin systems** built from Heegner points on modular curves. The case of rank $\geq 2$ remains essentially open.
+
+The **modularity theorem**, proved by **Andrew Wiles** (with **Richard Taylor**) in 1995 for semistable curves and completed for all elliptic curves over $\mathbb{Q}$ by **Breuil, Conrad, Diamond, and Taylor** in 2001, states that every elliptic curve over $\mathbb{Q}$ is **modular**: its $L$-function coincides with the $L$-function of a **newform** of weight 2 and some level $N$ (the conductor of $E$). The conductor measures the arithmetic complexity of $E$ — specifically, the primes and degrees of bad reduction. Modularity was the crucial ingredient in Wiles's proof of **Fermat's Last Theorem**, entered through the **Frey curve** and **Ribet's theorem** as described in the context of Diophantine equations: if $a^p + b^p = c^p$ had a nontrivial solution, the associated Frey elliptic curve would be non-modular, a contradiction.
+
+Elliptic curves thus stand at the intersection of virtually every major theme in modern number theory. Their rational points answer centuries-old Diophantine questions; their finite-field reductions power modern cryptographic infrastructure; their $L$-functions encode the deepest conjectural relationships between analysis and arithmetic; and their higher-dimensional generalizations, the abelian varieties, provide the geometric framework for the Langlands program. The BSD conjecture, still open after sixty years, remains one of the clearest windows into the mystery at the heart of arithmetic — why should the zeros of an analytic function know anything about the solutions of a polynomial equation?

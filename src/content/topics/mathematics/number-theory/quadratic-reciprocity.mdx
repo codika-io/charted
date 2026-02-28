@@ -5,14 +5,101 @@ parent: mathematics/number-theory
 order: 2
 color: "#ef4444"
 difficulty: intermediate
-prerequisites: []
-status: stub
+prerequisites: ["mathematics/number-theory/elementary-number-theory"]
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: "2026-02-28"
 ---
+
+Quadratic reciprocity is one of the most celebrated theorems in all of mathematics — a precise and surprising law governing when integers are perfect squares modulo prime numbers. First conjectured by Euler and Legendre, and first proved by Carl Friedrich Gauss in 1796, the law reveals a deep symmetry hidden inside the structure of the primes, connecting seemingly unrelated questions about remainders into a single elegant statement. Gauss himself called it the *theorema aureum* — the golden theorem — and he returned to it throughout his life, eventually publishing eight distinct proofs.
 
 ## Quadratic Residues and the Legendre Symbol
 
+The story begins with a simple question: given a prime $p$ and an integer $a$ not divisible by $p$, does the congruence $x^2 \equiv a \pmod{p}$ have a solution? An integer $a$ with $\gcd(a, p) = 1$ is called a **quadratic residue modulo $p$** if such a solution exists, and a **quadratic non-residue** if it does not. Among the $p - 1$ nonzero residue classes modulo $p$, exactly half are quadratic residues and half are non-residues. This follows from the fact that the squaring map on the cyclic group $(\mathbb{Z}/p\mathbb{Z})^*$ is a two-to-one function: every quadratic residue has exactly two square roots modulo $p$, namely $x$ and $-x$, which are distinct because $p$ is an odd prime.
+
+To streamline calculations, **Adrien-Marie Legendre** introduced an elegant piece of notation in his 1798 *Essai sur la théorie des nombres*. The **Legendre symbol** $\left(\frac{a}{p}\right)$ is defined for an odd prime $p$ and an integer $a$ with $p \nmid a$ by:
+
+$$\left(\frac{a}{p}\right) = \begin{cases} 1 & \text{if } a \text{ is a quadratic residue mod } p \\ -1 & \text{if } a \text{ is a quadratic non-residue mod } p \end{cases}$$
+
+and we extend the convention by setting $\left(\frac{a}{p}\right) = 0$ when $p \mid a$.
+
+The Legendre symbol is not just a notational convenience — it satisfies a set of powerful algebraic properties that make it genuinely useful for computation. The most fundamental of these is **Euler's criterion**, which provides an explicit formula: for an odd prime $p$ and $\gcd(a, p) = 1$,
+
+$$\left(\frac{a}{p}\right) \equiv a^{(p-1)/2} \pmod{p}.$$
+
+Since $a^{p-1} \equiv 1 \pmod{p}$ by Fermat's Little Theorem, the quantity $a^{(p-1)/2}$ satisfies $\left(a^{(p-1)/2}\right)^2 \equiv 1 \pmod{p}$, so it must be congruent to either $1$ or $-1$. Euler's criterion says it equals $1$ precisely when $a$ is a quadratic residue. This criterion also makes plain that the Legendre symbol is **completely multiplicative**: since $\left(ab\right)^{(p-1)/2} \equiv a^{(p-1)/2} \cdot b^{(p-1)/2} \pmod{p}$, we have
+
+$$\left(\frac{ab}{p}\right) = \left(\frac{a}{p}\right)\left(\frac{b}{p}\right).$$
+
+Two special cases of the Legendre symbol are important enough to be called the **first and second supplements** to quadratic reciprocity. The first supplement tells us when $-1$ is a quadratic residue:
+
+$$\left(\frac{-1}{p}\right) = (-1)^{(p-1)/2} = \begin{cases} 1 & \text{if } p \equiv 1 \pmod{4} \\ -1 & \text{if } p \equiv 3 \pmod{4} \end{cases}$$
+
+This recovers Fermat's theorem that an odd prime $p$ is representable as a sum of two squares $p = a^2 + b^2$ if and only if $p \equiv 1 \pmod{4}$ — a result whose full proof uses Gaussian integers and connects quadratic residues to Diophantine equations. The second supplement concerns $2$:
+
+$$\left(\frac{2}{p}\right) = (-1)^{(p^2-1)/8} = \begin{cases} 1 & \text{if } p \equiv \pm 1 \pmod{8} \\ -1 & \text{if } p \equiv \pm 3 \pmod{8} \end{cases}$$
+
+So $2$ is a perfect square modulo $p$ exactly when $p$ is congruent to $1$ or $7$ modulo $8$. Together, these two supplements and the main reciprocity law give us a complete toolkit for evaluating any Legendre symbol.
+
 ## The Law of Quadratic Reciprocity
+
+With the Legendre symbol in hand, we can state the **law of quadratic reciprocity**, the crown jewel of classical number theory. Let $p$ and $q$ be distinct odd primes. The law asserts:
+
+$$\left(\frac{p}{q}\right)\left(\frac{q}{p}\right) = (-1)^{\frac{p-1}{2} \cdot \frac{q-1}{2}}.$$
+
+In words: the product of the two Legendre symbols $\left(\frac{p}{q}\right)$ and $\left(\frac{q}{p}\right)$ equals $-1$ if and only if both $p$ and $q$ are congruent to $3$ modulo $4$; otherwise it equals $1$. Equivalently, $\left(\frac{p}{q}\right) = \left(\frac{q}{p}\right)$ unless both $p \equiv 3 \pmod{4}$ and $q \equiv 3 \pmod{4}$, in which case $\left(\frac{p}{q}\right) = -\left(\frac{q}{p}\right)$.
+
+The surprise here is genuine: whether $p$ is a square modulo $q$ appears, at first glance, to have nothing to do with whether $q$ is a square modulo $p$. These are questions about entirely different modular systems. The law of quadratic reciprocity says that these two questions are deeply linked — one almost entirely determines the other, with the only exception arising from the arithmetic of the primes modulo $4$.
+
+To see the law in action, consider whether $p = 3$ is a quadratic residue modulo $q = 11$. By reciprocity, since $11 \equiv 3 \pmod{4}$ but $3 \equiv 3 \pmod{4}$, we get $\left(\frac{3}{11}\right)\left(\frac{11}{3}\right) = (-1)^1 = -1$. Now $11 \equiv 2 \pmod{3}$, so $\left(\frac{11}{3}\right) = \left(\frac{2}{3}\right)$. Since $3 \equiv 3 \pmod{8}$, the second supplement gives $\left(\frac{2}{3}\right) = -1$. Therefore $\left(\frac{3}{11}\right) = (-1) / (-1) = 1$, and indeed $5^2 = 25 \equiv 3 \pmod{11}$ confirms that $3$ is a square mod $11$.
+
+Gauss was seventeen years old when he discovered this theorem and nineteen when he published his first proof in the *Disquisitiones Arithmeticae* of 1801. That monumental treatise, written while he was a student at the University of Göttingen, organized and advanced virtually all of number theory known at the time. The *Disquisitiones* contains Gauss's first proof of quadratic reciprocity by induction on the primes. Over the following decades he published seven more proofs, approaching the theorem from algebra, analysis, combinatorics, and geometry. By now, over 200 proofs of quadratic reciprocity are known, making it one of the most-proved theorems in mathematics.
+
+Among the classical proofs, **Gauss's lemma** gives a particularly illuminating approach. Consider the integers $a, 2a, 3a, \ldots, \frac{p-1}{2} \cdot a$ modulo $p$. Reduce each to a representative in the range $(-p/2, p/2)$. Let $n$ be the number of these representatives that are negative. Then $\left(\frac{a}{p}\right) = (-1)^n$. When applied to $a = q$, Gauss's lemma translates the Legendre symbol into a count of lattice points — specifically, into counting integer points in a rectangle, establishing a geometric interpretation of the reciprocity law. This lattice-point proof, sometimes called **Eisenstein's proof** after its popularization by Gotthold Eisenstein in the 1840s, is arguably the most elegant of the elementary approaches.
+
+**Gauss sums** provide another route, connecting reciprocity to analysis. The quadratic Gauss sum is defined as
+
+$$g(p) = \sum_{a=0}^{p-1} \left(\frac{a}{p}\right) e^{2\pi i a/p}.$$
+
+A direct computation shows $g(p)^2 = (-1)^{(p-1)/2} p$, so $g(p) = \pm\sqrt{p}$ or $\pm i\sqrt{p}$ depending on $p$ modulo $4$. By considering the product $g(p) \cdot g(q)$ and relating it to $g(pq)$ through character theory, one obtains quadratic reciprocity as a consequence of the multiplicativity of Gauss sums — a proof that opens the door to vast generalizations.
 
 ## Higher-Order Residues and Power Reciprocity
 
+Quadratic reciprocity raises an obvious question: what happens if we replace squares with cubes, or with higher powers? An integer $a$ is an **$n$-th power residue modulo $p$** if $x^n \equiv a \pmod{p}$ has a solution. By an argument analogous to the quadratic case, $a$ is an $n$-th power residue if and only if $a^{(p-1)/n} \equiv 1 \pmod{p}$ (assuming $n \mid p-1$, so that the relevant structure exists).
+
+To formulate higher reciprocity laws cleanly, it becomes necessary to move beyond the integers $\mathbb{Z}$. **Cubic reciprocity** is most naturally stated not in $\mathbb{Z}$ but in the ring of **Eisenstein integers** $\mathbb{Z}[\omega]$, where $\omega = e^{2\pi i/3}$ is a primitive cube root of unity. Gauss observed this, and Eisenstein proved cubic reciprocity in 1844: for "primary" Eisenstein primes $\pi$ and $\theta$ (primary being an analogue of the condition $p \equiv 1 \pmod{4}$ for ordinary primes),
+
+$$\chi_3(\pi, \theta) = \chi_3(\theta, \pi),$$
+
+where $\chi_3(\pi, \theta) = \left(\frac{\pi}{\theta}\right)_3$ denotes the cubic residue symbol, defined analogously to the Legendre symbol but now taking values in $\{1, \omega, \omega^2\}$.
+
+Similarly, **biquadratic (quartic) reciprocity** is naturally formulated in the **Gaussian integers** $\mathbb{Z}[i]$, the ring generated by adjoining $i = \sqrt{-1}$ to $\mathbb{Z}$. Gauss proved this law in 1832 (with a full proof not published until posthumously). The quartic residue symbol takes values in $\{1, i, -1, -i\}$, the fourth roots of unity. The pattern is clear: the $n$-th power reciprocity law lives most naturally in the ring $\mathbb{Z}[\zeta_n]$, where $\zeta_n$ is a primitive $n$-th root of unity.
+
+This insight is the seed of an enormous generalization. **Émil Artin** proved the **Artin reciprocity law** in 1927, a far-reaching theorem that simultaneously generalizes all previously known reciprocity laws — quadratic, cubic, quartic, and beyond — into a single unified statement about abelian extensions of number fields. Artin reciprocity is the central theorem of **class field theory**, which classifies all abelian Galois extensions of a number field in terms of arithmetic data intrinsic to the field itself. From this altitude, quadratic reciprocity is a special case of a much larger architecture: the beginning of the Langlands program, which seeks to extend these ideas to non-abelian Galois groups.
+
+The **Gauss sums** and **Jacobi sums** that appear in proofs of quadratic reciprocity generalize naturally to this setting. For a Dirichlet character $\chi$ modulo $q$, the Gauss sum $\tau(\chi) = \sum_{a=1}^{q} \chi(a) e^{2\pi i a/q}$ encodes crucial analytic information. The **Jacobi sum** $J(\chi, \psi) = \sum_{a+b=1} \chi(a)\psi(b)$ relates these sums multiplicatively and connects them to counting points on algebraic curves over finite fields — a bridge between number theory and algebraic geometry that would be fully developed only in the twentieth century.
+
 ## The Jacobi Symbol and Generalizations
+
+Evaluating Legendre symbols $\left(\frac{a}{p}\right)$ requires knowing whether $p$ is prime, and when $p$ is large, this can be expensive. The **Jacobi symbol** is an extension of the Legendre symbol designed to make computation more efficient, even when the denominator is not prime.
+
+For an odd positive integer $n = p_1^{e_1} p_2^{e_2} \cdots p_r^{e_r}$ and an integer $a$ with $\gcd(a, n) = 1$, the **Jacobi symbol** $\left(\frac{a}{n}\right)$ is defined as the product of Legendre symbols:
+
+$$\left(\frac{a}{n}\right) = \left(\frac{a}{p_1}\right)^{e_1} \left(\frac{a}{p_2}\right)^{e_2} \cdots \left(\frac{a}{p_r}\right)^{e_r}.$$
+
+The Jacobi symbol is also $0$ when $\gcd(a, n) > 1$. It inherits multiplicativity from the Legendre symbol: $\left(\frac{ab}{n}\right) = \left(\frac{a}{n}\right)\left(\frac{b}{n}\right)$ and $\left(\frac{a}{mn}\right) = \left(\frac{a}{m}\right)\left(\frac{a}{n}\right)$. Crucially, the Jacobi symbol satisfies its own reciprocity law: for odd positive coprime integers $m$ and $n$,
+
+$$\left(\frac{m}{n}\right)\left(\frac{n}{m}\right) = (-1)^{\frac{m-1}{2} \cdot \frac{n-1}{2}},$$
+
+along with the supplements $\left(\frac{-1}{n}\right) = (-1)^{(n-1)/2}$ and $\left(\frac{2}{n}\right) = (-1)^{(n^2-1)/8}$.
+
+The key caveat is that $\left(\frac{a}{n}\right) = 1$ does **not** imply that $a$ is a quadratic residue modulo $n$. When $n$ is composite, the Jacobi symbol can equal $1$ even when no solution to $x^2 \equiv a \pmod{n}$ exists — because the Legendre symbols for the individual prime factors could all be $-1$, canceling in pairs. For example, $\left(\frac{2}{15}\right) = \left(\frac{2}{3}\right)\left(\frac{2}{5}\right) = (-1)(−1) = 1$, yet $x^2 \equiv 2 \pmod{15}$ has no solution. Thus the Jacobi symbol gives a necessary but not sufficient condition for quadratic residuosity when the denominator is not known to be prime.
+
+Despite this limitation, the Jacobi symbol is immensely useful algorithmically. Computing $\left(\frac{a}{n}\right)$ using the reciprocity law and the supplements requires only the prime factorization of $a$ and repeated applications of the Euclidean algorithm — no factorization of $n$ is needed. This leads to an efficient algorithm, running in $O(\log^2 n)$ time, for evaluating the Jacobi symbol. The algorithm closely parallels the Euclidean algorithm: repeatedly replace $\left(\frac{a}{n}\right)$ with $\left(\frac{n \bmod a}{a}\right)$ (after correcting signs using the reciprocity law), reducing both entries until the symbol is trivially evaluated.
+
+The **Kronecker symbol** extends the Jacobi symbol further to all integers, including even denominators and negative integers. For $n = -1$, one sets $\left(\frac{a}{-1}\right) = -1$ if $a < 0$ and $1$ if $a \geq 0$. For $n = 2$, one sets $\left(\frac{a}{2}\right) = 0$ if $a$ is even, $1$ if $a \equiv \pm 1 \pmod 8$, and $-1$ if $a \equiv \pm 3 \pmod 8$ — matching the second supplement of quadratic reciprocity. This extension allows the Kronecker symbol to appear in the theory of quadratic forms: if $D$ is a fundamental discriminant, then the function $n \mapsto \left(\frac{D}{n}\right)$ is a Dirichlet character, and the corresponding L-function $L\!\left(s, \left(\frac{D}{\cdot}\right)\right)$ governs the distribution of primes represented by quadratic forms with discriminant $D$.
+
+The Jacobi and Kronecker symbols are not merely computational tools — they are the bridge between quadratic reciprocity and the modern theory of **Dirichlet characters** and **L-functions**. The quadratic character $\chi(n) = \left(\frac{D}{n}\right)$ is among the simplest Dirichlet characters, and studying its associated L-function already reveals deep phenomena: the class number formula connects the special value $L(1, \chi)$ to the number of equivalence classes of binary quadratic forms with discriminant $D$. Gauss's work on quadratic forms — which fills much of the *Disquisitiones Arithmeticae* — was thus, in retrospect, an early chapter in the story of L-functions and class field theory.
+
+The reciprocity laws surveyed here — quadratic, cubic, quartic, and Artin's general law — represent one of the great arcs of mathematical development over three centuries. Beginning with Euler's empirical observations about squares modulo primes in the 1740s, passing through Legendre's formulation and Gauss's proofs, continuing through the work of Eisenstein and Kummer on higher reciprocity and algebraic integers, and culminating in Artin's class field theory and ultimately in the Langlands program, the question of which integers are perfect powers modulo which primes has driven the creation of algebraic number theory, class field theory, and the search for a unified theory of arithmetic. Every generalization has required new mathematical structures — Gaussian integers, Eisenstein integers, rings of algebraic integers, abelian extensions, automorphic representations — and the pattern continues: the non-abelian analogues of reciprocity remain among the deepest open problems in mathematics today.

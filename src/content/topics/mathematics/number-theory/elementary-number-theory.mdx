@@ -5,16 +5,125 @@ parent: mathematics/number-theory
 order: 1
 color: "#ef4444"
 difficulty: beginner
-prerequisites: []
-status: stub
+prerequisites: ["mathematics/set-theory"]
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: "2026-02-28"
 ---
+
+Elementary number theory is the study of integers through the lens of divisibility, primality, and congruence — questions that are easy to state but often surprisingly deep to answer. It is one of the oldest branches of mathematics, stretching back to ancient Greece, and yet its results underpin modern cryptography, coding theory, and computer science. What makes number theory so compelling is this dual nature: the objects are familiar (whole numbers), yet the landscape they inhabit is vast, structured, and full of mystery.
 
 ## Divisibility and the Euclidean Algorithm
 
+At the heart of elementary number theory lies a single, simple relation. We say that an integer $a$ **divides** an integer $b$, written $a \mid b$, if there exists an integer $k$ such that $b = ak$. When this holds, $a$ is called a **divisor** or **factor** of $b$, and $b$ is a **multiple** of $a$. For instance, $3 \mid 12$ because $12 = 3 \cdot 4$, but $5 \nmid 12$ because no integer $k$ satisfies $12 = 5k$.
+
+Divisibility is a **partial order** on the positive integers: it is reflexive ($a \mid a$), antisymmetric (if $a \mid b$ and $b \mid a$ with $a, b > 0$, then $a = b$), and transitive (if $a \mid b$ and $b \mid c$, then $a \mid c$). These properties, elementary as they are, provide the scaffolding for everything that follows.
+
+The **Division Algorithm** formalizes the familiar act of long division. Given any integers $a$ and $b$ with $b > 0$, there exist unique integers $q$ (the **quotient**) and $r$ (the **remainder**) satisfying
+
+$$a = bq + r, \quad 0 \leq r < b.$$
+
+The uniqueness of $q$ and $r$ is just as important as their existence: it means every integer has a canonical decomposition with respect to any modulus. This theorem was known to ancient mathematicians in various forms, but its precise statement and proof became standard in European mathematics by the eighteenth century.
+
+When we want to understand what two integers have in common, we turn to the **greatest common divisor**. For integers $a$ and $b$ not both zero, the **GCD** $\gcd(a, b)$ is the largest positive integer that divides both $a$ and $b$. A fundamental fact, known as **Bézout's identity**, asserts that the GCD is always a linear combination of $a$ and $b$: there exist integers $s$ and $t$ such that
+
+$$\gcd(a, b) = sa + tb.$$
+
+This is not obvious, but it follows from the **Euclidean algorithm**, one of the oldest algorithms in mathematics. Described by **Euclid** in his *Elements* around 300 BCE, the algorithm repeatedly applies the division algorithm: since $\gcd(a, b) = \gcd(b, r)$ where $r = a \bmod b$, we reduce the problem to smaller and smaller inputs until the remainder is zero. The last nonzero remainder is the GCD.
+
+For example, to compute $\gcd(252, 105)$:
+
+$$252 = 2 \cdot 105 + 42, \quad \gcd(252, 105) = \gcd(105, 42)$$
+$$105 = 2 \cdot 42 + 21, \quad \gcd(105, 42) = \gcd(42, 21)$$
+$$42 = 2 \cdot 21 + 0, \quad \gcd(42, 21) = 21.$$
+
+The **extended Euclidean algorithm** traces back through these steps to express $21 = 3 \cdot 105 - 1 \cdot 252$, giving the Bézout coefficients $s = -1$ and $t = 3$. This is not merely a theoretical curiosity: the extended algorithm is the standard method for computing modular inverses, which lie at the core of RSA encryption.
+
+Two integers are **coprime** (or **relatively prime**) if $\gcd(a, b) = 1$. In that case, Bézout's identity guarantees integers $s, t$ with $sa + tb = 1$, which means $sa \equiv 1 \pmod{b}$: $s$ is a multiplicative inverse of $a$ modulo $b$. The complementary notion is the **least common multiple** $\text{lcm}(a, b)$, the smallest positive integer divisible by both $a$ and $b$. The identity
+
+$$\gcd(a, b) \cdot \text{lcm}(a, b) = |ab|$$
+
+connects these two concepts in an elegant way that will reappear when we discuss prime factorizations.
+
 ## Congruences and Modular Arithmetic
+
+Congruence is divisibility repackaged for comparison. We say that $a$ is **congruent to** $b$ **modulo** $n$, written $a \equiv b \pmod{n}$, if $n \mid (a - b)$, that is, if $a$ and $b$ leave the same remainder when divided by $n$. **Carl Friedrich Gauss** introduced this notation in his landmark 1801 treatise *Disquisitiones Arithmeticae*, which effectively founded modern number theory as a unified discipline. Gauss was twenty-four years old when it was published.
+
+Congruence modulo $n$ is an **equivalence relation**: it is reflexive, symmetric, and transitive. The equivalence class of $a$ is its **residue class** $[a]_n = \{a + kn : k \in \mathbb{Z}\}$. There are exactly $n$ residue classes modulo $n$, and the set of all of them is written $\mathbb{Z}/n\mathbb{Z}$ (or sometimes $\mathbb{Z}_n$). What makes congruences genuinely powerful is that they are compatible with arithmetic: if $a \equiv a' \pmod{n}$ and $b \equiv b' \pmod{n}$, then
+
+$$a + b \equiv a' + b' \pmod{n} \quad \text{and} \quad ab \equiv a'b' \pmod{n}.$$
+
+This means $\mathbb{Z}/n\mathbb{Z}$ is a **ring** — it inherits addition and multiplication from the integers, with all arithmetic "wrapping around" at multiples of $n$.
+
+A **linear congruence** $ax \equiv b \pmod{n}$ has solutions if and only if $\gcd(a, n) \mid b$. When this condition holds, there are exactly $d = \gcd(a, n)$ distinct solutions modulo $n$, equally spaced by $n/d$. In particular, if $\gcd(a, n) = 1$, the congruence has a unique solution modulo $n$, obtained by multiplying both sides by the modular inverse of $a$.
+
+Systems of simultaneous congruences can often be solved using the **Chinese Remainder Theorem (CRT)**. In one of the earliest number-theoretic results from any civilization, problems of this type appear in the *Sun Tzu Suanjing* (ca. 3rd–5th century CE): "find a number that leaves remainder 2 when divided by 3, remainder 3 when divided by 5, and remainder 2 when divided by 7." The CRT states that if $n_1, n_2, \ldots, n_k$ are pairwise coprime, then the system
+
+$$x \equiv a_1 \pmod{n_1}, \quad x \equiv a_2 \pmod{n_2}, \quad \ldots, \quad x \equiv a_k \pmod{n_k}$$
+
+has a unique solution modulo $N = n_1 n_2 \cdots n_k$. The proof is constructive: one builds the solution as $x = \sum_{i=1}^k a_i M_i y_i \pmod{N}$, where $M_i = N/n_i$ and $y_i$ is the inverse of $M_i$ modulo $n_i$. In abstract algebra terms, the CRT asserts an isomorphism of rings $\mathbb{Z}/N\mathbb{Z} \cong \mathbb{Z}/n_1\mathbb{Z} \times \cdots \times \mathbb{Z}/n_k\mathbb{Z}$.
+
+The multiplicative structure of $\mathbb{Z}/n\mathbb{Z}$ is governed by **Euler's totient function** $\varphi(n)$, which counts the integers from $1$ to $n$ that are coprime to $n$. The set of such residues forms the **multiplicative group** $(\mathbb{Z}/n\mathbb{Z})^\times$, which has order $\varphi(n)$. **Euler's theorem** generalizes Fermat's Little Theorem: if $\gcd(a, n) = 1$, then
+
+$$a^{\varphi(n)} \equiv 1 \pmod{n}.$$
+
+For prime $p$, this reduces to **Fermat's Little Theorem**: $a^{p-1} \equiv 1 \pmod{p}$ for $a \not\equiv 0 \pmod{p}$, a result **Pierre de Fermat** stated (without proof) in a letter to Bernard Frénicle de Bessy in 1640. Euler provided the first published proof in 1736. The formula for the totient of a general integer is
+
+$$\varphi(n) = n \prod_{p \mid n} \left(1 - \frac{1}{p}\right),$$
+
+where the product runs over the distinct prime divisors of $n$.
 
 ## Prime Numbers and the Fundamental Theorem of Arithmetic
 
+A **prime number** is an integer greater than 1 whose only positive divisors are 1 and itself. All other integers greater than 1 are **composite**. Primes are the atoms of multiplicative arithmetic — the irreducible building blocks from which every other positive integer is assembled. The first few primes are $2, 3, 5, 7, 11, 13, 17, 19, 23, \ldots$, and their distribution among the integers has fascinated mathematicians since antiquity.
+
+The **Fundamental Theorem of Arithmetic** asserts that every integer greater than 1 can be written as a product of primes, and that this factorization is unique up to the order of the factors. More precisely: for any integer $n > 1$, there exist primes $p_1 \leq p_2 \leq \cdots \leq p_k$ such that
+
+$$n = p_1^{e_1} p_2^{e_2} \cdots p_k^{e_k},$$
+
+and any two such representations are identical. The existence half is straightforward by strong induction: if $n$ is not prime, it factors as $n = ab$ with $1 < a, b < n$, and each of $a$ and $b$ factors by induction. The uniqueness half requires more care — it uses the crucial fact that if a prime $p$ divides a product $ab$, then $p \mid a$ or $p \mid b$ (sometimes called **Euclid's lemma**).
+
+Though the theorem feels obvious, its uniqueness can fail in other algebraic settings. In the ring $\mathbb{Z}[\sqrt{-5}]$, for instance, one has $6 = 2 \cdot 3 = (1 + \sqrt{-5})(1 - \sqrt{-5})$, two distinct factorizations into irreducibles. Understanding why such failures occur, and how to restore uniqueness, was a central motivation for the development of ideal theory by **Ernst Kummer** and **Richard Dedekind** in the nineteenth century — and ultimately led to algebraic number theory, which is explored more deeply in later sub-topics of this branch.
+
+The prime factorization of $n$ gives a formula for $\gcd$ and $\text{lcm}$: if $n = \prod p_i^{a_i}$ and $m = \prod p_i^{b_i}$ (taking $a_i = 0$ or $b_i = 0$ for primes not appearing), then
+
+$$\gcd(n, m) = \prod p_i^{\min(a_i, b_i)}, \quad \text{lcm}(n, m) = \prod p_i^{\max(a_i, b_i)}.$$
+
+Are there infinitely many primes? **Euclid** showed they are, in one of the most elegant proofs in all of mathematics. Suppose, for contradiction, that $p_1, p_2, \ldots, p_k$ are all the primes. Form $N = p_1 p_2 \cdots p_k + 1$. Then $N$ is not divisible by any of $p_1, \ldots, p_k$, so any prime factor of $N$ is a prime not on our list — a contradiction. This argument appears in Book IX of Euclid's *Elements*.
+
+The distribution of primes, while irregular locally, becomes predictable on large scales. The **prime counting function** $\pi(x)$ denotes the number of primes at most $x$. **Adrien-Marie Legendre** conjectured around 1798 that $\pi(x) \approx x / \ln x$. This was proved independently by **Jacques Hadamard** and **Charles-Jean de la Vallée Poussin** in 1896 using complex analysis, giving the celebrated **Prime Number Theorem**:
+
+$$\pi(x) \sim \frac{x}{\ln x} \quad \text{as } x \to \infty.$$
+
+The exact rate of convergence is connected to the zeros of the **Riemann zeta function** and the **Riemann Hypothesis**, one of the great open problems of mathematics.
+
 ## Primitive Roots and Orders
 
+Every nonzero element $a$ in $\mathbb{Z}/p\mathbb{Z}$ (for prime $p$) generates a cyclic subgroup $\{a, a^2, a^3, \ldots\}$ of the multiplicative group $(\mathbb{Z}/p\mathbb{Z})^\times$. The **order** of $a$ modulo $p$, written $\text{ord}_p(a)$, is the smallest positive integer $k$ such that $a^k \equiv 1 \pmod{p}$. By Fermat's Little Theorem, the order always divides $p - 1$.
+
+A **primitive root** modulo $p$ is an element $g$ whose order equals $p - 1$, meaning the powers $g^1, g^2, \ldots, g^{p-1}$ form a complete set of nonzero residues modulo $p$. In other words, $(\mathbb{Z}/p\mathbb{Z})^\times$ is **cyclic** and $g$ is a generator. The existence of primitive roots modulo every prime is a nontrivial theorem, first proved by **Euler** and later given a clean treatment by Gauss in the *Disquisitiones Arithmeticae*. For $p = 7$, for instance, $g = 3$ is a primitive root: $3^1 = 3$, $3^2 = 2$, $3^3 = 6$, $3^4 = 4$, $3^5 = 5$, $3^6 = 1$ modulo 7.
+
+The existence of primitive roots extends beyond primes. Primitive roots exist modulo $n$ if and only if $n \in \{1, 2, 4, p^k, 2p^k\}$ for odd prime $p$ and $k \geq 1$. For all other moduli, $(\mathbb{Z}/n\mathbb{Z})^\times$ is not cyclic — it decomposes into a product of cyclic groups of smaller orders. Understanding this structure requires the classification of finitely generated abelian groups, a topic developed in abstract algebra.
+
+The notion of order is the key to **discrete logarithms**. If $g$ is a primitive root modulo $p$ and $a \not\equiv 0 \pmod{p}$, then there exists a unique exponent $x \in \{0, 1, \ldots, p-2\}$ satisfying $g^x \equiv a \pmod{p}$. This $x$ is called the **discrete logarithm** of $a$ to the base $g$ modulo $p$, written $x = \log_g a$. Computing discrete logarithms efficiently is believed to be computationally hard — no polynomial-time algorithm is known for general $p$ — and this hardness assumption underpins the security of the **Diffie-Hellman key exchange** and related protocols in modern cryptography.
+
+The structure of orders modulo prime powers is more subtle. The **lifting the exponent lemma** and Hensel's lemma (discussed more fully in the context of $p$-adic numbers) give methods for bootstrapping solutions modulo $p$ to solutions modulo higher powers $p^k$. This lifting perspective recurs throughout number theory: a local solution over $\mathbb{Z}/p\mathbb{Z}$ is a candidate for a global solution over $\mathbb{Z}$, and the extent to which local solutions combine to give global ones is measured by the **Chinese Remainder Theorem** and, more deeply, by **class field theory**.
+
 ## Applications of Modular Arithmetic
+
+The abstract machinery of congruences and orders connects directly to concrete problems in computing, cryptography, and everyday life. Modular arithmetic provides both the theoretical foundation and the practical algorithms for a range of modern technologies.
+
+**Primality testing** is the first major application. To verify that a large integer $n$ is prime, one cannot afford to trial-divide by all integers up to $\sqrt{n}$ when $n$ has hundreds of digits. **Fermat's test** offers a shortcut: if $n$ is prime, then $a^{n-1} \equiv 1 \pmod{n}$ for every $a$ coprime to $n$. A failure means $n$ is composite. However, certain composite numbers — called **Carmichael numbers** — pass Fermat's test for every coprime base, with $561 = 3 \cdot 11 \cdot 17$ being the smallest example. The **Miller-Rabin primality test**, introduced independently by **Gary Miller** (1976) and **Michael Rabin** (1980), refines this by checking additional conditions derived from the factorization of $p - 1 = 2^s \cdot d$. A composite $n$ fools Miller-Rabin for at most $1/4$ of all possible bases, making the test highly effective when run with multiple random bases. The deterministic **AKS test**, published by **Manindra Agrawal**, **Neeraj Kayal**, and **Nitin Saxena** in 2002, settled a long-open question by showing that primality can be verified in polynomial time without any unproven assumptions.
+
+**RSA cryptography** is the most famous application of elementary number theory. To set up an RSA key pair, one chooses two large primes $p$ and $q$, forms $n = pq$, and selects an encryption exponent $e$ coprime to $\varphi(n) = (p-1)(q-1)$. The decryption exponent is $d \equiv e^{-1} \pmod{\varphi(n)}$, computed via the extended Euclidean algorithm. Encryption and decryption operate by modular exponentiation: a message $m$ becomes ciphertext $c \equiv m^e \pmod{n}$, and decryption recovers $m \equiv c^d \pmod{n}$, valid by Euler's theorem since $ed \equiv 1 \pmod{\varphi(n)}$ implies $c^d \equiv m^{ed} \equiv m \pmod{n}$. The security of RSA rests on the apparent difficulty of factoring $n$ without knowledge of $p$ and $q$ — the **integer factorization problem**, for which no efficient general algorithm is known. RSA was introduced in 1977 by **Ron Rivest**, **Adi Shamir**, and **Leonard Adleman**, though an equivalent system had been discovered earlier (and kept classified) by **Clifford Cocks** at the UK's GCHQ in 1973.
+
+**Check digit systems** offer a more quotidian application. The **ISBN-10** system for book identification assigns a 10-digit code $d_1 d_2 \cdots d_{10}$ satisfying
+
+$$\sum_{i=1}^{10} i \cdot d_i \equiv 0 \pmod{11}.$$
+
+The final digit $d_{10}$ is the check digit, chosen to make this congruence hold. If a single digit is transcribed incorrectly, the checksum fails, alerting the reader to an error. Transposition of adjacent digits — the most common human transcription error — is also always detected, because the weights $1, 2, \ldots, 10$ are all different modulo 11. The **Luhn algorithm** used for credit card numbers is a similar but simpler scheme using modulo 10, though it detects only a subset of transpositions.
+
+**Efficient computation by repeated squaring** is the final cornerstone. Computing $g^k \pmod{n}$ naively requires $k - 1$ multiplications, which is useless when $k$ is a 256-bit exponent. The **square-and-multiply** (or **binary exponentiation**) algorithm reduces this to $O(\log k)$ modular multiplications: write $k$ in binary, and at each bit position either square (for a 0 bit) or square-and-multiply (for a 1 bit). For instance, $g^{13} = g^{1101_2}$ is computed as $((g^2)^2 \cdot g)^2 \cdot g$, requiring only 5 multiplications instead of 12. This algorithm is the computational engine behind RSA, Diffie-Hellman, and virtually every other modular-exponentiation-based protocol. The interplay between the theoretical structures developed in this topic and their efficient algorithmic implementation is what makes elementary number theory not just a historical curiosity, but a living and economically vital field of mathematics.
+
+The ideas introduced here — divisibility, primes, congruences, orders — are the foundation on which the rest of number theory is built. Moving deeper into the branch, one encounters quadratic residues and the law of quadratic reciprocity, Diophantine equations such as the Pell equation, and the rich arithmetic of algebraic number fields, all of which extend the elementary machinery developed in this topic to dramatically broader and more powerful settings.
