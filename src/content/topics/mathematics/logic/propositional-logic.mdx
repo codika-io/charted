@@ -1,81 +1,18 @@
 ---
-title: Propositional Logic
-description: The simplest formal system — truth values, logical connectives, and the algebra of propositions.
+title: "Propositional Logic"
+description: "The simplest formal system — truth values, logical connectives, and the algebra of propositions."
 parent: mathematics/logic
 order: 1
 color: "#ef4444"
 difficulty: beginner
 prerequisites: []
-status: draft
-author: agent
-lastEditedBy: agent
-lastUpdated: "2026-02-28"
+status: stub
 ---
 
-Propositional logic is the simplest formal system in mathematics. It studies statements that are either true or false, and the ways they can be combined using logical connectives. Everything else in mathematical logic — predicate logic, proof theory, model theory — builds on this foundation.
+## Propositional Language and Connectives
 
-## Propositions and Truth Values
+## Truth Tables and Semantic Evaluation
 
-A **proposition** is a declarative statement that is either true or false, never both. "2 is even" is a proposition (true). "Close the door" is not — it has no truth value. We typically use lowercase letters $p, q, r, \ldots$ as propositional variables, each standing for an unspecified proposition.
+## Satisfiability and Logical Consequence
 
-The two truth values are denoted $\top$ (true) and $\bot$ (false). A **truth assignment** is a function $v : \{p, q, r, \ldots\} \to \{\top, \bot\}$ that gives each variable a definite truth value. Once every variable has a value, the truth value of any compound proposition is fully determined.
-
-## Logical Connectives
-
-Propositional logic has five standard connectives. Each is defined by its **truth table** — a complete listing of outputs for every combination of inputs.
-
-**Negation** $\neg p$ flips the truth value:
-
-$$\neg \top = \bot, \qquad \neg \bot = \top$$
-
-**Conjunction** $p \land q$ is true only when both operands are true. **Disjunction** $p \lor q$ is true when at least one operand is true (this is the inclusive "or").
-
-**Conditional** $p \to q$ (read "if $p$ then $q$") is false only when $p$ is true and $q$ is false. This often surprises beginners: $\bot \to q$ is always true, regardless of $q$. This convention — called *ex falso quodlibet* — keeps the logic consistent and is essential for mathematical proof.
-
-**Biconditional** $p \leftrightarrow q$ is true exactly when $p$ and $q$ have the same truth value:
-
-$$p \leftrightarrow q \;\equiv\; (p \to q) \land (q \to p)$$
-
-## Tautologies and Contradictions
-
-A formula is a **tautology** if it is true under every truth assignment, and a **contradiction** if it is false under every truth assignment. The formula $p \lor \neg p$ (the **law of excluded middle**) is a tautology. The formula $p \land \neg p$ is a contradiction.
-
-**De Morgan's laws** are among the most important tautologies. They describe how negation distributes over conjunction and disjunction:
-
-$$\neg(p \land q) \;\equiv\; \neg p \lor \neg q$$
-
-$$\neg(p \lor q) \;\equiv\; \neg p \land \neg q$$
-
-Augustus De Morgan stated these laws in 1847, but they were already implicit in medieval logic. They appear everywhere — in circuit design, database queries, and the simplification of logical expressions.
-
-Other fundamental tautologies include **double negation elimination** $\neg\neg p \equiv p$, **contraposition** $(p \to q) \equiv (\neg q \to \neg p)$, and the **distributive laws**:
-
-$$p \land (q \lor r) \;\equiv\; (p \land q) \lor (p \land r)$$
-
-$$p \lor (q \land r) \;\equiv\; (p \lor q) \land (p \lor r)$$
-
-## Normal Forms
-
-Any propositional formula can be rewritten into a standard shape. The two most important are **Conjunctive Normal Form** (CNF) and **Disjunctive Normal Form** (DNF).
-
-A **literal** is a variable or its negation ($p$ or $\neg p$). A **clause** is a disjunction of literals. A formula is in **CNF** if it is a conjunction of clauses:
-
-$$(p \lor \neg q) \;\land\; (\neg p \lor q \lor r) \;\land\; (\neg r)$$
-
-A formula is in **DNF** if it is a disjunction of conjunctions of literals. Every propositional formula is logically equivalent to one in CNF and one in DNF — though the conversion can cause exponential blowup in size.
-
-CNF is the input format for **SAT solvers** — algorithms that determine whether a propositional formula has a satisfying assignment. The Boolean satisfiability problem (SAT) was the first problem proven NP-complete (Cook 1971, Levin 1973), and modern SAT solvers are a cornerstone of formal verification, hardware design, and AI planning.
-
-## Functional Completeness
-
-A set of connectives is **functionally complete** if every Boolean function can be expressed using only those connectives. The set $\{\neg, \land\}$ is functionally complete, since $p \lor q \equiv \neg(\neg p \land \neg q)$ by De Morgan. So is $\{\neg, \lor\}$ and $\{\neg, \to\}$.
-
-Remarkably, a single connective suffices. The **NAND** gate ($p \mid q \equiv \neg(p \land q)$) is functionally complete on its own:
-
-$$\neg p \;\equiv\; p \mid p$$
-
-$$p \land q \;\equiv\; (p \mid q) \mid (p \mid q)$$
-
-This fact, discovered by Henry Sheffer in 1913, is why NAND gates are the fundamental building block of digital circuits. Every logic gate in a modern processor can be built from NAND alone.
-
-The **NOR** connective ($p \downarrow q \equiv \neg(p \lor q)$) is the only other single connective that is functionally complete. Emil Post proved in 1941 that no other binary connective has this property.
+## Normal Forms and Equivalences

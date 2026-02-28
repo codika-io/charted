@@ -89,10 +89,10 @@ mathematics/                    ← root (1 page)
 
 ## Writing Content
 
-Follow the pattern established by the logic sub-topics (e.g. `propositional-logic.mdx`, `model-theory.mdx`):
+Every sub-topic already has its H2 section headings as a skeleton. To fill one in:
 
 1. **Intro paragraph** (2-3 sentences) — what this topic is and why it matters
-2. **4-6 H2 sections** — each covering a major concept or theorem
+2. **Fill each H2 section** — the headings are already in place; write the content under each
 3. **Clear prose** — explain ideas before formalizing them
 4. **LaTeX formulas** — use `$inline$` and `$$block$$` math notation
 5. **Historical context** — who discovered it, when, why it matters

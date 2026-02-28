@@ -1,73 +1,20 @@
 ---
-title: Computability Theory
-description: What can be computed in principle — Turing machines, the halting problem, and the limits of algorithmic reasoning.
+title: "Computability Theory"
+description: "What can be computed in principle — Turing machines, the halting problem, and the limits of algorithmic reasoning."
 parent: mathematics/logic
 order: 5
 color: "#ef4444"
 difficulty: intermediate
 prerequisites: ["mathematics/logic/first-order-logic"]
-status: draft
-author: agent
-lastEditedBy: agent
-lastUpdated: "2026-02-28"
+status: stub
 ---
 
-Computability theory (also called recursion theory) asks a deceptively simple question: which problems can be solved by an algorithm? The answer, worked out by Turing, Church, Gödel, and Kleene in the 1930s, reveals fundamental limitations on what any mechanical process can achieve — limitations that have consequences for mathematics, computer science, and philosophy.
+## Turing Machines and Church-Turing Thesis
 
-## Turing Machines
+## Recursive and Recursively Enumerable Sets
 
-A **Turing machine** is a mathematical model of computation, introduced by Alan Turing in his landmark 1936 paper. It consists of:
+## The Halting Problem and Undecidability
 
-$$M = (Q,\; \Sigma,\; \Gamma,\; \delta,\; q_0,\; q_{\text{accept}},\; q_{\text{reject}})$$
+## Degrees of Unsolvability
 
-where $Q$ is a finite set of states, $\Sigma$ is the input alphabet, $\Gamma \supseteq \Sigma$ is the tape alphabet (including a blank symbol), $\delta : Q \times \Gamma \to Q \times \Gamma \times \{L, R\}$ is the transition function, $q_0$ is the start state, and $q_{\text{accept}}, q_{\text{reject}}$ are the halting states.
-
-The machine operates on an infinite tape divided into cells. At each step, it reads the symbol under its head, writes a new symbol, moves left or right, and transitions to a new state. Despite this simplicity, a Turing machine can simulate any algorithm — a claim known as the Church-Turing thesis.
-
-A function $f : \mathbb{N} \to \mathbb{N}$ is **computable** (or recursive) if some Turing machine, given input $n$ on its tape, eventually halts with $f(n)$ on the tape. A set $A \subseteq \mathbb{N}$ is **decidable** (or recursive) if its characteristic function is computable.
-
-## Equivalent Models
-
-Remarkably, every reasonable formalization of "algorithm" turns out to define the same class of computable functions:
-
-- **Turing machines** (Turing, 1936)
-- **$\lambda$-calculus** (Church, 1936) — a formal system of function abstraction and application
-- **$\mu$-recursive functions** (Kleene, 1936) — built from basic functions using composition, primitive recursion, and minimization
-- **Post systems**, **register machines**, **Markov algorithms**, and many others
-
-The **Church-Turing thesis** asserts that these equivalent formalisms capture exactly the functions that can be computed by any effective procedure. This is not a theorem (it cannot be proven, since "effective procedure" is informal) but a thesis supported by decades of evidence. Every proposed model of computation that is physically realizable computes exactly the same class of functions.
-
-## The Halting Problem
-
-The **halting problem** asks: given a Turing machine $M$ and an input $w$, does $M$ halt on $w$? Turing proved this is undecidable by a **diagonalization argument**.
-
-Suppose a Turing machine $H$ decides the halting problem: $H(M, w)$ accepts if $M$ halts on $w$ and rejects otherwise. Construct a new machine $D$ that, on input $M$:
-
-1. Runs $H(M, M)$ — does $M$ halt on its own description?
-2. If $H$ says "yes," $D$ loops forever; if $H$ says "no," $D$ halts.
-
-Now ask: does $D$ halt on input $D$? If it does, then $H(D, D)$ accepts, so $D$ loops — contradiction. If it doesn't, then $H(D, D)$ rejects, so $D$ halts — contradiction. Therefore $H$ cannot exist.
-
-The halting problem is the canonical undecidable problem. Turing published this result in the same 1936 paper where he introduced the Turing machine, answering Hilbert's *Entscheidungsproblem* (decision problem) in the negative — simultaneously with Church, who used $\lambda$-calculus.
-
-## Reducibility and Degrees
-
-If problem $A$ can be transformed into problem $B$ in a way that preserves answers, we say $A$ **reduces** to $B$. The most common notion is **many-one reducibility**: $A \leq_m B$ if there is a computable function $f$ such that $x \in A \iff f(x) \in B$.
-
-A stronger notion is **Turing reducibility**: $A \leq_T B$ if $A$ is decidable by a Turing machine with an **oracle** for $B$ — a black box that answers membership queries about $B$ in one step. The equivalence classes under $\leq_T$ are called **Turing degrees**. The degree of the computable sets is $\mathbf{0}$, and the degree of the halting problem is $\mathbf{0'}$ (zero-jump).
-
-The **arithmetical hierarchy** classifies sets by the quantifier complexity of their definitions:
-
-$$\Sigma^0_1 \text{ (r.e. sets)} \;\subset\; \Sigma^0_2 \;\subset\; \Sigma^0_3 \;\subset\; \cdots$$
-
-A set is $\Sigma^0_1$ (recursively enumerable) if it is the domain of a partial computable function — equivalently, if it can be enumerated by an algorithm. The halting problem is $\Sigma^0_1$-complete: it is the hardest r.e. set under $\leq_m$.
-
-## Rice's Theorem
-
-**Rice's theorem** (1953) says that every non-trivial semantic property of programs is undecidable. Formally: let $\mathcal{P}$ be any property of partial computable functions (not of the machines themselves). If $\mathcal{P}$ is non-trivial — some computable functions have it, some don't — then the set:
-
-$$\{e : \varphi_e \text{ has property } \mathcal{P}\}$$
-
-is undecidable, where $\varphi_e$ is the partial function computed by program $e$.
-
-This means you cannot write an algorithm to determine whether a program computes a constant function, a total function, a function that always terminates, or any other non-trivial semantic property. Rice's theorem is proven by reduction from the halting problem and explains why general-purpose program analysis is fundamentally limited — all non-trivial questions about program behavior require approximation or human insight.
+## Computational Complexity Connections

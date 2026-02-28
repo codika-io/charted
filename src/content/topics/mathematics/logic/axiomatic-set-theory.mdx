@@ -1,83 +1,20 @@
 ---
-title: Axiomatic Set Theory
-description: The formal foundation of mathematics — ZFC axioms, ordinals, cardinals, and the continuum hypothesis.
+title: "Axiomatic Set Theory"
+description: "The formal foundation of mathematics — ZFC axioms, ordinals, cardinals, and the continuum hypothesis."
 parent: mathematics/logic
 order: 6
 color: "#ef4444"
 difficulty: advanced
-prerequisites: ["mathematics/logic/first-order-logic", "mathematics/logic/computability-theory"]
-status: draft
-author: agent
-lastEditedBy: agent
-lastUpdated: "2026-02-28"
+prerequisites: ["mathematics/logic/first-order-logic","mathematics/logic/computability-theory"]
+status: stub
 ---
 
-Almost every mathematical object — numbers, functions, spaces, algebraic structures — can be encoded as a set. Axiomatic set theory provides the formal foundation on which this encoding rests. The dominant system, ZFC, was developed in the early twentieth century to rescue set theory from the paradoxes that plagued its naive predecessor.
+## Set-Theoretic Axioms and Foundations
 
-## From Naive to Axiomatic
+## Constructible Universe and Inner Models
 
-Cantor's naive set theory allowed any definable collection to form a set. This led to **Russell's paradox** (1901): consider $R = \{x : x \notin x\}$. Is $R \in R$? If yes, then by definition $R \notin R$. If no, then $R \in R$. Contradiction.
+## Descriptive Set Theory
 
-**Cantor's diagonal argument** (1891) had already shown that the set of all subsets of $\mathbb{N}$ is uncountable — there is no bijection $\mathbb{N} \to \mathcal{P}(\mathbb{N})$. This was profound and unparadoxical, but it revealed that "the set of all sets" cannot exist without contradiction (since such a set would have a strictly larger power set, contradicting maximality).
+## Determinacy and Large Cardinals in Logic
 
-The resolution was to **axiomatize**: specify precisely which sets exist, using first-order logic with a single binary relation $\in$. Zermelo proposed the first axiomatization in 1908; Fraenkel and Skolem refined it in the 1920s; the axiom of choice was added, yielding ZFC.
-
-## The ZFC Axioms
-
-ZFC consists of the following axioms, all stated in the first-order language $\{\in\}$:
-
-**1. Extensionality.** Two sets are equal iff they have the same elements:
-
-$$\forall x\, \forall y\, (\forall z\, (z \in x \leftrightarrow z \in y) \to x = y)$$
-
-**2. Empty Set.** There exists a set with no elements: $\exists x\, \forall y\, (y \notin x)$.
-
-**3. Pairing.** For any two sets $a, b$, the set $\{a, b\}$ exists.
-
-**4. Union.** For any set $x$, the union $\bigcup x = \{z : \exists y \in x,\, z \in y\}$ exists.
-
-**5. Power Set.** For any set $x$, the power set $\mathcal{P}(x) = \{y : y \subseteq x\}$ exists.
-
-**6. Infinity.** There exists an infinite set (specifically, one containing $\emptyset$ and closed under the successor operation $x \mapsto x \cup \{x\}$).
-
-**7. Separation (Comprehension Schema).** For any set $x$ and first-order formula $\varphi(z)$, the subset $\{z \in x : \varphi(z)\}$ exists. This avoids Russell's paradox by only forming *subsets* of existing sets.
-
-**8. Replacement (Schema).** If $F$ is a definable function and $x$ is a set, then the image $\{F(z) : z \in x\}$ is a set.
-
-**9. Foundation (Regularity).** Every non-empty set $x$ has a member disjoint from $x$: $\forall x\, (x \neq \emptyset \to \exists y \in x\, (y \cap x = \emptyset))$. This prevents circular membership chains like $a \in b \in a$.
-
-## Ordinals and Cardinals
-
-**Ordinal numbers** generalize the natural numbers to describe well-ordered sets. An ordinal is a transitive set well-ordered by $\in$. The finite ordinals are $0 = \emptyset$, $1 = \{0\}$, $2 = \{0, 1\}$, and so on. The first infinite ordinal is:
-
-$$\omega = \{0, 1, 2, 3, \ldots\}$$
-
-Beyond $\omega$ lie $\omega + 1, \omega + 2, \ldots, \omega \cdot 2, \ldots, \omega^2, \ldots, \omega^\omega, \ldots, \epsilon_0, \ldots$ — a vast hierarchy indexed by ordinal arithmetic. The ordinal $\epsilon_0 = \omega^{\omega^{\omega^{\cdot^{\cdot^{\cdot}}}}}$ is the first fixed point of $\alpha \mapsto \omega^\alpha$ and plays a central role in proof theory.
-
-**Cardinal numbers** measure the size of sets. Two sets have the same cardinality if there is a bijection between them. $\aleph_0 = |\mathbb{N}|$ is the smallest infinite cardinal. Cantor proved $|\mathcal{P}(\mathbb{N})| = 2^{\aleph_0} > \aleph_0$ — the cardinality of the continuum strictly exceeds that of the naturals.
-
-## The Axiom of Choice
-
-The **axiom of choice** (AC) states: for every family of non-empty sets, there exists a function choosing one element from each. Formally:
-
-$$\forall x\, \Big(\emptyset \notin x \to \exists f : x \to \bigcup x\; \forall A \in x\, (f(A) \in A)\Big)$$
-
-AC is equivalent to several important principles:
-
-- **Zorn's lemma**: every partially ordered set in which every chain has an upper bound has a maximal element.
-- **Well-ordering theorem**: every set can be well-ordered.
-- Every vector space has a basis.
-
-AC also implies some counter-intuitive results, most famously the **Banach-Tarski paradox** (1924): a solid ball in $\mathbb{R}^3$ can be decomposed into finitely many pieces and reassembled into two balls of the same size. The "pieces" are non-measurable sets that cannot be constructed explicitly.
-
-## The Continuum Hypothesis
-
-The **continuum hypothesis** (CH) asserts:
-
-$$2^{\aleph_0} = \aleph_1$$
-
-That is, there is no cardinality strictly between $|\mathbb{N}|$ and $|\mathbb{R}|$. Cantor conjectured this in 1878, and it became the first of Hilbert's 23 problems.
-
-Gödel proved in 1938 that CH is **consistent** with ZFC: he constructed the **constructible universe** $L$, an inner model of set theory where CH holds. Cohen proved in 1963 that CH is **independent** of ZFC using his revolutionary technique of **forcing**: he built models where CH fails.
-
-Together, these results show that CH is neither provable nor refutable from ZFC. This independence result is not a defect of ZFC but a genuine phenomenon — the axioms of set theory do not determine the size of the continuum. Whether to accept CH, reject it, or adopt new axioms that settle it remains one of the deepest open questions in the foundations of mathematics.
+## Independence Results

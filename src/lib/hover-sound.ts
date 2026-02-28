@@ -1,6 +1,6 @@
 /**
- * Synthesized UI hover tick — short, satisfying click sound
- * inspired by video game menu navigation.
+ * Synthesized UI hover click — low, tactile, non-tonal.
+ * More mechanical switch than musical beep.
  *
  * Uses the Web Audio API so no audio file is needed.
  */
@@ -8,7 +8,7 @@
 let ctx: AudioContext | null = null;
 let lastPlayTime = 0;
 
-const COOLDOWN_MS = 40; // prevent rapid-fire overlapping ticks
+const COOLDOWN_MS = 50;
 
 function getContext(): AudioContext {
   if (!ctx) ctx = new AudioContext();
@@ -25,38 +25,37 @@ export function playHoverTick() {
 
   const t = ac.currentTime;
 
-  // --- Layer 1: pitched tick (triangle wave, ~1.6-1.9 kHz) ---
-  const osc = ac.createOscillator();
-  const oscGain = ac.createGain();
-  osc.type = 'triangle';
-  osc.frequency.setValueAtTime(1600 + Math.random() * 300, t);
-  oscGain.gain.setValueAtTime(0, t);
-  oscGain.gain.linearRampToValueAtTime(0.12, t + 0.002);
-  oscGain.gain.exponentialRampToValueAtTime(0.0001, t + 0.035);
-  osc.connect(oscGain).connect(ac.destination);
-  osc.start(t);
-  osc.stop(t + 0.04);
+  // --- Layer 1: sub-bass thump (fast pitch drop, no sustain) ---
+  const sub = ac.createOscillator();
+  const subGain = ac.createGain();
+  sub.type = 'sine';
+  sub.frequency.setValueAtTime(150, t);
+  sub.frequency.exponentialRampToValueAtTime(40, t + 0.04);
+  subGain.gain.setValueAtTime(0.07, t);
+  subGain.gain.exponentialRampToValueAtTime(0.0001, t + 0.05);
+  sub.connect(subGain).connect(ac.destination);
+  sub.start(t);
+  sub.stop(t + 0.06);
 
-  // --- Layer 2: noise click (filtered white noise burst) ---
-  const bufLen = Math.floor(ac.sampleRate * 0.015); // 15 ms
+  // --- Layer 2: short noise transient (the "click" texture) ---
+  const bufLen = Math.floor(ac.sampleRate * 0.006); // 6 ms — very short
   const buf = ac.createBuffer(1, bufLen, ac.sampleRate);
   const data = buf.getChannelData(0);
-  for (let i = 0; i < bufLen; i++) data[i] = (Math.random() * 2 - 1) * 0.5;
+  for (let i = 0; i < bufLen; i++) data[i] = Math.random() * 2 - 1;
 
   const noise = ac.createBufferSource();
   noise.buffer = buf;
 
-  const bp = ac.createBiquadFilter();
-  bp.type = 'bandpass';
-  bp.frequency.value = 4000;
-  bp.Q.value = 1.2;
+  const lp = ac.createBiquadFilter();
+  lp.type = 'lowpass';
+  lp.frequency.value = 2000;
+  lp.Q.value = 0.7;
 
   const noiseGain = ac.createGain();
-  noiseGain.gain.setValueAtTime(0, t);
-  noiseGain.gain.linearRampToValueAtTime(0.06, t + 0.001);
-  noiseGain.gain.exponentialRampToValueAtTime(0.0001, t + 0.02);
+  noiseGain.gain.setValueAtTime(0.05, t);
+  noiseGain.gain.exponentialRampToValueAtTime(0.0001, t + 0.008);
 
-  noise.connect(bp).connect(noiseGain).connect(ac.destination);
+  noise.connect(lp).connect(noiseGain).connect(ac.destination);
   noise.start(t);
-  noise.stop(t + 0.02);
+  noise.stop(t + 0.01);
 }

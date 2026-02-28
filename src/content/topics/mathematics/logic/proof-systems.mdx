@@ -1,75 +1,18 @@
 ---
-title: Proof Systems
-description: Formalizing deduction — natural deduction, sequent calculus, and the relationship between provability and truth.
+title: "Proof Systems"
+description: "Formalizing deduction — natural deduction, sequent calculus, and the relationship between provability and truth."
 parent: mathematics/logic
 order: 3
 color: "#ef4444"
 difficulty: intermediate
 prerequisites: ["mathematics/logic/first-order-logic"]
-status: draft
-author: agent
-lastEditedBy: agent
-lastUpdated: "2026-02-28"
+status: stub
 ---
-
-A proof system gives precise rules for deriving new statements from old ones. The central question of mathematical logic — *does every true statement have a proof?* — can only be asked once "proof" has a formal definition. This chapter introduces the main proof systems and the theorems that connect provability ($\vdash$) with truth ($\models$).
-
-## What Is a Formal Proof?
-
-Informally, a proof is a convincing argument. Formally, a proof in a system $S$ is a finite sequence of formulas, each of which is either an axiom of $S$ or follows from earlier formulas by a rule of inference. If $\varphi$ can be derived from a set of assumptions $\Gamma$, we write:
-
-$$\Gamma \vdash \varphi$$
-
-This is the **syntactic** entailment relation — it depends only on the rules, not on meaning. By contrast, the **semantic** entailment relation:
-
-$$\Gamma \models \varphi$$
-
-means that every structure satisfying all formulas in $\Gamma$ also satisfies $\varphi$. The deep question is whether these two notions coincide.
 
 ## Natural Deduction
 
-**Natural deduction**, introduced by Gerhard Gentzen in 1934, was designed to mirror the way mathematicians actually reason. Each connective has an **introduction rule** (how to prove it) and an **elimination rule** (how to use it).
+## Hilbert-Style Axiom Systems
 
-For conjunction, the rules are straightforward:
+## Sequent Calculus and Cut Elimination
 
-$$\frac{\varphi \qquad \psi}{\varphi \land \psi}\;\land\text{-intro} \qquad \frac{\varphi \land \psi}{\varphi}\;\land\text{-elim}_L \qquad \frac{\varphi \land \psi}{\psi}\;\land\text{-elim}_R$$
-
-The most subtle rule is **implication introduction** ($\to$-intro), which discharges an assumption. To prove $\varphi \to \psi$, you assume $\varphi$ and derive $\psi$; then the assumption is discharged and you conclude $\varphi \to \psi$ without needing $\varphi$ to be true.
-
-For the quantifiers, $\forall$-introduction requires the variable to be **arbitrary** — not free in any undischarged assumption. This captures the informal reasoning "let $x$ be arbitrary; then ... ; therefore for all $x$."
-
-Natural deduction has no axioms at all — everything comes from rules. This makes it a pure formalization of the deductive process. Proofs in natural deduction are tree-shaped, with assumptions at the leaves and the conclusion at the root.
-
-## Sequent Calculus
-
-Gentzen's second system, the **sequent calculus** (also 1934), works with **sequents** of the form:
-
-$$\Gamma \vdash \Delta$$
-
-where $\Gamma$ (the antecedent) and $\Delta$ (the succedent) are finite sequences of formulas. The sequent asserts: "if all formulas in $\Gamma$ hold, then at least one formula in $\Delta$ holds." Rules operate on both sides of the turnstile.
-
-The most important rule is **cut**:
-
-$$\frac{\Gamma \vdash \Delta, \varphi \qquad \varphi, \Sigma \vdash \Pi}{\Gamma, \Sigma \vdash \Delta, \Pi}\;\text{cut}$$
-
-The cut rule is a formal version of using lemmas: you prove $\varphi$, then use $\varphi$ to prove something else. Gentzen's **Hauptsatz** (cut-elimination theorem) shows that any proof using cut can be transformed into one without it. This has profound consequences — it means every provable sequent has a **direct** proof that only uses subformulas of the conclusion, a property crucial for proof search and consistency proofs.
-
-## Soundness and Completeness
-
-A proof system is **sound** if everything provable is true: $\Gamma \vdash \varphi \implies \Gamma \models \varphi$. Soundness is typically straightforward to verify — you check that each axiom is valid and each rule preserves truth.
-
-**Completeness** is the converse: $\Gamma \models \varphi \implies \Gamma \vdash \varphi$. If a formula is true in every structure satisfying $\Gamma$, then there is a formal proof. Gödel proved the completeness of first-order logic in his 1929 doctoral thesis:
-
-$$\text{Gödel's Completeness Theorem:} \quad \vdash \varphi \;\iff\; \models \varphi$$
-
-This is a remarkable result. It says that first-order logic is **strong enough** to capture all semantic consequences — you never need to go "outside the system" to prove a first-order validity. The proof is constructive: given a formula $\varphi$ that has no proof, Gödel's method builds a specific countermodel.
-
-Note carefully: this is the **completeness theorem**, not the incompleteness theorems. Gödel proved completeness in 1929 and incompleteness in 1931 — they concern different questions entirely. Completeness says the *logic* captures all valid reasoning. Incompleteness says no *theory* (like arithmetic) can prove all truths about its intended domain.
-
-## Decidability and Complexity
-
-**Propositional logic** is decidable: truth tables give an algorithm. But the decision problem is **co-NP-complete** — determining whether a formula is a tautology is as hard as any problem in co-NP. The dual problem (satisfiability) is NP-complete — this is the Boolean satisfiability problem (SAT) at the heart of computational complexity theory.
-
-**First-order logic** is undecidable: there is no algorithm that, given an arbitrary first-order sentence, determines whether it is valid. This was proven independently by Alonzo Church and Alan Turing in 1936, answering Hilbert's *Entscheidungsproblem* in the negative. However, first-order logic is **semi-decidable** (recursively enumerable): if a sentence is valid, a proof search will eventually find a proof; if it is not, the search may run forever.
-
-Certain fragments of first-order logic are decidable. The **monadic fragment** (only unary predicates) is decidable, as is the **two-variable fragment** $\text{FO}^2$. The **guarded fragment** and **description logics** (used in knowledge representation and the Semantic Web) are decidable fragments designed to balance expressiveness with tractability.
+## Proof Complexity and Automated Reasoning

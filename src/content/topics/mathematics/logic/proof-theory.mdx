@@ -1,85 +1,20 @@
 ---
-title: Proof Theory (Advanced)
-description: Analyzing proofs as mathematical objects — ordinal analysis, cut-elimination, and reverse mathematics.
+title: "Proof Theory (Advanced)"
+description: "Analyzing proofs as mathematical objects — ordinal analysis, cut-elimination, and reverse mathematics."
 parent: mathematics/logic
 order: 8
 color: "#ef4444"
 difficulty: advanced
 prerequisites: ["mathematics/logic/incompleteness-theorems"]
-status: draft
-author: agent
-lastEditedBy: agent
-lastUpdated: "2026-02-28"
+status: stub
 ---
 
-Proof theory treats proofs themselves as mathematical objects to be studied, measured, and transformed. Born from Hilbert's program and Gentzen's response to Gödel, it asks: what is the "strength" of a formal system? What happens when you strip a proof down to its essentials? And which axioms are truly necessary for which theorems?
+## Proof-Theoretic Semantics
 
-## Gentzen's Program
+## Constructive Logic and Intuitionism
 
-After Gödel's incompleteness theorems showed that a theory $T$ cannot prove its own consistency, Hilbert's original program collapsed. But Gerhard Gentzen salvaged a modified version: prove the consistency of $T$ using methods that go just slightly beyond $T$.
-
-In 1936, Gentzen proved the **consistency of Peano arithmetic** using transfinite induction up to the ordinal $\epsilon_0$:
-
-$$\epsilon_0 = \sup\{\omega,\; \omega^\omega,\; \omega^{\omega^\omega},\; \ldots\}$$
-
-This is the smallest ordinal $\alpha$ satisfying $\omega^\alpha = \alpha$. Gentzen showed that if you accept induction up to $\epsilon_0$ (which PA cannot prove), then you can verify that PA never derives a contradiction.
-
-This established the **proof-theoretic ordinal** as a measure of a theory's strength: the smallest ordinal $\alpha$ such that transfinite induction up to $\alpha$ suffices to prove the theory's consistency. The proof-theoretic ordinal of PA is $\epsilon_0$.
-
-## Cut-Elimination
-
-Gentzen's **Hauptsatz** (cut-elimination theorem, 1934) states that any sequent calculus proof using the cut rule:
-
-$$\frac{\Gamma \vdash \Delta, A \qquad A, \Sigma \vdash \Pi}{\Gamma, \Sigma \vdash \Delta, \Pi}\;\text{cut}$$
-
-can be transformed into a proof that does not use cut. The resulting **cut-free proof** has the **subformula property**: every formula appearing in the proof is a subformula of the conclusion.
-
-The subformula property has powerful consequences:
-
-- **Consistency proofs**: if $\bot$ (falsehood) has a proof, it has a cut-free proof. But $\bot$ has no subformulas, so no rule can introduce it — hence no cut-free proof exists, and the system is consistent.
-- **Interpolation**: Craig's interpolation theorem follows from cut-elimination.
-- **Proof search**: cut-free proofs are easier to search for algorithmically, since the search space is bounded by subformulas of the goal.
-
-The price of cut-elimination is proof length. Removing cuts can cause a **non-elementary blowup** — the cut-free proof may be exponentially longer at each level of a tower of exponentials. This blowup is unavoidable in general (Statman 1979).
-
-## Ordinal Analysis
-
-**Ordinal analysis** assigns a proof-theoretic ordinal $|T|$ to a theory $T$, measuring its strength on a common scale. Key results include:
-
-$$|\text{PRA}| = \omega^\omega \qquad |\text{PA}| = \epsilon_0 \qquad |\text{ATR}_0| = \Gamma_0$$
-
-where PRA is primitive recursive arithmetic and $\text{ATR}_0$ is arithmetical transfinite recursion (one of the "Big Five" systems of reverse mathematics).
-
-For stronger theories, the ordinals become enormous and require sophisticated notation systems. The proof-theoretic ordinal of $\Pi^1_1\text{-CA}_0$ involves the Bachmann-Howard ordinal, and the analysis of full second-order arithmetic and set-theoretic systems remains an active frontier.
-
-The ordinal $|T|$ precisely calibrates which functions are provably total in $T$: a recursive function is provably total in $T$ if and only if it is $\alpha$-recursive for some $\alpha < |T|$.
-
-## Constructive Logic and Realizability
-
-**Constructive logic** (intuitionistic logic) rejects the law of excluded middle $\varphi \lor \neg\varphi$ and the double negation elimination $\neg\neg\varphi \to \varphi$ as general principles. To prove $\exists x\, P(x)$, you must **construct** a witness — it is not enough to show that non-existence leads to contradiction.
-
-The **BHK interpretation** (Brouwer-Heyting-Kolmogorov) gives a constructive reading of the connectives:
-
-- A proof of $\varphi \land \psi$ is a pair: a proof of $\varphi$ and a proof of $\psi$.
-- A proof of $\varphi \to \psi$ is a method that transforms any proof of $\varphi$ into a proof of $\psi$.
-- A proof of $\exists x\, P(x)$ is a pair: a specific $a$ and a proof that $P(a)$ holds.
-
-Gödel's **double-negation translation** (1933) embeds classical logic into intuitionistic logic: a classical theorem $\varphi$ is classically provable iff $\varphi^N$ (a systematic double-negation of $\varphi$) is intuitionistically provable. This means intuitionistic logic is at least as strong as classical logic for $\Pi^0_2$ statements.
-
-**Realizability** (Kleene, 1945) makes the BHK interpretation precise by assigning natural numbers (codes for algorithms) as "realizers" of formulas. A formula is realizable if there exists a computable function witnessing its truth in the BHK sense.
+## Ordinal Analysis and Proof-Theoretic Strength
 
 ## Reverse Mathematics
 
-**Reverse mathematics**, founded by Harvey Friedman in the 1970s and developed extensively by Stephen Simpson, asks: which axioms are needed to prove a given theorem? The program works over a weak base system (RCA$_0$, which includes computable mathematics) and classifies theorems of ordinary mathematics by the axiom systems equivalent to them.
-
-A remarkable empirical phenomenon: most theorems of classical analysis, algebra, and combinatorics turn out to be equivalent (over RCA$_0$) to one of exactly five systems, called the **Big Five**:
-
-1. **RCA$_0$** — Recursive Comprehension. Computable mathematics.
-2. **WKL$_0$** — Weak König's Lemma. Every infinite binary tree has a path.
-3. **ACA$_0$** — Arithmetical Comprehension. Sets definable by arithmetical formulas exist.
-4. **ATR$_0$** — Arithmetical Transfinite Recursion. Iterate arithmetical operations along well-orders.
-5. **$\Pi^1_1$-CA$_0$** — $\Pi^1_1$ Comprehension. Sets definable by $\Pi^1_1$ formulas exist.
-
-For example, the Bolzano-Weierstrass theorem ("every bounded sequence has a convergent subsequence") is equivalent to ACA$_0$. The Heine-Borel theorem is equivalent to WKL$_0$. The comparability of well-orderings is equivalent to ATR$_0$.
-
-Reverse mathematics reveals the exact logical content of mathematical theorems — it tells you not just *that* a theorem is true, but *why* it needs the axioms it does.
+## Structural Proof Theory
