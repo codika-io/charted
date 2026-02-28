@@ -1,4 +1,5 @@
 ---
+import type { Domain } from '../lib/domain';
 import BaseLayout from './BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import ContributeButton from '../components/ContributeButton.astro';
@@ -17,6 +18,7 @@ interface Props {
   branches?: { id: string; data: { title: string; order: number } }[];
   currentBranch?: { id: string; data: { title: string; order: number } };
   currentTopicId?: string;
+  domain?: Domain;
 }
 
 const {
@@ -30,10 +32,11 @@ const {
   branches = [],
   currentBranch,
   currentTopicId = '',
+  domain,
 } = Astro.props;
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout title={title} description={description} domain={domain}>
   {isTopicPage ? (
     <!-- Topic page: 3-column grid on desktop -->
     <div class="max-w-[90rem] mx-auto px-6 py-12 lg:grid lg:grid-cols-[240px_1fr_240px] lg:gap-8">

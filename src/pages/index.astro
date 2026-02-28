@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import DottedSeparator from '../components/DottedSeparator.astro';
 import TopicMap from '../components/islands/TopicMap';
+import { MATHEMATICS_TOPICS, MATHEMATICS_EDGES, COMPUTER_SCIENCE_TOPICS, COMPUTER_SCIENCE_EDGES } from '../components/islands/TopicMap';
 ---
 
 <BaseLayout title="Home">
@@ -13,7 +14,7 @@ import TopicMap from '../components/islands/TopicMap';
         <!-- Text -->
         <div class="flex-1 text-center lg:text-left">
           <h1 class="text-5xl md:text-7xl mb-6 tracking-tight">
-            Chart<span class="text-accent-500">ed</span>
+            Chart<span class="text-surface-900">ed</span>
           </h1>
           <p class="text-xl md:text-2xl text-surface-600 max-w-xl leading-relaxed">
             An interactive, open-source atlas of the sciences.
@@ -21,8 +22,8 @@ import TopicMap from '../components/islands/TopicMap';
           </p>
           <div class="mt-8 flex gap-4 justify-center lg:justify-start">
             <a
-              href="#map"
-              class="inline-block font-mono text-sm uppercase tracking-wider bg-accent-600 text-white px-6 py-3 hover:bg-accent-700 transition-colors"
+              href="#mathematics"
+              class="inline-block font-mono text-sm uppercase tracking-wider bg-surface-900 text-white px-6 py-3 hover:bg-surface-800 transition-colors"
             >
               Explore the map
             </a>
@@ -30,7 +31,7 @@ import TopicMap from '../components/islands/TopicMap';
               href="https://github.com/codika-io/charted"
               target="_blank"
               rel="noopener noreferrer"
-              class="inline-block font-mono text-sm uppercase tracking-wider border border-surface-300 text-surface-600 px-6 py-3 hover:border-accent-500 hover:text-accent-600 transition-colors"
+              class="inline-block font-mono text-sm uppercase tracking-wider border border-surface-300 text-surface-600 px-6 py-3 hover:border-surface-500 hover:text-surface-900 transition-colors"
             >
               Contribute
             </a>
@@ -62,12 +63,12 @@ import TopicMap from '../components/islands/TopicMap';
               <polygon points="130,240 100,225 100,140 130,155" fill="none" stroke="#ef4444" stroke-width="1" opacity="0.6" />
             </g>
 
-            <!-- Block 2: medium gray -->
+            <!-- Block 2: medium blue -->
             <g>
-              <polygon points="200,260 230,245 230,190 200,205" fill="#a3a3a3" opacity="0.5" />
-              <polygon points="200,260 170,245 170,190 200,205" fill="#a3a3a3" opacity="0.7" />
-              <polygon points="170,190 200,175 230,190 200,205" fill="#a3a3a3" opacity="0.9" />
-              <polygon points="170,190 200,175 230,190 200,205" fill="none" stroke="#a3a3a3" stroke-width="1.5" />
+              <polygon points="200,260 230,245 230,190 200,205" fill="#3b82f6" opacity="0.5" />
+              <polygon points="200,260 170,245 170,190 200,205" fill="#3b82f6" opacity="0.7" />
+              <polygon points="170,190 200,175 230,190 200,205" fill="#3b82f6" opacity="0.9" />
+              <polygon points="170,190 200,175 230,190 200,205" fill="none" stroke="#3b82f6" stroke-width="1.5" />
             </g>
 
             <!-- Block 3: short red -->
@@ -78,22 +79,22 @@ import TopicMap from '../components/islands/TopicMap';
               <polygon points="240,230 270,215 300,230 270,245" fill="none" stroke="#ef4444" stroke-width="1.5" />
             </g>
 
-            <!-- Block 4: tall narrow -->
+            <!-- Block 4: tall narrow blue -->
             <g>
-              <polygon points="200,200 220,190 220,100 200,110" fill="#ef4444" opacity="0.4" />
-              <polygon points="200,200 180,190 180,100 200,110" fill="#ef4444" opacity="0.6" />
-              <polygon points="180,100 200,90 220,100 200,110" fill="#ef4444" opacity="0.85" />
-              <polygon points="180,100 200,90 220,100 200,110" fill="none" stroke="#ef4444" stroke-width="1.5" />
+              <polygon points="200,200 220,190 220,100 200,110" fill="#3b82f6" opacity="0.4" />
+              <polygon points="200,200 180,190 180,100 200,110" fill="#3b82f6" opacity="0.6" />
+              <polygon points="180,100 200,90 220,100 200,110" fill="#3b82f6" opacity="0.85" />
+              <polygon points="180,100 200,90 220,100 200,110" fill="none" stroke="#3b82f6" stroke-width="1.5" />
             </g>
 
             <!-- Floating point markers -->
             <circle cx="130" cy="120" r="4" fill="#ef4444" />
-            <circle cx="200" cy="85" r="4" fill="#ef4444" />
+            <circle cx="200" cy="85" r="4" fill="#3b82f6" />
             <circle cx="270" cy="210" r="3" fill="#ef4444" opacity="0.6" />
 
             <!-- Connecting dotted lines -->
-            <line x1="130" y1="120" x2="200" y2="85" stroke="#ef4444" stroke-width="1" stroke-dasharray="3 3" opacity="0.5" />
-            <line x1="200" y1="85" x2="270" y2="210" stroke="#ef4444" stroke-width="1" stroke-dasharray="3 3" opacity="0.5" />
+            <line x1="130" y1="120" x2="200" y2="85" stroke="#a3a3a3" stroke-width="1" stroke-dasharray="3 3" opacity="0.5" />
+            <line x1="200" y1="85" x2="270" y2="210" stroke="#a3a3a3" stroke-width="1" stroke-dasharray="3 3" opacity="0.5" />
 
             <!-- Axis labels -->
             <text x="340" y="295" font-size="10" fill="#a3a3a3" text-anchor="end" style="font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.1em;">breadth</text>
@@ -128,11 +129,22 @@ import TopicMap from '../components/islands/TopicMap';
     <DottedSeparator />
   </div>
 
-  <!-- Interactive Map -->
-  <section id="map" class="max-w-6xl mx-auto px-6 py-12">
-    <h2 class="text-2xl mb-2">Mathematics</h2>
+  <!-- Mathematics Map -->
+  <section id="mathematics" data-domain="mathematics" class="max-w-6xl mx-auto px-6 py-12">
+    <h2 class="text-2xl mb-2 text-accent-600">Mathematics</h2>
     <p class="text-surface-500 font-mono text-sm uppercase tracking-wider mb-8">Click a topic to explore</p>
-    <TopicMap client:load />
+    <TopicMap client:load topics={MATHEMATICS_TOPICS} edges={MATHEMATICS_EDGES} />
+  </section>
+
+  <div class="max-w-6xl mx-auto px-6">
+    <DottedSeparator />
+  </div>
+
+  <!-- Computer Science Map -->
+  <section id="computer-science" data-domain="computer-science" class="max-w-6xl mx-auto px-6 py-12">
+    <h2 class="text-2xl mb-2 text-accent-600">Computer Science</h2>
+    <p class="text-surface-500 font-mono text-sm uppercase tracking-wider mb-8">Click a topic to explore</p>
+    <TopicMap client:load topics={COMPUTER_SCIENCE_TOPICS} edges={COMPUTER_SCIENCE_EDGES} />
   </section>
 
   <div class="max-w-6xl mx-auto px-6">
@@ -149,7 +161,7 @@ import TopicMap from '../components/islands/TopicMap';
       href="https://github.com/codika-io/charted"
       target="_blank"
       rel="noopener noreferrer"
-      class="inline-block font-mono text-sm uppercase tracking-wider bg-surface-900 text-white px-8 py-3 hover:bg-accent-600 transition-colors"
+      class="inline-block font-mono text-sm uppercase tracking-wider bg-surface-900 text-white px-8 py-3 hover:bg-surface-800 transition-colors"
     >
       Start Contributing
     </a>

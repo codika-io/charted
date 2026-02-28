@@ -1,8 +1,8 @@
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState, useCallback, useId } from 'react';
 import * as d3 from 'd3';
 import { playHoverTick } from '../../lib/hover-sound';
 
-interface TopicNode {
+export interface TopicNode {
   id: string;
   label: string;
   slug: string;
@@ -11,12 +11,14 @@ interface TopicNode {
   size: number;
 }
 
-interface TopicEdge {
+export interface TopicEdge {
   source: string;
   target: string;
 }
 
-const TOPICS: TopicNode[] = [
+// ─── Mathematics data ───
+
+export const MATHEMATICS_TOPICS: TopicNode[] = [
   { id: 'math', label: 'Mathematics', slug: 'mathematics', x: 0, y: 0, size: 48 },
   { id: 'logic', label: 'Logic', slug: 'mathematics/logic', x: -280, y: -80, size: 30 },
   { id: 'set-theory', label: 'Set Theory', slug: 'mathematics/set-theory', x: -180, y: -180, size: 30 },
@@ -27,10 +29,10 @@ const TOPICS: TopicNode[] = [
   { id: 'analysis', label: 'Analysis', slug: 'mathematics/analysis', x: 60, y: 140, size: 36 },
   { id: 'combinatorics', label: 'Combinatorics', slug: 'mathematics/combinatorics', x: -100, y: 200, size: 30 },
   { id: 'probability', label: 'Probability', slug: 'mathematics/probability', x: 280, y: 180, size: 30 },
+  { id: 'applied-mathematics', label: 'Applied Math', slug: 'mathematics/applied-mathematics', x: 100, y: 300, size: 32 },
 ];
 
-// Edges follow the prerequisite / dependency structure
-const EDGES: TopicEdge[] = [
+export const MATHEMATICS_EDGES: TopicEdge[] = [
   // From center
   { source: 'math', target: 'logic' },
   { source: 'math', target: 'set-theory' },
@@ -54,6 +56,46 @@ const EDGES: TopicEdge[] = [
   { source: 'number-theory', target: 'combinatorics' },
   { source: 'analysis', target: 'probability' },
   { source: 'combinatorics', target: 'probability' },
+  // Applied mathematics
+  { source: 'math', target: 'applied-mathematics' },
+  { source: 'analysis', target: 'applied-mathematics' },
+  { source: 'algebra', target: 'applied-mathematics' },
+  { source: 'probability', target: 'applied-mathematics' },
+];
+
+// ─── Computer Science data ───
+
+export const COMPUTER_SCIENCE_TOPICS: TopicNode[] = [
+  { id: 'cs', label: 'Computer Science', slug: 'computer-science', x: 0, y: 0, size: 48 },
+  { id: 'algorithms', label: 'Algorithms', slug: 'computer-science/algorithms', x: -260, y: -100, size: 34 },
+  { id: 'data-structures', label: 'Data Structures', slug: 'computer-science/data-structures', x: -160, y: -200, size: 30 },
+  { id: 'theory-of-computation', label: 'Computation', slug: 'computer-science/theory-of-computation', x: 60, y: -200, size: 30 },
+  { id: 'programming-languages', label: 'Languages', slug: 'computer-science/programming-languages', x: 240, y: -100, size: 30 },
+  { id: 'systems', label: 'Systems', slug: 'computer-science/systems', x: -200, y: 80, size: 36 },
+  { id: 'machine-learning', label: 'Machine Learning', slug: 'computer-science/machine-learning', x: 200, y: 100, size: 36 },
+  { id: 'cryptography', label: 'Cryptography', slug: 'computer-science/cryptography', x: 40, y: 220, size: 30 },
+];
+
+export const COMPUTER_SCIENCE_EDGES: TopicEdge[] = [
+  // From center
+  { source: 'cs', target: 'algorithms' },
+  { source: 'cs', target: 'data-structures' },
+  { source: 'cs', target: 'theory-of-computation' },
+  { source: 'cs', target: 'programming-languages' },
+  { source: 'cs', target: 'systems' },
+  { source: 'cs', target: 'machine-learning' },
+  { source: 'cs', target: 'cryptography' },
+  // Foundational links
+  { source: 'algorithms', target: 'data-structures' },
+  { source: 'algorithms', target: 'theory-of-computation' },
+  { source: 'theory-of-computation', target: 'programming-languages' },
+  { source: 'data-structures', target: 'systems' },
+  // Cross-links
+  { source: 'algorithms', target: 'machine-learning' },
+  { source: 'data-structures', target: 'machine-learning' },
+  { source: 'algorithms', target: 'cryptography' },
+  { source: 'theory-of-computation', target: 'cryptography' },
+  { source: 'systems', target: 'cryptography' },
 ];
 
 // Isometric projection helpers
@@ -91,11 +133,23 @@ function IsometricBlock({ cx, cy, size, color, opacity = 1 }: { cx: number; cy: 
 const DEFAULT_ACCENT = '#ef4444';
 const DEFAULT_SURFACE = '#d4d4d4';
 
-export default function TopicMap() {
+interface TopicMapProps {
+  topics?: TopicNode[];
+  edges?: TopicEdge[];
+}
+
+export default function TopicMap({ topics = MATHEMATICS_TOPICS, edges = MATHEMATICS_EDGES }: TopicMapProps) {
+  const uid = useId();
   const containerRef = useRef<HTMLDivElement>(null);
   const [dimensions, setDimensions] = useState({ width: 800, height: 500 });
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [colors, setColors] = useState({ accent: DEFAULT_ACCENT, surface: DEFAULT_SURFACE });
+  const lastSoundNodeRef = useRef<string | null>(null);
+  const leaveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const dotGridId = `dotGrid${uid}`;
+  const glowId = `glow${uid}`;
+  const centerId = topics[0]?.id;
 
   useEffect(() => {
     const updateDimensions = () => {
@@ -108,16 +162,22 @@ export default function TopicMap() {
       }
     };
 
-    // Read CSS custom properties on mount
-    const styles = getComputedStyle(document.documentElement);
-    setColors({
-      accent: styles.getPropertyValue('--color-accent-500').trim() || DEFAULT_ACCENT,
-      surface: styles.getPropertyValue('--color-surface-300').trim() || DEFAULT_SURFACE,
-    });
+    // Read CSS custom properties from the container (inherits from [data-domain])
+    const el = containerRef.current;
+    if (el) {
+      const styles = getComputedStyle(el);
+      setColors({
+        accent: styles.getPropertyValue('--color-accent-500').trim() || DEFAULT_ACCENT,
+        surface: styles.getPropertyValue('--color-surface-300').trim() || DEFAULT_SURFACE,
+      });
+    }
 
     updateDimensions();
     window.addEventListener('resize', updateDimensions);
-    return () => window.removeEventListener('resize', updateDimensions);
+    return () => {
+      window.removeEventListener('resize', updateDimensions);
+      if (leaveTimerRef.current) clearTimeout(leaveTimerRef.current);
+    };
   }, []);
 
   const handleClick = useCallback((slug: string) => {
@@ -134,7 +194,7 @@ export default function TopicMap() {
   const accentColor = colors.accent;
   const surfaceColor = colors.surface;
 
-  const nodeMap = new Map(TOPICS.map(t => [t.id, t]));
+  const nodeMap = new Map(topics.map(t => [t.id, t]));
 
   return (
     <div ref={containerRef} className="w-full">
@@ -147,10 +207,10 @@ export default function TopicMap() {
       >
         {/* Dot grid background */}
         <defs>
-          <pattern id="dotGrid" width="24" height="24" patternUnits="userSpaceOnUse">
+          <pattern id={dotGridId} width="24" height="24" patternUnits="userSpaceOnUse">
             <circle cx="12" cy="12" r="0.8" fill={surfaceColor} opacity={0.5} />
           </pattern>
-          <filter id="glow">
+          <filter id={glowId}>
             <feGaussianBlur stdDeviation="4" result="blur" />
             <feMerge>
               <feMergeNode in="blur" />
@@ -158,12 +218,13 @@ export default function TopicMap() {
             </feMerge>
           </filter>
         </defs>
-        <rect width={width} height={height} fill="url(#dotGrid)" />
+        <rect width={width} height={height} fill={`url(#${dotGridId})`} />
 
         {/* Edges */}
-        {EDGES.map((edge, i) => {
-          const source = nodeMap.get(edge.source)!;
-          const target = nodeMap.get(edge.target)!;
+        {edges.map((edge, i) => {
+          const source = nodeMap.get(edge.source);
+          const target = nodeMap.get(edge.target);
+          if (!source || !target) return null;
           const [sx, sy] = toIso(source.x * scale, source.y * scale);
           const [tx, ty] = toIso(target.x * scale, target.y * scale);
           const isHighlighted = hoveredId === edge.source || hoveredId === edge.target;
@@ -185,23 +246,45 @@ export default function TopicMap() {
         })}
 
         {/* Nodes */}
-        {TOPICS.map(topic => {
+        {topics.map(topic => {
           const [ix, iy] = toIso(topic.x * scale, topic.y * scale);
           const nx = centerX + ix;
           const ny = centerY + iy;
           const isHovered = hoveredId === topic.id;
-          const isCenter = topic.id === 'math';
+          const isCenter = topic.id === centerId;
           const blockSize = topic.size * scale * (isHovered ? 1.15 : 1);
 
           return (
             <g
               key={topic.id}
               style={{ cursor: 'pointer', transition: 'transform 0.2s ease' }}
-              onMouseEnter={() => { setHoveredId(topic.id); playHoverTick(); }}
-              onMouseLeave={() => setHoveredId(null)}
+              onMouseEnter={() => {
+                if (leaveTimerRef.current) {
+                  clearTimeout(leaveTimerRef.current);
+                  leaveTimerRef.current = null;
+                }
+                setHoveredId(topic.id);
+                if (lastSoundNodeRef.current !== topic.id) {
+                  playHoverTick();
+                  lastSoundNodeRef.current = topic.id;
+                }
+              }}
+              onMouseLeave={() => {
+                leaveTimerRef.current = setTimeout(() => {
+                  setHoveredId(null);
+                  lastSoundNodeRef.current = null;
+                }, 100);
+              }}
               onClick={() => handleClick(topic.slug)}
-              opacity={hoveredId && !isHovered && hoveredId !== 'math' ? 0.4 : 1}
+              opacity={hoveredId && !isHovered && hoveredId !== centerId ? 0.4 : 1}
             >
+              {/* Invisible hit area for stable hover detection */}
+              <circle
+                cx={nx}
+                cy={ny - blockSize * 0.05}
+                r={topic.size * scale}
+                fill="transparent"
+              />
               <IsometricBlock
                 cx={nx}
                 cy={ny}

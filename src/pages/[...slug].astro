@@ -1,5 +1,6 @@
 ---
 import { getCollection, render } from 'astro:content';
+import { getDomainFromId } from '../lib/domain';
 import TopicLayout from '../layouts/TopicLayout.astro';
 import TopicCard from '../components/TopicCard.astro';
 
@@ -13,6 +14,7 @@ export async function getStaticPaths() {
 
 const { topic } = Astro.props;
 const { Content, headings } = await render(topic);
+const domain = getDomainFromId(topic.id);
 
 // Build breadcrumbs from the slug
 const parts = topic.id.split('/');
@@ -47,10 +49,10 @@ const siblings = isTopicPage
       .sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0))
   : [];
 
-// Branches: all topics with parent === 'mathematics' (branch indexes), sorted by order
+// Branches: all topics with parent === domain (branch indexes), sorted by order
 const branches = isTopicPage
   ? allTopics
-      .filter(t => t.data.parent === 'mathematics')
+      .filter(t => t.data.parent === domain)
       .sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0))
   : [];
 
@@ -74,6 +76,7 @@ const currentBranch = isTopicPage
   branches={branches}
   currentBranch={currentBranch}
   currentTopicId={topic.id}
+  domain={domain}
 >
   <!-- Short MDX content (2-3 sentences) -->
   <div class="prose mb-10">

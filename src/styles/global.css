@@ -33,6 +33,26 @@
   --font-sans: "Inter", system-ui, -apple-system, sans-serif;
 }
 
+/* ─── Domain color overrides ─── */
+[data-domain="computer-science"] {
+  --color-accent-50: #eff6ff;
+  --color-accent-100: #dbeafe;
+  --color-accent-200: #bfdbfe;
+  --color-accent-300: #93c5fd;
+  --color-accent-400: #60a5fa;
+  --color-accent-500: #3b82f6;
+  --color-accent-600: #2563eb;
+  --color-accent-700: #1d4ed8;
+  --color-accent-800: #1e40af;
+  --color-accent-900: #1e3a8a;
+  --color-accent-950: #172554;
+}
+
+[data-domain="computer-science"] ::selection {
+  background-color: var(--color-accent-100);
+  color: var(--color-accent-900);
+}
+
 /* ─── Font faces ─── */
 @font-face {
   font-family: "Departure Mono";

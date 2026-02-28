@@ -6,6 +6,44 @@ import matter from 'gray-matter';
 
 const TOPICS_DIR = join(import.meta.dirname, '..', 'src', 'content', 'topics');
 
+const DOMAIN_CONFIG = {
+  mathematics: {
+    label: 'Mathematics',
+    branches: [
+      'logic', 'set-theory', 'number-theory', 'algebra', 'geometry',
+      'topology', 'analysis', 'combinatorics', 'probability', 'applied-mathematics',
+    ],
+    names: {
+      'logic': 'Logic & Foundations',
+      'set-theory': 'Set Theory',
+      'number-theory': 'Number Theory',
+      'algebra': 'Algebra',
+      'geometry': 'Geometry',
+      'topology': 'Topology',
+      'analysis': 'Analysis',
+      'combinatorics': 'Combinatorics',
+      'probability': 'Probability & Statistics',
+      'applied-mathematics': 'Applied Mathematics',
+    },
+  },
+  'computer-science': {
+    label: 'Computer Science',
+    branches: [
+      'algorithms', 'data-structures', 'theory-of-computation',
+      'programming-languages', 'systems', 'machine-learning', 'cryptography',
+    ],
+    names: {
+      'algorithms': 'Algorithms & Complexity',
+      'data-structures': 'Data Structures',
+      'theory-of-computation': 'Theory of Computation',
+      'programming-languages': 'Programming Languages',
+      'systems': 'Computer Systems',
+      'machine-learning': 'Machine Learning',
+      'cryptography': 'Cryptography',
+    },
+  },
+};
+
 function walkMdx(dir) {
   const results = [];
   for (const entry of readdirSync(dir)) {
@@ -25,48 +63,35 @@ function parseFrontmatter(filePath) {
   return data;
 }
 
-function getBranch(filePath) {
+function getDomainAndBranch(filePath) {
   const rel = relative(TOPICS_DIR, filePath);
   const parts = rel.split('/');
-  // mathematics/branch/file.mdx → branch
-  // mathematics/branch/index.mdx → null (it's a branch index)
-  if (parts.length < 3) return null; // top-level (mathematics/index.mdx or mathematics/branch.mdx)
+  // <domain>/branch/file.mdx → { domain, branch }
+  // <domain>/branch/index.mdx → null (branch index)
+  // <domain>/index.mdx → null (domain root)
+  if (parts.length < 3) return null;
+  const domain = parts[0];
   const branch = parts[1];
   const file = parts[parts.length - 1];
-  // Skip branch index files
   if (file === 'index.mdx' && parts.length === 3) return null;
-  return branch;
-}
-
-function getBranchName(slug) {
-  const names = {
-    'logic': 'Logic & Foundations',
-    'set-theory': 'Set Theory',
-    'number-theory': 'Number Theory',
-    'algebra': 'Algebra',
-    'geometry': 'Geometry',
-    'topology': 'Topology',
-    'analysis': 'Analysis',
-    'combinatorics': 'Combinatorics',
-    'probability': 'Probability & Statistics',
-    'applied-mathematics': 'Applied Mathematics',
-  };
-  return names[slug] || slug;
+  return { domain, branch };
 }
 
 // Collect all sub-topic files
 const allFiles = walkMdx(TOPICS_DIR);
-const branches = {};
+const data = {}; // domain → branch → items[]
 
 for (const filePath of allFiles) {
-  const branch = getBranch(filePath);
-  if (!branch) continue;
+  const info = getDomainAndBranch(filePath);
+  if (!info) continue;
+
+  const { domain, branch } = info;
+  if (!data[domain]) data[domain] = {};
+  if (!data[domain][branch]) data[domain][branch] = [];
 
   const fm = parseFrontmatter(filePath);
-  if (!branches[branch]) branches[branch] = [];
-
   const rel = relative(TOPICS_DIR, filePath).replace(/\.mdx$/, '');
-  branches[branch].push({
+  data[domain][branch].push({
     path: rel,
     title: fm.title || '(untitled)',
     status: fm.status || 'stub',
@@ -75,81 +100,102 @@ for (const filePath of allFiles) {
   });
 }
 
-// Sort branches by predefined order
-const branchOrder = [
-  'logic', 'set-theory', 'number-theory', 'algebra', 'geometry',
-  'topology', 'analysis', 'combinatorics', 'probability', 'applied-mathematics',
-];
-
-// Print header
-console.log('');
-console.log('Charted Content Progress');
-console.log('========================');
-console.log('');
-
 const pad = (s, n) => s.toString().padEnd(n);
 const rpad = (s, n) => s.toString().padStart(n);
 
-console.log(
-  pad('Branch', 28) +
-  rpad('Total', 6) +
-  rpad('Stub', 6) +
-  rpad('Draft', 7) +
-  rpad('Review', 8) +
-  rpad('Complete', 9)
-);
-console.log('\u2500'.repeat(64));
+console.log('');
+console.log('Charted Content Progress');
+console.log('========================');
 
-let totals = { total: 0, stub: 0, draft: 0, review: 0, complete: 0 };
-const stubs = [];
+let grandTotals = { total: 0, stub: 0, draft: 0, review: 0, complete: 0 };
+const allStubs = [];
 
-for (const slug of branchOrder) {
-  const items = branches[slug] || [];
-  const counts = { stub: 0, draft: 0, review: 0, complete: 0 };
-  for (const item of items) {
-    counts[item.status] = (counts[item.status] || 0) + 1;
-    if (item.status === 'stub') stubs.push(item.path);
+for (const [domainSlug, config] of Object.entries(DOMAIN_CONFIG)) {
+  const branches = data[domainSlug] || {};
+
+  console.log('');
+  console.log(`── ${config.label} ──`);
+  console.log('');
+  console.log(
+    pad('Branch', 28) +
+    rpad('Total', 6) +
+    rpad('Stub', 6) +
+    rpad('Draft', 7) +
+    rpad('Review', 8) +
+    rpad('Complete', 9)
+  );
+  console.log('─'.repeat(64));
+
+  let totals = { total: 0, stub: 0, draft: 0, review: 0, complete: 0 };
+
+  for (const slug of config.branches) {
+    const items = branches[slug] || [];
+    const counts = { stub: 0, draft: 0, review: 0, complete: 0 };
+    for (const item of items) {
+      counts[item.status] = (counts[item.status] || 0) + 1;
+      if (item.status === 'stub') allStubs.push(item.path);
+    }
+
+    const name = config.names[slug] || slug;
+    console.log(
+      pad(name, 28) +
+      rpad(items.length, 6) +
+      rpad(counts.stub, 6) +
+      rpad(counts.draft, 7) +
+      rpad(counts.review, 8) +
+      rpad(counts.complete, 9)
+    );
+
+    totals.total += items.length;
+    totals.stub += counts.stub;
+    totals.draft += counts.draft;
+    totals.review += counts.review;
+    totals.complete += counts.complete;
   }
 
+  console.log('─'.repeat(64));
+  const drafted = totals.draft + totals.review + totals.complete;
+  const pct = totals.total > 0 ? ((drafted / totals.total) * 100).toFixed(1) : '0.0';
   console.log(
-    pad(getBranchName(slug), 28) +
-    rpad(items.length, 6) +
-    rpad(counts.stub, 6) +
-    rpad(counts.draft, 7) +
-    rpad(counts.review, 8) +
-    rpad(counts.complete, 9)
+    pad(`${config.label} Total`, 28) +
+    rpad(totals.total, 6) +
+    rpad(totals.stub, 6) +
+    rpad(totals.draft, 7) +
+    rpad(totals.review, 8) +
+    rpad(totals.complete, 9) +
+    `  (${pct}% drafted)`
   );
 
-  totals.total += items.length;
-  totals.stub += counts.stub;
-  totals.draft += counts.draft;
-  totals.review += counts.review;
-  totals.complete += counts.complete;
+  grandTotals.total += totals.total;
+  grandTotals.stub += totals.stub;
+  grandTotals.draft += totals.draft;
+  grandTotals.review += totals.review;
+  grandTotals.complete += totals.complete;
 }
 
-console.log('\u2500'.repeat(64));
-
-const drafted = totals.draft + totals.review + totals.complete;
-const pct = totals.total > 0 ? ((drafted / totals.total) * 100).toFixed(1) : '0.0';
-
+// Grand total
+console.log('');
+console.log('═'.repeat(64));
+const grandDrafted = grandTotals.draft + grandTotals.review + grandTotals.complete;
+const grandPct = grandTotals.total > 0 ? ((grandDrafted / grandTotals.total) * 100).toFixed(1) : '0.0';
 console.log(
-  pad('Overall', 28) +
-  rpad(totals.total, 6) +
-  rpad(totals.stub, 6) +
-  rpad(totals.draft, 7) +
-  rpad(totals.review, 8) +
-  rpad(totals.complete, 9) +
-  `  (${pct}% drafted)`
+  pad('Grand Total', 28) +
+  rpad(grandTotals.total, 6) +
+  rpad(grandTotals.stub, 6) +
+  rpad(grandTotals.draft, 7) +
+  rpad(grandTotals.review, 8) +
+  rpad(grandTotals.complete, 9) +
+  `  (${grandPct}% drafted)`
 );
 
-if (stubs.length > 0) {
+if (allStubs.length > 0) {
   console.log('');
   console.log('Next stubs to fill:');
-  for (const s of stubs.slice(0, 8)) {
+  for (const s of allStubs.slice(0, 8)) {
     console.log(`  ${s}`);
   }
-  if (stubs.length > 8) {
-    console.log(`  ... and ${stubs.length - 8} more`);
+  if (allStubs.length > 8) {
+    console.log(`  ... and ${allStubs.length - 8} more`);
   }
 }
 
