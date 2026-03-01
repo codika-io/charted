@@ -106,7 +106,18 @@ lastEditedBy: your-name
 lastUpdated: "2026-02-28"
 ```
 
-### 5. Build check
+### 5. Track your contributions
+
+When you review or edit a topic, add your name/handle to the `contributors` array in the frontmatter. This tracks all human contributors and appears on the [Status page](/status).
+
+```yaml
+contributors: ["your-name"]  # add yourself here
+status: review               # or complete if finalizing
+lastEditedBy: your-name
+lastUpdated: "2026-03-01"
+```
+
+### 6. Build check
 
 ```bash
 npm run build

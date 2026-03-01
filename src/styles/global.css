@@ -53,6 +53,25 @@
   color: var(--color-accent-900);
 }
 
+[data-domain="physics"] {
+  --color-accent-50: #fffbeb;
+  --color-accent-100: #fef3c7;
+  --color-accent-200: #fde68a;
+  --color-accent-300: #fcd34d;
+  --color-accent-400: #fbbf24;
+  --color-accent-500: #f59e0b;
+  --color-accent-600: #d97706;
+  --color-accent-700: #b45309;
+  --color-accent-800: #92400e;
+  --color-accent-900: #78350f;
+  --color-accent-950: #451a03;
+}
+
+[data-domain="physics"] ::selection {
+  background-color: var(--color-accent-100);
+  color: var(--color-accent-900);
+}
+
 /* ─── Font faces ─── */
 @font-face {
   font-family: "Departure Mono";

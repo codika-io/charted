@@ -1,0 +1,80 @@
+---
+title: Optics & Photonics
+description: Wave and geometric optics, interference, diffraction, lasers, nonlinear optics, and quantum optics.
+parent: physics/classical-physics
+order: 5
+color: "#f59e0b"
+difficulty: intermediate
+prerequisites: ["physics/classical-physics/electromagnetism"]
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: "2026-03-01"
+agentReviewCount: 0
+---
+
+Optics is the study of light -- its generation, propagation, and interaction with matter. As a branch of electromagnetism, it inherits Maxwell's equations as its foundation, but the richness of optical phenomena merits a field of its own: interference, diffraction, polarization, coherence, and the extraordinary technology of lasers all arise from the wave nature of light. With the twentieth century came the realization that light is also quantized into photons, opening the door to quantum optics and photonics -- the engineering of light at the quantum level. Optics has driven some of the most precise measurements in physics and underpins modern telecommunications, medical imaging, and quantum information science.
+
+## Geometric Optics and Ray Tracing
+
+When the wavelength of light is much smaller than the objects it encounters, light can be treated as traveling in straight lines called **rays**. This is the regime of **geometric optics**, formalized through **Fermat's principle** (1662): light travels between two points along the path that extremizes the optical path length $\int n\, ds$, where $n$ is the **refractive index** of the medium and $ds$ is the arc length element.
+
+Fermat's principle immediately yields **Snell's law** for refraction at an interface between media with refractive indices $n_1$ and $n_2$:
+
+$$n_1 \sin\theta_1 = n_2 \sin\theta_2$$
+
+where $\theta_1$ and $\theta_2$ are the angles of incidence and refraction. When $n_1 > n_2$, there exists a **critical angle** $\theta_c = \arcsin(n_2/n_1)$ beyond which all light is reflected -- **total internal reflection**, the principle underlying optical fibers that carry the world's internet traffic.
+
+Lenses and mirrors form images by bending or reflecting rays. A thin lens with focal length $f$ obeys the **thin lens equation**:
+
+$$\frac{1}{s} + \frac{1}{s'} = \frac{1}{f}$$
+
+where $s$ is the object distance and $s'$ is the image distance. The **magnification** is $M = -s'/s$. Compound optical systems -- telescopes, microscopes, cameras -- are analyzed by cascading individual elements using the **ABCD matrix** formalism, where each element is represented by a $2 \times 2$ matrix acting on the ray vector $(y, \theta)$.
+
+Real lenses suffer from **aberrations**: **spherical aberration** (rays at different heights focus at different points), **chromatic aberration** (different wavelengths focus differently due to dispersion), **coma**, **astigmatism**, and **field curvature**. Correcting these aberrations drives optical design from eyeglasses to space telescopes. The ultimate resolution limit, however, is not set by aberrations but by **diffraction** -- the subject of wave optics.
+
+## Interference and Diffraction
+
+When two or more light waves overlap, they **interfere**: their amplitudes add, producing regions of enhanced intensity (constructive interference) and diminished intensity (destructive interference). The classic demonstration is **Young's double-slit experiment** (1801), where light passing through two narrow slits produces a pattern of bright and dark fringes on a distant screen. The fringe spacing is:
+
+$$\Delta y = \frac{\lambda L}{d}$$
+
+where $\lambda$ is the wavelength, $L$ is the screen distance, and $d$ is the slit separation. Young's experiment provided the first compelling evidence for the wave nature of light and was a turning point in the centuries-long debate between the particle theory (Newton) and wave theory (Huygens) of light.
+
+**Diffraction** is the bending of waves around obstacles and through apertures. The **Huygens-Fresnel principle** treats each point on a wavefront as a source of secondary spherical wavelets; the diffracted field is the superposition of all such wavelets. For a single slit of width $a$, the far-field (**Fraunhofer**) diffraction pattern has intensity:
+
+$$I(\theta) = I_0 \left(\frac{\sin \beta}{\beta}\right)^2, \qquad \beta = \frac{\pi a \sin\theta}{\lambda}$$
+
+The central maximum has angular half-width $\lambda/a$, and the pattern has a series of subsidiary maxima and minima. For a circular aperture of diameter $D$, the diffraction pattern is the **Airy disk**, with the first dark ring at angle $\theta = 1.22\lambda/D$. This sets the **Rayleigh criterion** for resolution: two point sources are just resolvable when the central maximum of one falls on the first minimum of the other. The resolving power of telescopes, microscopes, and the human eye is ultimately limited by diffraction.
+
+**Diffraction gratings** -- periodic arrays of slits or grooves -- produce sharp interference maxima at angles satisfying $d\sin\theta = m\lambda$ ($m = 0, \pm 1, \pm 2, \ldots$). Gratings are the basis of spectroscopy, separating light into its constituent wavelengths with resolving power $R = mN$, where $N$ is the number of slits. The **Fabry-Perot interferometer** uses multiple-beam interference between two parallel reflecting surfaces to achieve extremely high spectral resolution, finding applications in laser frequency stabilization and precision spectroscopy.
+
+## Polarization and Coherence
+
+Light is a transverse electromagnetic wave: the electric field oscillates perpendicular to the direction of propagation. The direction of oscillation defines the **polarization state**. **Linearly polarized** light has $\mathbf{E}$ oscillating in a fixed plane; **circularly polarized** light has $\mathbf{E}$ tracing a circle; and the general case is **elliptical polarization**. The polarization state is compactly described by the **Jones vector** (for fully polarized light) or the **Stokes parameters** (for partially polarized or unpolarized light).
+
+Polarization is manipulated with optical elements: **polarizers** transmit one linear polarization and absorb the orthogonal one (Malus's law: $I = I_0 \cos^2\theta$), **wave plates** introduce a phase delay between orthogonal components (a quarter-wave plate converts linear to circular polarization), and **Brewster's angle** $\theta_B = \arctan(n_2/n_1)$ gives complete polarization of reflected light. Polarization phenomena are widespread: the blue sky is partially polarized (exploited by bees and Viking navigators), liquid crystal displays modulate polarization to form images, and optical fibers in telecommunications use polarization-maintaining designs to minimize signal degradation.
+
+**Coherence** measures the correlation of a wave field in time and space. **Temporal coherence** (coherence time $\tau_c$, coherence length $\ell_c = c\tau_c$) characterizes how monochromatic the source is -- a perfectly monochromatic wave has infinite coherence length, while a broadband source has very short coherence. **Spatial coherence** characterizes the phase correlation between different points on a wavefront. The **van Cittert-Zernike theorem** relates the spatial coherence of light from an incoherent source to the Fourier transform of the source's intensity distribution -- a result that underpins stellar interferometry. The **Hanbury Brown-Twiss experiment** (1956) demonstrated that intensity correlations (second-order coherence) carry information beyond what is accessible from amplitude alone, opening the field of **quantum optics**.
+
+## Lasers and Coherent Light
+
+The **laser** (Light Amplification by Stimulated Emission of Radiation) is one of the most important inventions of the twentieth century. Its operation depends on **stimulated emission**, predicted by **Albert Einstein** in 1917: an incoming photon with the right frequency can cause an excited atom to emit an identical photon -- same frequency, phase, direction, and polarization. When stimulated emission dominates over absorption, light is amplified.
+
+Achieving this requires **population inversion** -- more atoms in the excited state than in the ground state, a condition forbidden in thermal equilibrium. Population inversion is created by external **pumping** (optical, electrical, or chemical) in systems with three or four energy levels. The **laser threshold** is reached when the gain from stimulated emission exceeds losses from absorption, scattering, and mirror transmission. Above threshold, the laser oscillates in one or more **cavity modes** -- standing waves of the optical resonator formed by two mirrors.
+
+Laser light is characterized by extraordinary **spatial coherence** (the beam propagates as a nearly perfect Gaussian mode over long distances), **temporal coherence** (linewidths can be below 1 Hz), and high **intensity** (power densities exceeding $10^{15}$ W/cm$^2$ in focused ultrashort pulses). Key laser types include the **helium-neon** laser (the ubiquitous red laser pointer), **Nd:YAG** and other solid-state lasers (for industrial cutting and medical surgery), **semiconductor diode lasers** (telecommunications and consumer electronics), and **fiber lasers** (high-power industrial applications).
+
+**Mode-locking** produces ultrashort pulses -- down to a few femtoseconds ($10^{-15}$ s) -- by forcing all longitudinal cavity modes to oscillate in phase. Femtosecond pulses have revolutionized spectroscopy (pump-probe experiments), metrology (**optical frequency combs**, for which John Hall and Theodor Hansch shared the 2005 Nobel Prize), and strong-field physics (attosecond science).
+
+## Nonlinear Optics and Quantum Optics
+
+At sufficiently high light intensities, the optical response of materials becomes **nonlinear**: the polarization $\mathbf{P}$ of the medium is no longer proportional to the electric field but contains higher-order terms:
+
+$$P = \epsilon_0\left(\chi^{(1)} E + \chi^{(2)} E^2 + \chi^{(3)} E^3 + \cdots\right)$$
+
+The second-order susceptibility $\chi^{(2)}$ (nonzero only in non-centrosymmetric crystals) enables **second harmonic generation** (frequency doubling), **sum and difference frequency generation**, and **optical parametric amplification**. A green laser pointer, for instance, uses a Nd:YAG crystal emitting at 1064 nm followed by a KTP crystal that doubles the frequency to 532 nm. The third-order susceptibility $\chi^{(3)}$ governs the **optical Kerr effect** (intensity-dependent refractive index), **self-focusing**, **four-wave mixing**, and **optical solitons** in fibers.
+
+**Quantum optics** treats light as a quantum field -- a collection of **photons** described by creation and annihilation operators. The key quantum states are **Fock states** $|n\rangle$ (definite photon number), **coherent states** $|\alpha\rangle$ (closest quantum analog of a classical wave, produced by lasers), and **squeezed states** (reduced noise in one quadrature at the expense of increased noise in the other). Squeezed light has been used to push gravitational wave detectors like LIGO beyond the **shot noise limit**, achieving sensitivity improvements that were crucial for recent detections.
+
+Quantum optics has also become a platform for **quantum information**: single photons serve as qubits, entangled photon pairs enable **quantum key distribution** (provably secure communication), and linear optical networks can perform quantum computation. The transition from classical optics to quantum optics to quantum photonics represents one of the most active frontiers in modern physics and engineering.

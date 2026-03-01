@@ -2,12 +2,12 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import DottedSeparator from '../components/DottedSeparator.astro';
 import TopicMap from '../components/islands/TopicMap';
-import { MATHEMATICS_TOPICS, MATHEMATICS_EDGES, COMPUTER_SCIENCE_TOPICS, COMPUTER_SCIENCE_EDGES } from '../components/islands/TopicMap';
+import { MATHEMATICS_TOPICS, MATHEMATICS_EDGES, COMPUTER_SCIENCE_TOPICS, COMPUTER_SCIENCE_EDGES, PHYSICS_TOPICS, PHYSICS_EDGES } from '../components/islands/TopicMap';
 ---
 
 <BaseLayout title="Home">
   <!-- Hero -->
-  <section class="relative overflow-hidden">
+  <section class="relative overflow-x-clip">
     <div class="dot-grid absolute inset-0 opacity-40"></div>
     <div class="max-w-6xl mx-auto px-6 pt-20 pb-16 relative">
       <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
@@ -46,6 +46,15 @@ import { MATHEMATICS_TOPICS, MATHEMATICS_EDGES, COMPUTER_SCIENCE_TOPICS, COMPUTE
                   data-hero-domain="computer-science"
                 >
                   Computer Science
+                </a>
+                <a
+                  href="#physics"
+                  class="block font-mono text-sm uppercase tracking-wider text-white px-6 py-3 whitespace-nowrap hover:brightness-110 transition-all"
+                  style="background-color: #f59e0b;"
+                  data-hover-sound
+                  data-hero-domain="physics"
+                >
+                  Physics
                 </a>
               </div>
             </div>
@@ -179,6 +188,17 @@ import { MATHEMATICS_TOPICS, MATHEMATICS_EDGES, COMPUTER_SCIENCE_TOPICS, COMPUTE
     <DottedSeparator />
   </div>
 
+  <!-- Physics Map -->
+  <section id="physics" data-domain="physics" class="max-w-6xl mx-auto px-6 py-12">
+    <h2 class="text-2xl mb-2 text-accent-600">Physics</h2>
+    <p class="text-surface-500 font-mono text-sm uppercase tracking-wider mb-8">Click a topic to explore</p>
+    <TopicMap client:load topics={PHYSICS_TOPICS} edges={PHYSICS_EDGES} />
+  </section>
+
+  <div class="max-w-6xl mx-auto px-6">
+    <DottedSeparator />
+  </div>
+
   <!-- CTA -->
   <section class="max-w-6xl mx-auto px-6 py-16 text-center">
     <h2 class="text-2xl mb-4">Help map the sciences</h2>
@@ -235,6 +255,12 @@ import { MATHEMATICS_TOPICS, MATHEMATICS_EDGES, COMPUTER_SCIENCE_TOPICS, COMPUTE
         colors: [BLUE, BLUE, BLUE_L, BLUE],
         accent: BLUE,
         edColor: BLUE,
+      },
+      'physics': {
+        heights: [85, 70, 50, 105],
+        colors: [[245, 158, 11], [245, 158, 11], [250, 207, 133], [245, 158, 11]],
+        accent: [245, 158, 11],
+        edColor: [245, 158, 11],
       },
     };
 

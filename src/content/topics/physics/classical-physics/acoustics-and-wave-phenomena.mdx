@@ -1,0 +1,82 @@
+---
+title: Acoustics & Wave Phenomena
+description: Sound propagation, vibrations, elastic waves, resonance, ultrasonics, metamaterials, and nonlinear acoustics.
+parent: physics/classical-physics
+order: 7
+color: "#f59e0b"
+difficulty: beginner
+prerequisites: ["physics/classical-physics/classical-mechanics"]
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: "2026-03-01"
+agentReviewCount: 0
+---
+
+Acoustics is the science of sound -- mechanical waves that propagate through gases, liquids, and solids by the compression and rarefaction of the medium. From the vibrations of a guitar string to the ultrasonic imaging of an unborn child, from the design of concert halls to the detection of submarines, acoustics encompasses an extraordinary range of phenomena and applications. Its mathematical core is the **wave equation**, one of the fundamental partial differential equations of physics, and its concepts -- resonance, interference, diffraction, impedance -- are shared with optics, electromagnetism, and quantum mechanics. The field was founded by figures including **Ernst Chladni**, **Hermann von Helmholtz**, and **Lord Rayleigh**, whose 1877 treatise *The Theory of Sound* remains a classic.
+
+## The Wave Equation and Sound Propagation
+
+Sound is a longitudinal mechanical wave: a traveling pattern of compression and rarefaction in which particles of the medium oscillate back and forth along the direction of propagation. The governing equation for small-amplitude sound in a homogeneous medium is the **wave equation**:
+
+$$\frac{\partial^2 p}{\partial t^2} = c^2 \nabla^2 p$$
+
+where $p$ is the acoustic pressure (deviation from ambient pressure) and $c$ is the **speed of sound**. The wave equation follows from the linearized equations of fluid dynamics (conservation of mass and momentum) combined with a thermodynamic equation of state. For an ideal gas, the speed of sound is:
+
+$$c = \sqrt{\frac{\gamma k_B T}{m}}$$
+
+where $\gamma$ is the heat capacity ratio, $T$ is the temperature, and $m$ is the molecular mass. In air at room temperature, $c \approx 343$ m/s. In water, $c \approx 1480$ m/s; in steel, $c \approx 5960$ m/s. The dependence on temperature explains why sound refracts upward on a cold night (speed increases with height in a temperature inversion) and why tuning instruments requires temperature control.
+
+**d'Alembert's solution** for one-dimensional waves, $p(x,t) = f(x - ct) + g(x + ct)$, shows that any disturbance splits into right- and left-traveling components that propagate without changing shape in a non-dispersive medium. In three dimensions, the wave equation admits plane waves $p = A e^{i(\mathbf{k} \cdot \mathbf{r} - \omega t)}$ and spherical waves $p = (A/r) e^{i(kr - \omega t)}$, the latter representing radiation from a point source with intensity decreasing as $1/r^2$ -- the **inverse square law**.
+
+The **acoustic impedance** $Z = \rho c$ of a medium determines how sound is transmitted and reflected at interfaces. When a wave encounters a boundary between media with impedances $Z_1$ and $Z_2$, the **reflection coefficient** is $R = (Z_2 - Z_1)/(Z_2 + Z_1)$. The enormous impedance mismatch between air ($Z \approx 415$ Pa$\cdot$s/m) and water ($Z \approx 1.5 \times 10^6$ Pa$\cdot$s/m) explains why sound barely penetrates the water surface -- and why underwater communication requires specialized transducers.
+
+## Resonance and Standing Waves
+
+When sound waves are confined within a finite region, **standing waves** form through the superposition of counter-propagating waves. The allowed frequencies are determined by the **boundary conditions** -- whether the ends are open (pressure node, displacement antinode) or closed (pressure antinode, displacement node).
+
+For a pipe of length $L$ closed at both ends, the resonant frequencies are:
+
+$$f_n = \frac{nc}{2L}, \qquad n = 1, 2, 3, \ldots$$
+
+forming a complete **harmonic series**. A pipe open at one end and closed at the other supports only odd harmonics: $f_n = nc/4L$ for $n = 1, 3, 5, \ldots$ This difference in harmonic content gives clarinets (effectively closed-open pipes) their characteristic hollow timbre compared to flutes (effectively open-open).
+
+The **Helmholtz resonator** -- a cavity with a neck, like a bottle -- resonates at a single frequency determined by the cavity volume $V$ and neck geometry:
+
+$$f = \frac{c}{2\pi}\sqrt{\frac{A}{VL_{\text{eff}}}}$$
+
+where $A$ is the neck cross-section and $L_{\text{eff}}$ is the effective neck length (including an end correction). Helmholtz resonators are used in automotive mufflers, architectural acoustics, and bass-reflex loudspeaker cabinets.
+
+The sharpness of a resonance is quantified by the **quality factor** $Q = f_0 / \Delta f$, where $\Delta f$ is the bandwidth at half-power. A high-$Q$ resonator stores energy efficiently but responds slowly; a low-$Q$ resonator responds quickly but at the cost of spectral selectivity. The $Q$ of a resonance is limited by **damping** mechanisms: viscous losses (friction with air), thermal losses (heat conduction during compression and rarefaction), and **radiation damping** (energy radiated as sound). The strings of a piano, for example, have $Q$ values of several thousand, allowing notes to sustain for seconds.
+
+## Vibrations and Structural Acoustics
+
+The vibration of solid structures -- strings, beams, plates, and shells -- is the mechanical source of most sounds we hear. A **vibrating string** of length $L$, tension $T$, and linear mass density $\mu$ satisfies the wave equation with speed $c = \sqrt{T/\mu}$ and resonant frequencies $f_n = (n/2L)\sqrt{T/\mu}$. The fundamental frequency determines the perceived pitch; the amplitudes of the harmonics determine the **timbre** -- the quality that distinguishes a violin from a trumpet playing the same note.
+
+**Beams** support both longitudinal and transverse (bending) waves. The **Euler-Bernoulli beam equation** for transverse vibrations is:
+
+$$EI\frac{\partial^4 y}{\partial x^4} + \rho A \frac{\partial^2 y}{\partial t^2} = 0$$
+
+where $EI$ is the flexural rigidity (Young's modulus times moment of inertia) and $\rho A$ is the mass per unit length. Unlike string waves, bending waves are **dispersive**: their phase velocity $c_p \propto \sqrt{\omega}$ depends on frequency, meaning higher harmonics travel faster. This dispersion is what gives piano strings their slight inharmonicity (the overtones of a struck piano wire are not exactly integer multiples of the fundamental) and what causes the characteristic "ping" of a struck tuning fork to be purer than a struck bar.
+
+**Plates** and **membranes** vibrate in two-dimensional patterns first visualized by **Ernst Chladni** in the 1780s using sand sprinkled on vibrating plates. The sand collects along **nodal lines** (lines of zero displacement), revealing beautiful geometric patterns that depend on the mode of vibration. **Chladni figures** were among the first experimental demonstrations of the mathematics of eigenmodes and remain a striking demonstration today. The vibrating plates and membranes of musical instruments -- drumheads, soundboards, bell surfaces -- produce the complex spectral content that gives each instrument its voice.
+
+## Sound in Solids and Elastic Waves
+
+In solids, the restoring forces include both compression and shear, supporting two types of bulk waves. **Longitudinal (P) waves** involve particle motion parallel to propagation, with speed $c_L = \sqrt{(K + 4G/3)/\rho}$, where $K$ is the bulk modulus and $G$ is the shear modulus. **Transverse (S) waves** involve particle motion perpendicular to propagation, with speed $c_T = \sqrt{G/\rho}$, always slower than $c_L$. This velocity difference is the basis of seismology: the time delay between P-waves and S-waves from an earthquake allows determination of the epicenter distance.
+
+At a free surface, elastic waves give rise to **Rayleigh waves** -- surface waves with particle motion tracing retrograde ellipses that decay exponentially with depth. Rayleigh waves travel at roughly $0.9 c_T$ and carry the destructive ground roll of earthquakes. In layered media, **Love waves** (horizontally polarized shear waves trapped in a surface layer) also propagate. Surface acoustic waves (SAW) are exploited in electronic filters, delay lines, and sensors -- a SAW device on a cell phone's circuit board selects the operating frequency.
+
+At the atomic scale, lattice vibrations are quantized into **phonons** -- the acoustic analog of photons. Acoustic phonons (with linear dispersion $\omega = ck$ at long wavelengths) carry sound and heat; optical phonons (with nearly constant $\omega$ at long wavelengths) interact strongly with infrared light. The **Debye model** treats a solid as a gas of acoustic phonons and successfully predicts the $T^3$ heat capacity at low temperatures. Phonon-phonon scattering limits thermal conductivity, and **electron-phonon coupling** underlies conventional superconductivity (BCS theory) and contributes to electrical resistance in metals.
+
+## Ultrasonics and Nonlinear Acoustics
+
+**Ultrasound** -- sound at frequencies above the $20$ kHz limit of human hearing, typically $1$-$20$ MHz for medical and industrial applications -- enables non-invasive imaging of the body's interior and non-destructive testing of materials. **Piezoelectric transducers** (crystals that convert electrical signals to mechanical vibrations and vice versa) generate and detect ultrasound. In **medical ultrasound**, short pulses are emitted into the body; echoes from tissue interfaces are recorded and assembled into images. The **Doppler effect** -- the frequency shift of sound reflected from moving targets -- measures blood flow velocities in real time.
+
+At high amplitudes, the linear wave equation breaks down and **nonlinear effects** become important. The speed of sound depends on local particle velocity and temperature, causing the peaks of a wave (higher pressure, higher temperature) to travel faster than the troughs. Over distance, this steepening distorts a sinusoidal wave into a sawtooth and eventually produces a **shock wave** -- a discontinuity in pressure. The **Burgers equation**,
+
+$$\frac{\partial u}{\partial t} + u\frac{\partial u}{\partial x} = \frac{\nu}{2}\frac{\partial^2 u}{\partial x^2}$$
+
+captures the competition between nonlinear steepening and viscous dissipation that governs shock formation and decay. Nonlinear acoustics has applications in lithotripsy (shock waves to break kidney stones), high-intensity focused ultrasound (HIFU) for tumor ablation, and sonic booms from supersonic aircraft.
+
+**Acoustic metamaterials** -- engineered structures with properties not found in nature -- have emerged as a frontier of acoustics research. Arrays of sub-wavelength resonators can produce effective negative bulk modulus or negative mass density, enabling **acoustic cloaking** (bending sound around an object), perfect absorption, and sub-diffraction focusing. **Phononic crystals** -- periodic structures with acoustic bandgaps that forbid sound propagation at certain frequencies -- offer precise control over sound routing and filtering. These developments parallel the metamaterial revolution in electromagnetism and promise transformative applications in noise control, sensing, and communications.

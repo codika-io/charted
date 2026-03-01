@@ -1,0 +1,92 @@
+---
+title: Quantum Mechanics
+description: Wave-particle duality, the Schrodinger equation, Hilbert space formalism, spin, entanglement, and measurement theory.
+parent: physics/modern-and-quantum
+order: 3
+color: "#f59e0b"
+difficulty: intermediate
+prerequisites: ["physics/classical-physics/classical-mechanics"]
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: "2026-03-01"
+agentReviewCount: 0
+---
+
+Quantum mechanics is the fundamental theory governing the behavior of matter and radiation at atomic and subatomic scales, where the deterministic trajectories of classical physics give way to probability amplitudes, superposition, and discrete energy spectra. Developed between 1900 and 1930 through the combined efforts of **Max Planck**, **Albert Einstein**, **Niels Bohr**, **Werner Heisenberg**, **Erwin Schrodinger**, **Paul Dirac**, and **Max Born**, it is the most experimentally successful theory in the history of science — no prediction of quantum mechanics has ever been contradicted by experiment. It provides the foundation for atomic physics, chemistry, condensed matter, and the quantum field theories that describe the fundamental forces.
+
+## Foundations and Wave-Particle Duality
+
+Quantum mechanics emerged from a series of experimental puzzles that classical physics could not explain. In 1900, **Max Planck** resolved the ultraviolet catastrophe in **blackbody radiation** by postulating that electromagnetic energy is emitted in discrete packets $E = h\nu$, where $h \approx 6.626 \times 10^{-34}\;\mathrm{J \cdot s}$ is Planck's constant and $\nu$ is the frequency. In 1905, **Einstein** explained the **photoelectric effect** — the observation that light ejects electrons from metals only above a threshold frequency, regardless of intensity — by proposing that light itself consists of energy quanta, later called **photons**, each carrying energy $E = h\nu$ and momentum $p = h/\lambda$.
+
+The **Compton effect** (1923) provided further evidence: when X-rays scatter off electrons, the wavelength shift depends on the scattering angle exactly as predicted by treating the photon as a relativistic particle with momentum $p = h/\lambda$. In 1924, **Louis de Broglie** turned this logic around: if waves can behave as particles, then particles should behave as waves. He proposed that every particle with momentum $p$ has an associated wavelength $\lambda = h/p$, the **de Broglie wavelength**. This was confirmed in 1927 when **Clinton Davisson** and **Lester Germer** observed electron diffraction from a nickel crystal.
+
+The **double-slit experiment** crystallizes the paradox: when electrons pass through two narrow slits, they produce an interference pattern on a detector screen — even when sent one at a time — yet each electron strikes the screen at a definite point. The pattern emerges only from the statistical accumulation of many events, revealing that quantum mechanics is fundamentally probabilistic. **Niels Bohr** articulated the principle of **complementarity**: wave and particle descriptions are mutually exclusive but jointly necessary. Any experiment that determines which slit the electron passes through destroys the interference pattern — the wave-like and particle-like properties are complementary aspects that manifest under different experimental conditions.
+
+## The Hilbert Space Formalism
+
+The mathematical framework of quantum mechanics, codified by **John von Neumann** in 1932 and expressed in the elegant notation of **Paul Dirac**, rests on three structural elements: states, observables, and dynamics. The state of a quantum system is represented by a vector $|\psi\rangle$ (a **ket**) in a complex **Hilbert space** $\mathcal{H}$ — a complete inner product space. Two kets that differ only by a nonzero complex scalar represent the same physical state, so the true space of states is the **projective Hilbert space**.
+
+Physical observables — position, momentum, energy, angular momentum — are represented by **Hermitian operators** $\hat{A}$ acting on $\mathcal{H}$. The possible outcomes of measuring $A$ are the **eigenvalues** of $\hat{A}$, which the spectral theorem guarantees are real. If the system is in state $|\psi\rangle$, the probability of obtaining eigenvalue $a_n$ is given by the **Born rule**:
+
+$$P(a_n) = |\langle a_n | \psi \rangle|^2,$$
+
+where $|a_n\rangle$ is the corresponding eigenstate. After measurement, the system collapses into $|a_n\rangle$ — the **projection postulate**. The expectation value of an observable is $\langle A \rangle = \langle \psi | \hat{A} | \psi \rangle$.
+
+In the **position representation**, the state is described by a **wavefunction** $\psi(x) = \langle x | \psi \rangle$, a complex-valued function whose squared modulus $|\psi(x)|^2$ gives the probability density for finding the particle at position $x$. In the **momentum representation**, the wavefunction is $\tilde{\psi}(p) = \langle p | \psi \rangle$, related to $\psi(x)$ by a **Fourier transform**. This duality between position and momentum space is one of the deepest structural features of quantum mechanics.
+
+## The Schrodinger Equation and Quantum Dynamics
+
+The time evolution of a quantum state is governed by the **Schrodinger equation**, the fundamental equation of motion of non-relativistic quantum mechanics:
+
+$$i\hbar\,\frac{\partial}{\partial t}|\psi(t)\rangle = \hat{H}|\psi(t)\rangle,$$
+
+where $\hbar = h/2\pi$ is the reduced Planck constant and $\hat{H}$ is the **Hamiltonian operator**, the observable corresponding to total energy. This equation is linear, deterministic, and unitary — it preserves the norm of the state vector and hence the total probability. The formal solution is $|\psi(t)\rangle = e^{-i\hat{H}t/\hbar}|\psi(0)\rangle$, where the exponential defines the **time evolution operator** $\hat{U}(t) = e^{-i\hat{H}t/\hbar}$.
+
+For time-independent Hamiltonians, the method of **separation of variables** yields **stationary states**: solutions of the form $|\psi(t)\rangle = e^{-iEt/\hbar}|E\rangle$, where $|E\rangle$ satisfies the **time-independent Schrodinger equation** $\hat{H}|E\rangle = E|E\rangle$. The allowed energies $E$ form the **spectrum** of $\hat{H}$, which may be discrete (bound states), continuous (scattering states), or both. For a particle of mass $m$ in a potential $V(x)$, the position-space form is:
+
+$$-\frac{\hbar^2}{2m}\frac{d^2\psi}{dx^2} + V(x)\,\psi(x) = E\,\psi(x).$$
+
+This eigenvalue problem, supplemented by boundary conditions, determines the energy levels of atoms, the vibrational modes of molecules, and the band structure of solids.
+
+The **infinite square well** (particle in a box) gives energy levels $E_n = n^2\pi^2\hbar^2/2mL^2$, illustrating quantization from boundary conditions alone. The **quantum harmonic oscillator** — with $V(x) = \frac{1}{2}m\omega^2 x^2$ — yields equally spaced energy levels $E_n = \hbar\omega(n + \tfrac{1}{2})$, and its algebraic solution via **creation and annihilation operators** $\hat{a}^\dagger$ and $\hat{a}$ satisfying $[\hat{a}, \hat{a}^\dagger] = 1$ is the prototype for the second quantization of fields. The ground-state energy $E_0 = \frac{1}{2}\hbar\omega$ — the **zero-point energy** — is a purely quantum phenomenon with no classical analogue, reflecting the impossibility of simultaneously fixing both position and momentum.
+
+The **hydrogen atom** — with Coulomb potential $V(r) = -e^2/4\pi\epsilon_0 r$ — gives the celebrated energy levels $E_n = -13.6\;\mathrm{eV}/n^2$, in precise agreement with spectroscopic data. The wavefunctions are products of radial functions (associated Laguerre polynomials) and **spherical harmonics** $Y_\ell^m(\theta, \varphi)$, labeled by three quantum numbers: principal $n$, orbital $\ell$, and magnetic $m$. The $n^2$-fold degeneracy of each energy level reflects a hidden $\mathrm{SO}(4)$ symmetry of the Coulomb problem, discovered by **Wolfgang Pauli** and **Valentine Fock**.
+
+## Observables and the Uncertainty Principle
+
+Two observables $\hat{A}$ and $\hat{B}$ can be simultaneously measured with arbitrary precision if and only if they **commute**: $[\hat{A}, \hat{B}] = \hat{A}\hat{B} - \hat{B}\hat{A} = 0$. The **canonical commutation relation** between position and momentum:
+
+$$[\hat{x}, \hat{p}] = i\hbar$$
+
+is the algebraic heart of quantum mechanics. It implies the **Heisenberg uncertainty principle**:
+
+$$\Delta x \,\Delta p \geq \frac{\hbar}{2},$$
+
+where $\Delta x$ and $\Delta p$ are the standard deviations of position and momentum measurements on an ensemble of identically prepared systems. This is not a statement about measurement disturbance but a fundamental property of quantum states: no state exists in which both position and momentum are sharply defined. The **minimum-uncertainty states** that saturate the inequality are Gaussian wave packets — the quantum analogues of classical phase-space points.
+
+More generally, the **Robertson uncertainty relation** states $\Delta A \,\Delta B \geq \frac{1}{2}|\langle [\hat{A}, \hat{B}]\rangle|$ for any two observables. The **time-energy uncertainty relation** $\Delta E \,\Delta t \geq \hbar/2$ has a different character: time is not an operator in non-relativistic quantum mechanics, and $\Delta t$ represents the timescale over which the expectation value of some observable changes appreciably. This relation governs the natural linewidth of spectral lines and the lifetime of unstable particles.
+
+Observables serve as **generators of symmetries** through the exponential map: the momentum operator generates spatial translations via $\hat{T}(a) = e^{-i\hat{p}a/\hbar}$, the Hamiltonian generates time evolution, and the angular momentum operators $\hat{L}_i$ generate rotations. This deep connection between observables and symmetries — formalized in the theory of Lie groups and Lie algebras — is the structural backbone of quantum mechanics and carries directly into quantum field theory.
+
+## Spin, Identical Particles, and Entanglement
+
+In addition to orbital angular momentum $\hat{\mathbf{L}} = \hat{\mathbf{r}} \times \hat{\mathbf{p}}$, quantum particles possess an intrinsic angular momentum called **spin**, with no classical analogue. The **Stern-Gerlach experiment** (1922) demonstrated that a beam of silver atoms splits into exactly two components in an inhomogeneous magnetic field, revealing that the outermost electron has spin $s = 1/2$ with projections $m_s = \pm 1/2$. The spin operators satisfy $[\hat{S}_i, \hat{S}_j] = i\hbar\,\epsilon_{ijk}\hat{S}_k$, and for spin-$1/2$ they are represented by the $2 \times 2$ **Pauli matrices**:
+
+$$\sigma_x = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}, \quad \sigma_y = \begin{pmatrix} 0 & -i \\ i & 0 \end{pmatrix}, \quad \sigma_z = \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix}.$$
+
+The **spin-statistics theorem**, proved by **Wolfgang Pauli** in 1940, establishes a deep connection: particles with integer spin (bosons) have wavefunctions symmetric under exchange, while particles with half-integer spin (fermions) have antisymmetric wavefunctions. For fermions, antisymmetry implies the **Pauli exclusion principle** — no two identical fermions can occupy the same quantum state — which explains the structure of the periodic table, the stability of matter, and the degeneracy pressure that supports white dwarfs and neutron stars. The addition of angular momenta — combining orbital and spin degrees of freedom — is governed by **Clebsch-Gordan coefficients** and yields the total angular momentum quantum numbers that label atomic states.
+
+When two quantum systems interact and then separate, their joint state may be **entangled** — it cannot be written as a product of individual states. The iconic example is the **singlet state** of two spin-$1/2$ particles: $|\Psi^-\rangle = \frac{1}{\sqrt{2}}(|\!\uparrow\downarrow\rangle - |\!\downarrow\uparrow\rangle)$. Measuring one particle's spin along any axis instantly determines the other's, regardless of separation. **Einstein, Podolsky, and Rosen** (1935) argued this implied incompleteness. But in 1964, **John Bell** proved that any local hidden-variable theory must obey a **Bell inequality** that quantum mechanics violates. Experiments by **Alain Aspect** (1982) and many others have confirmed the violation, establishing that entangled quantum correlations cannot be reproduced by any locally realistic theory — a result that earned Aspect, **John Clauser**, and **Anton Zeilinger** the 2022 Nobel Prize.
+
+## The Measurement Problem and Interpretations
+
+The **measurement problem** is the central conceptual puzzle of quantum mechanics. The Schrodinger equation is linear and deterministic, yet measurement appears to produce a definite outcome chosen probabilistically from the spectrum of the observable. **Schrodinger's cat** — a thought experiment in which a cat is placed in a superposition of alive and dead — dramatizes the difficulty of locating the boundary between quantum superposition and classical definiteness.
+
+The **Copenhagen interpretation**, associated with Bohr and Heisenberg, accepts the collapse postulate as primitive and draws a sharp line between the quantum system and the classical apparatus. The **many-worlds interpretation** (Everett, 1957) eliminates collapse entirely: every measurement causes the universe to branch, with each outcome realized in a separate branch. The **de Broglie-Bohm pilot wave theory** supplements the wavefunction with definite particle positions guided by a "pilot wave," restoring determinism at the cost of manifest nonlocality.
+
+A more physics-based approach is **decoherence theory**, developed by **H. Dieter Zeh** and **Wojciech Zurek**. When a quantum system interacts with its environment — air molecules, photons, thermal vibrations — the off-diagonal elements of its **density matrix** $\rho = |\psi\rangle\langle\psi|$ decay exponentially fast, suppressing interference between macroscopically distinct states. For a dust grain in air, the decoherence time is of order $10^{-31}$ seconds — effectively instantaneous. Decoherence explains why we do not observe superpositions of cats: the environment acts as a continuous, inadvertent measurement, selecting a preferred **pointer basis** of effectively classical states.
+
+Decoherence does not by itself solve the measurement problem — it does not explain why one outcome rather than another is realized — but it provides the dynamical mechanism for the **quantum-to-classical transition** and has become an essential tool in quantum technology. In quantum computing, protecting coherence is the central engineering challenge, and understanding decoherence mechanisms is critical for designing error-correcting codes and fault-tolerant architectures.
+
+Quantum mechanics, despite these foundational debates, is the bedrock of modern physics. Its extension to relativistic systems leads to Quantum Field Theory and the Standard Model; its application to many-body systems yields the physics of solids, superfluids, and superconductors; and its informational structure is the basis of quantum computing, quantum cryptography, and quantum sensing.

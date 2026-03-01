@@ -1,0 +1,103 @@
+---
+title: Computational Physics
+description: Monte Carlo methods, molecular dynamics, density functional theory, lattice methods, and machine learning in physics.
+parent: physics/applied-and-computational
+order: 1
+color: "#f59e0b"
+difficulty: intermediate
+prerequisites: ["physics/classical-physics/classical-mechanics", "physics/classical-physics/statistical-mechanics"]
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: "2026-03-01"
+agentReviewCount: 0
+---
+
+Computational physics uses numerical algorithms and computer simulations to solve physical problems that resist analytical treatment. From predicting the folding of proteins to simulating the large-scale structure of the universe, computational methods have become a third pillar of physics alongside theory and experiment. The field emerged in the mid-twentieth century with the first electronic computers and has grown in tandem with Moore's law, transforming virtually every sub-discipline of the physical sciences.
+
+## Numerical Foundations
+
+Every computation begins with numbers stored in finite precision, and understanding the errors this introduces is the first step in computational physics. A floating-point number on a modern machine carries roughly 16 decimal digits of precision (the **machine epsilon** is $\epsilon \approx 10^{-16}$ for double precision). **Rounding errors** accumulate as operations are chained together, while **truncation errors** arise from approximating continuous mathematics with discrete formulas. The interplay between these two error sources governs whether a numerical scheme is reliable.
+
+The workhorse of numerical linear algebra is **Gaussian elimination** with partial pivoting, which solves the system $A\mathbf{x} = \mathbf{b}$ in $\mathcal{O}(n^3)$ operations via **LU decomposition**. For large sparse systems --- the kind that arise when discretizing partial differential equations --- iterative methods are far more efficient. The **conjugate gradient method** solves symmetric positive-definite systems in at most $n$ iterations, converging faster when the condition number is small. More generally, **Krylov subspace methods** such as GMRES handle non-symmetric systems by building an orthonormal basis for the subspace $\{b, Ab, A^2b, \ldots\}$ and minimizing the residual within it.
+
+**Root-finding algorithms** locate zeros of nonlinear equations. The **bisection method** is foolproof but slow, halving the interval at each step for linear convergence. The **Newton--Raphson method** converges quadratically --- each iteration roughly doubles the number of correct digits --- by following the tangent line:
+
+$$x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}$$
+
+Eigenvalue problems, ubiquitous in quantum mechanics and stability analysis, are solved by the **QR algorithm** (for dense matrices) or the **Lanczos algorithm** (for large sparse Hermitian matrices). These tools, developed by figures such as **John von Neumann**, **Alan Turing**, and **James Wilkinson** in the 1940s--1960s, remain the backbone of scientific computing.
+
+## Solving Differential Equations
+
+Most physical laws are expressed as differential equations, and solving them numerically is the central task of computational physics. For **initial value problems** in ordinary differential equations, the standard approach is the **Runge--Kutta family**. The classical fourth-order method (RK4) advances the solution from $y_n$ to $y_{n+1}$ using four intermediate slope evaluations:
+
+$$y_{n+1} = y_n + \frac{h}{6}(k_1 + 2k_2 + 2k_3 + k_4)$$
+
+where $k_1 = f(t_n, y_n)$, $k_2 = f(t_n + h/2, y_n + hk_1/2)$, and so on. Adaptive step-size control, as in the **Dormand--Prince RK45** pair, adjusts $h$ to keep the local error below a prescribed tolerance.
+
+**Stiff equations** --- systems with widely separated time scales --- defeat explicit methods because stability demands impractically tiny steps. Implicit methods such as **backward differentiation formulas (BDF)** solve a nonlinear system at each step but remain stable for large $h$. The phenomenon of stiffness is common in chemical kinetics, nuclear reaction networks, and circuit simulation.
+
+For **partial differential equations**, the simplest approach is finite differences. The one-dimensional heat equation $\partial_t u = \alpha \,\partial_{xx} u$ on a grid with spacing $\Delta x$ and time step $\Delta t$ can be advanced by the **forward Euler** scheme:
+
+$$u_j^{n+1} = u_j^n + \frac{\alpha \,\Delta t}{(\Delta x)^2}\bigl(u_{j+1}^n - 2u_j^n + u_{j-1}^n\bigr)$$
+
+This explicit method is simple but conditionally stable: the **Courant--Friedrichs--Lewy (CFL) condition** requires $\alpha\,\Delta t / (\Delta x)^2 \le 1/2$. The **Crank--Nicolson** scheme averages forward and backward Euler to achieve second-order accuracy in time while remaining unconditionally stable. For hyperbolic equations (wave propagation), **upwind differencing** respects the direction of information flow and avoids spurious oscillations near discontinuities.
+
+## Spectral and Finite Element Methods
+
+When high accuracy is paramount, **spectral methods** expand the solution in a global basis of orthogonal functions --- Fourier modes for periodic problems, Chebyshev polynomials for non-periodic domains. Because a smooth function's spectral coefficients decay faster than any power of the mode number, spectral methods achieve **exponential convergence**: doubling the number of modes can gain several orders of magnitude in accuracy. The **Fast Fourier Transform (FFT)**, developed by **Cooley and Tukey** in 1965, computes the discrete Fourier transform in $\mathcal{O}(N \log N)$ operations rather than $\mathcal{O}(N^2)$, making spectral methods practical for large problems.
+
+The **finite element method (FEM)** takes a different approach, dividing the domain into small elements (triangles, tetrahedra) and approximating the solution as a piecewise polynomial. The method begins from a **variational (weak) formulation** of the PDE: instead of requiring the equation to hold pointwise, one demands that it hold in an averaged sense against all test functions from a suitable function space. The discrete problem reduces to a sparse linear system whose solution converges to the true solution as the mesh is refined. **C\'ea's lemma** guarantees that the finite element solution is the best approximation within the chosen function space, and **a posteriori error estimates** guide adaptive mesh refinement. FEM dominates engineering applications --- structural analysis, heat transfer, electromagnetics --- and is implemented in codes such as COMSOL and ANSYS.
+
+## Monte Carlo Methods
+
+Some of the most powerful computational techniques in physics are based on randomness. **Monte Carlo integration** estimates a high-dimensional integral by sampling random points and averaging the integrand. For a $d$-dimensional integral, the error decreases as $1/\sqrt{N}$ regardless of dimension, making Monte Carlo the method of choice when $d$ is large --- the regime where deterministic quadrature suffers the **curse of dimensionality**.
+
+**Markov Chain Monte Carlo (MCMC)** generates samples from a target probability distribution $\pi(\mathbf{x})$ by constructing a Markov chain whose stationary distribution is $\pi$. The **Metropolis--Hastings algorithm**, introduced by **Nicholas Metropolis** and collaborators at Los Alamos in 1953, proposes a move from the current state $\mathbf{x}$ to a candidate $\mathbf{x}'$ and accepts it with probability:
+
+$$A(\mathbf{x} \to \mathbf{x}') = \min\!\Bigl(1,\; \frac{\pi(\mathbf{x}')\,q(\mathbf{x}|\mathbf{x}')}{\pi(\mathbf{x})\,q(\mathbf{x}'|\mathbf{x})}\Bigr)$$
+
+where $q$ is the proposal distribution. This elegant algorithm underpins simulations of the **Ising model**, where spins on a lattice interact ferromagnetically and undergo a phase transition at a critical temperature $T_c$. Near $T_c$, physical quantities obey power laws with **critical exponents** that are universal --- independent of microscopic details --- and Monte Carlo simulations have been instrumental in measuring these exponents with high precision.
+
+**Variance reduction techniques** such as importance sampling, stratified sampling, and control variates improve efficiency by concentrating samples where the integrand matters most. **Simulated annealing**, inspired by the metallurgical process of slow cooling, uses the Metropolis algorithm with a gradually decreasing temperature to find global minima of complex energy landscapes.
+
+## Molecular Dynamics
+
+**Molecular dynamics (MD)** simulates the motion of atoms and molecules by integrating Newton's equations of motion. Each atom experiences forces derived from an empirical **force field** --- typically a sum of bonded terms (bonds, angles, dihedrals) and non-bonded terms (**Lennard--Jones** and **Coulomb** potentials). The Lennard--Jones potential between two atoms separated by distance $r$ is:
+
+$$V(r) = 4\varepsilon\left[\left(\frac{\sigma}{r}\right)^{12} - \left(\frac{\sigma}{r}\right)^{6}\right]$$
+
+where $\varepsilon$ is the depth of the potential well and $\sigma$ is the zero-crossing distance.
+
+The equations of motion are integrated using the **velocity Verlet algorithm**, which is time-reversible, symplectic, and conserves energy to high accuracy:
+
+$$\mathbf{r}(t + \Delta t) = \mathbf{r}(t) + \mathbf{v}(t)\,\Delta t + \frac{1}{2}\mathbf{a}(t)\,\Delta t^2$$
+$$\mathbf{v}(t + \Delta t) = \mathbf{v}(t) + \frac{1}{2}\bigl[\mathbf{a}(t) + \mathbf{a}(t + \Delta t)\bigr]\,\Delta t$$
+
+To simulate at constant temperature (the **canonical ensemble**, NVT), one couples the system to a thermostat. The **Nos\'e--Hoover thermostat** extends the equations of motion with a friction variable $\xi$ that extracts or injects energy to maintain the target temperature, producing trajectories that sample the correct canonical distribution. For constant-pressure simulations, a **barostat** such as Parrinello--Rahman allows the simulation cell to fluctuate. Modern MD codes like GROMACS and LAMMPS routinely simulate millions of atoms for microseconds, revealing phenomena from protein folding to crack propagation.
+
+## Density Functional Theory
+
+**Density functional theory (DFT)** is the dominant method for computing the electronic structure of atoms, molecules, and solids from first principles. The foundational result is the **Hohenberg--Kohn theorem** (1964): the ground-state energy of a many-electron system is a unique functional of the electron density $n(\mathbf{r})$, and this energy is minimized by the true ground-state density. This remarkable theorem reduces the many-body problem from $3N$ spatial variables (for $N$ electrons) to just three.
+
+The practical implementation is the **Kohn--Sham scheme**, which maps the interacting system onto a fictitious system of non-interacting electrons moving in an effective potential. The Kohn--Sham equations are:
+
+$$\left[-\frac{\hbar^2}{2m}\nabla^2 + V_{\text{eff}}(\mathbf{r})\right]\phi_i(\mathbf{r}) = \varepsilon_i\,\phi_i(\mathbf{r})$$
+
+where $V_{\text{eff}}$ includes the external potential, the classical Hartree potential, and the **exchange-correlation potential** $V_{\text{xc}}$. The last term encodes all the quantum many-body physics and must be approximated. The **local density approximation (LDA)** uses the exchange-correlation energy of a uniform electron gas, while the **generalized gradient approximation (GGA)** includes density gradients. **Hybrid functionals** such as B3LYP mix in a fraction of exact Hartree--Fock exchange. The Kohn--Sham equations are solved self-consistently: guess a density, compute $V_{\text{eff}}$, solve for orbitals, compute a new density, and iterate until convergence. Walter Kohn shared the 1998 Nobel Prize in Chemistry for developing DFT.
+
+## N-Body Simulations and Astrophysics
+
+Simulating the gravitational dynamics of $N$ bodies --- from star clusters to the cosmic web --- requires efficient algorithms for computing long-range forces. Direct summation scales as $\mathcal{O}(N^2)$, which is prohibitive for the billions of particles in a cosmological simulation. The **Barnes--Hut tree algorithm** groups distant particles into multipole expansions, reducing the cost to $\mathcal{O}(N \log N)$. The **fast multipole method (FMM)** of Greengard and Rokhlin achieves $\mathcal{O}(N)$ by systematically translating multipole expansions between well-separated clusters.
+
+Time integration uses **symplectic (leapfrog) integrators** that preserve the Hamiltonian structure and prevent secular energy drift over billions of time steps. A **softening length** $\epsilon$ regularizes the gravitational potential at short range, $V(r) = -Gm/(r^2 + \epsilon^2)^{1/2}$, preventing unphysical divergences from close encounters. Modern cosmological codes such as GADGET and GIZMO combine gravity with hydrodynamics (smoothed particle hydrodynamics or moving-mesh methods) to simulate the formation of galaxies, the distribution of dark matter, and the evolution of the intergalactic medium. The Millennium Simulation (2005) followed $10^{10}$ particles to map the cosmic web, and current exascale campaigns push to even larger volumes and higher resolution.
+
+## Machine Learning in Physics
+
+The intersection of machine learning and physics has become one of the most active frontiers in computational science. **Physics-informed neural networks (PINNs)** embed differential equations directly into the loss function, training networks that satisfy physical laws by construction. For a PDE $\mathcal{L}[u] = 0$, the PINN loss combines a data-fitting term with a physics residual:
+
+$$\mathcal{L}_{\text{total}} = \frac{1}{N_d}\sum_{i=1}^{N_d}|u_\theta(\mathbf{x}_i) - u_i^{\text{data}}|^2 + \frac{1}{N_r}\sum_{j=1}^{N_r}|\mathcal{L}[u_\theta](\mathbf{x}_j)|^2$$
+
+Deep learning has found striking applications across physics: convolutional neural networks classify particle collision events at the Large Hadron Collider, graph neural networks predict molecular properties and accelerate molecular dynamics, and generative models produce synthetic galaxy images for survey pipelines. **Reservoir computing** and echo state networks forecast chaotic time series, and **neural network potentials** trained on DFT data achieve ab initio accuracy at a fraction of the computational cost, enabling simulations of millions of atoms with quantum-mechanical fidelity.
+
+The promise and the peril of these methods lie in their flexibility: a sufficiently large network can fit almost anything, but extracting physical insight and ensuring generalization beyond the training domain remain open challenges. Combining the inductive bias of physical laws with the representational power of deep learning --- a program sometimes called **scientific machine learning** --- is reshaping how computational physicists think about modeling, simulation, and discovery.

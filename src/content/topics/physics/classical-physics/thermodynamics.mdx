@@ -1,0 +1,93 @@
+---
+title: Thermodynamics
+description: The laws of thermodynamics, entropy, thermodynamic potentials, phase transitions, and the arrow of time.
+parent: physics/classical-physics
+order: 2
+color: "#f59e0b"
+difficulty: beginner
+prerequisites: ["physics/classical-physics/classical-mechanics"]
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: "2026-03-01"
+agentReviewCount: 0
+---
+
+Thermodynamics is the science of energy, entropy, and the transformations between heat and work. Unlike most branches of physics, it makes no assumptions about the microscopic constituents of matter -- its laws are universal constraints that apply to any macroscopic system, from steam engines to black holes. Developed in the nineteenth century by Carnot, Clausius, Kelvin, and Gibbs, thermodynamics provides the framework for understanding why some processes occur spontaneously and others do not, and it establishes absolute limits on the efficiency of energy conversion that no technology can surpass.
+
+## The Laws of Thermodynamics
+
+The four laws of thermodynamics form a logical hierarchy. The **zeroth law** establishes the concept of temperature: if system $A$ is in thermal equilibrium with system $B$, and $B$ is in equilibrium with $C$, then $A$ is in equilibrium with $C$. This transitivity property allows temperature to be defined as a state variable and measured with thermometers. It was articulated last but numbered "zeroth" because it is logically prior to the others.
+
+The **first law** is conservation of energy applied to thermal systems. For a closed system, the change in **internal energy** $U$ equals the heat added minus the work done by the system:
+
+$$dU = \delta Q - \delta W$$
+
+The notation $\delta$ (rather than $d$) for heat and work emphasizes that these are **path-dependent** quantities -- not state functions. For a system doing pressure-volume work, $\delta W = P\,dV$, and the first law becomes $dU = \delta Q - P\,dV$. The first law was established through the careful experiments of **James Prescott Joule** in the 1840s, who showed that mechanical work and heat are interconvertible at a fixed rate -- the mechanical equivalent of heat -- thereby demolishing the older caloric theory.
+
+The **second law** introduces **entropy** $S$ and gives thermodynamics its arrow of time. **Rudolf Clausius** formulated it as: heat cannot spontaneously flow from a colder to a hotter body. **Lord Kelvin** (William Thomson) gave an equivalent statement: no cyclic process can convert heat entirely into work. Both statements imply the existence of a state function $S$ such that for any process in an isolated system,
+
+$$\Delta S \geq 0$$
+
+with equality holding only for reversible processes. Entropy thus measures the irreversibility of natural processes. Clausius introduced it in 1865 with the famous pronouncement: "The entropy of the universe tends to a maximum." The second law is the reason time has a direction -- it distinguishes past from future in a way that the time-symmetric laws of mechanics cannot.
+
+The **third law**, formulated by **Walther Nernst** in 1906, states that the entropy of a perfect crystal approaches zero as the temperature approaches absolute zero: $S \to 0$ as $T \to 0$. An equivalent statement is that no finite sequence of thermodynamic processes can reach absolute zero. The third law has deep quantum-mechanical origins -- at $T = 0$, a system settles into its unique ground state, and the number of accessible microstates $\Omega \to 1$, so $S = k_B \ln \Omega \to 0$.
+
+## Entropy and the Arrow of Time
+
+Entropy is the central concept of thermodynamics, yet it is notoriously subtle. Clausius defined it through a reversible process: $dS = \delta Q_{\text{rev}} / T$. For an irreversible process, the **Clausius inequality** $dS > \delta Q / T$ ensures that entropy is generated internally whenever dissipation occurs. The total entropy change of a system and its surroundings is always non-negative:
+
+$$\Delta S_{\text{total}} = \Delta S_{\text{sys}} + \Delta S_{\text{surr}} \geq 0$$
+
+The microscopic interpretation came from **Ludwig Boltzmann** in the 1870s. His celebrated formula,
+
+$$S = k_B \ln \Omega$$
+
+connects the macroscopic entropy $S$ to the number of microstates $\Omega$ consistent with the macroscopic state. A gas confined to one half of a container has far fewer microstates than a gas filling the entire container -- hence expansion is spontaneous and entropy increases. Boltzmann's formula is carved on his tombstone in Vienna and stands as one of the deepest equations in physics, bridging the macroscopic world of thermodynamics to the microscopic world of atoms.
+
+The second law implies an **arrow of time**: processes evolve toward higher entropy, and the reverse processes are overwhelmingly improbable. Yet the microscopic laws of physics (Newton's equations, Schrodinger's equation) are time-reversible. This apparent paradox -- **Loschmidt's paradox** -- was recognized immediately by Boltzmann's contemporaries. The resolution lies in initial conditions: the universe began in an extraordinarily low-entropy state (the Big Bang), and the second law describes the overwhelmingly probable evolution from that special starting point. The entropy increase we observe is not a law of microscopic dynamics but a consequence of statistics applied to the boundary conditions of the cosmos.
+
+## Thermodynamic Potentials and Maxwell Relations
+
+For practical calculations, it is essential to choose the right **thermodynamic potential** -- a state function whose natural variables match the experimental conditions. The four principal potentials are connected by **Legendre transformations**:
+
+| Potential | Definition | Natural variables | Equilibrium condition |
+|---|---|---|---|
+| Internal energy | $U$ | $S, V, N$ | Minimized at constant $S, V$ |
+| Enthalpy | $H = U + PV$ | $S, P, N$ | Minimized at constant $S, P$ |
+| Helmholtz free energy | $F = U - TS$ | $T, V, N$ | Minimized at constant $T, V$ |
+| Gibbs free energy | $G = H - TS$ | $T, P, N$ | Minimized at constant $T, P$ |
+
+Each potential satisfies a fundamental relation. For instance, $dU = TdS - PdV + \mu\, dN$, where $\mu$ is the **chemical potential** -- the energy cost of adding one particle. The Gibbs free energy $G(T, P, N)$ is the most useful for chemistry and materials science, where temperature and pressure are the controlled variables. A process at constant $T$ and $P$ is spontaneous if and only if $\Delta G < 0$, and equilibrium corresponds to $G$ being minimized.
+
+The **Maxwell relations** follow from the equality of mixed partial derivatives of the potentials. The four principal relations are:
+
+$$\left(\frac{\partial T}{\partial V}\right)_S = -\left(\frac{\partial P}{\partial S}\right)_V, \qquad \left(\frac{\partial T}{\partial P}\right)_S = \left(\frac{\partial V}{\partial S}\right)_P$$
+
+$$\left(\frac{\partial S}{\partial V}\right)_T = \left(\frac{\partial P}{\partial T}\right)_V, \qquad \left(\frac{\partial S}{\partial P}\right)_T = -\left(\frac{\partial V}{\partial T}\right)_P$$
+
+These identities are indispensable for relating experimentally accessible quantities (heat capacities, compressibilities, thermal expansion coefficients) to entropy changes that cannot be measured directly. **Josiah Willard Gibbs**, in his landmark 1876 paper *On the Equilibrium of Heterogeneous Substances*, systematized this entire framework and extended it to multi-component, multi-phase systems -- a contribution that essentially created chemical thermodynamics.
+
+## Phase Transitions and Critical Phenomena
+
+Matter exists in distinct **phases** -- solid, liquid, gas, and more exotic states like superfluids and liquid crystals -- and thermodynamics governs the transitions between them. A **phase diagram** maps the regions of stability in the $(P, T)$ plane. Phase boundaries are lines where two phases coexist, and they are governed by the **Clausius-Clapeyron equation**:
+
+$$\frac{dP}{dT} = \frac{L}{T\,\Delta v}$$
+
+where $L$ is the latent heat and $\Delta v$ is the volume change per particle. This equation explains, for example, why the ice-water boundary slopes to the left (ice is less dense than water, so $\Delta v < 0$), allowing ice to melt under pressure -- the principle underlying ice skating.
+
+**First-order phase transitions** (melting, boiling, sublimation) involve a discontinuous jump in the first derivatives of $G$ -- volume and entropy change abruptly, and latent heat is absorbed or released. **Continuous (second-order) phase transitions** have no latent heat; instead, the second derivatives of $G$ (heat capacity, compressibility, susceptibility) diverge. The liquid-gas transition terminates at a **critical point** $(T_c, P_c)$, beyond which the distinction between liquid and gas vanishes. Near the critical point, fluctuations become enormous, the system becomes scale-invariant, and the behavior is described by **critical exponents** that are universal -- independent of microscopic details.
+
+The **Gibbs phase rule**, $F = C - P + 2$, relates the number of degrees of freedom $F$ to the number of components $C$ and phases $P$. For a one-component system, coexistence of two phases (a line on the phase diagram) leaves one degree of freedom; coexistence of three phases (the **triple point**) leaves zero -- fixing both $T$ and $P$ uniquely. The triple point of water ($273.16$ K, $611.73$ Pa) defines the kelvin.
+
+## Heat Engines and Carnot's Theorem
+
+The historical impetus for thermodynamics was the quest to understand and improve heat engines. **Sadi Carnot** proved in 1824 -- before the first law was even established -- that no engine operating between two heat reservoirs at temperatures $T_H$ and $T_C$ can be more efficient than a reversible engine, and that all reversible engines operating between the same two reservoirs have the same efficiency:
+
+$$\eta_{\text{Carnot}} = 1 - \frac{T_C}{T_H}$$
+
+This is **Carnot's theorem**, and it sets an absolute upper bound on the efficiency of any heat engine. A coal-fired power plant operating between a $600$ K boiler and a $300$ K condenser cannot exceed $50\%$ efficiency, regardless of engineering ingenuity. Real engines -- the Otto cycle (gasoline engines), Diesel cycle, Rankine cycle (steam turbines), and Brayton cycle (gas turbines) -- all fall short of the Carnot limit due to irreversibilities: friction, finite-temperature heat transfer, and unrestrained expansion.
+
+The reverse process -- a **heat pump** or **refrigerator** -- extracts heat from a cold reservoir and dumps it into a hot one, at the cost of external work. The **coefficient of performance** is bounded by the inverse Carnot efficiency. Modern air conditioners and heat pumps approach these limits more closely than power plants approach the Carnot limit, because the temperature differences involved are typically small.
+
+Thermodynamics extends far beyond engines. Its principles govern the formation of stars, the metabolism of living organisms, the design of batteries and fuel cells, and the ultimate fate of the universe. The second law's implication -- that the universe evolves inexorably toward thermodynamic equilibrium, or "heat death" -- remains one of the most profound and sobering conclusions in all of science. Yet within this universal trend toward disorder, thermodynamics also explains how local order can emerge: life, structure, and complexity all arise through the export of entropy to the surroundings, fully consistent with the second law.

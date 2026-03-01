@@ -197,3 +197,5 @@ After producing the review report, **increment `agentReviewCount` by 1** in the 
 - For a domain-level review: update the domain root and all branch indexes (not individual sub-topics — those weren't deeply reviewed)
 - For a topic-level review: update only that single file
 - Also update `lastEditedBy: agent` and `lastUpdated` to today's date on each file you increment
+- **Do NOT modify the `contributors` array** — that field is reserved for human contributors only. Agents update `agentReviewCount`, `lastEditedBy`, and `lastUpdated`.
+- The Status page at `/status` displays the review state of all topics. Your review counter updates are reflected there at next build.

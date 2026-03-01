@@ -100,6 +100,40 @@ export const COMPUTER_SCIENCE_EDGES: TopicEdge[] = [
   { source: 'ai-and-machine-learning', target: 'applied-and-interdisciplinary' },
 ];
 
+// ─── Physics data ───
+
+export const PHYSICS_TOPICS: TopicNode[] = [
+  { id: 'physics', label: 'Physics', slug: 'physics', x: 0, y: 0, size: 48 },
+  { id: 'classical-physics', label: 'Classical', slug: 'physics/classical-physics', x: -260, y: -80, size: 36 },
+  { id: 'modern-and-quantum', label: 'Quantum', slug: 'physics/modern-and-quantum', x: -120, y: -200, size: 34 },
+  { id: 'subatomic', label: 'Subatomic', slug: 'physics/subatomic', x: 100, y: -200, size: 30 },
+  { id: 'atoms-and-matter', label: 'Matter', slug: 'physics/atoms-and-matter', x: 260, y: -60, size: 34 },
+  { id: 'astrophysical', label: 'Astrophysics', slug: 'physics/astrophysical', x: 200, y: 120, size: 32 },
+  { id: 'applied-and-computational', label: 'Applied', slug: 'physics/applied-and-computational', x: -40, y: 220, size: 30 },
+  { id: 'frontier', label: 'Frontier', slug: 'physics/frontier', x: -220, y: 140, size: 30 },
+];
+
+export const PHYSICS_EDGES: TopicEdge[] = [
+  // From center
+  { source: 'physics', target: 'classical-physics' },
+  { source: 'physics', target: 'modern-and-quantum' },
+  { source: 'physics', target: 'subatomic' },
+  { source: 'physics', target: 'atoms-and-matter' },
+  { source: 'physics', target: 'astrophysical' },
+  { source: 'physics', target: 'applied-and-computational' },
+  { source: 'physics', target: 'frontier' },
+  // Cross-links
+  { source: 'classical-physics', target: 'modern-and-quantum' },
+  { source: 'modern-and-quantum', target: 'subatomic' },
+  { source: 'modern-and-quantum', target: 'atoms-and-matter' },
+  { source: 'classical-physics', target: 'astrophysical' },
+  { source: 'subatomic', target: 'astrophysical' },
+  { source: 'atoms-and-matter', target: 'applied-and-computational' },
+  { source: 'modern-and-quantum', target: 'frontier' },
+  { source: 'classical-physics', target: 'applied-and-computational' },
+  { source: 'astrophysical', target: 'frontier' },
+];
+
 // Isometric projection helpers
 function toIso(x: number, y: number): [number, number] {
   const isoX = (x - y) * Math.cos(Math.PI / 6);

@@ -43,6 +43,23 @@ const DOMAIN_CONFIG = {
       'applied-and-interdisciplinary': 'Applied & Interdisciplinary',
     },
   },
+  'physics': {
+    label: 'Physics',
+    branches: [
+      'classical-physics', 'modern-and-quantum', 'subatomic',
+      'atoms-and-matter', 'astrophysical', 'applied-and-computational',
+      'frontier',
+    ],
+    names: {
+      'classical-physics': 'Classical Physics',
+      'modern-and-quantum': 'Modern & Quantum',
+      'subatomic': 'Subatomic Physics',
+      'atoms-and-matter': 'Atoms & Matter',
+      'astrophysical': 'Astrophysical Sciences',
+      'applied-and-computational': 'Applied & Computational',
+      'frontier': 'Frontier Physics',
+    },
+  },
 };
 
 function walkMdx(dir) {

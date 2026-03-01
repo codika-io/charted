@@ -1,0 +1,68 @@
+---
+title: Condensed Matter Physics
+description: Crystal structure, band theory, semiconductors, superconductivity, magnetism, topological phases, and mesoscopic physics.
+parent: physics/atoms-and-matter
+order: 2
+color: "#f59e0b"
+difficulty: advanced
+prerequisites: ["physics/modern-and-quantum/quantum-mechanics", "physics/classical-physics/statistical-mechanics"]
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: "2026-03-01"
+agentReviewCount: 0
+---
+
+Condensed matter physics studies how vast numbers of atoms, when packed together in solids and liquids, give rise to collective phenomena that no single atom could exhibit alone — electrical conductivity, magnetism, superconductivity, and topological order among them. It is the largest subfield of physics by number of active researchers and one of the most consequential: the transistor, the laser, magnetic resonance imaging, and the modern semiconductor industry all emerged from condensed matter discoveries. The field draws on quantum mechanics, statistical mechanics, and electromagnetism, and its central challenge is to understand how simple microscopic rules produce the astonishing variety of macroscopic phases of matter.
+
+## Crystal Structure and Band Theory
+
+Most solids are crystalline — their atoms are arranged in a periodic lattice described by a set of translation vectors. The 14 **Bravais lattices** in three dimensions, classified by **Auguste Bravais** in 1850, enumerate all distinct periodic arrangements. A crystal's symmetry is fully specified by its **space group**, which combines point symmetry operations (rotations, reflections, inversions) with translations. The periodicity has profound consequences for waves propagating through the crystal: **Bragg's law**, $2d\sin\theta = n\lambda$, describes how X-rays diffract from lattice planes, and the **reciprocal lattice** — the Fourier transform of the real-space lattice — provides the natural framework for analyzing diffraction patterns, phonon dispersions, and electronic band structures.
+
+The electronic states of a periodic solid are governed by **Bloch's theorem** (Felix Bloch, 1928): the wave function of an electron in a periodic potential takes the form $\psi_{\mathbf{k}}(\mathbf{r}) = e^{i\mathbf{k}\cdot\mathbf{r}}\,u_{\mathbf{k}}(\mathbf{r})$, where $u_{\mathbf{k}}$ has the periodicity of the lattice and $\mathbf{k}$ is the **crystal momentum**, confined to the first **Brillouin zone**. The allowed energies form continuous **bands** separated by **band gaps** — energy ranges where no electronic states exist. This band structure is the key to understanding electrical conduction. In a **metal**, the highest occupied band (the conduction band) is partially filled, and electrons can carry current freely. In an **insulator**, a large gap separates the filled valence band from the empty conduction band. A **semiconductor** has a small gap — typically 0.5-3 eV — that can be bridged by thermal excitation, doping, or photon absorption.
+
+The simplest model of metallic conduction is the **Drude model** (Paul Drude, 1900), which treats electrons as a classical gas scattering off fixed ions. It correctly predicts the **Wiedemann-Franz law** — the ratio of thermal to electrical conductivity is proportional to temperature — but fails to explain why only a fraction of electrons contribute to conduction. The quantum-mechanical **Sommerfeld model** resolves this by recognizing that electrons obey Fermi-Dirac statistics: at low temperatures, only electrons near the **Fermi energy** $E_F$ participate in transport. The shape of the constant-energy surface $E(\mathbf{k}) = E_F$ in reciprocal space — the **Fermi surface** — determines virtually all electronic properties of a metal.
+
+## Phonons and Thermal Properties
+
+The atoms in a crystal vibrate about their equilibrium positions, and these vibrations, when quantized, become **phonons** — the quasiparticles of lattice dynamics. A one-dimensional chain of identical atoms with nearest-neighbor springs yields a dispersion relation $\omega(k) = 2\sqrt{\kappa/m}\,|\sin(ka/2)|$, where $\kappa$ is the spring constant and $a$ is the lattice spacing. In three dimensions with a basis of more than one atom per unit cell, the dispersion splits into **acoustic branches** (in-phase motion, giving rise to sound waves) and **optical branches** (out-of-phase motion, coupling strongly to infrared light).
+
+The **Debye model** approximates the phonon density of states as $g(\omega) \propto \omega^2$ up to a cutoff frequency $\omega_D$, yielding the specific heat
+
+$$C_V = 9Nk_B\left(\frac{T}{\Theta_D}\right)^3\int_0^{\Theta_D/T}\frac{x^4 e^x}{(e^x-1)^2}\,dx$$
+
+where $\Theta_D = \hbar\omega_D/k_B$ is the **Debye temperature**. At low temperatures this gives $C_V \propto T^3$, in excellent agreement with experiment and a dramatic improvement over the classical Dulong-Petit law. **Peter Debye** introduced this model in 1912, and its success was an early triumph of quantum statistics applied to solids.
+
+Phonons mediate the **electron-phonon interaction**, which is responsible for electrical resistance at finite temperature (electrons scatter off thermally excited phonons), the **isotope effect** in superconductivity, and the formation of **polarons** — electrons dressed by a cloud of phonon excitations. The electron-phonon coupling also provides the attractive interaction between electrons that underlies conventional superconductivity, as we shall see.
+
+## Semiconductors and Devices
+
+The physics of **semiconductors** has reshaped civilization. In a pure (intrinsic) semiconductor like silicon, the number of thermally excited electron-hole pairs grows exponentially with temperature as $n_i \propto e^{-E_g/(2k_BT)}$. By introducing impurity atoms — **donors** (contributing extra electrons) or **acceptors** (creating holes) — one produces **n-type** or **p-type** material with conductivity that can be precisely controlled. The **p-n junction**, where n-type and p-type regions meet, is the basic building block of modern electronics: it rectifies current, and when reverse-biased in a specific way, it amplifies signals (the transistor, invented at Bell Labs in 1947 by John Bardeen, Walter Brattain, and William Shockley).
+
+Reducing the size of semiconductor structures to the nanoscale introduces quantum confinement. A **quantum well** — a thin layer of narrow-gap semiconductor sandwiched between wide-gap barriers — confines electrons in one dimension, producing discrete energy subbands. A **two-dimensional electron gas** (2DEG) formed at the interface of GaAs and AlGaAs heterostructures was the platform on which the **quantum Hall effect** was discovered. Quantum dots confine electrons in all three dimensions, creating "artificial atoms" with discrete energy levels and Coulomb blockade effects. These semiconductor nanostructures are the workhorses of optoelectronics, quantum-dot lasers, and solid-state quantum computing.
+
+## Magnetism and Magnetic Order
+
+Magnetism arises from the spin and orbital angular momentum of electrons, shaped by exchange interactions that have no classical analogue. **Diamagnetism** — a weak, universal response in which induced currents oppose an applied field — is present in all materials. **Paramagnetism** occurs when unpaired spins align partially with an external field, with susceptibility following the **Curie law** $\chi = C/T$. Collective magnetic order emerges below a critical temperature when exchange interactions overcome thermal fluctuations.
+
+In a **ferromagnet**, neighboring spins align parallel, producing a spontaneous magnetization. The **Heisenberg model** captures this with the Hamiltonian $H = -J\sum_{\langle i,j\rangle}\mathbf{S}_i \cdot \mathbf{S}_j$, where $J > 0$ is the exchange coupling. **Pierre-Ernest Weiss** introduced the mean-field theory of ferromagnetism in 1907, predicting a phase transition at the **Curie temperature** $T_C$ — above which thermal energy destroys the ordered phase. **Antiferromagnets** have $J < 0$, favoring anti-parallel alignment on neighboring sites and producing zero net magnetization despite long-range order, as first proposed by **Louis Neel** (Nobel Prize 1970). The low-energy excitations of ordered magnets are **magnons** — quantized spin waves — which are bosonic quasiparticles obeying a dispersion relation that goes as $\omega \propto k^2$ for ferromagnets and $\omega \propto k$ for antiferromagnets.
+
+## Superconductivity
+
+In 1911, **Heike Kamerlingh Onnes** discovered that the electrical resistance of mercury drops to exactly zero below 4.2 K — the phenomenon of **superconductivity**. A superconductor also expels magnetic flux from its interior (the **Meissner effect**, 1933), demonstrating that superconductivity is a thermodynamic phase, not merely perfect conductivity. Type I superconductors have a single critical field $H_c$ above which superconductivity is destroyed; Type II superconductors allow partial flux penetration through quantized vortices in an intermediate **mixed state** between lower and upper critical fields $H_{c1}$ and $H_{c2}$.
+
+The phenomenological **Ginzburg-Landau theory** (1950) describes the superconducting state through a complex order parameter $\Psi$ and two characteristic lengths: the **coherence length** $\xi$ (the scale over which $\Psi$ varies) and the **London penetration depth** $\lambda$ (the distance over which magnetic fields decay). The ratio $\kappa = \lambda/\xi$ determines the type: $\kappa < 1/\sqrt{2}$ gives Type I, $\kappa > 1/\sqrt{2}$ gives Type II.
+
+The microscopic mechanism was explained by **Bardeen, Cooper, and Schrieffer** (BCS) in 1957. An attractive interaction mediated by phonons binds electrons into **Cooper pairs** with opposite momenta and spins. These pairs condense into a macroscopic quantum state with an energy gap
+
+$$\Delta(T=0) \approx 2\hbar\omega_D\,e^{-1/(N(0)V)}$$
+
+where $N(0)$ is the density of states at the Fermi level and $V$ is the pairing interaction strength. The BCS theory predicts the critical temperature $T_c \approx 1.13\,\Theta_D\,e^{-1/(N(0)V)}$, the isotope effect ($T_c \propto M^{-1/2}$), and the exponential suppression of the electronic specific heat below $T_c$. The discovery of **high-temperature superconductors** — cuprates with $T_c$ above 90 K (Bednorz and Muller, 1986) and later iron pnictides — shattered the conventional BCS framework and remains one of condensed matter's greatest unsolved puzzles.
+
+## Topological Phases and Quantum Hall Effects
+
+The discovery of the **integer quantum Hall effect** by **Klaus von Klitzing** in 1980 revealed that the Hall conductance of a 2DEG in a strong perpendicular magnetic field is quantized in exact integer multiples of $e^2/h$ — a result so precise it serves as a metrological standard. The quantization arises because electrons fill discrete **Landau levels**, and current is carried by chiral **edge states** that propagate without backscattering. The **fractional quantum Hall effect**, discovered by Tsui, Stormer, and Gossard in 1982, occurs at partial Landau level fillings and signals the formation of a strongly correlated state described by **Robert Laughlin's** wave function, with fractionally charged quasiparticles obeying exotic **anyonic statistics**.
+
+These discoveries launched the field of **topological matter**. The key insight is that certain properties of quantum states — encoded in topological invariants such as the **Chern number** and the **$\mathbb{Z}_2$ index** — are robust against smooth deformations and disorder. A **topological insulator** is insulating in its bulk but hosts conducting surface states protected by time-reversal symmetry, with electrons locked into a helical spin texture that forbids backscattering. The **Berry phase**, accumulated by a quantum state as parameters are varied adiabatically, provides the geometric framework: the integral of the **Berry curvature** over the Brillouin zone gives the Chern number, which counts the number of protected edge modes.
+
+**Weyl semimetals** and **Dirac semimetals** are three-dimensional materials whose band structure contains linear crossing points — Weyl nodes — that act as monopoles and antimonopoles of Berry curvature. Their surfaces display **Fermi arcs**, open contours connecting projections of Weyl nodes. Graphene, a single layer of carbon atoms arranged in a honeycomb lattice isolated by **Andre Geim** and **Konstantin Novoselov** in 2004 (Nobel Prize 2010), hosts massless Dirac fermions with linear dispersion $E = \hbar v_F|\mathbf{k}|$ and exhibits an anomalous half-integer quantum Hall effect. Twisted bilayer graphene, with a "magic angle" near 1.1 degrees, produces flat bands that support both superconductivity and correlated insulating states — a dramatic demonstration of how topology and correlations intertwine in modern condensed matter physics.

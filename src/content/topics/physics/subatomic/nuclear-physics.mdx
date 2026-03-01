@@ -1,0 +1,96 @@
+---
+title: Nuclear Physics
+description: Nuclear structure, nuclear forces, shell and collective models, radioactivity, fission, fusion, and nuclear astrophysics.
+parent: physics/subatomic
+order: 2
+color: "#f59e0b"
+difficulty: intermediate
+prerequisites: ["physics/modern-and-quantum/quantum-mechanics"]
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: "2026-03-01"
+agentReviewCount: 0
+---
+
+Nuclear physics is the study of the atomic nucleus — a dense, bound system of protons and neutrons held together by the residual strong force. Since **Ernest Rutherford** first demonstrated the existence of the nucleus in 1911 through his celebrated gold-foil scattering experiment, the field has grown to encompass nuclear structure, radioactive decay, nuclear reactions, and the synthesis of elements in stars. Nuclear physics sits at a remarkable crossroads: it connects the fundamental interactions of particle physics to the macroscopic phenomena of astrophysics, chemistry, and energy technology, and its applications range from medical imaging to the power generation that sustains modern civilization.
+
+## Nuclear Structure and the Binding Energy
+
+The nucleus is composed of **nucleons** — protons (charge $+e$, mass $\approx 938.3\;\text{MeV}/c^2$) and neutrons (neutral, mass $\approx 939.6\;\text{MeV}/c^2$). A nucleus with $Z$ protons and $N$ neutrons has mass number $A = Z + N$ and is denoted $^A_Z X$. The defining structural quantity is the **binding energy** $B(Z,N)$ — the energy required to disassemble the nucleus into its constituent free nucleons. The **mass defect** expresses the same idea: the nuclear mass is less than the sum of its parts by an amount:
+
+$$\Delta m = Z m_p + N m_n - M(Z,N), \qquad B = \Delta m \cdot c^2$$
+
+The **binding energy per nucleon**, $B/A$, rises sharply for light nuclei, peaks near iron-56 at about $8.8\;\text{MeV}$ per nucleon, and then slowly decreases for heavier nuclei. This curve is the key to both fission and fusion: energy is released whenever nucleons rearrange toward higher $B/A$.
+
+The gross behavior of binding energies is captured by the **semi-empirical mass formula (SEMF)**, also known as the Bethe-Weizsacker formula:
+
+$$B(Z,N) = a_V A - a_S A^{2/3} - a_C \frac{Z(Z-1)}{A^{1/3}} - a_A \frac{(N-Z)^2}{4A} + \delta(A,Z)$$
+
+The five terms have transparent physical origins: the **volume term** ($a_V$) reflects the roughly constant density of nuclear matter; the **surface term** ($a_S$) corrects for nucleons at the surface that have fewer neighbors; the **Coulomb term** ($a_C$) accounts for the electrostatic repulsion among protons; the **asymmetry term** ($a_A$) penalizes departures from $N = Z$ via the Pauli exclusion principle; and the **pairing term** ($\delta$) reflects the tendency of nucleons to form pairs. This formula, proposed in the 1930s by **Carl Friedrich von Weizsacker** and refined by **Hans Bethe**, reproduces nuclear masses to within a few MeV across the entire periodic table and forms the backbone of the **liquid drop model** of the nucleus.
+
+## Nuclear Forces
+
+The force that binds nucleons together is not the fundamental strong force of QCD (which acts between quarks) but a **residual** effect — analogous to how the van der Waals force between neutral atoms is a residual effect of electromagnetic interactions between their charged constituents. In 1935, **Hideki Yukawa** proposed that this nuclear force is mediated by the exchange of massive particles, predicting the existence of what would later be identified as **pions** ($\pi^\pm$, $\pi^0$), discovered by **Cecil Powell** in 1947.
+
+The nuclear force has several distinctive features. It is **short-ranged**, with a range of roughly $1\text{-}2\;\text{fm}$ (comparable to the pion Compton wavelength $\hbar / m_\pi c \approx 1.4\;\text{fm}$). It is strongly **attractive** at distances around $1\;\text{fm}$ but becomes sharply **repulsive** below about $0.5\;\text{fm}$, creating a hard core that prevents nuclear collapse. It exhibits approximate **charge independence** — the $pp$, $nn$, and $np$ nuclear forces are nearly identical once electromagnetic effects are removed — reflecting an underlying **isospin symmetry**. The nuclear force also has a significant **tensor component**, most clearly manifested in the properties of the **deuteron** ($^2_1\text{H}$), the simplest bound nucleus: its binding energy of $2.22\;\text{MeV}$, spin-1, and nonzero electric quadrupole moment require a mixture of $S$-wave and $D$-wave components in the ground-state wave function.
+
+Modern approaches describe the nuclear force using **chiral effective field theory (chiral EFT)**, which systematically derives nuclear potentials from the symmetries of QCD. Chiral EFT provides a hierarchy of two-nucleon, three-nucleon, and higher-body forces, ordered by a power counting in $p / \Lambda_\chi$ where $\Lambda_\chi \sim 1\;\text{GeV}$ is the chiral symmetry breaking scale. Three-body forces, first recognized as essential by **Eugene Wigner**, turn out to be crucial for reproducing the binding energies of light nuclei and the saturation properties of nuclear matter.
+
+## Nuclear Models
+
+No single model captures all aspects of nuclear behavior. The two most important frameworks — the **shell model** and the **collective model** — emphasize complementary aspects of nuclear structure.
+
+The **nuclear shell model**, developed by **Maria Goeppert Mayer** and **J. Hans D. Jensen** in 1949 (Nobel Prize 1963), treats each nucleon as moving independently in an average potential created by all other nucleons. The key insight is the inclusion of a strong **spin-orbit coupling** term, which splits single-particle energy levels and reproduces the observed **magic numbers** — $2, 8, 20, 28, 50, 82, 126$ — at which nuclei are exceptionally stable. The shell model potential is often taken as a **Woods-Saxon** form:
+
+$$V(r) = -\frac{V_0}{1 + \exp\!\big(\frac{r - R}{a}\big)} + V_{so}(r)\,\boldsymbol{\ell} \cdot \boldsymbol{s}$$
+
+where $R \approx 1.25\,A^{1/3}\;\text{fm}$ is the nuclear radius and $a \approx 0.65\;\text{fm}$ is the surface diffuseness. The shell model successfully predicts ground-state spins, parities, and magnetic moments of nuclei near closed shells.
+
+The **collective model**, pioneered by **Aage Bohr** and **Ben Mottelson** in the 1950s (Nobel Prize 1975), describes nuclei as deformable liquid drops that can undergo rotations and vibrations. Many nuclei, especially those far from closed shells, are permanently **deformed** — prolate (cigar-shaped) or oblate (disk-shaped) — and exhibit characteristic **rotational band** spectra with energies:
+
+$$E_J = \frac{\hbar^2}{2\mathcal{I}}\,J(J+1)$$
+
+where $\mathcal{I}$ is the moment of inertia and $J$ is the angular momentum quantum number. The collective model explains enhanced electromagnetic transition rates (quadrupole transitions many times faster than single-particle estimates), giant resonances, and the rich phenomenology of deformed rare-earth and actinide nuclei.
+
+## Radioactive Decay
+
+Unstable nuclei transform toward more stable configurations through three principal modes of **radioactive decay**: alpha, beta, and gamma emission.
+
+**Alpha decay** involves the emission of a $^4_2\text{He}$ nucleus (an alpha particle). It is the dominant decay mode for heavy nuclei ($Z \gtrsim 82$) and was explained by **George Gamow** in 1928 as a quantum tunneling process. The alpha particle, preformed inside the nucleus, encounters a Coulomb barrier and tunnels through it with a probability given by the **Gamow factor**:
+
+$$P \propto \exp\!\left(-\frac{2\pi Z_\alpha Z_D e^2}{\hbar v}\right)$$
+
+where $Z_\alpha = 2$, $Z_D$ is the daughter charge, and $v$ is the relative velocity. This exponential sensitivity to the decay energy $Q$ explains the **Geiger-Nuttall law** — the observation that alpha-decay half-lives vary over more than twenty orders of magnitude while $Q$ values vary by only a factor of two.
+
+**Beta decay** is mediated by the **weak interaction**. In $\beta^-$ decay, a neutron converts to a proton with emission of an electron and an antineutrino ($n \to p + e^- + \bar{\nu}_e$); in $\beta^+$ decay, a proton converts to a neutron with emission of a positron and neutrino. **Enrico Fermi** formulated the first quantitative theory of beta decay in 1934, introducing the **Fermi coupling constant** $G_F$. Beta transitions are classified as **Fermi transitions** ($\Delta J = 0$, no parity change) or **Gamow-Teller transitions** ($\Delta J = 0, \pm 1$, no parity change), depending on the spin structure. The continuous energy spectrum of the emitted electron, which initially seemed to violate energy conservation, was famously resolved by **Wolfgang Pauli**'s 1930 postulation of the neutrino — confirmed experimentally by **Frederick Reines** and **Clyde Cowan** in 1956.
+
+**Gamma decay** occurs when an excited nucleus transitions to a lower energy state by emitting a photon. The emitted gamma rays carry away angular momentum classified by **multipole order** ($E1$, $M1$, $E2$, ...), and selection rules connect the multipolarity to the change in nuclear spin and parity. Competing with gamma emission is **internal conversion**, in which the nuclear excitation energy is transferred directly to an atomic electron.
+
+## Fission and Fusion
+
+**Nuclear fission** is the splitting of a heavy nucleus into two lighter fragments, typically accompanied by the emission of several neutrons and a large energy release. Fission was discovered in 1938 by **Otto Hahn** and **Fritz Strassmann**, with the theoretical explanation provided almost immediately by **Lise Meitner** and **Otto Frisch**. The energy release — roughly $200\;\text{MeV}$ per fission event for uranium-235 — can be understood from the binding energy curve: the fragments sit closer to the iron peak than the parent nucleus. The condition for a sustained **chain reaction** is that the average number of neutrons from each fission event that go on to induce further fissions equals or exceeds one. This is quantified by the **neutron multiplication factor** $k$: the system is critical when $k = 1$, supercritical when $k > 1$, and subcritical when $k < 1$. Fission reactors maintain $k \approx 1$ through moderators and control rods.
+
+**Nuclear fusion** is the merging of light nuclei to form heavier ones, releasing energy when the products have higher binding energy per nucleon. Fusion powers the stars: in the Sun, the **proton-proton (pp) chain** converts hydrogen to helium through a sequence of reactions with a net energy release of $26.7\;\text{MeV}$:
+
+$$4\,^1_1\text{H} \;\to\; ^4_2\text{He} + 2e^+ + 2\nu_e + 26.7\;\text{MeV}$$
+
+For fusion to occur, nuclei must overcome the **Coulomb barrier** — the electrostatic repulsion between positively charged nuclei. At stellar core temperatures ($T \sim 10^7\;\text{K}$), thermal energies are far below the barrier height, and fusion proceeds primarily through quantum tunneling. The fusion cross section at low energies is parameterized by the **astrophysical S-factor**:
+
+$$\sigma(E) = \frac{S(E)}{E}\exp\!\left(-\sqrt{\frac{E_G}{E}}\right)$$
+
+where $E_G$ is the **Gamow energy**. On Earth, achieving controlled fusion requires confining a plasma at temperatures exceeding $10^8\;\text{K}$, with the most promising approaches being **magnetic confinement** (tokamaks, such as ITER) and **inertial confinement** (laser-driven implosion).
+
+## Nuclear Astrophysics
+
+Virtually all elements heavier than hydrogen and helium were forged in nuclear reactions inside stars and stellar explosions — a process known as **nucleosynthesis**. The foundational paper by **Margaret Burbidge**, **Geoffrey Burbidge**, **William Fowler**, and **Fred Hoyle** (the B$^2$FH paper, 1957) laid out the principal nucleosynthetic pathways.
+
+In main-sequence stars like the Sun, hydrogen burns to helium via the pp chain. In more massive stars ($M \gtrsim 1.3\,M_\odot$), the **CNO cycle** dominates, using carbon, nitrogen, and oxygen as catalysts. After hydrogen exhaustion, helium burning proceeds through the **triple-alpha process** — three $^4\text{He}$ nuclei combining to form $^{12}\text{C}$ — a reaction whose rate is dramatically enhanced by the **Hoyle state**, a resonance in carbon-12 predicted by Fred Hoyle in 1954 on purely astrophysical grounds before its experimental confirmation. Successive burning stages produce elements up to the **iron peak** ($^{56}\text{Fe}$, $^{56}\text{Ni}$), beyond which fusion is endothermic.
+
+Elements heavier than iron are synthesized primarily through **neutron capture** processes. The **slow process (s-process)**, occurring in asymptotic giant branch (AGB) stars, builds heavy elements through a sequence of neutron captures interspersed with beta decays, following a path close to the valley of stability. The **rapid process (r-process)**, occurring in neutron-rich environments such as **neutron star mergers** and core-collapse supernovae, captures neutrons faster than nuclei can beta-decay, pushing far from stability before decaying back. The 2017 detection of the neutron star merger GW170817 by LIGO/Virgo, accompanied by a **kilonova** afterglow, provided the first direct observational evidence for r-process nucleosynthesis — confirming that neutron star mergers are a major production site for heavy elements like gold, platinum, and uranium.
+
+## Applications and Current Frontiers
+
+Nuclear physics underpins a wide range of technologies. In **medicine**, radioactive isotopes are used for diagnostic imaging (PET and SPECT scans using $^{18}\text{F}$ and $^{99m}\text{Tc}$), radiation therapy (using gamma rays, proton beams, and heavy ions), and radiopharmaceuticals. In **energy**, fission reactors provide about 10% of the world's electricity, with advanced reactor designs (molten salt, fast breeder) and fusion energy (ITER, National Ignition Facility) representing active development frontiers. **Radiocarbon dating** ($^{14}\text{C}$, half-life $5730$ years) and other radiometric methods provide the chronological backbone of archaeology and geology.
+
+At the research frontier, **radioactive ion beam facilities** — including FRIB (Facility for Rare Isotope Beams) in the United States, FAIR in Germany, and RIBF in Japan — are producing and studying nuclei far from the valley of stability, testing nuclear models at extreme neutron-to-proton ratios and exploring the limits of nuclear existence at the **neutron drip line**. The synthesis of **superheavy elements** ($Z > 104$) probes the predicted **island of stability** around $Z \approx 114$, $N \approx 184$, where shell effects may confer enhanced stability against fission. **Ab initio nuclear structure calculations**, powered by chiral EFT interactions and modern computational methods, are achieving quantitative descriptions of nuclei with $A$ up to $\sim 100$, while **neutron star observations** — masses, radii, and tidal deformabilities from gravitational wave signals — provide complementary constraints on the **nuclear equation of state** at densities several times that of ordinary nuclear matter. Together, these efforts are building an increasingly unified picture of the nucleus, from the lightest isotopes to the densest matter in the cosmos.

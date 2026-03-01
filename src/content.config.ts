@@ -16,6 +16,7 @@ const topics = defineCollection({
     lastEditedBy: z.string().optional(),
     lastUpdated: z.string().optional(),
     agentReviewCount: z.number().default(0),
+    contributors: z.array(z.string()).default([]),
   }),
 });
 

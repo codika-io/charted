@@ -1,0 +1,100 @@
+---
+title: Electromagnetism
+description: Maxwell's equations, electrostatics, magnetostatics, electromagnetic waves, radiation, and relativistic electrodynamics.
+parent: physics/classical-physics
+order: 4
+color: "#f59e0b"
+difficulty: beginner
+prerequisites: ["physics/classical-physics/classical-mechanics"]
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: "2026-03-01"
+agentReviewCount: 0
+---
+
+Electromagnetism is the study of electric charges, currents, and the fields they produce -- and the deep unity that binds electricity and magnetism into a single force of nature. It is the first field theory in physics, culminating in **Maxwell's equations**, which describe all classical electromagnetic phenomena in four elegant partial differential equations. From the attraction between a balloon and a sweater to the propagation of light across the cosmos, electromagnetism governs an astonishing range of the physical world and provides the template upon which all subsequent field theories -- including general relativity and the Standard Model -- are modeled.
+
+## Electrostatics: Charges and Fields
+
+**Electrostatics** deals with electric charges at rest and the fields they create. The fundamental law is **Coulomb's law** (1785): two point charges $q_1$ and $q_2$ separated by distance $r$ exert a force on each other of magnitude
+
+$$F = \frac{1}{4\pi\epsilon_0}\frac{q_1 q_2}{r^2}$$
+
+where $\epsilon_0 = 8.854 \times 10^{-12}$ F/m is the **permittivity of free space**. The force is attractive for unlike charges and repulsive for like charges. The **electric field** $\mathbf{E}$ at a point is defined as the force per unit test charge: $\mathbf{E} = \mathbf{F}/q$. For a point charge $q$ at the origin, $\mathbf{E} = (q / 4\pi\epsilon_0 r^2)\hat{\mathbf{r}}$.
+
+The electric field obeys **Gauss's law**, the first of Maxwell's equations:
+
+$$\nabla \cdot \mathbf{E} = \frac{\rho}{\epsilon_0} \qquad \text{(differential form)}, \qquad \oint \mathbf{E} \cdot d\mathbf{A} = \frac{Q_{\text{enc}}}{\epsilon_0} \qquad \text{(integral form)}$$
+
+where $\rho$ is the charge density and $Q_{\text{enc}}$ is the total enclosed charge. Gauss's law is most powerful for symmetric charge distributions: it immediately gives the field of an infinite plane ($\mathbf{E} = \sigma / 2\epsilon_0$), an infinite line charge ($\mathbf{E} = \lambda / 2\pi\epsilon_0 r$), and a uniformly charged sphere (field identical to a point charge outside the sphere).
+
+Because the electrostatic field is conservative ($\nabla \times \mathbf{E} = 0$), we can define the **electric potential** $V$ such that $\mathbf{E} = -\nabla V$. The potential satisfies **Poisson's equation**, $\nabla^2 V = -\rho/\epsilon_0$, which reduces to **Laplace's equation** $\nabla^2 V = 0$ in charge-free regions. These equations, together with boundary conditions, determine the field everywhere -- a program that can be carried out analytically for simple geometries and numerically for complex ones.
+
+**Conductors** in electrostatic equilibrium have $\mathbf{E} = 0$ inside and charge residing entirely on the surface. The surface acts as an equipotential, and the field just outside is perpendicular to the surface with magnitude $\sigma/\epsilon_0$. This leads to **electrostatic shielding** (the Faraday cage) and to the concept of **capacitance**: $C = Q/V$, measuring a conductor's ability to store charge at a given potential. For a parallel-plate capacitor with area $A$ and separation $d$, $C = \epsilon_0 A / d$. **Dielectric** materials between the plates increase the capacitance by a factor of the **relative permittivity** $\kappa$, because their molecular dipoles partially cancel the applied field.
+
+## Magnetostatics and the Lorentz Force
+
+Magnetism arises from moving charges. A charge $q$ moving with velocity $\mathbf{v}$ in a magnetic field $\mathbf{B}$ experiences the **Lorentz force**:
+
+$$\mathbf{F} = q\mathbf{v} \times \mathbf{B}$$
+
+Because the magnetic force is always perpendicular to $\mathbf{v}$, it does no work -- it changes the direction of motion but not the speed. In a uniform field, a charged particle traces a circle (or helix) with **cyclotron radius** $r = mv / qB$. This is the operating principle of cyclotrons, mass spectrometers, and the confinement of plasma in tokamaks.
+
+Steady currents produce magnetic fields governed by the **Biot-Savart law** and **Ampere's law**. The Biot-Savart law gives the field $d\mathbf{B}$ from a current element $Id\boldsymbol{\ell}$ at distance $\mathbf{r}$:
+
+$$d\mathbf{B} = \frac{\mu_0}{4\pi}\frac{Id\boldsymbol{\ell} \times \hat{\mathbf{r}}}{r^2}$$
+
+where $\mu_0 = 4\pi \times 10^{-7}$ T$\cdot$m/A is the **permeability of free space**. For a long straight wire carrying current $I$, integration gives $B = \mu_0 I / 2\pi r$ -- a result also obtainable from Ampere's law, $\oint \mathbf{B} \cdot d\boldsymbol{\ell} = \mu_0 I_{\text{enc}}$, by exploiting the cylindrical symmetry.
+
+A crucial fact about magnetic fields is that they have no sources: $\nabla \cdot \mathbf{B} = 0$ everywhere. There are no magnetic monopoles (isolated north or south poles). Every magnetic field line is a closed loop, and the total magnetic flux through any closed surface is zero. This is the second of Maxwell's equations and reflects a deep asymmetry between electricity and magnetism that has motivated decades of experimental searches for monopoles -- so far without success.
+
+## Maxwell's Equations and Electromagnetic Waves
+
+The crowning achievement of classical electromagnetism is **James Clerk Maxwell's** unification of electricity and magnetism into a single, self-consistent theory. Maxwell's four equations, in differential form, are:
+
+$$\nabla \cdot \mathbf{E} = \frac{\rho}{\epsilon_0}$$
+
+$$\nabla \cdot \mathbf{B} = 0$$
+
+$$\nabla \times \mathbf{E} = -\frac{\partial \mathbf{B}}{\partial t}$$
+
+$$\nabla \times \mathbf{B} = \mu_0 \mathbf{J} + \mu_0 \epsilon_0 \frac{\partial \mathbf{E}}{\partial t}$$
+
+The third equation is **Faraday's law of induction** (1831): a changing magnetic flux induces an electric field. It is the principle behind electrical generators, transformers, and inductors. The direction of the induced EMF opposes the change in flux (**Lenz's law**), consistent with energy conservation.
+
+The fourth equation contains Maxwell's critical insight: the **displacement current** term $\mu_0 \epsilon_0 \partial \mathbf{E}/\partial t$. Maxwell recognized in 1861 that Ampere's original law ($\nabla \times \mathbf{B} = \mu_0 \mathbf{J}$) was inconsistent with charge conservation when currents are time-dependent. Adding the displacement current restored consistency and had a momentous consequence: in free space ($\rho = 0$, $\mathbf{J} = 0$), the equations predict self-sustaining **electromagnetic waves**. Taking the curl of Faraday's law and substituting the Ampere-Maxwell law yields the wave equation:
+
+$$\nabla^2 \mathbf{E} = \mu_0 \epsilon_0 \frac{\partial^2 \mathbf{E}}{\partial t^2}$$
+
+The wave speed is $c = 1/\sqrt{\mu_0 \epsilon_0} = 3 \times 10^8$ m/s -- precisely the measured speed of light. Maxwell concluded that light is an electromagnetic wave, unifying optics with electromagnetism in one of the great syntheses of physics. **Heinrich Hertz** confirmed the existence of electromagnetic waves experimentally in 1887, generating and detecting radio waves in his laboratory.
+
+## Energy, Momentum, and Radiation
+
+Electromagnetic fields carry energy and momentum. The **energy density** stored in the fields is:
+
+$$u = \frac{1}{2}\left(\epsilon_0 E^2 + \frac{B^2}{\mu_0}\right)$$
+
+The energy flux is described by the **Poynting vector**, $\mathbf{S} = \frac{1}{\mu_0}\mathbf{E} \times \mathbf{B}$, which gives the power per unit area transported by the fields. Together they satisfy the **Poynting theorem** -- the conservation of electromagnetic energy:
+
+$$\frac{\partial u}{\partial t} + \nabla \cdot \mathbf{S} = -\mathbf{J} \cdot \mathbf{E}$$
+
+The right side represents the rate at which the fields do work on charges (Joule heating). For a plane electromagnetic wave, the time-averaged intensity is $\langle S \rangle = \frac{1}{2}\epsilon_0 c E_0^2$, and the wave carries momentum density $\mathbf{g} = \mathbf{S}/c^2$, leading to **radiation pressure** $P = \langle S \rangle / c$ -- a tiny but measurable force that pushes comet tails away from the Sun and may one day propel solar sails.
+
+**Accelerating charges radiate electromagnetic energy.** The power radiated by a nonrelativistic charge with acceleration $a$ is given by the **Larmor formula**:
+
+$$P = \frac{q^2 a^2}{6\pi\epsilon_0 c^3}$$
+
+An oscillating electric dipole -- a charge oscillating back and forth -- radiates power proportional to $\omega^4$, with an angular distribution $\propto \sin^2\theta$ (maximum in the plane perpendicular to the dipole, zero along its axis). This is the simplest model of a radio antenna and explains why the sky is blue: sunlight scattering off atmospheric molecules (Rayleigh scattering) goes as $\omega^4$, favoring short wavelengths.
+
+## Relativistic Electrodynamics
+
+Maxwell's equations are already consistent with special relativity -- indeed, it was the apparent conflict between Maxwell's equations and Galilean relativity that led **Albert Einstein** to formulate special relativity in 1905. The electric and magnetic fields are not separate entities but components of a single **electromagnetic field tensor** $F^{\mu\nu}$, a rank-2 antisymmetric tensor in four-dimensional spacetime. Under a Lorentz transformation, electric and magnetic fields mix into each other: a purely electric field in one frame has both electric and magnetic components in another.
+
+Maxwell's equations take a remarkably compact form in relativistic notation:
+
+$$\partial_\mu F^{\mu\nu} = \mu_0 J^\nu, \qquad \partial_{[\lambda} F_{\mu\nu]} = 0$$
+
+where $J^\nu = (\rho c, \mathbf{J})$ is the **four-current**. The electromagnetic potential becomes a four-vector $A^\mu = (V/c, \mathbf{A})$, and the field tensor is $F^{\mu\nu} = \partial^\mu A^\nu - \partial^\nu A^\mu$. **Gauge invariance** -- the freedom to add the gradient of a scalar to $A^\mu$ without changing the physics -- is a fundamental symmetry that, when generalized, becomes the organizing principle of the Standard Model of particle physics.
+
+The relativistic formulation reveals that electromagnetism is the prototypical **gauge theory**. The requirement that the Lagrangian be invariant under local phase transformations of the charged-particle wave function necessarily implies the existence of a vector field $A^\mu$ coupling to the current -- predicting the photon from symmetry alone. This insight, due to **Hermann Weyl** and later elevated by Yang and Mills, is the conceptual foundation of modern particle physics: the strong and weak nuclear forces are also gauge theories, differing from electromagnetism only in the symmetry group.

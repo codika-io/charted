@@ -1,0 +1,104 @@
+---
+title: Classical Mechanics
+description: Newtonian, Lagrangian, and Hamiltonian mechanics — the study of motion, forces, conservation laws, and variational principles.
+parent: physics/classical-physics
+order: 1
+color: "#f59e0b"
+difficulty: beginner
+prerequisites: []
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: "2026-03-01"
+agentReviewCount: 0
+---
+
+Classical mechanics is the branch of physics that describes how macroscopic objects move under the action of forces. From the arc of a thrown ball to the orbit of a planet, it provides the mathematical framework for predicting deterministic motion with extraordinary precision. Developed over three centuries through the work of Newton, Euler, Lagrange, and Hamilton, classical mechanics remains the foundation upon which much of modern physics is built -- including quantum mechanics, which borrowed its Hamiltonian structure almost wholesale.
+
+## Newtonian Mechanics and the Laws of Motion
+
+The edifice of classical mechanics rests on **Newton's three laws of motion**, published in the *Principia Mathematica* in 1687. The **first law** (the law of inertia) states that a body at rest or in uniform motion remains so unless acted upon by a net external force. This law implicitly defines **inertial reference frames** -- coordinate systems in which force-free motion is rectilinear and uniform. The **second law** provides the quantitative core of the theory:
+
+$$\mathbf{F} = m\mathbf{a} = m\frac{d^2\mathbf{r}}{dt^2}$$
+
+Here $\mathbf{F}$ is the net force, $m$ is the inertial mass, and $\mathbf{a}$ is the acceleration. The second law converts the problem of motion into a second-order ordinary differential equation: given the forces and initial conditions (position and velocity at time $t_0$), the entire future trajectory is determined. The **third law** -- that every action has an equal and opposite reaction -- guarantees conservation of momentum in isolated systems and constrains how forces act between pairs of bodies.
+
+Newton's framework is completed by specific force laws. The **universal law of gravitation**, $F = Gm_1 m_2 / r^2$, governs planetary motion and terrestrial gravity alike. **Hooke's law**, $F = -kx$, describes restoring forces in springs and elastic materials. Friction, drag, and contact forces require empirical modeling but fit naturally into the $\mathbf{F} = m\mathbf{a}$ framework. The power of Newtonian mechanics lies in its generality: any mechanical system, once its forces are identified, can in principle be solved by integrating the equations of motion.
+
+The reach of Newtonian mechanics was extended by **Leonhard Euler**, who formulated the equations of motion for rigid bodies and developed the mathematics of rotating reference frames. In a non-inertial frame rotating with angular velocity $\boldsymbol{\omega}$, fictitious forces appear -- the **centrifugal force** $-m\boldsymbol{\omega} \times (\boldsymbol{\omega} \times \mathbf{r})$ and the **Coriolis force** $-2m\boldsymbol{\omega} \times \mathbf{v}$ -- which account for phenomena from the deflection of ocean currents to the precession of Foucault's pendulum.
+
+## Conservation Laws and Symmetries
+
+The most profound organizing principle in classical mechanics is the connection between **symmetries** and **conservation laws**, codified by **Emmy Noether** in her celebrated 1918 theorem. Noether's theorem states that every continuous symmetry of the action yields a conserved quantity. The three most important instances are:
+
+- **Translational symmetry in time** implies **conservation of energy**: if the Lagrangian does not depend explicitly on time, the total energy $E = T + V$ is constant along any trajectory.
+- **Translational symmetry in space** implies **conservation of linear momentum**: $\mathbf{p} = m\mathbf{v}$ is constant when no external force acts.
+- **Rotational symmetry** implies **conservation of angular momentum**: $\mathbf{L} = \mathbf{r} \times \mathbf{p}$ is constant when no external torque acts.
+
+These conservation laws are not merely computational shortcuts -- they reveal the deep structure of mechanical systems. In the **Kepler problem** (motion under an inverse-square gravitational force), conservation of angular momentum confines the orbit to a plane, and conservation of energy determines the orbit's shape: an ellipse, parabola, or hyperbola depending on whether $E < 0$, $E = 0$, or $E > 0$. The **vis-viva equation**,
+
+$$v^2 = GM\left(\frac{2}{r} - \frac{1}{a}\right)$$
+
+where $a$ is the semi-major axis, encapsulates both conservation laws in a single relation and is the workhorse of orbital mechanics to this day.
+
+Conservation of momentum governs **collisions** -- elastic (kinetic energy preserved) and inelastic (kinetic energy converted to heat or deformation). In the center-of-mass frame, collision analysis simplifies dramatically, a technique that extends from billiard balls to particle physics experiments at the LHC.
+
+## Lagrangian Mechanics
+
+By the mid-eighteenth century, it became clear that Newton's vector-based formulation, while powerful, was cumbersome for systems with constraints -- a bead sliding on a wire, a pendulum swinging from a cart. **Joseph-Louis Lagrange** developed an alternative formulation that bypasses constraint forces entirely by working with **generalized coordinates** $q_1, q_2, \ldots, q_n$ that naturally respect the constraints.
+
+The central object is the **Lagrangian**, defined as the difference of kinetic and potential energy:
+
+$$L(q, \dot{q}, t) = T - V$$
+
+The equations of motion follow from **Hamilton's principle** (also called the **principle of least action**): the true trajectory between two points in configuration space is the one that makes the **action integral**
+
+$$S[q] = \int_{t_1}^{t_2} L(q, \dot{q}, t)\, dt$$
+
+stationary. Applying the calculus of variations yields the **Euler-Lagrange equations**:
+
+$$\frac{d}{dt}\frac{\partial L}{\partial \dot{q}_i} - \frac{\partial L}{\partial q_i} = 0$$
+
+These are exactly equivalent to Newton's second law but vastly more flexible. For a system with $n$ degrees of freedom, one writes down $T$ and $V$ in whatever coordinates are most natural, forms $L = T - V$, and reads off $n$ second-order differential equations -- no free-body diagrams, no constraint forces. When a coordinate $q_k$ does not appear in $L$ (a **cyclic** or **ignorable** coordinate), the corresponding generalized momentum $p_k = \partial L / \partial \dot{q}_k$ is automatically conserved -- Noether's theorem in action.
+
+The Lagrangian approach also handles constraints elegantly. **Holonomic constraints** (expressible as equations among coordinates) reduce the number of degrees of freedom. When constraint forces are needed, **Lagrange multipliers** reintroduce them in a controlled way. **D'Alembert's principle** -- that virtual work done by constraint forces vanishes -- provides the physical foundation for the entire variational framework.
+
+## Hamiltonian Mechanics and Phase Space
+
+**William Rowan Hamilton** reformulated mechanics yet again in the 1830s by performing a **Legendre transformation** on the Lagrangian, replacing generalized velocities $\dot{q}_i$ with generalized momenta $p_i = \partial L / \partial \dot{q}_i$. The resulting **Hamiltonian** is:
+
+$$H(q, p, t) = \sum_i p_i \dot{q}_i - L$$
+
+For conservative systems with time-independent constraints, $H$ equals the total energy $T + V$. Hamilton's equations of motion are a system of $2n$ first-order ODEs:
+
+$$\dot{q}_i = \frac{\partial H}{\partial p_i}, \qquad \dot{p}_i = -\frac{\partial H}{\partial q_i}$$
+
+These equations possess a beautiful geometric structure. The state of the system is a point in **phase space** -- the $2n$-dimensional space of all $(q, p)$ pairs. As time evolves, the system traces a trajectory through phase space. **Liouville's theorem** states that the flow in phase space is incompressible: the phase-space volume occupied by an ensemble of initial conditions is preserved under Hamiltonian evolution. This result underpins statistical mechanics -- it is the reason the microcanonical ensemble is uniform over an energy shell.
+
+The **Poisson bracket** $\{f, g\} = \sum_i \left(\frac{\partial f}{\partial q_i}\frac{\partial g}{\partial p_i} - \frac{\partial f}{\partial p_i}\frac{\partial g}{\partial q_i}\right)$ provides an algebraic structure on observables: Hamilton's equations become $\dot{f} = \{f, H\}$, and a quantity is conserved if and only if its Poisson bracket with $H$ vanishes. **Canonical transformations** -- changes of variables $(q, p) \to (Q, P)$ that preserve the form of Hamilton's equations -- are the symmetry transformations of Hamiltonian mechanics. **Action-angle variables**, a particular type of canonical transformation, reduce integrable systems to uniform motion on tori in phase space and are the starting point for perturbation theory in celestial mechanics.
+
+The Hamiltonian formulation is far more than an alternative notation. Its structure was adopted almost directly by quantum mechanics: Poisson brackets became commutators, the Hamiltonian became the operator generating time evolution, and canonical transformations became unitary transformations. Without Hamilton, there would be no Schrodinger equation.
+
+## Oscillations and Resonance
+
+Oscillatory motion pervades mechanics. The **simple harmonic oscillator** -- a mass on a spring obeying $m\ddot{x} + kx = 0$ -- is the prototype. Its solution,
+
+$$x(t) = A\cos(\omega_0 t + \phi), \qquad \omega_0 = \sqrt{k/m}$$
+
+describes sinusoidal motion with angular frequency $\omega_0$, amplitude $A$, and phase $\phi$. The energy oscillates between kinetic and potential forms, with total energy $E = \frac{1}{2}kA^2$ constant. The simple harmonic oscillator is ubiquitous because any system near a stable equilibrium, when expanded to lowest order, behaves as a harmonic oscillator -- this is the content of the **small oscillation approximation**.
+
+Adding a velocity-dependent damping force $-b\dot{x}$ yields the **damped oscillator**, with three regimes: **underdamped** (oscillatory decay), **critically damped** (fastest non-oscillatory return), and **overdamped** (slow exponential decay). The **quality factor** $Q = \omega_0 m / b$ measures how many oscillation cycles occur before the amplitude decays significantly -- a high-$Q$ system rings for a long time.
+
+When a damped oscillator is driven by an external periodic force $F_0 \cos(\omega t)$, the steady-state response exhibits **resonance**: the amplitude peaks sharply near $\omega = \omega_0$, with the peak width inversely proportional to $Q$. Resonance explains why soldiers break step on bridges, why wine glasses shatter under the right tone, and why radio receivers can isolate a single frequency from a crowded spectrum.
+
+**Coupled oscillators** -- two or more oscillators linked by springs or other interactions -- introduce **normal modes**: patterns of collective motion in which all parts oscillate at the same frequency. A system of $n$ coupled oscillators has $n$ normal modes, found by solving an eigenvalue problem. As $n \to \infty$, coupled oscillator chains become continuous media, and normal modes become the standing waves of vibrating strings and membranes -- the bridge between particle mechanics and wave physics.
+
+## Nonlinear Dynamics and Chaos
+
+Newtonian mechanics is deterministic: given exact initial conditions, the future is uniquely determined. Yet **Henri Poincare** discovered in the 1890s, while studying the three-body problem, that determinism does not imply predictability. Small uncertainties in initial conditions can amplify exponentially, making long-term prediction practically impossible -- the phenomenon now called **deterministic chaos**.
+
+The key diagnostic of chaos is the **Lyapunov exponent** $\lambda$. Two nearby trajectories in phase space diverge as $\|\delta \mathbf{x}(t)\| \sim \|\delta \mathbf{x}(0)\| e^{\lambda t}$. When $\lambda > 0$, the system is chaotic: information about initial conditions is lost at rate $\lambda$, imposing a fundamental prediction horizon. The **double pendulum**, one of the simplest mechanical systems to exhibit chaos, is a dramatic demonstration: two pendulums linked end-to-end produce wildly different trajectories from nearly identical starting positions.
+
+The **KAM theorem** (Kolmogorov-Arnold-Moser, 1954-1963) describes what happens when a small perturbation is applied to an integrable Hamiltonian system. Most invariant tori in phase space survive the perturbation, but those with rational frequency ratios break up, creating thin stochastic layers. As the perturbation grows, these layers widen and merge, and the system transitions from regular to globally chaotic motion. This picture explains the delicate structure of the solar system: most planetary orbits are stable for billions of years (KAM tori survive), but asteroids near orbital resonances with Jupiter are swept into chaotic trajectories and eventually ejected -- producing the observed Kirkwood gaps in the asteroid belt.
+
+Classical mechanics, for all its age, remains a living subject. Its Lagrangian and Hamiltonian formulations provide the language for field theory, general relativity, and quantum mechanics. Its nonlinear dynamics underpin our understanding of turbulence, climate, and biological rhythms. And its conservation laws, flowing from Noether's theorem, remain the deepest organizing principle across all of physics.

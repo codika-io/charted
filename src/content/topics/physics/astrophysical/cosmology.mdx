@@ -1,0 +1,94 @@
+---
+title: Cosmology
+description: Big Bang theory, the cosmic microwave background, dark matter, dark energy, inflation, and large-scale structure.
+parent: physics/astrophysical
+order: 2
+color: "#f59e0b"
+difficulty: advanced
+prerequisites: ["physics/modern-and-quantum/general-relativity", "physics/astrophysical/astrophysics"]
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: "2026-03-01"
+agentReviewCount: 0
+---
+
+Cosmology is the physics of the universe as a whole -- its origin, structure, evolution, and ultimate fate. It is the grandest application of general relativity: Einstein's field equations, applied not to a single star or black hole but to the entire fabric of spacetime. Over the past century, cosmology has been transformed from philosophical speculation into a precision science, with the six-parameter $\Lambda$CDM model fitting observations of the cosmic microwave background, galaxy clustering, and supernova distances to remarkable accuracy. Yet profound mysteries remain: the nature of dark matter and dark energy, the physics of inflation, and the initial conditions of the universe itself are among the deepest open questions in all of physics.
+
+## The Expanding Universe and the Friedmann Equations
+
+Modern cosmology rests on the **cosmological principle** -- the assumption that the universe is homogeneous and isotropic on sufficiently large scales. This symmetry, together with general relativity, uniquely determines the geometry of spacetime to be the **Friedmann-Lemaitre-Robertson-Walker (FLRW) metric**:
+
+$$ds^2 = -c^2\,dt^2 + a(t)^2\left[\frac{dr^2}{1 - kr^2} + r^2\,d\Omega^2\right]$$
+
+where $a(t)$ is the **scale factor** describing the expansion of space, $k$ determines the spatial curvature ($k = +1, 0, -1$ for closed, flat, and open geometries), and $d\Omega^2 = d\theta^2 + \sin^2\theta\,d\phi^2$ is the solid angle element. The scale factor is the central dynamical variable of cosmology: all distances between comoving objects grow in proportion to $a(t)$.
+
+Inserting the FLRW metric into Einstein's field equations yields the **Friedmann equations**, first derived by **Alexander Friedmann** in 1922:
+
+$$H^2 \equiv \left(\frac{\dot{a}}{a}\right)^2 = \frac{8\pi G}{3}\rho - \frac{kc^2}{a^2} + \frac{\Lambda c^2}{3}$$
+
+$$\frac{\ddot{a}}{a} = -\frac{4\pi G}{3}\left(\rho + \frac{3P}{c^2}\right) + \frac{\Lambda c^2}{3}$$
+
+Here $H$ is the **Hubble parameter**, $\rho$ is the total energy density, $P$ is the pressure, and $\Lambda$ is the cosmological constant. The first equation governs the expansion rate; the second governs the acceleration. **Edwin Hubble's** 1929 observation that galaxies recede with velocities proportional to their distances -- $v = H_0 d$, now known as **Hubble's law** -- provided the first empirical evidence for the expanding universe, though **Georges Lemaitre** had predicted this relation from Friedmann's equations two years earlier.
+
+The content of the universe determines its dynamics through the **equation of state** $P = w\rho c^2$, where $w$ is a dimensionless parameter: $w = 0$ for non-relativistic matter (dust), $w = 1/3$ for radiation, and $w = -1$ for a cosmological constant. In a flat universe ($k = 0$), the Friedmann equation can be rewritten in terms of density parameters $\Omega_i = \rho_i / \rho_\mathrm{crit}$, where the **critical density** is $\rho_\mathrm{crit} = 3H^2/(8\pi G)$. Current measurements give $\Omega_m \approx 0.31$ (matter), $\Omega_\Lambda \approx 0.69$ (dark energy), and $\Omega_r \approx 10^{-4}$ (radiation), summing to $\Omega_\mathrm{total} \approx 1$ -- a spatially flat universe.
+
+## The Big Bang, Nucleosynthesis, and the Thermal History
+
+Running the expansion backwards in time, the universe was once far denser and hotter than it is today. The **Big Bang** is not an explosion in space but the rapid expansion of space itself from an initial state of extreme density and temperature. The thermal history of the universe is a sequence of phase transitions and decoupling events, each leaving observable imprints.
+
+In the first few minutes after the Big Bang, the universe was hot enough for nuclear reactions to occur. **Big Bang nucleosynthesis (BBN)**, worked out in detail by **Ralph Alpher**, **Hans Bethe**, and **George Gamow** in 1948 (the famous $\alpha\beta\gamma$ paper), predicts the primordial abundances of the light elements. At temperatures above $\sim 10^{10}\;\text{K}$, weak interactions maintained equilibrium between neutrons and protons. As the universe cooled below this threshold, the neutron-to-proton ratio froze out at approximately $1:7$. The surviving neutrons were then incorporated into helium-4, yielding a primordial helium mass fraction:
+
+$$Y_p \approx \frac{2(n/p)}{1 + (n/p)} \approx 0.25$$
+
+BBN also predicts trace amounts of deuterium ($\text{D}/\text{H} \sim 2.5 \times 10^{-5}$), helium-3, and lithium-7. The remarkable agreement between predicted and observed light-element abundances is one of the strongest pillars of Big Bang cosmology. The primordial deuterium abundance is particularly sensitive to the baryon density $\Omega_b h^2$, providing an independent constraint that agrees precisely with measurements from the cosmic microwave background.
+
+As the universe continued to cool, it passed through the epoch of **recombination** at $T \approx 3000\;\text{K}$ (redshift $z \approx 1100$), when electrons combined with protons to form neutral hydrogen. The universe became transparent to photons for the first time, releasing the radiation we now observe as the cosmic microwave background.
+
+## The Cosmic Microwave Background
+
+The **cosmic microwave background (CMB)** is the afterglow of the Big Bang -- a nearly perfect blackbody radiation field filling all of space at a temperature of $T_0 = 2.7255\;\text{K}$. Its existence was predicted by Alpher and Robert Herman in 1948 and accidentally discovered by **Arno Penzias** and **Robert Wilson** in 1965, for which they received the Nobel Prize. The CMB is the oldest light in the universe, emitted when the cosmos was only $380{,}000$ years old.
+
+The CMB is extraordinarily uniform -- its temperature is the same in every direction to one part in $10^5$ -- but tiny **anisotropies** encode a wealth of information about the early universe. These temperature fluctuations are decomposed into spherical harmonics, and the resulting **angular power spectrum** $C_\ell$ displays a series of acoustic peaks. These peaks arise from **baryon acoustic oscillations (BAO)**: sound waves in the photon-baryon plasma before recombination. The position of the first peak ($\ell \approx 220$) constrains the spatial geometry of the universe (confirming flatness), while the relative heights of successive peaks constrain the baryon density, matter density, and other cosmological parameters.
+
+The CMB power spectrum is described by the multipole expansion:
+
+$$\frac{\Delta T}{T}(\hat{n}) = \sum_{\ell=1}^{\infty}\sum_{m=-\ell}^{\ell} a_{\ell m}\,Y_{\ell m}(\hat{n})$$
+
+The **Sachs-Wolfe effect** generates anisotropies on the largest angular scales from gravitational redshifts as photons climb out of potential wells at the surface of last scattering. On smaller scales, the **integrated Sachs-Wolfe effect** and **Silk damping** (the diffusion of photons out of small-scale perturbations) further shape the spectrum. CMB **polarization** -- decomposed into curl-free **E-modes** and divergence-free **B-modes** -- provides additional constraints. E-modes have been measured with high precision by the **Planck** satellite (launched 2009), while primordial B-modes, which would be a smoking-gun signature of gravitational waves produced during inflation, remain a primary target of current and future experiments.
+
+## Inflation
+
+The standard Big Bang model, despite its successes, faces several fine-tuning puzzles. The **horizon problem** asks why causally disconnected regions of the CMB have nearly identical temperatures. The **flatness problem** asks why the universe is so close to spatial flatness, given that any initial curvature is amplified by expansion. The **monopole problem** asks why magnetic monopoles predicted by grand unified theories are not observed.
+
+**Cosmic inflation**, proposed by **Alan Guth** in 1981, resolves all three problems in a single stroke. Inflation posits a brief period of exponential expansion in the very early universe, driven by the vacuum energy of a scalar field called the **inflaton**. During inflation, the scale factor grows as $a(t) \propto e^{Ht}$, stretching a tiny causally connected region to encompass the entire observable universe. This explains the observed homogeneity and flatness without fine-tuning and dilutes any pre-existing monopoles to unobservable densities.
+
+The dynamics of inflation are governed by the **slow-roll conditions**. The inflaton field $\phi$ evolves in a potential $V(\phi)$ according to the Klein-Gordon equation in an expanding spacetime. Inflation occurs when the potential energy dominates over the kinetic energy, quantified by the slow-roll parameters:
+
+$$\epsilon = \frac{M_\mathrm{Pl}^2}{2}\left(\frac{V'}{V}\right)^2 \ll 1, \qquad \eta = M_\mathrm{Pl}^2\,\frac{V''}{V} \ll 1$$
+
+where $M_\mathrm{Pl} = (8\pi G)^{-1/2}$ is the reduced Planck mass. Inflation ends when $\epsilon \sim 1$, after which the inflaton decays and **reheats** the universe, producing the hot plasma that initiates the standard thermal history.
+
+The most profound consequence of inflation is that quantum vacuum fluctuations in the inflaton field, stretched to macroscopic scales by the exponential expansion, become the **primordial density perturbations** that seed all structure in the universe. Inflation predicts a nearly **scale-invariant** spectrum of perturbations, characterized by the spectral index $n_s \approx 0.965$ (measured by Planck), and also generates a background of primordial gravitational waves characterized by the tensor-to-scalar ratio $r$, which remains a key target for next-generation CMB experiments.
+
+## Dark Matter and Dark Energy
+
+Approximately 95% of the energy content of the universe is in forms that have never been directly detected in a laboratory. **Dark matter**, comprising about 27% of the total energy budget, reveals itself through gravitational effects: the flat **rotation curves** of spiral galaxies (first systematically measured by **Vera Rubin** and Kent Ford in the 1970s), the dynamics of galaxy clusters (noted as early as 1933 by **Fritz Zwicky**), gravitational lensing, and the pattern of CMB anisotropies. The leading candidates for dark matter particles include **weakly interacting massive particles (WIMPs)**, **axions**, and **sterile neutrinos**, though decades of direct detection experiments (LUX, XENON, PandaX) have yet to make a confirmed detection. The dark matter density profile in halos is well described by the **Navarro-Frenk-White (NFW) profile**:
+
+$$\rho(r) = \frac{\rho_0}{\frac{r}{r_s}\left(1 + \frac{r}{r_s}\right)^2}$$
+
+where $r_s$ is a characteristic scale radius and $\rho_0$ is a normalization density.
+
+**Dark energy**, comprising about 68% of the total energy budget, is responsible for the observed **accelerating expansion** of the universe, discovered in 1998 by two independent teams studying Type Ia supernovae -- the **Supernova Cosmology Project** (led by **Saul Perlmutter**) and the **High-z Supernova Search Team** (led by **Brian Schmidt** and **Adam Riess**). The simplest explanation is Einstein's **cosmological constant** $\Lambda$, corresponding to a constant vacuum energy density with equation of state $w = -1$. However, the observed value of $\Lambda$ is roughly $10^{120}$ times smaller than naive quantum field theory estimates -- the infamous **cosmological constant problem**, one of the greatest unsolved puzzles in theoretical physics. Alternative models include **quintessence** (a dynamical scalar field with $w > -1$) and modifications to general relativity on cosmological scales.
+
+## Structure Formation and the Fate of the Universe
+
+The large-scale structure of the universe -- the cosmic web of galaxy clusters, filaments, walls, and voids -- grew from the tiny primordial perturbations seeded during inflation. In the linear regime, density perturbations $\delta = \delta\rho/\bar{\rho}$ grow through **gravitational instability** according to:
+
+$$\ddot{\delta} + 2H\dot{\delta} - 4\pi G\bar{\rho}\,\delta = 0$$
+
+This equation shows that perturbations grow when the gravitational term overcomes the expansion (Hubble drag) term. Dark matter perturbations begin growing at matter-radiation equality ($z \approx 3400$), while baryonic perturbations are suppressed until after recombination by radiation pressure. The resulting **matter power spectrum** $P(k)$ is the product of the primordial spectrum from inflation and a **transfer function** that encodes the differential growth during the radiation era, baryon acoustic oscillations, and free-streaming effects.
+
+In the nonlinear regime ($\delta \gg 1$), gravitational collapse forms bound structures -- dark matter halos -- described by the **Press-Schechter** formalism and its extensions. Baryonic matter falls into these dark matter halos, cools radiatively, and forms galaxies. The hierarchical assembly of structure -- small halos merging to form larger ones -- is a fundamental prediction of $\Lambda$CDM cosmology, confirmed by large N-body simulations such as the Millennium Simulation and IllustrisTNG.
+
+The future evolution of the universe depends on the nature of dark energy. If dark energy is indeed a cosmological constant ($w = -1$), the expansion will continue to accelerate, and the universe will approach a cold, empty **de Sitter** state -- the **Big Freeze** or heat death scenario. Galaxies beyond our local group will eventually recede past our cosmological horizon, becoming forever unobservable. On vastly longer timescales ($\sim 10^{40}$ years), proton decay (if it occurs) will dissolve all baryonic matter; on still longer timescales ($\sim 10^{67}\text{-}10^{100}$ years), stellar-mass and supermassive black holes will evaporate through **Hawking radiation**. If instead dark energy strengthens over time ($w < -1$, the **phantom energy** scenario), the expansion could accelerate without bound, tearing apart galaxies, stars, atoms, and eventually spacetime itself in a **Big Rip**. Distinguishing between these scenarios -- measuring $w$ and its time evolution with ever-greater precision through surveys like DESI, Euclid, and the Vera C. Rubin Observatory -- is one of the central goals of observational cosmology in the coming decades.
