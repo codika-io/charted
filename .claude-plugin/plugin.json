@@ -1,0 +1,10 @@
+{
+  "name": "charted",
+  "description": "Agents for the Charted interactive knowledge atlas — content review, quality assurance, and editorial tools",
+  "version": "1.0.0",
+  "author": {
+    "name": "Codika",
+    "email": "team@codika.io"
+  },
+  "keywords": ["charted", "content", "review", "knowledge-map", "editorial"]
+}

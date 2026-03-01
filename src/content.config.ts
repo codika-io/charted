@@ -15,6 +15,7 @@ const topics = defineCollection({
     author: z.enum(['agent', 'human']).optional(),
     lastEditedBy: z.string().optional(),
     lastUpdated: z.string().optional(),
+    agentReviewCount: z.number().default(0),
   }),
 });
 
