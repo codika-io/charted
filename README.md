@@ -10,9 +10,8 @@ Charted visualizes knowledge as a graph: each topic is a node, each connection i
 
 </div>
 
-<!-- TODO: add demo gif/video -->
 <p align="center">
-  <em>Demo coming soon</em>
+  <img src="assets/demo.avif" alt="Charted demo" width="800" />
 </p>
 
 ---
