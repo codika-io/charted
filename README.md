@@ -1,20 +1,33 @@
-# Charted
+<div align="center">
 
-An interactive, open-source atlas of the sciences — mathematics, computer science, and physics.
+<img width="80" height="80" alt="Charted" src="public/logo.svg" />
+
+**An interactive, open-source atlas of the sciences.**
 
 Charted visualizes knowledge as a graph: each topic is a node, each connection is an edge. Instead of learning from a linear textbook, you can see how fields connect, explore branches, and trace the path from foundations to frontiers.
 
+[Explore the atlas](https://charted.science) · [Contributing](#contributing) · [Tech stack](#tech-stack)
+
+</div>
+
+<!-- TODO: add demo gif/video -->
+<p align="center">
+  <em>Demo coming soon</em>
+</p>
+
+---
+
 ## What's mapped
 
-| Domain | Branches | Topics | Rings |
-|--------|----------|--------|-------|
-| Mathematics | 10 | 62 | 6 |
-| Computer Science | 7 | 29 | 4 |
-| Physics | 7 | 26 | 4 |
+| Domain | Branches | Topics |
+|--------|----------|--------|
+| Mathematics | 10 | 61 |
+| Computer Science | 7 | 28 |
+| Physics | 7 | 25 |
 
-**114 topics** are drafted across all three domains. Each page covers key ideas, theorems, historical context, and connections to related fields — with LaTeX-rendered formulas throughout.
+**114 topics** across three domains. Each page covers key ideas, theorems, historical context, and connections to related fields — with LaTeX-rendered formulas throughout.
 
-Content was initially scaffolded with AI and is being reviewed and improved by contributors. Check the [status page](https://charted.codika.io/status) to see what needs attention.
+Content was initially scaffolded with AI and is being reviewed and improved by contributors. Check the [status page](https://charted.science/status) to see what needs attention.
 
 ## Quick start
 
@@ -35,12 +48,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for the full guide.
 
 ## Tech stack
 
-- [Astro 5](https://astro.build) — static site generator
-- [React 19](https://react.dev) — interactive isometric map components
-- [Tailwind CSS 4](https://tailwindcss.com) — styling
-- [KaTeX](https://katex.org) — LaTeX math rendering
-- [Departure Mono](https://departuremono.com) — heading font
-- [Instrument Serif](https://fonts.google.com/specimen/Instrument+Serif) — body font
+[Astro 5](https://astro.build) · [React 19](https://react.dev) · [Tailwind CSS 4](https://tailwindcss.com) · [KaTeX](https://katex.org) · [Departure Mono](https://departuremono.com) · [Instrument Serif](https://fonts.google.com/specimen/Instrument+Serif)
 
 ## License
 
