@@ -1,8 +1,10 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import DottedSeparator from '../components/DottedSeparator.astro';
-import TopicMap from '../components/islands/TopicMap';
-import { MATHEMATICS_TOPICS, MATHEMATICS_EDGES, COMPUTER_SCIENCE_TOPICS, COMPUTER_SCIENCE_EDGES, PHYSICS_TOPICS, PHYSICS_EDGES } from '../components/islands/TopicMap';
+import RadialMap from '../components/islands/RadialMap';
+import { MATH_RADIAL_NODES, MATH_RADIAL_EDGES, MATH_RINGS } from '../lib/math-radial-data';
+import { CS_RADIAL_NODES, CS_RADIAL_EDGES, CS_RINGS } from '../lib/cs-radial-data';
+import { PHYSICS_RADIAL_NODES, PHYSICS_RADIAL_EDGES, PHYSICS_RINGS } from '../lib/physics-radial-data';
 ---
 
 <BaseLayout title="Home">
@@ -169,8 +171,18 @@ import { MATHEMATICS_TOPICS, MATHEMATICS_EDGES, COMPUTER_SCIENCE_TOPICS, COMPUTE
   <!-- Mathematics Map -->
   <section id="mathematics" data-domain="mathematics" class="max-w-6xl mx-auto px-6 py-12">
     <h2 class="text-2xl mb-2 text-accent-600">Mathematics</h2>
-    <p class="text-surface-500 font-mono text-sm uppercase tracking-wider mb-8">Click a topic to explore</p>
-    <TopicMap client:load topics={MATHEMATICS_TOPICS} edges={MATHEMATICS_EDGES} />
+    <p class="text-surface-500 font-mono text-sm uppercase tracking-wider mb-8">62 topics across 6 rings — click to explore</p>
+    <div class="max-w-7xl mx-auto">
+      <RadialMap
+        client:load
+        nodes={MATH_RADIAL_NODES}
+        edges={MATH_RADIAL_EDGES}
+        rings={MATH_RINGS}
+        viewBoxWidth={1200}
+        viewBoxHeight={820}
+        defaultAccent="#ef4444"
+      />
+    </div>
   </section>
 
   <div class="max-w-6xl mx-auto px-6">
@@ -179,18 +191,17 @@ import { MATHEMATICS_TOPICS, MATHEMATICS_EDGES, COMPUTER_SCIENCE_TOPICS, COMPUTE
 
   <!-- Computer Science Map -->
   <section id="computer-science" data-domain="computer-science" class="max-w-6xl mx-auto px-6 py-12">
-    <div class="flex items-baseline justify-between mb-2">
-      <h2 class="text-2xl text-accent-600">Computer Science</h2>
-      <a
-        href="/cs-map"
-        class="font-mono text-sm uppercase tracking-wider text-accent-600 hover:text-accent-700 transition-colors"
-        data-hover-sound
-      >
-        View radial map &rarr;
-      </a>
+    <h2 class="text-2xl mb-2 text-accent-600">Computer Science</h2>
+    <p class="text-surface-500 font-mono text-sm uppercase tracking-wider mb-8">29 topics across 4 rings — click to explore</p>
+    <div class="max-w-7xl mx-auto">
+      <RadialMap
+        client:load
+        nodes={CS_RADIAL_NODES}
+        edges={CS_RADIAL_EDGES}
+        rings={CS_RINGS}
+        defaultAccent="#3b82f6"
+      />
     </div>
-    <p class="text-surface-500 font-mono text-sm uppercase tracking-wider mb-8">Click a topic to explore</p>
-    <TopicMap client:load topics={COMPUTER_SCIENCE_TOPICS} edges={COMPUTER_SCIENCE_EDGES} />
   </section>
 
   <div class="max-w-6xl mx-auto px-6">
@@ -200,8 +211,16 @@ import { MATHEMATICS_TOPICS, MATHEMATICS_EDGES, COMPUTER_SCIENCE_TOPICS, COMPUTE
   <!-- Physics Map -->
   <section id="physics" data-domain="physics" class="max-w-6xl mx-auto px-6 py-12">
     <h2 class="text-2xl mb-2 text-accent-600">Physics</h2>
-    <p class="text-surface-500 font-mono text-sm uppercase tracking-wider mb-8">Click a topic to explore</p>
-    <TopicMap client:load topics={PHYSICS_TOPICS} edges={PHYSICS_EDGES} />
+    <p class="text-surface-500 font-mono text-sm uppercase tracking-wider mb-8">26 topics across 4 rings — click to explore</p>
+    <div class="max-w-7xl mx-auto">
+      <RadialMap
+        client:load
+        nodes={PHYSICS_RADIAL_NODES}
+        edges={PHYSICS_RADIAL_EDGES}
+        rings={PHYSICS_RINGS}
+        defaultAccent="#f59e0b"
+      />
+    </div>
   </section>
 
   <div class="max-w-6xl mx-auto px-6">

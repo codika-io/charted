@@ -1,7 +1,7 @@
 /**
  * Shared isometric projection primitives.
  *
- * Used by TopicMap (flat graph) and CSRadialMap (radial/concentric graph).
+ * Used by RadialMap (radial/concentric knowledge graphs).
  */
 
 import React from 'react';

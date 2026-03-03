@@ -5,31 +5,11 @@
  * with ~35 cross-ring edges showing conceptual relationships.
  */
 
-// ─── Types ───
-
-export interface RadialNode {
-  id: string;
-  label: string;
-  slug: string;
-  ring: number;       // 0 = center, 1-4 = outer rings
-  angleDeg: number;   // polar angle within ring (degrees)
-  size: number;        // block size in px
-}
-
-export interface RadialEdge {
-  source: string;
-  target: string;
-}
-
-export interface RingDef {
-  index: number;
-  label: string;
-  radius: number;
-}
+import type { RadialNode, RadialEdge, RingDef } from './radial-types';
 
 // ─── Ring definitions ───
 
-export const RINGS: RingDef[] = [
+export const CS_RINGS: RingDef[] = [
   { index: 0, label: '', radius: 0 },
   { index: 1, label: 'Foundations', radius: 120 },
   { index: 2, label: 'Languages & Methods', radius: 220 },

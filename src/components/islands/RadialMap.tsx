@@ -1,49 +1,67 @@
 import { useEffect, useRef, useState, useCallback, useId } from 'react';
 import { playHoverTick } from '../../lib/hover-sound';
 import { toIso, IsometricBlock, polarToCartesian, isometricEllipsePath } from '../../lib/isometric';
-import { CS_RADIAL_NODES, CS_RADIAL_EDGES, RINGS, type RadialNode } from '../../lib/cs-radial-data';
+import type { RadialNode, RadialEdge, RingDef } from '../../lib/radial-types';
 
-const DEFAULT_ACCENT = '#3b82f6'; // CS blue
 const DEFAULT_SURFACE = '#d4d4d4';
 
-const VB_W = 1100;
-const VB_H = 750;
-const CX = VB_W / 2;
-const CY = VB_H / 2 - 20; // shift up slightly so labels at bottom have room
-
-/** Compute the isometric screen position for a radial node. */
-function nodePosition(node: RadialNode): [number, number] {
-  if (node.ring === 0) return [CX, CY];
-  const ring = RINGS[node.ring];
-  const [px, py] = polarToCartesian(ring.radius, node.angleDeg);
-  const [ix, iy] = toIso(px, py);
-  return [CX + ix, CY + iy];
+interface RadialMapProps {
+  nodes: RadialNode[];
+  edges: RadialEdge[];
+  rings: RingDef[];
+  viewBoxWidth?: number;
+  viewBoxHeight?: number;
+  centerOffsetY?: number;
+  defaultAccent?: string;
 }
 
-export default function CSRadialMap() {
+export default function RadialMap({
+  nodes,
+  edges,
+  rings,
+  viewBoxWidth = 1100,
+  viewBoxHeight = 750,
+  centerOffsetY = -20,
+  defaultAccent = '#3b82f6',
+}: RadialMapProps) {
   const uid = useId();
   const containerRef = useRef<HTMLDivElement>(null);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
-  const [colors, setColors] = useState({ accent: DEFAULT_ACCENT, surface: DEFAULT_SURFACE });
+  const [colors, setColors] = useState({ accent: defaultAccent, surface: DEFAULT_SURFACE });
   const lastSoundNodeRef = useRef<string | null>(null);
   const leaveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  const VB_W = viewBoxWidth;
+  const VB_H = viewBoxHeight;
+  const CX = VB_W / 2;
+  const CY = VB_H / 2 + centerOffsetY;
+
   const dotGridId = `radialDotGrid${uid}`;
   const glowId = `radialGlow${uid}`;
+
+  /** Compute the isometric screen position for a radial node. */
+  const nodePosition = useCallback((node: RadialNode): [number, number] => {
+    if (node.ring === 0) return [CX, CY];
+    const ring = rings[node.ring];
+    if (!ring) return [CX, CY];
+    const [px, py] = polarToCartesian(ring.radius, node.angleDeg);
+    const [ix, iy] = toIso(px, py);
+    return [CX + ix, CY + iy];
+  }, [CX, CY, rings]);
 
   useEffect(() => {
     const el = containerRef.current;
     if (el) {
       const styles = getComputedStyle(el);
       setColors({
-        accent: styles.getPropertyValue('--color-accent-500').trim() || DEFAULT_ACCENT,
+        accent: styles.getPropertyValue('--color-accent-500').trim() || defaultAccent,
         surface: styles.getPropertyValue('--color-surface-300').trim() || DEFAULT_SURFACE,
       });
     }
     return () => {
       if (leaveTimerRef.current) clearTimeout(leaveTimerRef.current);
     };
-  }, []);
+  }, [defaultAccent]);
 
   const handleClick = useCallback((slug: string) => {
     window.location.href = `/${slug}`;
@@ -53,16 +71,16 @@ export default function CSRadialMap() {
 
   // Precompute positions
   const posMap = new Map<string, [number, number]>();
-  for (const node of CS_RADIAL_NODES) {
+  for (const node of nodes) {
     posMap.set(node.id, nodePosition(node));
   }
 
   // Build adjacency set for hover
   const adjacency = new Map<string, Set<string>>();
-  for (const node of CS_RADIAL_NODES) {
+  for (const node of nodes) {
     adjacency.set(node.id, new Set());
   }
-  for (const edge of CS_RADIAL_EDGES) {
+  for (const edge of edges) {
     adjacency.get(edge.source)?.add(edge.target);
     adjacency.get(edge.target)?.add(edge.source);
   }
@@ -72,12 +90,13 @@ export default function CSRadialMap() {
     return hoveredId === nodeId || (adjacency.get(hoveredId)?.has(nodeId) ?? false);
   };
 
-  // Determine if an edge should be visible
   const isEdgeVisible = (source: string, target: string): boolean => {
     if (!hoveredId) return false;
-    // Hub spokes (center edges) always hidden at rest
     return hoveredId === source || hoveredId === target;
   };
+
+  // Determine max ring index for font size scaling
+  const maxRing = Math.max(...rings.map(r => r.index));
 
   return (
     <div ref={containerRef} className="w-full" style={{ minHeight: '550px' }}>
@@ -102,7 +121,7 @@ export default function CSRadialMap() {
         <rect width={VB_W} height={VB_H} fill={`url(#${dotGridId})`} />
 
         {/* Ring boundary ellipses (dashed) */}
-        {RINGS.filter(r => r.radius > 0).map(ring => (
+        {rings.filter(r => r.radius > 0).map(ring => (
           <path
             key={`ring-${ring.index}`}
             d={isometricEllipsePath(ring.radius, CX, CY)}
@@ -115,8 +134,7 @@ export default function CSRadialMap() {
         ))}
 
         {/* Ring labels */}
-        {RINGS.filter(r => r.radius > 0).map(ring => {
-          // Place label at the top of the ellipse (angle = -90 deg in polar → top of circle)
+        {rings.filter(r => r.radius > 0).map(ring => {
           const [px, py] = polarToCartesian(ring.radius, -90);
           const [ix, iy] = toIso(px, py);
           return (
@@ -136,7 +154,7 @@ export default function CSRadialMap() {
         })}
 
         {/* Edges — only visible on hover */}
-        {CS_RADIAL_EDGES.map((edge, i) => {
+        {edges.map((edge, i) => {
           const sp = posMap.get(edge.source);
           const tp = posMap.get(edge.target);
           if (!sp || !tp) return null;
@@ -161,7 +179,7 @@ export default function CSRadialMap() {
         })}
 
         {/* Nodes */}
-        {CS_RADIAL_NODES.map(node => {
+        {nodes.map(node => {
           const pos = posMap.get(node.id)!;
           const [nx, ny] = pos;
           const isHovered = hoveredId === node.id;
@@ -169,7 +187,6 @@ export default function CSRadialMap() {
           const connected = isConnected(node.id);
           const blockSize = node.size * (isHovered ? 1.15 : 1);
 
-          // Determine node opacity based on hover state
           let nodeOpacity = 1;
           if (hoveredId && !isHovered && !connected && !isCenter) {
             nodeOpacity = 0.3;
@@ -219,7 +236,7 @@ export default function CSRadialMap() {
                 x={nx}
                 y={ny + blockSize * 0.5 + (isCenter ? 22 : 16)}
                 textAnchor="middle"
-                fontSize={isCenter ? 11 : node.ring === 4 ? 8 : 9}
+                fontSize={isCenter ? 11 : node.ring === maxRing ? 8 : 9}
                 fontWeight={isCenter ? 700 : 400}
                 fill={isHovered || isCenter || connected ? accentColor : '#525252'}
                 style={{
