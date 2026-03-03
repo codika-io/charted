@@ -179,7 +179,16 @@ import { MATHEMATICS_TOPICS, MATHEMATICS_EDGES, COMPUTER_SCIENCE_TOPICS, COMPUTE
 
   <!-- Computer Science Map -->
   <section id="computer-science" data-domain="computer-science" class="max-w-6xl mx-auto px-6 py-12">
-    <h2 class="text-2xl mb-2 text-accent-600">Computer Science</h2>
+    <div class="flex items-baseline justify-between mb-2">
+      <h2 class="text-2xl text-accent-600">Computer Science</h2>
+      <a
+        href="/cs-map"
+        class="font-mono text-sm uppercase tracking-wider text-accent-600 hover:text-accent-700 transition-colors"
+        data-hover-sound
+      >
+        View radial map &rarr;
+      </a>
+    </div>
     <p class="text-surface-500 font-mono text-sm uppercase tracking-wider mb-8">Click a topic to explore</p>
     <TopicMap client:load topics={COMPUTER_SCIENCE_TOPICS} edges={COMPUTER_SCIENCE_EDGES} />
   </section>

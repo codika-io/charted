@@ -1,0 +1,47 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import DottedSeparator from '../components/DottedSeparator.astro';
+import CSRadialMap from '../components/islands/CSRadialMap';
+---
+
+<BaseLayout title="CS Radial Map" domain="computer-science">
+  <section class="max-w-6xl mx-auto px-6 pt-12 pb-4">
+    <h1 class="text-3xl md:text-4xl mb-2 text-accent-600">Computer Science</h1>
+    <p class="text-surface-500 font-mono text-sm uppercase tracking-wider mb-2">
+      Radial knowledge map — 28 topics across 4 concentric rings
+    </p>
+    <p class="text-surface-600 max-w-2xl leading-relaxed mb-8">
+      From foundational theory at the center to applied fields at the edges.
+      Hover to reveal connections. Click any topic to explore it.
+    </p>
+  </section>
+
+  <section class="max-w-7xl mx-auto px-4">
+    <CSRadialMap client:load />
+  </section>
+
+  <div class="max-w-6xl mx-auto px-6">
+    <DottedSeparator />
+  </div>
+
+  <section class="max-w-6xl mx-auto px-6 pb-16">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+      <div>
+        <p class="font-mono text-2xl text-accent-600">29</p>
+        <p class="text-surface-500 font-mono text-xs uppercase tracking-wider">Topics</p>
+      </div>
+      <div>
+        <p class="font-mono text-2xl text-accent-600">4</p>
+        <p class="text-surface-500 font-mono text-xs uppercase tracking-wider">Rings</p>
+      </div>
+      <div>
+        <p class="font-mono text-2xl text-accent-600">35</p>
+        <p class="text-surface-500 font-mono text-xs uppercase tracking-wider">Connections</p>
+      </div>
+      <div>
+        <p class="font-mono text-2xl text-accent-600">7</p>
+        <p class="text-surface-500 font-mono text-xs uppercase tracking-wider">Branches</p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

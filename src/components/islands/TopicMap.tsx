@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, useCallback, useId } from 'react';
 import * as d3 from 'd3';
 import { playHoverTick } from '../../lib/hover-sound';
+import { toIso, IsometricBlock } from '../../lib/isometric';
 
 export interface TopicNode {
   id: string;
@@ -134,36 +135,7 @@ export const PHYSICS_EDGES: TopicEdge[] = [
   { source: 'astrophysical', target: 'frontier' },
 ];
 
-// Isometric projection helpers
-function toIso(x: number, y: number): [number, number] {
-  const isoX = (x - y) * Math.cos(Math.PI / 6);
-  const isoY = (x + y) * Math.sin(Math.PI / 6);
-  return [isoX, isoY];
-}
-
-function IsometricBlock({ cx, cy, size, color, opacity = 1 }: { cx: number; cy: number; size: number; color: string; opacity?: number }) {
-  const h = size * 0.6;
-  const w = size;
-
-  // Top face
-  const top = `${cx},${cy - h} ${cx + w / 2},${cy - h + w / 4} ${cx},${cy - h + w / 2} ${cx - w / 2},${cy - h + w / 4}`;
-  // Right face
-  const right = `${cx},${cy - h + w / 2} ${cx + w / 2},${cy - h + w / 4} ${cx + w / 2},${cy + w / 4} ${cx},${cy + w / 2}`;
-  // Left face
-  const left = `${cx},${cy - h + w / 2} ${cx - w / 2},${cy - h + w / 4} ${cx - w / 2},${cy + w / 4} ${cx},${cy + w / 2}`;
-
-  return (
-    <g opacity={opacity}>
-      <polygon points={left} fill={color} opacity={0.7} />
-      <polygon points={right} fill={color} opacity={0.5} />
-      <polygon points={top} fill={color} opacity={0.9} />
-      {/* Edges */}
-      <polygon points={top} fill="none" stroke={color} strokeWidth={1.5} opacity={0.9} />
-      <polygon points={right} fill="none" stroke={color} strokeWidth={1} opacity={0.6} />
-      <polygon points={left} fill="none" stroke={color} strokeWidth={1} opacity={0.6} />
-    </g>
-  );
-}
+// toIso and IsometricBlock imported from ../../lib/isometric
 
 // Default colors (used during SSR and as fallback)
 const DEFAULT_ACCENT = '#ef4444';
