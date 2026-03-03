@@ -103,6 +103,7 @@ export default function RadialMap({
       <svg
         viewBox={`0 0 ${VB_W} ${VB_H}`}
         className="w-full h-auto"
+        overflow="visible"
         style={{ fontFamily: 'var(--font-mono)' }}
       >
         {/* Definitions */}
