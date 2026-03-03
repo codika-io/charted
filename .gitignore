@@ -33,5 +33,6 @@ Thumbs.db
 # playwright
 .playwright-mcp/
 
-# internal dev doc
+# internal dev docs
 CLAUDE.md
+.docs/
