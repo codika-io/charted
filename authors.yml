@@ -1,0 +1,16 @@
+# Canonical paper-author registry.
+#
+# Topic frontmatter `sources[].authors` references entries by key here.
+# Each entry tracks an author's identity and contact info so the
+# growth-flywheel outreach script can build review-invite lists.
+#
+# Keys use the convention <last-name>-<year-of-anchor-paper>, lowercased.
+# Add new authors here when ingesting a paper via `npm run ingest:paper`.
+
+# vaswani-2017:
+#   name: Ashish Vaswani
+#   orcid: ~
+#   affiliation: Google Brain
+#   contact:
+#     scholar: https://scholar.google.com/citations?user=...
+#     email: ~

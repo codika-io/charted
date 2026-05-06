@@ -4,6 +4,9 @@ dist/
 # generated types
 .astro/
 
+# generated graph data (rebuilt on predev/prebuild)
+src/generated/
+
 # dependencies
 node_modules/
 

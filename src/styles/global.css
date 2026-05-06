@@ -187,19 +187,6 @@ code, pre, kbd {
   margin: 2rem 0;
 }
 
-/* ─── Isometric grid background pattern ─── */
-.isometric-grid {
-  background-image:
-    linear-gradient(30deg, var(--color-surface-100) 12%, transparent 12.5%, transparent 87%, var(--color-surface-100) 87.5%, var(--color-surface-100)),
-    linear-gradient(150deg, var(--color-surface-100) 12%, transparent 12.5%, transparent 87%, var(--color-surface-100) 87.5%, var(--color-surface-100)),
-    linear-gradient(30deg, var(--color-surface-100) 12%, transparent 12.5%, transparent 87%, var(--color-surface-100) 87.5%, var(--color-surface-100)),
-    linear-gradient(150deg, var(--color-surface-100) 12%, transparent 12.5%, transparent 87%, var(--color-surface-100) 87.5%, var(--color-surface-100)),
-    linear-gradient(60deg, var(--color-surface-50) 25%, transparent 25.5%, transparent 75%, var(--color-surface-50) 75%, var(--color-surface-50)),
-    linear-gradient(60deg, var(--color-surface-50) 25%, transparent 25.5%, transparent 75%, var(--color-surface-50) 75%, var(--color-surface-50));
-  background-size: 80px 140px;
-  background-position: 0 0, 0 0, 40px 70px, 40px 70px, 0 0, 40px 70px;
-}
-
 /* ─── Dot grid (subtle background) ─── */
 .dot-grid {
   background-image: radial-gradient(circle, var(--color-surface-200) 1px, transparent 1px);

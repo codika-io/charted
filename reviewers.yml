@@ -1,0 +1,24 @@
+# Charted reviewer registry.
+#
+# Every contributor whose PR may approve content must be registered here.
+# CI parses this file to soft-validate the Reviewer-GitHub trailer on PRs.
+#
+# Tiers (see CONTRIBUTING.md for detail):
+#   foundation — stable, well-known topics (algebra, probability, calculus, …)
+#                Bar: STEM degree + has reviewed N upstream topics first.
+#   field      — broader research areas (convex optimization, info theory, …)
+#                Bar: ≥3 OpenAlex papers tagged in the concept.
+#   frontier   — specific cutting-edge topics tied to a primary paper.
+#                Bar: author of, or substantively cited by, the primary source.
+#
+# `expertise` may name a topic ID or a branch ID; reviewers are credited to
+# the named topic and all its descendants.
+
+- github: lucaderumier
+  orcid: ~
+  name: Luca Derumier
+  expertise:
+    - computer-science/ai-and-machine-learning
+  tier: field
+  verifiedBy: lucaderumier
+  verifiedAt: '2026-05-05'

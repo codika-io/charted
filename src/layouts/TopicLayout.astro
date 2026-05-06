@@ -14,7 +14,7 @@ interface Props {
   breadcrumbs: { label: string; href?: string }[];
   isTopicPage?: boolean;
   h2Headings?: { slug: string; text: string; depth: number }[];
-  siblings?: { id: string; data: { title: string; status: string; order: number } }[];
+  siblings?: { id: string; data: { title: string; status: 'stub' | 'draft' | 'review' | 'complete' | 'archived'; order: number } }[];
   branches?: { id: string; data: { title: string; order: number } }[];
   currentBranch?: { id: string; data: { title: string; order: number } };
   currentTopicId?: string;

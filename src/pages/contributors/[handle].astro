@@ -1,0 +1,134 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import DottedSeparator from '../../components/DottedSeparator.astro';
+import { graph } from '../../lib/graph';
+
+export function getStaticPaths() {
+  return graph.reviewers.map(r => ({
+    params: { handle: r.github },
+    props: { reviewer: r },
+  }));
+}
+
+const { reviewer } = Astro.props;
+
+// Topics this reviewer is credited on (via the build-graph reviewer overlay).
+const credited = graph.nodes.filter(n => n.reviewerHandles.includes(reviewer.github));
+
+// Topics they actually last edited.
+const lastEdited = graph.nodes.filter(n => n.lastEditedBy === reviewer.github);
+
+const tierLabel: Record<string, string> = {
+  foundation: 'Foundation tier',
+  field: 'Field tier',
+  frontier: 'Frontier tier',
+};
+---
+
+<BaseLayout title={`@${reviewer.github}`} description={`Charted contributor profile — ${reviewer.name ?? reviewer.github}.`}>
+  <div class="max-w-4xl mx-auto px-6 py-16">
+    <a href="/contributors" class="font-mono text-xs uppercase tracking-wider text-surface-500 hover:text-accent-600">← All contributors</a>
+
+    <div class="mt-6 mb-2 flex items-center gap-4 flex-wrap">
+      <h1 class="text-4xl md:text-5xl">{reviewer.name ?? `@${reviewer.github}`}</h1>
+      <span class="font-mono text-xs uppercase tracking-wider px-3 py-1 border border-accent-400 text-accent-700">
+        {tierLabel[reviewer.tier]}
+      </span>
+    </div>
+    <div class="font-mono text-sm text-surface-500 mb-8">@{reviewer.github}</div>
+
+    <DottedSeparator />
+
+    <section class="my-8 grid md:grid-cols-2 gap-6">
+      <div>
+        <div class="font-mono text-xs uppercase tracking-wider text-surface-500 mb-2">Identity</div>
+        <ul class="space-y-2 text-sm">
+          <li>
+            <span class="text-surface-500">GitHub:</span>{' '}
+            <a href={`https://github.com/${reviewer.github}`} target="_blank" rel="noopener noreferrer" class="underline decoration-dotted hover:text-accent-600">
+              github.com/{reviewer.github}
+            </a>
+          </li>
+          {reviewer.orcid && (
+            <li>
+              <span class="text-surface-500">ORCID:</span>{' '}
+              <a href={`https://orcid.org/${reviewer.orcid}`} target="_blank" rel="noopener noreferrer" class="underline decoration-dotted hover:text-accent-600">
+                {reviewer.orcid}
+              </a>
+            </li>
+          )}
+        </ul>
+      </div>
+      <div>
+        <div class="font-mono text-xs uppercase tracking-wider text-surface-500 mb-2">Verification</div>
+        <ul class="space-y-2 text-sm">
+          {reviewer.verifiedBy && <li><span class="text-surface-500">Verified by:</span> @{reviewer.verifiedBy}</li>}
+          {reviewer.verifiedAt && <li><span class="text-surface-500">On:</span> {reviewer.verifiedAt}</li>}
+        </ul>
+      </div>
+    </section>
+
+    <DottedSeparator variant="dashed" />
+
+    <section class="my-8">
+      <h2 class="text-2xl mb-4">Expertise</h2>
+      {reviewer.expertise.length === 0 ? (
+        <p class="text-surface-500 italic">No expertise areas registered yet.</p>
+      ) : (
+        <ul class="grid gap-2">
+          {reviewer.expertise.map(id => {
+            const node = graph.nodes.find(n => n.id === id);
+            return (
+              <li>
+                <a href={`/${id}`} class="font-mono text-sm hover:text-accent-600">
+                  {node?.title ?? id}
+                  <span class="text-surface-400 ml-2">{id}</span>
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+      )}
+    </section>
+
+    <DottedSeparator variant="dashed" />
+
+    <section class="my-8">
+      <h2 class="text-2xl mb-4">Credited on {credited.length} {credited.length === 1 ? 'topic' : 'topics'}</h2>
+      <p class="text-sm text-surface-500 mb-4">
+        Topics within this reviewer's declared expertise. Includes descendants of branch-level expertise entries.
+      </p>
+      {credited.length === 0 ? (
+        <p class="text-surface-500 italic">No credited topics yet.</p>
+      ) : (
+        <ul class="grid gap-2">
+          {credited.map(n => (
+            <li>
+              <a href={`/${n.id}`} class="text-sm hover:text-accent-600 underline decoration-dotted">
+                {n.title}
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
+    </section>
+
+    {lastEdited.length > 0 && (
+      <>
+        <DottedSeparator variant="dashed" />
+        <section class="my-8">
+          <h2 class="text-2xl mb-4">Last editor on {lastEdited.length} {lastEdited.length === 1 ? 'topic' : 'topics'}</h2>
+          <ul class="grid gap-2">
+            {lastEdited.map(n => (
+              <li>
+                <a href={`/${n.id}`} class="text-sm hover:text-accent-600 underline decoration-dotted">
+                  {n.title}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      </>
+    )}
+  </div>
+</BaseLayout>

@@ -1,15 +1,18 @@
 ---
-title: "Distributed Systems"
-description: "The design of systems that span multiple machines — consensus, replication, consistency models, and fault tolerance."
+title: Distributed Systems
+description: >-
+  The design of systems that span multiple machines — consensus, replication,
+  consistency models, and fault tolerance.
 parent: computer-science/systems
 order: 4
-color: "#3b82f6"
+color: '#3b82f6'
 difficulty: advanced
-prerequisites: ["computer-science/systems/computer-networks"]
-status: draft
+prerequisites:
+  - computer-science/systems/computer-networks
+status: archived
 author: agent
 lastEditedBy: agent
-lastUpdated: "2026-02-28"
+lastUpdated: '2026-02-28'
 ---
 
 A distributed system is a collection of autonomous computing nodes that communicate over a network and coordinate their actions to achieve a common goal, appearing to the user as a single coherent system. The defining challenges of this field arise from the absence of a shared global clock, the possibility of partial failures (where some nodes crash while others continue), and the unreliability of communication links. These challenges are not incidental engineering difficulties — they are fundamental, and some of the deepest results in distributed systems are impossibility theorems that set absolute limits on what can be achieved.

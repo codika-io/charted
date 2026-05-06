@@ -10,25 +10,41 @@
   },
   "homepage": "https://charted.science",
   "scripts": {
+    "predev": "node scripts/build-graph.mjs",
     "dev": "astro dev",
+    "prebuild": "node scripts/build-graph.mjs",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "graph": "node scripts/build-graph.mjs",
+    "ingest:paper": "node scripts/ingest-paper.mjs",
+    "seed:issues": "node scripts/seed-issues.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.13",
     "@astrojs/react": "^4.4.2",
     "@tailwindcss/vite": "^4.2.1",
+    "@types/d3-drag": "^3.0.7",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "astro": "^5.17.1",
+    "d3-drag": "^3.0.0",
+    "d3-force": "^3.0.0",
+    "d3-selection": "^3.0.0",
+    "d3-zoom": "^3.0.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "rehype-katex": "^7.0.1",
     "remark-math": "^6.0.0",
-    "tailwindcss": "^4.2.1"
+    "tailwindcss": "^4.2.1",
+    "yaml": "^2.8.4"
   },
   "devDependencies": {
-    "gray-matter": "^4.0.3"
+    "@astrojs/check": "^0.9.9",
+    "@types/d3-force": "^3.0.10",
+    "@types/d3-selection": "^3.0.11",
+    "@types/d3-zoom": "^3.0.8",
+    "gray-matter": "^4.0.3",
+    "typescript": "^5.9.3"
   }
 }

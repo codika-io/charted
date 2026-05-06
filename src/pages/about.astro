@@ -1,53 +1,65 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import DottedSeparator from '../components/DottedSeparator.astro';
+import { graph } from '../lib/graph';
+
+const nodeCount = graph.nodes.length;
+const edgeCount = graph.edges.length;
+const reviewerCount = graph.reviewers.length;
 ---
 
-<BaseLayout title="About" description="About the Charted project — an open-source interactive atlas of the sciences.">
+<BaseLayout title="About" description="How Charted works — the first collaborative encyclopedia between agents and humans.">
   <div class="max-w-3xl mx-auto px-6 py-16">
     <h1 class="text-4xl md:text-5xl mb-6">About</h1>
     <p class="text-xl text-surface-600 leading-relaxed mb-8">
-      Charted is an open-source project to build an interactive atlas of human knowledge — covering mathematics, computer science, and physics.
+      Charted is the first collaborative encyclopedia between agents and humans. Agents do the wide research; humans review what they're qualified to review. The result is a living map from foundations to the frontier of science.
     </p>
 
     <DottedSeparator />
 
     <div class="prose">
-      <h2>Why?</h2>
+      <h2>Why a graph?</h2>
       <p>
-        Most educational resources present knowledge as a linear path: chapter 1, chapter 2, chapter 3. But real knowledge isn't linear. It's a web. Number theory connects to cryptography. Topology connects to data analysis. Category theory bridges algebra and logic. Quantum mechanics underpins both particle physics and quantum computing.
-      </p>
-      <p>
-        Charted makes this web visible. Each topic is a node. Each connection is an edge. You can zoom in to learn about a specific field, or zoom out to see how the sciences fit together.
+        Real knowledge isn't a textbook. To read a frontier paper you need a chain of prior ideas — algebra, probability, the history of attention mechanisms, the architectures that came before. Charted makes that chain explicit. Pick a paper, see the prerequisite closure. Pick a topic you already know, see what it unlocks.
       </p>
 
-      <h2>What's here</h2>
+      <h2>Scope</h2>
       <p>
-        The atlas currently covers three domains — mathematics (61 topics across 10 branches), computer science (28 topics across 7 branches), and physics (25 topics across 7 branches). Each topic page includes key ideas, important theorems, historical context, and connections to related fields, with LaTeX-rendered formulas throughout.
-      </p>
-      <p>
-        Initial content was scaffolded with AI to get full coverage quickly. It's a starting point, not an endpoint — every page needs review, correction, and enrichment by people who actually know the material. The <a href="/status">status page</a> shows what's been reviewed and what still needs attention.
+        We start narrow on purpose. The current MVP covers the prerequisite closure for modern machine-learning research — about <strong>{nodeCount} topics</strong> and <strong>{edgeCount} prerequisite edges</strong>. Topics outside that closure are archived in the repo but hidden from listings. As specific frontier papers pull more areas back into scope, those topics return.
       </p>
 
-      <h2>How it works</h2>
+      <h2>How agents and humans split the work</h2>
       <p>
-        Every topic page is a simple MDX file in a Git repository. Anyone can contribute by opening a pull request. The interactive radial maps on the landing page are generated from topic metadata — titles, ring positions, and cross-topic connections.
+        Agents draft topics and propose connections — they're good at scanning vast literatures and producing structured first passes. Humans review what the agents wrote. Crucially, not just any human: each topic has a <strong>review tier</strong> (foundation, field, or frontier) that determines who is qualified to approve it.
       </p>
       <p>
-        The site is built with Astro and React, fully static, and fast. Math is rendered with KaTeX. There's no database, no accounts, no tracking.
+        Foundational topics (algebra, calculus, probability) are stable enough to be community-reviewed. Field-level topics need someone with several papers in the area. Frontier topics — the ones tied to a specific paper — need an author or a substantively cited researcher.
+      </p>
+      <p>
+        Reviewer credentials are tracked publicly in <a href="https://github.com/codika-io/charted/blob/main/reviewers.yml">reviewers.yml</a> and surfaced on each <a href="/contributors">contributor page</a>. There are <strong>{reviewerCount} {reviewerCount === 1 ? 'reviewer' : 'reviewers'}</strong> registered today.
+      </p>
+
+      <h2>How the system works</h2>
+      <p>
+        Every topic is a Git-tracked MDX file. Every PR includes reviewer-attestation trailers — GitHub handle, ORCID, and asserted tier — which CI parses and checks against the registry. The check is advisory: a maintainer makes the final merge call. As the reviewer pool grows, gating tightens.
+      </p>
+      <p>
+        GitHub is also where coordination lives: each topic has a tracking issue (status, tier, claims, discussion). No backend, no accounts on the site itself — the source of truth is the Git history.
+      </p>
+
+      <h2>Why expert outreach</h2>
+      <p>
+        For each frontier topic, the primary paper's authors are the natural reviewers. We mine arXiv metadata as we ingest papers and reach out to authors with the page that cites them as a primary source. It's not cold outreach — it's an invitation to verify a public attribution.
       </p>
 
       <h2>Contributing</h2>
       <p>
-        We welcome contributions of all kinds: reviewing AI-drafted content, improving explanations, adding LaTeX formulas, fixing errors, design improvements, and new features. Domain experts are especially welcome — pick a topic you know and make it better.
-      </p>
-      <p>
-        See the <a href="https://github.com/codika-io/charted/blob/main/CONTRIBUTING.md">contributing guide</a> for details on how to get started.
+        Read the <a href="https://github.com/codika-io/charted/blob/main/CONTRIBUTING.md">contributing guide</a>. Pick a topic in your domain. Open a PR. The review-check bot will tell you what's missing.
       </p>
 
       <h2>License</h2>
       <p>
-        The code is licensed under the MIT License. Content is licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>.
+        Code: <a href="https://github.com/codika-io/charted/blob/main/LICENSE">MIT</a>. Content (<code>src/content/</code>): <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>.
       </p>
     </div>
   </div>

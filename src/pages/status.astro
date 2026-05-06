@@ -2,10 +2,10 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import DottedSeparator from '../components/DottedSeparator.astro';
-import { getDomainFromId, getDomainLabel } from '../lib/domain';
+import { getDomainLabel } from '../lib/domain';
 import type { Domain } from '../lib/domain';
 
-const allTopics = await getCollection('topics');
+const allTopics = (await getCollection('topics')).filter(t => t.data.status !== 'archived');
 
 // ── Identify roots, branches, and sub-topics ──
 const roots = allTopics.filter(t => !t.data.parent);
@@ -15,9 +15,14 @@ const subTopics = allTopics.filter(t => t.data.parent?.includes('/'));
 // ── Aggregate stats ──
 const totalCount = allTopics.length;
 const populated = allTopics.filter(t => t.data.status !== 'stub').length;
-const agentWritten = allTopics.filter(t => t.data.author === 'agent').length;
 const humanReviewed = allTopics.filter(t => t.data.status === 'review' || t.data.status === 'complete').length;
 const complete = allTopics.filter(t => t.data.status === 'complete').length;
+
+const tierCounts = {
+  foundation: allTopics.filter(t => t.data.reviewTier === 'foundation').length,
+  field: allTopics.filter(t => t.data.reviewTier === 'field').length,
+  frontier: allTopics.filter(t => t.data.reviewTier === 'frontier').length,
+};
 
 // ── Group by domain ──
 type DomainData = {
@@ -77,26 +82,31 @@ const statusColors: Record<string, string> = {
   review: 'bg-yellow-50 text-yellow-700',
   complete: 'bg-green-50 text-green-700',
 };
+
+const tierColors: Record<string, string> = {
+  foundation: 'bg-surface-100 text-surface-700',
+  field: 'bg-accent-50 text-accent-700',
+  frontier: 'bg-accent-100 text-accent-800',
+};
 ---
 
 <BaseLayout title="Status" description="Content status and progress across all Charted topics.">
   <div class="max-w-6xl mx-auto px-6 py-16">
     <h1 class="text-4xl md:text-5xl mb-6">Status</h1>
-    <p class="text-xl text-surface-600 leading-relaxed mb-8">
-      Content status across all topics. Every article starts as a stub and moves through the editorial pipeline.
+    <p class="text-xl text-surface-600 leading-relaxed mb-2 max-w-3xl">
+      Content status across the active MVP scope. Archived topics (everything outside the path-to-ML closure) are excluded.
+    </p>
+    <p class="text-sm text-surface-500 mb-8">
+      Reviewer tier reflects the credentials needed to approve a PR for that topic — see <a href="/about" class="underline decoration-dotted hover:text-accent-600">about</a>.
     </p>
 
     <DottedSeparator />
 
     {/* ── Summary stats ── */}
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
       <div class="border border-surface-200 p-4">
         <div class="font-mono text-2xl">{populated}<span class="text-surface-400">/{totalCount}</span></div>
         <div class="font-mono text-xs uppercase tracking-wider text-surface-500 mt-1">Populated</div>
-      </div>
-      <div class="border border-surface-200 p-4">
-        <div class="font-mono text-2xl">{agentWritten}</div>
-        <div class="font-mono text-xs uppercase tracking-wider text-surface-500 mt-1">Agent-written</div>
       </div>
       <div class="border border-surface-200 p-4">
         <div class="font-mono text-2xl">{humanReviewed}</div>
@@ -106,16 +116,33 @@ const statusColors: Record<string, string> = {
         <div class="font-mono text-2xl">{complete}</div>
         <div class="font-mono text-xs uppercase tracking-wider text-surface-500 mt-1">Complete</div>
       </div>
+      <div class="border border-surface-200 p-4">
+        <div class="font-mono text-2xl">{tierCounts.frontier}</div>
+        <div class="font-mono text-xs uppercase tracking-wider text-surface-500 mt-1">Frontier topics</div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-3 gap-4 mb-12">
+      <div class="border border-surface-200 p-4">
+        <div class="font-mono text-xl">{tierCounts.foundation}</div>
+        <div class="font-mono text-xs uppercase tracking-wider text-surface-500 mt-1">Foundation tier</div>
+      </div>
+      <div class="border border-surface-200 p-4">
+        <div class="font-mono text-xl">{tierCounts.field}</div>
+        <div class="font-mono text-xs uppercase tracking-wider text-surface-500 mt-1">Field tier</div>
+      </div>
+      <div class="border border-surface-200 p-4">
+        <div class="font-mono text-xl">{tierCounts.frontier}</div>
+        <div class="font-mono text-xs uppercase tracking-wider text-surface-500 mt-1">Frontier tier</div>
+      </div>
     </div>
 
     <DottedSeparator variant="dashed" />
 
-    {/* ── Per-domain sections ── */}
     {domains.map(d => {
       const pct = d.total > 0 ? Math.round((d.populated / d.total) * 100) : 0;
       return (
         <div class="mb-16">
-          {/* Domain header + progress bar */}
           <div class="flex items-center gap-4 mb-6">
             <h2 class="text-2xl whitespace-nowrap">{d.label}</h2>
             <div class="flex-1 h-3 bg-surface-100 overflow-hidden">
@@ -124,7 +151,6 @@ const statusColors: Record<string, string> = {
             <span class="font-mono text-sm text-surface-500 whitespace-nowrap">{pct}%</span>
           </div>
 
-          {/* Per-branch tables */}
           {d.branches.map(b => (
             <div class="mb-10">
               <h3 class="text-lg mb-3">
@@ -141,16 +167,17 @@ const statusColors: Record<string, string> = {
                       <tr class="border-b border-dashed border-surface-200">
                         <th class="font-mono text-xs uppercase tracking-wider text-surface-500 text-left py-2 pr-4">Topic</th>
                         <th class="font-mono text-xs uppercase tracking-wider text-surface-500 text-left py-2 pr-4">Status</th>
-                        <th class="font-mono text-xs uppercase tracking-wider text-surface-500 text-left py-2 pr-4">Author</th>
-                        <th class="font-mono text-xs uppercase tracking-wider text-surface-500 text-left py-2 pr-4">Ag. Reviews</th>
-                        <th class="font-mono text-xs uppercase tracking-wider text-surface-500 text-left py-2 pr-4">Hum. Review</th>
-                        <th class="font-mono text-xs uppercase tracking-wider text-surface-500 text-left py-2">Contributors</th>
+                        <th class="font-mono text-xs uppercase tracking-wider text-surface-500 text-left py-2 pr-4">Tier</th>
+                        <th class="font-mono text-xs uppercase tracking-wider text-surface-500 text-left py-2 pr-4">Sources</th>
+                        <th class="font-mono text-xs uppercase tracking-wider text-surface-500 text-left py-2 pr-4">Issue</th>
+                        <th class="font-mono text-xs uppercase tracking-wider text-surface-500 text-left py-2">Last edited</th>
                       </tr>
                     </thead>
                     <tbody>
                       {b.topics.map(topic => {
-                        const hasHumanReview = topic.data.status === 'review' || topic.data.status === 'complete';
-                        const contribs = topic.data.contributors;
+                        const tier = topic.data.reviewTier ?? 'foundation';
+                        const sourceCount = topic.data.sources?.length ?? 0;
+                        const issue = topic.data.reviewIssue;
                         return (
                           <tr class="border-b border-dotted border-surface-100">
                             <td class="py-2 pr-4">
@@ -163,17 +190,21 @@ const statusColors: Record<string, string> = {
                                 {topic.data.status}
                               </span>
                             </td>
-                            <td class="py-2 pr-4 font-mono text-xs text-surface-500">
-                              {topic.data.author ?? '—'}
+                            <td class="py-2 pr-4">
+                              <span class={`font-mono text-xs uppercase tracking-wider px-2 py-0.5 ${tierColors[tier]}`}>
+                                {tier}
+                              </span>
                             </td>
                             <td class="py-2 pr-4 font-mono text-xs text-surface-500">
-                              {topic.data.agentReviewCount}
+                              {sourceCount > 0 ? sourceCount : '—'}
                             </td>
                             <td class="py-2 pr-4 font-mono text-xs text-surface-500">
-                              {hasHumanReview ? '✓' : '—'}
+                              {issue ? (
+                                <a href={`https://github.com/codika-io/charted/issues/${issue}`} target="_blank" rel="noopener noreferrer" class="hover:text-accent-600">#{issue}</a>
+                              ) : '—'}
                             </td>
                             <td class="py-2 font-mono text-xs text-surface-500">
-                              {contribs && contribs.length > 0 ? contribs.join(', ') : '—'}
+                              {topic.data.lastEditedBy ?? '—'}
                             </td>
                           </tr>
                         );

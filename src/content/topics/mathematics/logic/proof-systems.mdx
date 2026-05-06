@@ -1,15 +1,18 @@
 ---
-title: "Proof Systems"
-description: "Formalizing deduction — natural deduction, sequent calculus, and the relationship between provability and truth."
+title: Proof Systems
+description: >-
+  Formalizing deduction — natural deduction, sequent calculus, and the
+  relationship between provability and truth.
 parent: mathematics/logic
 order: 3
-color: "#ef4444"
+color: '#ef4444'
 difficulty: intermediate
-prerequisites: ["mathematics/logic/first-order-logic"]
-status: draft
+prerequisites:
+  - mathematics/logic/first-order-logic
+status: archived
 author: agent
 lastEditedBy: agent
-lastUpdated: "2026-02-28"
+lastUpdated: '2026-02-28'
 ---
 
 A proof system is a purely syntactic machine for deriving theorems: given a set of axioms and inference rules, it produces new formulas without ever appealing to truth or meaning. Where semantics asks "is this sentence true in every model?", a proof system asks "can this sentence be derived from the rules?" The remarkable fact — established by completeness theorems — is that these two questions have the same answer for classical logic. But the syntactic perspective stands on its own, and different proof systems illuminate different aspects of deduction. Natural deduction mirrors how mathematicians actually reason; Hilbert-style systems strip inference down to a single rule; sequent calculus exposes the deep symmetries of logical connectives. Understanding why these systems exist, and how they relate, is the starting point for proof theory, automated reasoning, and the foundations of mathematics.

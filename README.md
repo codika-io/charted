@@ -2,11 +2,11 @@
 
 <img width="80" height="80" alt="Charted" src="public/logo.svg" />
 
-**An interactive, open-source atlas of the sciences.**
+**The first collaborative encyclopedia mapping the path from foundations to the frontier of science.**
 
-Charted visualizes knowledge as a graph: each topic is a node, each connection is an edge. Instead of learning from a linear textbook, you can see how fields connect, explore branches, and trace the path from foundations to frontiers.
+Built with agents, reviewed by experts. Each topic is a node, each prerequisite is an edge. Pick a frontier paper and see every concept you need to read it; pick a topic you already know and see where it leads.
 
-[Explore the atlas](https://charted.science) · [Contributing](#contributing) · [Tech stack](#tech-stack)
+[Open the atlas](https://charted.science) · [Contributing](#contributing) · [Tech stack](#tech-stack)
 
 </div>
 
@@ -16,17 +16,23 @@ Charted visualizes knowledge as a graph: each topic is a node, each connection i
 
 ---
 
-## What's mapped
+## How it works
 
-| Domain | Branches | Topics |
-|--------|----------|--------|
-| Mathematics | 10 | 61 |
-| Computer Science | 7 | 28 |
-| Physics | 7 | 25 |
+- **Agents draft.** Vast research and topic exploration is what they're good at.
+- **Humans review.** Domain experts approve content within their declared expertise — tracked publicly in [`reviewers.yml`](reviewers.yml).
+- **GitHub is the source of truth.** Topics, reviewer registry, and review-state all live in this repo. Each topic has a tracking issue; PRs reference it.
 
-**114 topics** across three domains. Each page covers key ideas, theorems, historical context, and connections to related fields — with LaTeX-rendered formulas throughout.
+## Scope (MVP)
 
-Content was initially scaffolded with AI and is being reviewed and improved by contributors. Check the [status page](https://charted.science/status) to see what needs attention.
+Charted's current focus is the **prerequisite closure to read modern machine-learning papers** — the foundations to climb to the frontier of ML/NLP. Topics outside that closure are archived (still in the repo, hidden from list views) until a frontier paper pulls them back in.
+
+To extend scope, run the paper-ingestion script and add a frontier-tier topic:
+
+```bash
+npm run ingest:paper -- <arxivId> --anchor <topicId>
+```
+
+It fetches arXiv metadata, computes prerequisite-closure overlap with the current MVP, and emits draft frontmatter plus `authors.yml` entries.
 
 ## Quick start
 
@@ -37,17 +43,36 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:4321](http://localhost:4321).
+Open [http://localhost:4321](http://localhost:4321). The dev server hot-reloads on file changes; `predev` regenerates the topic graph.
 
 ## Contributing
 
-We welcome contributions of all kinds — improving topic content, fixing explanations, adding LaTeX formulas, design improvements, and new features. Domain experts are especially welcome: pick a topic you know, review the draft, and submit a PR.
+PRs touching content require **reviewer attestation** — `Reviewer-GitHub`, `Reviewer-ORCID`, and `Reviewer-Tier` trailers in the PR body. CI posts an advisory comment; final approval is a maintainer call.
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for the full guide.
+To register as a reviewer, add yourself to [`reviewers.yml`](reviewers.yml) and open a PR with a brief justification.
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the full flow, including the unified topic/source model, reviewer tiers, and writing guidelines.
+
+## Architecture
+
+| File / dir | What it is |
+|---|---|
+| `src/content/topics/**.mdx` | Every topic. Frontmatter + MDX body. |
+| `reviewers.yml` | Canonical reviewer registry. CI parses this. |
+| `authors.yml` | Paper-author registry referenced by `sources[].authors`. |
+| `scripts/build-graph.mjs` | Pre-build step. Emits `src/generated/graph.json` with bidirectional closures. |
+| `scripts/ingest-paper.mjs` | arXiv → closure overlap + frontmatter draft. |
+| `scripts/seed-issues.mjs` | One-time: creates a tracking issue per topic. |
+| `scripts/archive-non-mvp.mjs` | One-time: marks non-MVP topics `status: archived`. |
+| `src/components/islands/AtlasGraph.tsx` | Layered DAG visualization (ELK + React Flow). |
+| `src/pages/atlas.astro` | Full atlas with three view modes. |
+| `src/pages/contributors/[handle].astro` | Per-reviewer profile page. |
+| `.github/PULL_REQUEST_TEMPLATE.md` | Required reviewer-attestation trailers. |
+| `.github/workflows/review-check.yml` | Soft-enforced CI attestation check. |
 
 ## Tech stack
 
-[Astro 5](https://astro.build) · [React 19](https://react.dev) · [Tailwind CSS 4](https://tailwindcss.com) · [KaTeX](https://katex.org) · [Departure Mono](https://departuremono.com) · [Instrument Serif](https://fonts.google.com/specimen/Instrument+Serif)
+[Astro 5](https://astro.build) · [React 19](https://react.dev) · [Tailwind CSS 4](https://tailwindcss.com) · [KaTeX](https://katex.org) · [React Flow](https://reactflow.dev) · [ELK](https://eclipse.dev/elk/) · [Departure Mono](https://departuremono.com) · [Instrument Serif](https://fonts.google.com/specimen/Instrument+Serif)
 
 ## License
 

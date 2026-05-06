@@ -1,0 +1,55 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import DottedSeparator from '../../components/DottedSeparator.astro';
+import { graph } from '../../lib/graph';
+
+const reviewers = graph.reviewers;
+
+const tierLabels: Record<string, string> = {
+  foundation: 'Foundation',
+  field: 'Field',
+  frontier: 'Frontier',
+};
+---
+
+<BaseLayout title="Contributors" description="Reviewers and contributors who keep Charted accurate.">
+  <div class="max-w-4xl mx-auto px-6 py-16">
+    <h1 class="text-4xl md:text-5xl mb-6">Contributors</h1>
+    <p class="text-lg text-surface-600 leading-relaxed mb-2">
+      Every reviewer registered to approve content on Charted. The tier reflects the kind of topics they can sign off on.
+    </p>
+    <p class="text-sm text-surface-500 mb-8">
+      Want to join? Open a PR adding yourself to <code class="font-mono text-xs bg-surface-100 px-1.5 py-0.5">reviewers.yml</code> with a link to your ORCID or institutional page.
+    </p>
+
+    <DottedSeparator />
+
+    {reviewers.length === 0 ? (
+      <p class="text-surface-500 italic mt-10">No reviewers registered yet.</p>
+    ) : (
+      <ul class="mt-8 grid gap-4 md:grid-cols-2">
+        {reviewers.map(r => (
+          <li>
+            <a
+              href={`/contributors/${r.github}`}
+              class="block p-5 border border-surface-200 hover:border-accent-500 transition-colors"
+            >
+              <div class="flex items-start justify-between gap-3 mb-2">
+                <div>
+                  <div class="text-base">{r.name ?? `@${r.github}`}</div>
+                  <div class="font-mono text-xs text-surface-500">@{r.github}</div>
+                </div>
+                <span class="font-mono text-[10px] uppercase tracking-wider px-2 py-0.5 border border-surface-300 text-surface-700">
+                  {tierLabels[r.tier]}
+                </span>
+              </div>
+              <div class="text-xs text-surface-500">
+                Expertise: {r.expertise.length === 0 ? '—' : r.expertise.length === 1 ? '1 area' : `${r.expertise.length} areas`}
+              </div>
+            </a>
+          </li>
+        ))}
+      </ul>
+    )}
+  </div>
+</BaseLayout>

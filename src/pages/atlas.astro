@@ -1,0 +1,68 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import DottedSeparator from '../components/DottedSeparator.astro';
+import AtlasGraph from '../components/islands/AtlasGraph';
+import { graph } from '../lib/graph';
+
+const nodes = graph.nodes.map(n => ({
+  id: n.id,
+  title: n.title,
+  description: n.description,
+  color: n.color,
+  tier: n.tier,
+  status: n.status,
+  ancestors: n.ancestors,
+  descendants: n.descendants,
+  reviewerHandles: n.reviewerHandles,
+}));
+
+const edges = graph.edges.map(e => ({ from: e.from, to: e.to }));
+
+const tierCounts = {
+  foundation: graph.nodes.filter(n => n.tier === 'foundation').length,
+  field: graph.nodes.filter(n => n.tier === 'field').length,
+  frontier: graph.nodes.filter(n => n.tier === 'frontier').length,
+};
+---
+
+<BaseLayout title="Atlas" description="The full topic map — every node, every prerequisite edge.">
+  <div class="max-w-7xl mx-auto px-6 py-12">
+    <h1 class="text-4xl md:text-5xl mb-4">Atlas</h1>
+    <p class="text-lg text-surface-600 leading-relaxed mb-2 max-w-3xl">
+      Every Charted topic, drawn as one connected graph. An arrow from A to B means A is a prerequisite for B —
+      foundations are sources, frontier topics are sinks. Pick a topic to trace the path to it, see what it
+      unlocks, or just explore the local neighborhood.
+    </p>
+    <div class="flex gap-6 font-mono text-xs uppercase tracking-wider text-surface-500 mb-8">
+      <span><strong class="text-surface-900">{nodes.length}</strong> topics</span>
+      <span><strong class="text-surface-900">{edges.length}</strong> prerequisites</span>
+      <span class="text-surface-300">·</span>
+      <span>foundation: <strong class="text-surface-900">{tierCounts.foundation}</strong></span>
+      <span>field: <strong class="text-surface-900">{tierCounts.field}</strong></span>
+      <span>frontier: <strong class="text-surface-900">{tierCounts.frontier}</strong></span>
+    </div>
+
+    <DottedSeparator />
+
+    <div class="my-8">
+      <AtlasGraph client:only="react" nodes={nodes} edges={edges} height={720} />
+    </div>
+
+    <DottedSeparator variant="dashed" />
+
+    <div class="grid md:grid-cols-3 gap-6 mt-10 text-sm text-surface-600">
+      <div>
+        <div class="font-mono text-xs uppercase tracking-wider text-surface-900 mb-2">Path to</div>
+        <p>Highlight every prerequisite needed to understand the selected topic. Use this when you've found a paper or topic you want to read but you're not sure where to start.</p>
+      </div>
+      <div>
+        <div class="font-mono text-xs uppercase tracking-wider text-surface-900 mb-2">What's next</div>
+        <p>Highlight everything the selected topic unlocks. Use this once you know a subject and want to see where it leads.</p>
+      </div>
+      <div>
+        <div class="font-mono text-xs uppercase tracking-wider text-surface-900 mb-2">Explore</div>
+        <p>Local one-hop neighborhood. Direct prerequisites and direct dependents — useful for orientation when you're standing in the middle of the graph.</p>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

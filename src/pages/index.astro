@@ -1,10 +1,21 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import DottedSeparator from '../components/DottedSeparator.astro';
-import RadialMap from '../components/islands/RadialMap';
-import { MATH_RADIAL_NODES, MATH_RADIAL_EDGES, MATH_RINGS } from '../lib/math-radial-data';
-import { CS_RADIAL_NODES, CS_RADIAL_EDGES, CS_RINGS } from '../lib/cs-radial-data';
-import { PHYSICS_RADIAL_NODES, PHYSICS_RADIAL_EDGES, PHYSICS_RINGS } from '../lib/physics-radial-data';
+import AtlasGraph from '../components/islands/AtlasGraph';
+import { graph } from '../lib/graph';
+
+const nodes = graph.nodes.map(n => ({
+  id: n.id,
+  title: n.title,
+  description: n.description,
+  color: n.color,
+  tier: n.tier,
+  status: n.status,
+  ancestors: n.ancestors,
+  descendants: n.descendants,
+  reviewerHandles: n.reviewerHandles,
+}));
+const edges = graph.edges.map(e => ({ from: e.from, to: e.to }));
 ---
 
 <BaseLayout title="Home">
@@ -19,54 +30,26 @@ import { PHYSICS_RADIAL_NODES, PHYSICS_RADIAL_EDGES, PHYSICS_RINGS } from '../li
             Chart<span id="hero-ed" class="text-surface-900" style="transition: color 0.3s ease">ed</span>
           </h1>
           <p class="text-xl md:text-2xl text-surface-600 max-w-xl leading-relaxed">
-            An interactive, open-source atlas of the sciences.
-            Explore how fields connect, evolve, and build on each other.
+            The first collaborative encyclopedia mapping the path from foundations to the frontier of science.
+            Built with agents, reviewed by experts.
           </p>
-          <div class="mt-8 flex gap-4 justify-center lg:justify-start">
-            <div id="hero-dropdown" class="relative group">
-              <span
-                class="inline-block font-mono text-sm uppercase tracking-wider bg-surface-900 text-white px-6 py-3 group-hover:bg-surface-700 transition-colors cursor-default"
-                data-hover-sound
-              >
-                Explore the maps
-              </span>
-              <div class="absolute top-full left-0 min-w-full opacity-0 invisible translate-y-1 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-200 z-10">
-                <a
-                  href="#mathematics"
-                  class="block font-mono text-sm uppercase tracking-wider text-white px-6 py-3 whitespace-nowrap hover:brightness-110 transition-all"
-                  style="background-color: #dc2626;"
-                  data-hover-sound
-                  data-hero-domain="mathematics"
-                >
-                  Mathematics
-                </a>
-                <a
-                  href="#computer-science"
-                  class="block font-mono text-sm uppercase tracking-wider text-white px-6 py-3 whitespace-nowrap hover:brightness-110 transition-all"
-                  style="background-color: #2563eb;"
-                  data-hover-sound
-                  data-hero-domain="computer-science"
-                >
-                  Computer Science
-                </a>
-                <a
-                  href="#physics"
-                  class="block font-mono text-sm uppercase tracking-wider text-white px-6 py-3 whitespace-nowrap hover:brightness-110 transition-all"
-                  style="background-color: #f59e0b;"
-                  data-hover-sound
-                  data-hero-domain="physics"
-                >
-                  Physics
-                </a>
-              </div>
-            </div>
+          <div class="mt-8 flex flex-wrap gap-4 justify-center lg:justify-start">
             <a
+              id="hero-cta"
+              href="/atlas"
+              class="inline-block font-mono text-sm uppercase tracking-wider bg-surface-900 text-white px-6 py-3 hover:bg-surface-700 transition-colors"
+              data-hover-sound
+            >
+              Open the atlas
+            </a>
+            <a
+              id="hero-contribute"
               href="https://github.com/codika-io/charted"
               target="_blank"
               rel="noopener noreferrer"
               class="inline-block font-mono text-sm uppercase tracking-wider border border-surface-300 text-surface-600 px-6 py-3 hover:border-surface-500 hover:text-surface-900 transition-colors"
             >
-              Contribute
+              Contribute on GitHub
             </a>
           </div>
         </div>
@@ -86,7 +69,7 @@ import { PHYSICS_RADIAL_NODES, PHYSICS_RADIAL_EDGES, PHYSICS_RINGS } from '../li
               <line x1="270" y1="280" x2="270" y2="40" />
             </g>
 
-            <!-- Block 0: cx=130 baseY=240 hw=30 neutral wh=50 -->
+            <!-- Block 0 -->
             <g id="hero-block-0">
               <polygon points="130,240 160,225 160,175 130,190" fill="#a3a3a3" opacity="0.5" />
               <polygon points="130,240 100,225 100,175 130,190" fill="#a3a3a3" opacity="0.7" />
@@ -96,7 +79,7 @@ import { PHYSICS_RADIAL_NODES, PHYSICS_RADIAL_EDGES, PHYSICS_RINGS } from '../li
               <polygon points="130,240 100,225 100,175 130,190" fill="none" stroke="#a3a3a3" stroke-width="1" opacity="0.6" />
             </g>
 
-            <!-- Block 1: cx=200 baseY=260 hw=30 neutral wh=40 -->
+            <!-- Block 1 -->
             <g id="hero-block-1">
               <polygon points="200,260 230,245 230,205 200,220" fill="#a3a3a3" opacity="0.5" />
               <polygon points="200,260 170,245 170,205 200,220" fill="#a3a3a3" opacity="0.7" />
@@ -106,7 +89,7 @@ import { PHYSICS_RADIAL_NODES, PHYSICS_RADIAL_EDGES, PHYSICS_RINGS } from '../li
               <polygon points="200,260 170,245 170,205 200,220" fill="none" stroke="#a3a3a3" stroke-width="1" opacity="0.6" />
             </g>
 
-            <!-- Block 2: cx=270 baseY=270 hw=30 neutral wh=30 -->
+            <!-- Block 2 -->
             <g id="hero-block-2">
               <polygon points="270,270 300,255 300,225 270,240" fill="#a3a3a3" opacity="0.5" />
               <polygon points="270,270 240,255 240,225 270,240" fill="#a3a3a3" opacity="0.7" />
@@ -116,7 +99,7 @@ import { PHYSICS_RADIAL_NODES, PHYSICS_RADIAL_EDGES, PHYSICS_RINGS } from '../li
               <polygon points="270,270 240,255 240,225 270,240" fill="none" stroke="#a3a3a3" stroke-width="1" opacity="0.6" />
             </g>
 
-            <!-- Block 3: cx=200 baseY=200 hw=20 neutral wh=50 -->
+            <!-- Block 3 -->
             <g id="hero-block-3">
               <polygon points="200,200 220,190 220,140 200,150" fill="#a3a3a3" opacity="0.5" />
               <polygon points="200,200 180,190 180,140 200,150" fill="#a3a3a3" opacity="0.7" />
@@ -145,6 +128,167 @@ import { PHYSICS_RADIAL_NODES, PHYSICS_RADIAL_EDGES, PHYSICS_RINGS } from '../li
         </div>
       </div>
     </div>
+
+    <!-- Hero chart animation: neutral ↔ active, triggered by hovering #hero-cta -->
+    <script>
+      const GEOM = [
+        { cx: 130, baseY: 240, hw: 30 },
+        { cx: 200, baseY: 260, hw: 30 },
+        { cx: 270, baseY: 270, hw: 30 },
+        { cx: 200, baseY: 200, hw: 20 },
+      ];
+
+      const DOTS = [
+        { cx: 130, block: 0, offset: 10 },
+        { cx: 200, block: 3, offset: 10 },
+        { cx: 270, block: 2, offset: 5 },
+      ];
+
+      const GRAY = [163, 163, 163];     // #a3a3a3
+      const RED = [239, 68, 68];        // accent-500
+      const RED_L = [252, 165, 165];    // accent-300
+      const GREEN = [34, 197, 94];      // emerald-500 — contribution-y
+      const GREEN_L = [134, 239, 172];  // emerald-300
+      const DARK = [23, 23, 23];        // surface-900
+
+      const STATES: Record<string, { heights: number[]; colors: number[][]; accent: number[]; edColor: number[] }> = {
+        neutral: {
+          heights: [50, 40, 30, 50],
+          colors: [GRAY, GRAY, GRAY, GRAY],
+          accent: GRAY,
+          edColor: DARK,
+        },
+        active: {
+          heights: [100, 70, 40, 100],
+          colors: [RED, RED, RED_L, RED],
+          accent: RED,
+          edColor: RED,
+        },
+        contribute: {
+          // Stair-step ascending, evoking commits stacking up.
+          heights: [40, 70, 100, 80],
+          colors: [GREEN_L, GREEN, GREEN, GREEN],
+          accent: GREEN,
+          edColor: GREEN,
+        },
+      };
+
+      const cur = {
+        wh: [50, 40, 30, 50],
+        colors: [GRAY.slice(), GRAY.slice(), GRAY.slice(), GRAY.slice()],
+        accent: GRAY.slice(),
+        edColor: DARK.slice(),
+      };
+
+      let target = 'neutral';
+      let raf = 0;
+
+      const blocks = [0, 1, 2, 3].map(i =>
+        document.getElementById(`hero-block-${i}`)!.querySelectorAll('polygon')
+      );
+      const dots = [0, 1, 2].map(i => document.getElementById(`hero-dot-${i}`)!);
+      const lines = [0, 1].map(i => document.getElementById(`hero-line-${i}`)!);
+      const edSpan = document.getElementById('hero-ed')!;
+      const cta = document.getElementById('hero-cta')!;
+      const contribute = document.getElementById('hero-contribute')!;
+
+      function toHex(rgb: number[]) {
+        return '#' + rgb.map(c => Math.round(c).toString(16).padStart(2, '0')).join('');
+      }
+
+      function pts(cx: number, baseY: number, hw: number, wh: number) {
+        const bR = baseY - hw / 2;
+        const tR = bR - wh;
+        return {
+          right: `${cx},${baseY} ${cx + hw},${bR} ${cx + hw},${tR} ${cx},${baseY - wh}`,
+          left: `${cx},${baseY} ${cx - hw},${bR} ${cx - hw},${tR} ${cx},${baseY - wh}`,
+          top: `${cx - hw},${tR} ${cx},${baseY - hw - wh} ${cx + hw},${tR} ${cx},${baseY - wh}`,
+        };
+      }
+
+      function lerpArr(a: number[], b: number[], t: number) {
+        for (let i = 0; i < a.length; i++) a[i] += (b[i] - a[i]) * t;
+      }
+
+      function settled(a: number[], b: number[], eps: number) {
+        return a.every((v, i) => Math.abs(v - b[i]) < eps);
+      }
+
+      function snap(a: number[], b: number[], eps: number) {
+        if (settled(a, b, eps)) {
+          for (let i = 0; i < a.length; i++) a[i] = b[i];
+          return true;
+        }
+        return false;
+      }
+
+      function animate() {
+        const s = STATES[target];
+        let done = true;
+        const E = 0.25;
+
+        for (let i = 0; i < 4; i++) {
+          cur.wh[i] += (s.heights[i] - cur.wh[i]) * E;
+          if (Math.abs(cur.wh[i] - s.heights[i]) < 0.3) cur.wh[i] = s.heights[i]; else done = false;
+
+          lerpArr(cur.colors[i], s.colors[i], E);
+          if (!snap(cur.colors[i], s.colors[i], 1)) done = false;
+
+          const { cx, baseY, hw } = GEOM[i];
+          const p = pts(cx, baseY, hw, cur.wh[i]);
+          const col = toHex(cur.colors[i]);
+          const polys = blocks[i];
+          polys[0].setAttribute('points', p.right); polys[0].setAttribute('fill', col);
+          polys[1].setAttribute('points', p.left); polys[1].setAttribute('fill', col);
+          polys[2].setAttribute('points', p.top); polys[2].setAttribute('fill', col);
+          polys[3].setAttribute('points', p.top); polys[3].setAttribute('stroke', col);
+          polys[4].setAttribute('points', p.right); polys[4].setAttribute('stroke', col);
+          polys[5].setAttribute('points', p.left); polys[5].setAttribute('stroke', col);
+        }
+
+        lerpArr(cur.accent, s.accent, E);
+        if (!snap(cur.accent, s.accent, 1)) done = false;
+        const acHex = toHex(cur.accent);
+
+        for (let i = 0; i < DOTS.length; i++) {
+          const d = DOTS[i];
+          const { baseY, hw } = GEOM[d.block];
+          dots[i].setAttribute('cy', String(baseY - hw - cur.wh[d.block] - d.offset));
+          dots[i].setAttribute('fill', acHex);
+        }
+
+        const dotCys = DOTS.map(d => {
+          const { baseY, hw } = GEOM[d.block];
+          return baseY - hw - cur.wh[d.block] - d.offset;
+        });
+        lines[0].setAttribute('y1', String(dotCys[0])); lines[0].setAttribute('y2', String(dotCys[1]));
+        lines[0].setAttribute('stroke', acHex);
+        lines[1].setAttribute('y1', String(dotCys[1])); lines[1].setAttribute('y2', String(dotCys[2]));
+        lines[1].setAttribute('stroke', acHex);
+
+        lerpArr(cur.edColor, s.edColor, 0.45);
+        if (!snap(cur.edColor, s.edColor, 1)) done = false;
+        edSpan.style.color = toHex(cur.edColor);
+
+        if (!done) raf = requestAnimationFrame(animate);
+        else raf = 0;
+      }
+
+      function transitionTo(state: string) {
+        target = state;
+        if (!raf) raf = requestAnimationFrame(animate);
+      }
+
+      cta.addEventListener('mouseenter', () => transitionTo('active'));
+      cta.addEventListener('mouseleave', () => transitionTo('neutral'));
+      cta.addEventListener('focus', () => transitionTo('active'));
+      cta.addEventListener('blur', () => transitionTo('neutral'));
+
+      contribute.addEventListener('mouseenter', () => transitionTo('contribute'));
+      contribute.addEventListener('mouseleave', () => transitionTo('neutral'));
+      contribute.addEventListener('focus', () => transitionTo('contribute'));
+      contribute.addEventListener('blur', () => transitionTo('neutral'));
+    </script>
   </section>
 
   <div class="max-w-6xl mx-auto px-6">
@@ -153,14 +297,29 @@ import { PHYSICS_RADIAL_NODES, PHYSICS_RADIAL_EDGES, PHYSICS_RINGS } from '../li
 
   <!-- About blurb -->
   <section class="max-w-6xl mx-auto px-6 py-12">
-    <div class="max-w-2xl">
-      <h2 class="text-2xl mb-6">What is this?</h2>
-      <p class="text-surface-600 leading-relaxed mb-4">
-        Charted is an open-source project to build an interactive map of human knowledge, starting with mathematics. Each topic is a node you can explore — read about it, see how it connects to other fields, and trace the prerequisites that lead there.
-      </p>
-      <p class="text-surface-600 leading-relaxed">
-        Anyone can contribute. Add a topic, improve an explanation, draw a connection. The goal is not to be an encyclopedia — it's to show the shape of each science as a living, interconnected whole.
-      </p>
+    <div class="grid md:grid-cols-3 gap-10">
+      <div>
+        <h2 class="text-xl mb-3">What is this?</h2>
+        <p class="text-surface-600 leading-relaxed">
+          Charted is an open-source atlas of the sciences. Every topic is a node, every prerequisite is an edge.
+          The MVP focuses on the path to modern machine learning — the foundations you need to read a frontier paper,
+          mapped end to end.
+        </p>
+      </div>
+      <div>
+        <h2 class="text-xl mb-3">Agents draft, humans review</h2>
+        <p class="text-surface-600 leading-relaxed">
+          Agents do what they do best: vast research and exploration. Humans do what humans do best: review.
+          Each topic is reviewed by domain experts whose credentials are tracked publicly in the registry.
+        </p>
+      </div>
+      <div>
+        <h2 class="text-xl mb-3">Two ways to use it</h2>
+        <p class="text-surface-600 leading-relaxed">
+          <strong>Path to:</strong> pick a topic you want to read and see every prerequisite.
+          <strong>What's next:</strong> pick what you already know and see where it leads. Both run on the same map.
+        </p>
+      </div>
     </div>
   </section>
 
@@ -168,59 +327,16 @@ import { PHYSICS_RADIAL_NODES, PHYSICS_RADIAL_EDGES, PHYSICS_RINGS } from '../li
     <DottedSeparator />
   </div>
 
-  <!-- Mathematics Map -->
-  <section id="mathematics" data-domain="mathematics" class="max-w-6xl mx-auto px-6 py-12">
-    <h2 class="text-2xl mb-2 text-accent-600">Mathematics</h2>
-    <p class="text-surface-500 font-mono text-sm uppercase tracking-wider mb-8">62 topics across 6 rings — click to explore</p>
-    <div class="max-w-7xl mx-auto">
-      <RadialMap
-        client:load
-        nodes={MATH_RADIAL_NODES}
-        edges={MATH_RADIAL_EDGES}
-        rings={MATH_RINGS}
-        viewBoxWidth={1200}
-        viewBoxHeight={820}
-        defaultAccent="#ef4444"
-      />
+  <!-- Full atlas -->
+  <section class="max-w-7xl mx-auto px-6 py-12">
+    <div class="flex items-baseline gap-4 mb-2">
+      <h2 class="text-2xl">The atlas</h2>
+      <span class="text-surface-500 font-mono text-xs uppercase tracking-wider">
+        {nodes.length} topics · {edges.length} prerequisites
+      </span>
     </div>
-  </section>
-
-  <div class="max-w-6xl mx-auto px-6">
-    <DottedSeparator />
-  </div>
-
-  <!-- Computer Science Map -->
-  <section id="computer-science" data-domain="computer-science" class="max-w-6xl mx-auto px-6 py-12">
-    <h2 class="text-2xl mb-2 text-accent-600">Computer Science</h2>
-    <p class="text-surface-500 font-mono text-sm uppercase tracking-wider mb-8">29 topics across 4 rings — click to explore</p>
-    <div class="max-w-7xl mx-auto">
-      <RadialMap
-        client:load
-        nodes={CS_RADIAL_NODES}
-        edges={CS_RADIAL_EDGES}
-        rings={CS_RINGS}
-        defaultAccent="#3b82f6"
-      />
-    </div>
-  </section>
-
-  <div class="max-w-6xl mx-auto px-6">
-    <DottedSeparator />
-  </div>
-
-  <!-- Physics Map -->
-  <section id="physics" data-domain="physics" class="max-w-6xl mx-auto px-6 py-12">
-    <h2 class="text-2xl mb-2 text-accent-600">Physics</h2>
-    <p class="text-surface-500 font-mono text-sm uppercase tracking-wider mb-8">26 topics across 4 rings — click to explore</p>
-    <div class="max-w-7xl mx-auto">
-      <RadialMap
-        client:load
-        nodes={PHYSICS_RADIAL_NODES}
-        edges={PHYSICS_RADIAL_EDGES}
-        rings={PHYSICS_RINGS}
-        defaultAccent="#f59e0b"
-      />
-    </div>
+    <p class="text-surface-500 mb-8">One unified graph. Arrows point from prerequisites to dependents. Click a node to dive in, or pick a topic to trace its path.</p>
+    <AtlasGraph client:only="react" nodes={nodes} edges={edges} height={680} />
   </section>
 
   <div class="max-w-6xl mx-auto px-6">
@@ -231,7 +347,8 @@ import { PHYSICS_RADIAL_NODES, PHYSICS_RADIAL_EDGES, PHYSICS_RINGS } from '../li
   <section class="max-w-6xl mx-auto px-6 py-16 text-center">
     <h2 class="text-2xl mb-4">Help map the sciences</h2>
     <p class="text-surface-600 max-w-lg mx-auto mb-8">
-      Charted is built by contributors. Pick a topic you know, write about it, and submit a pull request.
+      Charted is built by contributors. Read <a href="/about" class="underline decoration-dotted hover:text-accent-600">how it works</a>,
+      pick a topic in your domain, and submit a pull request.
     </p>
     <a
       href="https://github.com/codika-io/charted"
@@ -239,172 +356,7 @@ import { PHYSICS_RADIAL_NODES, PHYSICS_RADIAL_EDGES, PHYSICS_RINGS } from '../li
       rel="noopener noreferrer"
       class="inline-block font-mono text-sm uppercase tracking-wider bg-surface-900 text-white px-8 py-3 hover:bg-surface-800 transition-colors"
     >
-      Start Contributing
+      Start contributing
     </a>
   </section>
-
-  <!-- Hero chart animation script -->
-  <script>
-    const GEOM = [
-      { cx: 130, baseY: 240, hw: 30 },
-      { cx: 200, baseY: 260, hw: 30 },
-      { cx: 270, baseY: 270, hw: 30 },
-      { cx: 200, baseY: 200, hw: 20 },
-    ];
-
-    const DOTS = [
-      { cx: 130, block: 0, offset: 10 },
-      { cx: 200, block: 3, offset: 10 },
-      { cx: 270, block: 2, offset: 5 },
-    ];
-
-    const GRAY = [163, 163, 163]; // #a3a3a3
-    const RED = [239, 68, 68];    // #ef4444
-    const RED_L = [252, 165, 165]; // #fca5a5
-    const BLUE = [59, 130, 246];  // #3b82f6
-    const BLUE_L = [147, 197, 253]; // #93c5fd
-    const DARK = [23, 23, 23];    // #171717 (surface-900)
-
-    const STATES: Record<string, { heights: number[]; colors: number[][]; accent: number[]; edColor: number[] }> = {
-      neutral: {
-        heights: [50, 40, 30, 50],
-        colors: [GRAY, GRAY, GRAY, GRAY],
-        accent: GRAY,
-        edColor: DARK,
-      },
-      mathematics: {
-        heights: [100, 70, 40, 100],
-        colors: [RED, RED, RED_L, RED],
-        accent: RED,
-        edColor: RED,
-      },
-      'computer-science': {
-        heights: [40, 95, 65, 110],
-        colors: [BLUE, BLUE, BLUE_L, BLUE],
-        accent: BLUE,
-        edColor: BLUE,
-      },
-      'physics': {
-        heights: [85, 70, 50, 105],
-        colors: [[245, 158, 11], [245, 158, 11], [250, 207, 133], [245, 158, 11]],
-        accent: [245, 158, 11],
-        edColor: [245, 158, 11],
-      },
-    };
-
-    // Current animated values
-    const cur = {
-      wh: [50, 40, 30, 50],
-      colors: [GRAY.slice(), GRAY.slice(), GRAY.slice(), GRAY.slice()],
-      accent: GRAY.slice(),
-      edColor: DARK.slice(),
-    };
-
-    let target = 'neutral';
-    let raf = 0;
-
-    // DOM refs
-    const blocks = [0, 1, 2, 3].map(i =>
-      document.getElementById(`hero-block-${i}`)!.querySelectorAll('polygon')
-    );
-    const dots = [0, 1, 2].map(i => document.getElementById(`hero-dot-${i}`)!);
-    const lines = [0, 1].map(i => document.getElementById(`hero-line-${i}`)!);
-    const edSpan = document.getElementById('hero-ed')!;
-
-    function toHex(rgb: number[]) {
-      return '#' + rgb.map(c => Math.round(c).toString(16).padStart(2, '0')).join('');
-    }
-
-    function pts(cx: number, baseY: number, hw: number, wh: number) {
-      const bR = baseY - hw / 2;
-      const tR = bR - wh;
-      return {
-        right: `${cx},${baseY} ${cx + hw},${bR} ${cx + hw},${tR} ${cx},${baseY - wh}`,
-        left: `${cx},${baseY} ${cx - hw},${bR} ${cx - hw},${tR} ${cx},${baseY - wh}`,
-        top: `${cx - hw},${tR} ${cx},${baseY - hw - wh} ${cx + hw},${tR} ${cx},${baseY - wh}`,
-      };
-    }
-
-    function lerpArr(a: number[], b: number[], t: number) {
-      for (let i = 0; i < a.length; i++) a[i] += (b[i] - a[i]) * t;
-    }
-
-    function settled(a: number[], b: number[], eps: number) {
-      return a.every((v, i) => Math.abs(v - b[i]) < eps);
-    }
-
-    function snap(a: number[], b: number[], eps: number) {
-      if (settled(a, b, eps)) { for (let i = 0; i < a.length; i++) a[i] = b[i]; return true; }
-      return false;
-    }
-
-    function animate() {
-      const s = STATES[target];
-      let done = true;
-      const E = 0.25;
-
-      for (let i = 0; i < 4; i++) {
-        // Height
-        cur.wh[i] += (s.heights[i] - cur.wh[i]) * E;
-        if (Math.abs(cur.wh[i] - s.heights[i]) < 0.3) cur.wh[i] = s.heights[i]; else done = false;
-
-        // Color
-        lerpArr(cur.colors[i], s.colors[i], E);
-        if (!snap(cur.colors[i], s.colors[i], 1)) done = false;
-
-        // Update polygons
-        const { cx, baseY, hw } = GEOM[i];
-        const p = pts(cx, baseY, hw, cur.wh[i]);
-        const col = toHex(cur.colors[i]);
-        const polys = blocks[i];
-        polys[0].setAttribute('points', p.right); polys[0].setAttribute('fill', col);
-        polys[1].setAttribute('points', p.left); polys[1].setAttribute('fill', col);
-        polys[2].setAttribute('points', p.top); polys[2].setAttribute('fill', col);
-        polys[3].setAttribute('points', p.top); polys[3].setAttribute('stroke', col);
-        polys[4].setAttribute('points', p.right); polys[4].setAttribute('stroke', col);
-        polys[5].setAttribute('points', p.left); polys[5].setAttribute('stroke', col);
-      }
-
-      // Accent (dots + lines)
-      lerpArr(cur.accent, s.accent, E);
-      if (!snap(cur.accent, s.accent, 1)) done = false;
-      const acHex = toHex(cur.accent);
-
-      for (let i = 0; i < DOTS.length; i++) {
-        const d = DOTS[i];
-        const { baseY, hw } = GEOM[d.block];
-        dots[i].setAttribute('cy', String(baseY - hw - cur.wh[d.block] - d.offset));
-        dots[i].setAttribute('fill', acHex);
-      }
-
-      const dotCys = DOTS.map(d => {
-        const { baseY, hw } = GEOM[d.block];
-        return baseY - hw - cur.wh[d.block] - d.offset;
-      });
-      lines[0].setAttribute('y1', String(dotCys[0])); lines[0].setAttribute('y2', String(dotCys[1]));
-      lines[0].setAttribute('stroke', acHex);
-      lines[1].setAttribute('y1', String(dotCys[1])); lines[1].setAttribute('y2', String(dotCys[2]));
-      lines[1].setAttribute('stroke', acHex);
-
-      // "ed" color
-      lerpArr(cur.edColor, s.edColor, 0.45);
-      if (!snap(cur.edColor, s.edColor, 1)) done = false;
-      edSpan.style.color = toHex(cur.edColor);
-
-      if (!done) raf = requestAnimationFrame(animate); else raf = 0;
-    }
-
-    function transitionTo(state: string) {
-      target = state;
-      if (!raf) raf = requestAnimationFrame(animate);
-    }
-
-    document.querySelectorAll<HTMLElement>('[data-hero-domain]').forEach(el => {
-      el.addEventListener('mouseenter', () => transitionTo(el.dataset.heroDomain!));
-    });
-
-    document.getElementById('hero-dropdown')!.addEventListener('mouseleave', () => {
-      transitionTo('neutral');
-    });
-  </script>
 </BaseLayout>

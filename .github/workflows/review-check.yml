@@ -1,0 +1,107 @@
+name: Review attestation check
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+jobs:
+  attestation:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install minimal deps
+        run: npm install yaml --no-save
+
+      - name: Validate reviewer attestation (soft)
+        uses: actions/github-script@v7
+        env:
+          PR_BODY: ${{ github.event.pull_request.body }}
+          PR_USER: ${{ github.event.pull_request.user.login }}
+        with:
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+            const YAML = require('yaml');
+
+            const body = process.env.PR_BODY ?? '';
+            const author = process.env.PR_USER ?? '';
+
+            const handleMatch = body.match(/Reviewer-GitHub:\s*@?([\w-]+)/i);
+            const orcidMatch = body.match(/Reviewer-ORCID:\s*([\d-Xx~]+)/i);
+            const tierMatch = body.match(/Reviewer-Tier:\s*(foundation|field|frontier)/i);
+
+            let reviewers = [];
+            try {
+              const raw = fs.readFileSync(path.join(process.cwd(), 'reviewers.yml'), 'utf8');
+              const parsed = YAML.parse(raw);
+              if (Array.isArray(parsed)) reviewers = parsed;
+            } catch (e) {
+              core.warning(`Could not read reviewers.yml: ${e.message}`);
+            }
+
+            const lines = [];
+            lines.push('### Reviewer attestation check');
+
+            if (!handleMatch) {
+              lines.push('- ⚠️ Missing `Reviewer-GitHub:` trailer in PR description');
+            } else {
+              const handle = handleMatch[1];
+              const entry = reviewers.find(r => r?.github === handle);
+              if (!entry) {
+                lines.push(`- ⚠️ \`@${handle}\` is not in \`reviewers.yml\` — needs maintainer override`);
+              } else {
+                lines.push(`- ✅ \`@${handle}\` is registered (tier: \`${entry.tier}\`, expertise: ${entry.expertise.length} entries)`);
+              }
+              if (handle !== author) {
+                lines.push(`- ℹ️ PR author is \`@${author}\`, attested reviewer is \`@${handle}\` — that's allowed but worth confirming`);
+              }
+            }
+
+            if (!orcidMatch) {
+              lines.push('- ⚠️ Missing `Reviewer-ORCID:` trailer (use `~` if not applicable, but please add an ORCID for frontier reviews)');
+            } else {
+              lines.push(`- ✅ ORCID provided: \`${orcidMatch[1]}\``);
+            }
+
+            if (!tierMatch) {
+              lines.push('- ⚠️ Missing `Reviewer-Tier:` trailer (one of: foundation | field | frontier)');
+            } else {
+              lines.push(`- ✅ Tier asserted: \`${tierMatch[1]}\``);
+            }
+
+            lines.push('');
+            lines.push('_This check is **advisory** — it never blocks merge. A maintainer will make the final call._');
+
+            const message = lines.join('\n');
+
+            // Find existing comment from this workflow and update, otherwise create.
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+            const marker = '### Reviewer attestation check';
+            const existing = comments.find(c => c.body?.startsWith(marker) && c.user?.type === 'Bot');
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existing.id,
+                body: message,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: message,
+              });
+            }
