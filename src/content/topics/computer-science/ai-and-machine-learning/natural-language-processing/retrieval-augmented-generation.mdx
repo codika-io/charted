@@ -1,0 +1,30 @@
+---
+title: Retrieval-Augmented Generation
+description: Augmenting language models with non-parametric memory — retrieving evidence at inference time from documents, knowledge graphs, or external stores to ground generation in verifiable, up-to-date information.
+parent: computer-science/ai-and-machine-learning/natural-language-processing
+order: 1
+color: '#3b82f6'
+difficulty: advanced
+prerequisites:
+  - computer-science/ai-and-machine-learning/natural-language-processing
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-07'
+reviewTier: frontier
+sources:
+  - type: paper
+    title: 'Give us the Facts: Enhancing Large Language Models With Knowledge Graphs for Fact-Aware Language Modeling'
+    authors: [yang-2024]
+    year: 2024
+    doi: 10.1109/TKDE.2024.3360454
+    role: primary
+---
+
+A **retrieval-augmented language model** decomposes language modelling into two stages: a *retriever* that surfaces evidence relevant to the prompt from an external store, and a *generator* that conditions on both the prompt and the retrieved evidence to produce its output. The premise is that the parametric memory of a large language model is necessarily lossy, stale, and hard to attribute, while a non-parametric store — a corpus of documents, a search index, a knowledge graph — can be updated, audited, and cited. The two-stage architecture trades a small amount of latency for sharply improved factuality, recency, and provenance.
+
+The retrieval side draws on decades of work in information retrieval: BM25 and other lexical scoring methods, dense passage retrieval based on dual-encoder embeddings, and learned hybrid scoring. Two design choices dominate: what to retrieve (passages, full documents, structured triples) and how to integrate the retrieved content (in-context concatenation, fusion-in-decoder, cross-attention to retrieved tokens). The generation side is typically a standard transformer language model, but the choice of how it consumes evidence determines whether retrieval improves or hurts coherence.
+
+A particularly active subfield augments language models with **knowledge graphs** rather than free text. Linking entities mentioned in the prompt to graph nodes, then injecting relevant triples or subgraphs into the generation context, lets the model reason over structured relations that are difficult to learn purely from sequence prediction. *Yang et al.* survey this design space and propose a framework for **fact-aware language modeling** that injects knowledge-graph evidence at training and inference time, contrasting it with retrieval over textual corpora and analysing where each excels.
+
+Open problems span the full pipeline: training the retriever and generator jointly, deciding when *not* to retrieve (most queries do not benefit), evaluating retrieval-grounded outputs at scale, mitigating distractor passages, handling multi-hop and structured queries, and integrating retrieval with tool-use and agentic loops. The field continues to bridge classical IR, knowledge representation, and modern transformer training — making it one of the most consequential applied research areas in language modelling today.

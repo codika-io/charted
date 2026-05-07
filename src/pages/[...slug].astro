@@ -79,10 +79,15 @@ const tierColors: Record<string, string> = {
   frontier: 'bg-accent-100 text-accent-800 border-accent-500',
 };
 
-// Sidebar data — only for topic pages (parent contains "/", e.g. "mathematics/logic")
-// Archived topics still build pages (so old URLs work) but render in
-// single-column mode — their branch is also archived and out of scope.
-const isTopicPage = !!topic.data.parent && topic.data.parent.includes('/') && topic.data.status !== 'archived';
+// Sidebar data — only for topic pages whose branch (depth-2) ancestor exists.
+// Branch sidebar requires a "branch index" (e.g. mathematics/logic). Topics
+// nested deeper than 2 levels under a domain (e.g. .../natural-language-processing/X)
+// fall back to the single-column non-topic-page layout for now.
+const parentParts = (topic.data.parent ?? '').split('/');
+const isTopicPage =
+  !!topic.data.parent &&
+  parentParts.length === 2 &&
+  topic.data.status !== 'archived';
 
 const h2Headings = headings.filter((h: { depth: number }) => h.depth === 2);
 

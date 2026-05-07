@@ -12,7 +12,7 @@
   "scripts": {
     "predev": "node scripts/build-graph.mjs",
     "dev": "astro dev",
-    "prebuild": "node scripts/build-graph.mjs",
+    "prebuild": "rm -rf .astro && node scripts/build-graph.mjs",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",

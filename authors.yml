@@ -14,3 +14,25 @@
 #   contact:
 #     scholar: https://scholar.google.com/citations?user=...
 #     email: ~
+
+yang-2024:
+  name: Linyao Yang
+  orcid: 0000-0003-0826-9453
+  affiliation: Zhejiang Lab
+  affiliation_country: CN
+  openalex: https://openalex.org/A5088598615
+  h_index: 11
+  contact:
+    email: ~
+    scholar: ~
+
+hofmann-2024:
+  name: Valentin Hofmann
+  orcid: 0000-0001-6603-3428
+  affiliation: Ludwig Maximilian University of Munich
+  affiliation_country: DE
+  openalex: https://openalex.org/A5014923355
+  h_index: 10
+  contact:
+    email: ~
+    scholar: ~
