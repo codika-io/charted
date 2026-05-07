@@ -1,0 +1,69 @@
+---
+title: Language Model Alignment
+description: The methods used to train large language models to behave helpfully and harmlessly — reward models, RLHF, direct preference optimization, AI feedback, refusal training, and norm elicitation.
+parent: computer-science/ai-and-machine-learning/natural-language-processing
+order: 3
+color: '#3b82f6'
+difficulty: advanced
+prerequisites:
+  - computer-science/ai-and-machine-learning/natural-language-processing
+  - computer-science/ai-and-machine-learning/machine-learning
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-07'
+reviewTier: frontier
+sources:
+  - type: paper
+    title: 'Human-in-the-Loop Reinforcement Learning: A Survey and Position on Requirements, Challenges, and Opportunities'
+    authors: [retzlaff-2024]
+    year: 2024
+    doi: 10.1613/jair.1.15348
+    role: primary
+  - type: paper
+    title: 'STELA: a community-centred approach to norm elicitation for AI alignment'
+    authors: [bergman-2024]
+    year: 2024
+    doi: 10.1038/s41598-024-56648-4
+    role: primary
+  - type: paper
+    title: 'Defending Against Alignment-Breaking Attacks via Robustly Aligned LLM'
+    authors: [cao-2024]
+    year: 2024
+    doi: 10.18653/v1/2024.acl-long.568
+    role: primary
+  - type: paper
+    title: 'ReFT: Reasoning with Reinforced Fine-Tuning'
+    authors: [trung-2024]
+    year: 2024
+    doi: 10.18653/v1/2024.acl-long.410
+    role: primary
+---
+
+A large language model trained only on next-token prediction is not yet a useful assistant. It will mimic the distribution of its training data — including the parts that are confused, deceptive, dangerous, or irrelevant to a user's actual request. **Language model alignment** is the body of training-time and post-training methods that turn a raw pretrained model into one that follows instructions, refuses harmful requests, and reflects a defensible set of human preferences. It is methodologically distinct from generic supervised fine-tuning: alignment objectives are derived from human or AI judgments of *relative* quality, and the training signal is shaped by a reward function rather than a fixed label.
+
+## From Demonstrations to Preferences
+
+The earliest instruction-tuned models were produced by **supervised fine-tuning (SFT)** on demonstrations — pairs of (prompt, ideal response) authored by human labellers. SFT is fast and stable, but it caps the model at the demonstrators' skill level and gives no signal for behaviours that are easy to recognise but hard to write from scratch. The dominant alignment paradigm therefore moved to **preference data**: humans compare two model outputs and indicate which is better, and the model is trained to produce outputs that win those comparisons.
+
+The classical recipe is **reinforcement learning from human feedback (RLHF)**: fit a reward model $r_\phi(x, y)$ on preference pairs using a Bradley–Terry likelihood, then optimise the policy $\pi_\theta(y \mid x)$ against $r_\phi$ with a reinforcement learning algorithm — typically PPO — while penalising KL divergence from a reference policy to prevent reward hacking. RLHF inherits the well-known instabilities of policy-gradient RL on long-horizon language tasks, and the reward model is a frequent point of failure: a slightly miscalibrated $r_\phi$ can be aggressively exploited by the policy. **Direct preference optimization (DPO)** sidesteps the reward-modelling stage entirely, observing that the optimal policy under a KL-constrained reward objective has a closed form in terms of the preferences themselves; the result is a supervised loss that recovers RLHF's behaviour without an explicit RL loop.
+
+Both families fit naturally inside the broader frame of **human-in-the-loop reinforcement learning**. *Retzlaff et al.* (2024) survey the design space — what humans contribute (demonstrations, preferences, corrections, reward shaping), when they contribute it (offline, online, on-policy), and the requirements that make those interactions tractable at scale — and argue that real-world RL systems should be specified as HITL systems from the outset rather than retrofitted with human feedback after the fact. The survey is one of the first to systematise alignment-style training within the older HITL-RL literature, providing a vocabulary for comparing recipes that differ along the human-effort and feedback-richness axes.
+
+## Eliciting Norms — What Are We Aligning To?
+
+Preference data presupposes a population whose preferences are being collected, and the choice of that population is itself a research question. Standard datasets are gathered from contractor labellers under broad guidelines, which compresses an enormous space of human values into a small set of policies authored by the model developer. *Bergman et al.* (2024) propose **STELA** — a community-centred approach to norm elicitation that engages affected communities as co-designers of the policy rather than as targets of it. STELA combines deliberative workshops with empirical preference collection, surfacing the disagreements within communities and the tradeoffs between pluralism and consistency that any single deployed policy must resolve. The methodology positions alignment as a participatory exercise rather than a purely technical one, and gives a concrete protocol for pluralistic preference elicitation that downstream work can extend.
+
+## Refusal Training and Robustness
+
+A central alignment objective is **refusal**: the model must decline to comply with prompts that violate the developer's policy — instructions for synthesising weapons, content that sexualises minors, planning violence against specific people. Refusal training is implemented as part of the same preference pipeline, with refusal completions preferred over compliant ones for prompts in the policy-violating distribution. The resulting refusal behaviour is, however, fragile: it can be circumvented by jailbreak attacks (covered in the [Jailbreak and Red Teaming](./jailbreak-and-red-teaming) topic), and even by benign distribution shift.
+
+*Cao et al.* (2024) propose **RA-LLM**, a defense that wraps a deployed model with a robustly-aligned response head: candidate completions from the underlying policy are screened against an alignment classifier that has itself been hardened against adversarial prompts, and only completions that pass are returned. The technique illustrates the broader pattern of **inference-time alignment** — placing alignment guarantees at decoding rather than only at training — and gives empirical evidence that alignment training on its own does not reliably transfer to adversarial inputs.
+
+## Beyond Helpfulness: Reasoning as a Reinforced Objective
+
+Preference-based training generalises beyond helpfulness and harmlessness. *Trung et al.* (2024) introduce **ReFT** (Reinforced Fine-Tuning) for chain-of-thought reasoning: starting from a model already supervised-fine-tuned on chain-of-thought traces, ReFT optimises the policy with PPO using the eventual answer correctness as the reward signal. The result is improved reasoning generalisation compared to SFT alone, with the same training data, and demonstrates that the RLHF machinery is general — once a verifiable reward is available, the policy-gradient pipeline can sharpen any task on which the base model has non-trivial capability. ReFT prefigures the wave of **RL with verifiable rewards** that drives current frontier reasoning models, where the reward is no longer a fitted preference model but a programmatic checker.
+
+## Open Methodological Questions
+
+Alignment methodology continues to move quickly. Open questions include: how to scale preference collection without flattening it through aggregation; how to mitigate **reward hacking** when the reward model is differentiable through the policy; how to detect and reduce **sycophancy** — the policy's tendency to agree with the user rather than the truth; how to combine SFT, RLHF/DPO, and RL-with-verifiable-rewards into a single coherent pipeline; and how to evaluate alignment without leaking the evaluation set into the training data via the model deployer's own labellers. The field's centre of gravity is shifting from "is the trained model helpful" to "is the trained model helpful, harmless, honest, *and* its alignment properties demonstrably robust to red-teaming," with the latter requirement establishing a tight coupling to the work surveyed in the red-teaming topic.
