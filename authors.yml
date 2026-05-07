@@ -36,3 +36,47 @@ hofmann-2024:
   contact:
     email: ~
     scholar: ~
+
+retzlaff-2024:
+  name: Carl Orge Retzlaff
+  orcid: 0000-0002-0139-2590
+  affiliation: University of Life Sciences in Lublin
+  affiliation_country: PL
+  openalex: https://openalex.org/A5013076932
+  h_index: 8
+  contact:
+    email: ~
+    scholar: ~
+
+nahrendra-2023:
+  name: I Made Aswin Nahrendra
+  orcid: 0000-0001-9515-7059
+  affiliation: Korea Advanced Institute of Science and Technology
+  affiliation_country: KR
+  openalex: https://openalex.org/A5031946207
+  h_index: 5
+  contact:
+    email: ~
+    scholar: ~
+
+margolis-2024:
+  name: Gabriel B. Margolis
+  orcid: 0000-0001-8191-4813
+  affiliation: Massachusetts Institute of Technology
+  affiliation_country: US
+  openalex: https://openalex.org/A5014707090
+  h_index: 6
+  contact:
+    email: ~
+    scholar: ~
+
+zhu-2024:
+  name: Changxi Zhu
+  orcid: 0000-0002-2910-5506
+  affiliation: Utrecht University
+  affiliation_country: NL
+  openalex: https://openalex.org/A5053438680
+  h_index: 8
+  contact:
+    email: ~
+    scholar: ~

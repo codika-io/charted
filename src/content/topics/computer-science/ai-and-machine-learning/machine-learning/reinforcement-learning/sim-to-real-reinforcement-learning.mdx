@@ -1,0 +1,38 @@
+---
+title: "Sim-to-Real Reinforcement Learning"
+description: "Training control policies in simulation that transfer reliably to physical hardware — domain randomization, asymmetric actor-critic, and implicit system identification."
+parent: computer-science/ai-and-machine-learning/machine-learning/reinforcement-learning
+order: 2
+color: "#3b82f6"
+difficulty: advanced
+prerequisites:
+  - computer-science/ai-and-machine-learning/machine-learning/reinforcement-learning
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: "2026-05-07"
+reviewTier: frontier
+sources:
+  - type: paper
+    title: "DreamWaQ: Learning Robust Quadrupedal Locomotion With Implicit Terrain Imagination via Deep Reinforcement Learning"
+    authors: [nahrendra-2023]
+    year: 2023
+    doi: 10.1109/ICRA48891.2023.10161144
+    role: primary
+  - type: paper
+    title: "Rapid Locomotion via Reinforcement Learning"
+    authors: [margolis-2024]
+    year: 2024
+    doi: 10.1177/02783649231224053
+    role: primary
+---
+
+**Sim-to-real reinforcement learning** is the methodology cluster concerned with training a policy in a fast, cheap, controllable simulator and deploying it on a real physical system without significant degradation. The problem is genuinely hard: simulators get contact dynamics, friction, sensor noise, actuator delays, and terrain compliance subtly wrong, and a policy that exploits those gaps in simulation will fail on hardware. The methods that work tend not to be specific to a particular robot — they are general recipes for closing the **reality gap** during training, and they have become a separate methodological tradition within deep RL.
+
+Three recipes recur. **Domain randomization** trains the policy across a distribution of simulator parameters — masses, friction coefficients, gains, latencies — so that the deployed real-world dynamics look like just another sample from the training distribution. **Asymmetric actor-critic** architectures give the critic privileged access to the simulator's full state during training while restricting the actor to the partial observations available on the real robot, producing a deployable policy supervised by a critic that has seen ground truth. **Implicit system identification** trains an encoder to summarize a short history of observed states and actions into a latent vector that captures the agent's current dynamics regime, letting the policy adapt online without an explicit identification step.
+
+Nahrendra and colleagues' **DreamWaQ** combines several of these ideas into a single quadrupedal-locomotion architecture. A context encoder distills proprioceptive history into an implicit terrain representation, the actor conditions on that representation plus the current observation, and an asymmetric critic uses privileged terrain information available only in simulation. The resulting policy walks robustly across terrains the robot has never physically encountered — gravel, slopes, soft surfaces — without the explicit terrain mapping that earlier pipelines required. Their contribution sits at the methodology level, not the application level: the same training recipe transfers to other quadrupeds and other unstructured-terrain tasks.
+
+Margolis and colleagues push the same family of methods toward **agility rather than just robustness**. Their controller for the MIT Mini Cheetah sustains 3.9 m/s in the wild, on natural terrains like ice and grass, and recovers from external disturbances. The methodological contributions are a learning curriculum that progressively widens the velocity command distribution and an implicit system identification module that lets a single network adapt to terrain and payload variations at deployment time. Together, the two papers stake out the design space that today defines competent legged-locomotion sim-to-real: privileged-critic training, terrain or dynamics latents inferred from short proprioceptive histories, and aggressive randomization over the parameters the simulator is most likely to get wrong.
+
+The open problems mirror the recipes. How wide should the randomization distribution be before the policy becomes too conservative to be useful? When does explicit system identification beat implicit identification, and vice versa? Can the same recipes be made to work for contact-rich manipulation, where the dynamics are far less benign than in locomotion? And how do these methods compose with high-frequency model-predictive control layers underneath, or with language-conditioned policy heads on top? These are the questions driving the next generation of sim-to-real methodology.
