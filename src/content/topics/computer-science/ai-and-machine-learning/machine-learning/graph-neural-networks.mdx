@@ -1,0 +1,54 @@
+---
+title: Graph Neural Networks
+description: Neural architectures that operate on graph-structured data through message passing, attention, and equivariant operations — the dominant approach to learning on networks, molecules, and relational data.
+parent: computer-science/ai-and-machine-learning/machine-learning
+order: 4
+color: '#3b82f6'
+difficulty: advanced
+prerequisites:
+  - computer-science/ai-and-machine-learning/machine-learning
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-07'
+reviewTier: frontier
+sources:
+  - type: paper
+    title: 'Graph Mamba: Towards Learning on Graphs with State Space Models'
+    authors: [behrouz-2024]
+    year: 2024
+    doi: 10.1145/3637528.3672044
+    role: primary
+  - type: paper
+    title: 'E(n)-Equivariant cartesian tensor message passing interatomic potential'
+    authors: [wang-junjie-2024]
+    year: 2024
+    doi: 10.1038/s41467-024-51886-6
+    role: supporting
+  - type: paper
+    title: 'FlowX: Towards Explainable Graph Neural Networks via Message Flows'
+    authors: [gui-2023]
+    year: 2023
+    doi: 10.1109/tpami.2023.3347470
+    role: supporting
+---
+
+A **graph neural network (GNN)** is a learnable function on graph-structured inputs that respects the permutation symmetry of nodes and the locality of edges. Most modern GNNs are **message-passing neural networks (MPNNs)**: each node iteratively aggregates feature vectors from its neighbours, transforms the aggregate, and updates its own state. Stacking $k$ such layers lets every node mix information from its $k$-hop neighbourhood, producing representations that can be pooled into edge-, subgraph-, or graph-level predictions. The framework subsumes graph convolutional networks (GCN), graph attention networks (GAT), GraphSAGE, and the message-passing variants developed for molecular property prediction. GNNs are now the standard tool for learning on networks (citation graphs, social graphs), molecules and materials, knowledge graphs, traffic and physical systems, and any setting where inductive biases over relational structure beat treating data as a flat set or sequence.
+
+## Architectural limits of message passing
+
+The dominant pattern — local aggregation, repeated $k$ times — has well-understood weaknesses. *Over-smoothing* makes node representations converge to indistinguishable values as depth grows, because each layer averages over neighbourhoods. *Over-squashing* compresses an exponentially large receptive field into a fixed-size vector, so signal from distant nodes is lost when graphs have bottlenecks. And the expressive power of standard MPNNs is bounded above by the **1-dimensional Weisfeiler-Leman (1-WL) graph-isomorphism test**, meaning there are pairs of non-isomorphic graphs that no MPNN of any depth can distinguish. These three findings — over-smoothing, over-squashing, and the WL ceiling — define the methodological agenda for GNN architecture research, and most architectural innovations of the last few years can be read as attempts to break one of them.
+
+**Graph transformers** were the first major alternative: replace local aggregation with full self-attention over all nodes, sometimes augmented with positional encodings derived from random walks or Laplacian eigenvectors. They sidestep the WL ceiling and over-squashing at the cost of quadratic attention and a heavy reliance on the chosen positional-encoding scheme. *Behrouz and Hashemi* (2024) propose **Graph Mamba Networks**, a different escape from this tradeoff that imports **selective state-space models** (the Mamba architecture) into graph learning. Their analysis argues that "transformers, complex message-passing, and positional encodings are sufficient for good performance in practice, but neither is necessary": with appropriate **neighbourhood tokenisation**, **token ordering**, and **local encoding**, an SSM-based encoder can capture long-range dependencies on graphs at sub-quadratic cost. The paper provides theoretical bounds on expressive power and shows competitive results on standard benchmarks, opening a third architectural family alongside MPNNs and graph transformers.
+
+## Geometric deep learning and equivariance
+
+A second methodological strand starts from physics. When the graph encodes a geometric object — atoms in a molecule, particles in a simulation, joints of a body — the learned function must respect the symmetries of Euclidean space: translations, rotations, and reflections in $\mathrm{E}(n)$. **Equivariant GNNs** build these symmetries directly into the message function so that rotating the input rotates the output by the same transformation, rather than relying on data augmentation. The early E(n)-equivariant GNN (Satorras et al. 2021) propagated only scalars and vectors. *Wang et al.* (2024) extend this with **HotPP**, an E(n)-equivariant message-passing potential whose node embeddings and messages are **Cartesian tensors of arbitrary order**. The higher-order tensors let the same network predict not only energies and forces but also dipole moments, polarisabilities, and full vibrational spectra without per-property heads, providing one of the cleanest demonstrations to date that increasing the *tensor order* of equivariant features (rather than just the depth or width) is the right axis for richer geometric expressivity. The construction has become a template for interatomic-potential models in chemistry and materials science.
+
+## Explainability and message-flow attribution
+
+Standard interpretability methods for neural networks — saliency, integrated gradients, attention weights — translate awkwardly to GNNs because the relevant computational unit is not a single edge or node feature but the *path* a piece of information travels through the layered message-passing graph. *Gui et al.* (2023) make this explicit with **FlowX**, an explainability method that attributes a GNN's prediction to **message flows** — sequences of edges traversed across layers. Treating each flow as a player in a cooperative game, they approximate the **Shapley value** of every flow with a sampling scheme, then train per-flow scores under information-control objectives that target either *necessary* or *sufficient* explanations. The framework recovers crisper explanations than node-, edge-, or feature-level methods on synthetic and real-world benchmarks, and reframes GNN interpretability as a problem about computational paths through depth, not just structural elements of the input graph.
+
+## Open problems
+
+Active methodological questions span the field. On expressivity: can higher-order WL tests, subgraph GNNs, or random features provide tractable architectures that strictly exceed 1-WL on real graphs without exponential cost? On scaling: how do GNNs behave under the kinds of scaling laws that govern transformers, and which architectural choices transfer across graph regimes (sparse social graphs, dense molecular graphs, hierarchical scene graphs)? On training: when does pre-training on large graph corpora help, and what self-supervised objective on graphs is the analogue of next-token prediction? On geometry: how should equivariant networks handle non-Euclidean symmetries (Lie groups, gauge symmetries, hyperbolic spaces) that arise in physics and biology? And on interpretability: can flow-level explanations like FlowX be combined with mechanistic-interpretability techniques to reverse-engineer what computations a deep GNN actually performs? These threads connect graph learning back to its prerequisites in linear algebra, group theory, and statistical learning, and continue to make GNN design one of the most theoretically rich areas of deep learning.

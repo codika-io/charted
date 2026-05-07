@@ -66,6 +66,23 @@ avrahami-2023:
   affiliation: Hebrew University of Jerusalem
   affiliation_country: IL
   openalex: https://openalex.org/A5037338627
+behrouz-2024:
+  name: Ali Behrouz
+  orcid: 0000-0002-4934-669X
+  affiliation: Cornell University
+  affiliation_country: US
+  openalex: https://openalex.org/A5066381651
+  h_index: 7
+  contact:
+    email: ~
+    scholar: ~
+
+wang-junjie-2024:
+  name: Junjie Wang
+  orcid: 0000-0003-1411-3324
+  affiliation: Collaborative Innovation Center of Advanced Microstructures
+  affiliation_country: CN
+  openalex: https://openalex.org/A5056701386
   h_index: 8
   contact:
     email: ~
@@ -554,6 +571,12 @@ zhang-renrui-2023:
   affiliation: Beijing Academy of Artificial Intelligence
   affiliation_country: CN
   openalex: https://openalex.org/A5086183847
+gui-2023:
+  name: Shurui Gui
+  orcid: 0000-0002-6277-2044
+  affiliation: Texas A&M University
+  affiliation_country: US
+  openalex: https://openalex.org/A5083790512
   h_index: 8
   contact:
     email: ~
