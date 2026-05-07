@@ -1,0 +1,68 @@
+---
+title: Multimodal Language Models
+description: Language models that ingest and emit non-text modalities — images, video, audio, document layout — via shared encoders, cross-attention, or projector layers, alongside the alignment, prompting, and hallucination problems unique to that joint setting.
+parent: computer-science/ai-and-machine-learning/natural-language-processing
+order: 3
+color: '#3b82f6'
+difficulty: advanced
+prerequisites:
+  - computer-science/ai-and-machine-learning/natural-language-processing
+status: draft
+reviewTier: frontier
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-07'
+sources:
+  - type: paper
+    title: 'Multimodal Large Language Models: A Survey'
+    authors: [wu-jiayang-2023]
+    year: 2023
+    doi: 10.1109/bigdata59044.2023.10386743
+    role: primary
+  - type: paper
+    title: 'Prompting Large Language Models with Answer Heuristics for Knowledge-Based Visual Question Answering'
+    authors: [shao-2023]
+    year: 2023
+    doi: 10.1109/cvpr52729.2023.01438
+    role: supporting
+  - type: paper
+    title: 'Mitigating Object Hallucinations in Large Vision-Language Models through Visual Contrastive Decoding'
+    authors: [leng-2024]
+    year: 2024
+    doi: 10.1109/cvpr52733.2024.01316
+    role: supporting
+  - type: paper
+    title: 'What does CLIP know about a red circle? Visual prompt engineering for VLMs'
+    authors: [shtedritski-2023]
+    year: 2023
+    doi: 10.1109/iccv51070.2023.01101
+    role: supporting
+  - type: paper
+    title: 'WavCaps: A ChatGPT-Assisted Weakly-Labelled Audio Captioning Dataset for Audio-Language Multimodal Research'
+    authors: [mei-2024]
+    year: 2024
+    doi: 10.1109/taslp.2024.3419446
+    role: supporting
+---
+
+A **multimodal language model** is a language model whose input or output space extends beyond text — to images, video frames, audio waveforms, or document layout — while still being trained, prompted, and queried with natural language as the primary interface. The field grew out of two converging trends: pre-trained text encoders like BERT and the GPT family that turned language into a general-purpose programming surface, and vision/audio encoders like ViT, CLIP, and wav2vec that produced semantically rich representations of non-text modalities. Bridging the two with a shared transformer, a projector layer, or cross-attention turns a unimodal language model into a system that can describe an image, answer questions about a video, ground an utterance in a scene, or transcribe and reason about speech in a single forward pass.
+
+The methodology of multimodal language modelling is distinct from either of its parents. Vision and audio models alone do not need to handle the open-ended generative behaviour of language models — hallucination, instruction following, in-context learning. Language models alone do not need to handle the spatial and temporal structure of perception — region grounding, temporal localisation, modality alignment. The joint setting forces a new set of design questions: how to align modalities at training time, how to prompt the resulting model, how to evaluate outputs that mix descriptive faithfulness with linguistic fluency, and how to detect when the model is confabulating about content it never actually perceived. *Wu et al.* survey this landscape, mapping the design space of vision-language and audio-language MLLMs across architecture (encoder choice, fusion mechanism), training (contrastive vs. generative pretraining, instruction tuning), and application (VQA, captioning, retrieval, dialog) — a useful entry point for orienting readers to the rapidly-shifting state of the art.
+
+## Knowledge-grounded VQA and prompting
+
+Visual Question Answering (VQA) has long served as the canonical evaluation for vision-language models. **Knowledge-based VQA** sharpens the test: questions are constructed so that the image alone is insufficient — the model must combine perceptual grounding with world knowledge that lives outside the picture. *Shao et al.* attack this setting by treating large language models as the knowledge source. Rather than retrieving from an explicit knowledge base, they elicit a set of **answer heuristics** — candidate answers and accompanying explanations — from the LLM, then condition a VQA model on those heuristics alongside the image. The recipe sidesteps the need to maintain or curate an external KB, but it inherits the LLM's hallucination tendencies, motivating the broader question of how to keep multimodal generations grounded.
+
+Even without an explicit knowledge step, the *act of prompting* a multimodal model is itself non-trivial. **Visual prompting** generalises text prompting to the image side: marking, masking, or annotating an image to direct the model's attention. *Shtedritski et al.* report a striking finding — drawing a simple **red circle** around a region of interest measurably steers CLIP's predictions toward that region, even though CLIP was never explicitly trained to follow such markers. The result exposes a kind of latent visual prompt-following capability acquired implicitly during contrastive pretraining on web-scraped image-text pairs, and it suggests that the engineering of multimodal prompts is closer to natural-language prompt engineering than the literature on classical visual grounding would predict.
+
+## Hallucination and faithfulness
+
+When a vision-language model describes an image, it can produce **object hallucinations** — confident references to entities that are absent from the image. The failure mode is structurally similar to LLM hallucination but harder to detect, because the model's output remains linguistically plausible and the image cannot be verified by symbol-matching the way a quoted fact can. *Leng et al.* propose **visual contrastive decoding**: at each generation step, contrast the next-token distribution conditioned on the real image with the distribution conditioned on a distorted (e.g. blurred or noised) image, and downweight tokens that the model would have produced regardless of what it actually saw. The technique is training-free, applies on top of any existing VLM, and substantially reduces object hallucination rates on standard benchmarks — a concrete demonstration that the decoding-time interventions developed for text-only LLMs transfer, with adaptations, to the multimodal setting.
+
+## Audio-language and beyond vision
+
+Multimodal language modelling is not limited to vision. **Audio-language** models — covering captioning, retrieval, and speech understanding — face their own data bottleneck: paired audio-text corpora are far smaller and noisier than image-text corpora. *Mei et al.* address this with **WavCaps**, a 400k-clip weakly-labelled audio captioning dataset built by harvesting audio descriptions from the web and using ChatGPT to clean and rewrite the noisy captions into well-formed sentences. The dataset enables a generation of audio-language models trained at scales previously reserved for vision-language work, and the construction methodology — using an LLM as a cheap data-cleaning oracle — is itself a transferable recipe for bootstrapping new multimodal corpora when human annotation is prohibitive.
+
+## Where the field goes next
+
+The frontier covers several directions simultaneously: extending the modality vocabulary (audio, video, 3D, layout, sensor data), moving from descriptive tasks (VQA, captioning) to action-oriented ones (GUI agents, embodied robots), reducing the inference cost of large multimodal models, and producing principled evaluations that catch hallucination and grounding failures rather than rewarding linguistic fluency alone. Two methodology clusters within the topic warrant their own pages: **vision-language pretraining**, which studies the recipes and architectural choices that produce the underlying VLMs; and **open-vocabulary recognition**, which exploits VLM-derived representations to push classical vision tasks beyond the closed label sets they have historically assumed.

@@ -1,0 +1,54 @@
+---
+title: Open-Vocabulary Recognition
+description: Using vision-language pretraining to push classical recognition tasks — detection, segmentation, classification — beyond the closed label sets they have historically assumed, by aligning visual regions with arbitrary text queries.
+parent: computer-science/ai-and-machine-learning/natural-language-processing/multimodal-language-models
+order: 2
+color: '#3b82f6'
+difficulty: advanced
+prerequisites:
+  - computer-science/ai-and-machine-learning/natural-language-processing/multimodal-language-models
+status: draft
+reviewTier: frontier
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-07'
+sources:
+  - type: paper
+    title: 'Towards Open Vocabulary Learning: A Survey'
+    authors: [wu-jianzong-2024]
+    year: 2024
+    doi: 10.1109/tpami.2024.3361862
+    role: primary
+  - type: paper
+    title: 'Aligning Bag of Regions for Open-Vocabulary Object Detection'
+    authors: [wu-size-2023]
+    year: 2023
+    doi: 10.1109/cvpr52729.2023.01464
+    role: supporting
+  - type: paper
+    title: 'Prompt, Generate, Then Cache: Cascade of Foundation Models Makes Strong Few-Shot Learners'
+    authors: [zhang-renrui-2023]
+    year: 2023
+    doi: 10.1109/cvpr52729.2023.01460
+    role: supporting
+---
+
+**Open-vocabulary recognition** is the methodology cluster that uses vision-language pretraining to drop a long-standing assumption of computer vision: that recognition models output one of a fixed set of class labels chosen in advance. With a CLIP-like text encoder available at inference time, any free-form text — "a brown dog wearing a red collar," "a damaged guardrail" — can serve as a class definition, and the recognition problem reduces to scoring visual regions against arbitrary text queries. The shift is consequential because it eliminates the dataset-specific re-training that has historically gated deployment of detection and segmentation systems, and it borrows the **zero-shot generalisation** behaviour of language models for tasks that were previously rigidly closed-world.
+
+*Wu et al.* survey this fast-moving field, organising the literature along two axes: (i) the **task** being opened up (classification, detection, segmentation, scene graph generation, action recognition, 3D understanding) and (ii) the **mechanism** for connecting visual representations to text (frozen CLIP encoders, distilled student networks, region-text alignment, prompt learning). Their taxonomy makes clear that open-vocabulary methods are not a single technique — they are a *strategy* for inheriting a VLM's open-ended class space, instantiated differently for each downstream task.
+
+## Region-level alignment for detection
+
+The hardest case is **object detection**: a model must localise objects with bounding boxes *and* recognise them, both for classes that may appear only at test time. Early approaches simply replaced the classifier head with CLIP's text encoder, but the gap between CLIP's image-level pretraining and the region-level alignment detection requires hurts performance. *Wu et al.* address this with **BARON** (Bag of Regions), which aligns *bags* of co-occurring regions — capturing scene-level context — against bag-of-words text representations rather than aligning each region independently. The construction injects a missing inductive bias: classes do not appear in isolation, and the joint distribution of object co-occurrences is itself a useful signal for transferring CLIP-style alignment from the image level to the region level.
+
+## Few-shot recognition through cascaded foundation models
+
+A related thread asks how to combine multiple vision-language foundation models, each strong at a different sub-problem, into a stronger few-shot recogniser. *Zhang et al.* propose **CaFo**, a "Prompt, Generate, then Cache" cascade that chains GPT-3 (for class-aware prompt generation), DALL-E (for synthetic image augmentation), CLIP (for textual-knowledge alignment), and DINO (for self-supervised vision features), then caches and adaptively combines their predictions. Each model contributes complementary knowledge — text priors, visual diversity, image-text alignment, and discriminative visual features respectively — and the cascade outperforms any individual model in the few-shot regime. The recipe is methodological in spirit: it shows that **composition of foundation models** is itself a design pattern, and that the right combination can substitute for substantially larger amounts of labelled data.
+
+## Why this lives under multimodal language models
+
+Open-vocabulary recognition is an interesting test case for the topic-attribution rule: it could plausibly sit under computer vision rather than under multimodal language models. We place it here because the methodology is fundamentally about *exploiting the text encoder* of a VLM — without the language side of the multimodal model, none of these techniques would exist. The papers cited above all turn on the question of how to transfer the open-ended semantics of CLIP-style text encoders to spatially-grounded vision tasks, which is the inverse of the question multimodal-language-model pretraining asks (how to give a language model spatial perception). The two topics are mirror images of each other and belong in the same neighbourhood of the graph.
+
+## Open problems
+
+Three frontier questions remain underexplored: how to scale open-vocabulary detection to truly long-tailed vocabularies (tens of thousands of fine-grained classes), where CLIP's supervision becomes sparse; how to handle compositional queries ("a person not wearing a helmet") that current text encoders represent poorly; and how to evaluate open-vocabulary systems without baking in the same closed-set assumptions the methodology is meant to escape, since most benchmarks still draw test classes from a fixed taxonomy. Progress on any of these would tighten the link between language-side capability and vision-side capability and would feed back into how the next generation of VLMs is pretrained.
