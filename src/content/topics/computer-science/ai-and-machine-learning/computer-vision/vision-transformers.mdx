@@ -1,0 +1,65 @@
+---
+title: Vision Transformers
+description: >-
+  Adapting transformer architectures to images and 3D inputs — multi-scale
+  attention, mask-transformer decoders for dense prediction, and the
+  ConvNet-versus-transformer debate at scale.
+parent: computer-science/ai-and-machine-learning/computer-vision
+order: 3
+color: "#3b82f6"
+difficulty: advanced
+prerequisites:
+  - computer-science/ai-and-machine-learning/computer-vision
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: "2026-05-07"
+reviewTier: frontier
+sources:
+  - type: paper
+    title: "CrossFormer++: A Versatile Vision Transformer Hinging on Cross-Scale Attention"
+    authors: [wang-2023]
+    year: 2023
+    doi: 10.1109/tpami.2023.3341806
+    role: primary
+  - type: paper
+    title: "Mask3D: Mask Transformer for 3D Semantic Instance Segmentation"
+    authors: [schult-2023]
+    year: 2023
+    doi: 10.1109/icra48891.2023.10160590
+    role: primary
+  - type: paper
+    title: "DepthFormer: Exploiting Long-range Correlation and Local Information for Accurate Monocular Depth Estimation"
+    authors: [li-2023]
+    year: 2023
+    doi: 10.1007/s11633-023-1458-0
+    role: primary
+  - type: paper
+    title: "UniRepLKNet: A Universal Perception Large-Kernel ConvNet for Audio, Video, Point Cloud, Time-Series and Image Recognition"
+    authors: [ding-2024]
+    year: 2024
+    doi: 10.1109/cvpr52733.2024.00527
+    role: primary
+---
+
+Since the introduction of the Vision Transformer (ViT) in 2020, the dominant architectural question in computer vision has been how to adapt the transformer's flexible self-attention to the inductive biases that made convolutional networks succeed: locality, multi-scale features, translation equivariance. The papers in this topic represent four points along that axis — a multi-scale ViT for general perception, a transformer decoder for dense 3D segmentation, a hybrid transformer-convolution architecture for monocular depth, and a large-kernel ConvNet that argues the convolutional family is not yet superseded.
+
+## Cross-scale attention for general-purpose backbones
+
+A key limitation of early vision transformers was that self-attention operated over patches of a single resolution; objects appearing at different scales received the same token granularity. *Wang et al.* (CrossFormer++, 2023) address this with two architectural primitives: a **cross-scale embedding layer (CEL)** that blends each token with image patches of multiple scales, injecting cross-scale features into the very input of self-attention, and a **long-short distance attention (LSDA)** module that splits attention into a short-range branch over local windows and a long-range branch over a strided global sampling. The combination preserves the global modelling power of full attention while adding the multi-scale perception that ConvNet pyramids gave for free. CrossFormer++ also introduces dynamic position bias and progressive group size schedules to reduce parameters at deep layers, and the resulting backbone outperforms similarly-sized ViT, Swin, and PVT variants across classification, detection, and segmentation benchmarks. The contribution is methodological: it shows that *multi-scale features should be built into attention itself*, not patched on through hierarchical pooling alone.
+
+## Mask transformers for 3D point clouds
+
+The mask-transformer paradigm — predicting a set of object queries and decoding each into a binary mask — unified 2D segmentation tasks (DETR, MaskFormer, Mask2Former) by replacing per-pixel classification with set prediction. *Schult et al.* (Mask3D, 2023) bring this paradigm to 3D point clouds. Rather than cluster point features with hand-engineered voting and grouping heuristics, Mask3D treats each instance as a learned query in a transformer decoder, attending to point features extracted by a sparse convolutional backbone, and emitting an instance mask plus class label per query. The architecture sidesteps the geometric clustering hyperparameters that 3D instance segmentation methods had relied on for years, and achieves state-of-the-art results on ScanNet and S3DIS without task-specific post-processing. The paper is the canonical example of porting a 2D transformer-decoder pattern to 3D: the building blocks are transferable, but the spatial sparsity of point clouds requires adapting the attention operator to scale.
+
+## Hybrid transformer-convolution for dense prediction
+
+Pure transformer backbones are strong at long-range modelling but weak at preserving the local detail that depth prediction and segmentation require. *Li et al.* (DepthFormer, 2023) take the hybrid path: a transformer branch for global context and a parallel convolution branch for local features, fused by a hierarchical aggregation module. The architectural argument is operational rather than theoretical — the paper provides controlled comparisons showing that transformers help most in textureless regions where global cues disambiguate depth, while convolutions remain essential for sharp edges and fine structures. The result is monocular depth estimates with sharply lower error on KITTI and NYU benchmarks than either pure-attention or pure-convolution baselines of comparable scale. The methodological contribution sits in the design space: it makes the case that for dense prediction, *complementary* operators are the right primitive rather than chasing a single universal architecture.
+
+## Large-kernel ConvNets as a counter-argument
+
+A separate line of work pushes back on the ViT-by-default trend by asking how far ConvNets can go with very large kernels (31×31 and beyond). *Ding et al.* (UniRepLKNet, 2024) propose architectural principles specifically for large-kernel ConvNets — dilated reparam blocks, progressively narrowing channels, and lightweight Squeeze-and-Excitation — and show that the resulting backbone outperforms transformer competitors of equivalent scale on ImageNet, COCO, and ADE20K. More striking, the same architecture transfers without modality-specific tweaks to point clouds, time-series, audio spectrograms, and video, suggesting that the *universal perception* property attributed to transformers is partly a property of large receptive fields rather than of attention specifically. The paper does not claim ConvNets are superior; it claims the backbone-architecture question is more open than the post-ViT consensus suggests, and provides a strong baseline for ablations. Either way, the design principles transfer to attention-based architectures and have informed subsequent hybrid backbones.
+
+## What the cluster shares
+
+These four papers are not united by a single architecture but by a shared methodological question: *what architectural primitives generalise across vision tasks at scale?* CrossFormer++ argues for cross-scale attention; Mask3D for transformer decoders over learned queries; DepthFormer for hybrid transformer-convolution backbones; UniRepLKNet for large-kernel convolutions as a universal perception module. The honest reading of the cluster is that the field has not converged: each paper is a productive disagreement about which inductive biases matter, and the next generation of vision foundation models will likely combine elements from all four lines rather than pick a winner.

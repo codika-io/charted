@@ -1,0 +1,25 @@
+---
+title: Computer Vision
+description: >-
+  Methods that let machines recover structure, identity, motion, and meaning
+  from images and video — from convolutional and transformer backbones to
+  neural scene representations and visual foundation models.
+parent: computer-science/ai-and-machine-learning
+order: 5
+color: "#3b82f6"
+difficulty: advanced
+prerequisites:
+  - computer-science/ai-and-machine-learning/machine-learning
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: "2026-05-07"
+---
+
+Computer vision is the area of AI concerned with extracting useful structure from images and video. Where natural language processing operates on discrete token sequences and robotics operates on continuous control loops, vision sits between the two: a pixel array is dense and continuous, but the targets — objects, surfaces, semantic categories, 3D geometry — are usually discrete or low-dimensional. The field's methodology has been reshaped twice in the last decade, first by deep convolutional networks and then by transformers and large pretraining; this branch tracks the cluster of methods, architectures, and training recipes driving the current wave.
+
+A graphics-and-vision branch elsewhere in this graph covers the classical foundations — image formation, multi-view geometry, feature detection, structure from motion, and the historical arc of CNNs from AlexNet to ResNet. That material is necessary background but not the active research surface. The subtopics below collect the *current* methodology lines: how scenes are represented for novel-view synthesis, how 2D diffusion priors are repurposed as 3D supervisors, how transformer architectures are adapted to dense prediction, and how vision systems are trained once to generalise across tasks the way language models do across prompts.
+
+Four lines structure the branch as it stands today. **Neural scene representations** turn the rendering equation itself into a learnable function — radiance fields, signed distance fields, and 3D Gaussian splats — collapsing the boundary between vision and graphics. **Diffusion priors for 3D generation** use 2D image diffusion models as oracles for unobserved viewpoints, enabling text-to-3D, single-image-to-3D, and instruction-guided scene editing without large 3D training datasets. **Vision transformers** are the architectural successors to CNNs; the active research is no longer whether attention works on images but how to specialise it for multi-scale features, dense prediction, and 3D inputs. **Vision foundation models** generalise the language-model recipe — pretrain once at scale, then condition with prompts or examples — to novel-task vision problems like 6D pose estimation and medical segmentation.
+
+Each subtopic was minted because the cited papers form a coherent cluster with shared methodology, not merely a label over disparate work. The graph is intentionally narrow at this stage: applied papers (medical imaging, autonomous driving, remote sensing) sit outside this subtree and may surface in their own branches as the encyclopedia grows.

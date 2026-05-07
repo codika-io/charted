@@ -1,0 +1,73 @@
+---
+title: Diffusion Priors for 3D Generation
+description: >-
+  Repurposing pretrained 2D image diffusion models as priors for 3D content
+  creation — text-to-3D via score distillation, single-image-to-3D, and
+  instruction-driven scene editing without large 3D training datasets.
+parent: computer-science/ai-and-machine-learning/computer-vision
+order: 2
+color: "#3b82f6"
+difficulty: advanced
+prerequisites:
+  - computer-science/ai-and-machine-learning/computer-vision/neural-scene-representations
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: "2026-05-07"
+reviewTier: frontier
+sources:
+  - type: paper
+    title: "Latent-NeRF for Shape-Guided Generation of 3D Shapes and Textures"
+    authors: [metzer-2023]
+    year: 2023
+    doi: 10.1109/cvpr52729.2023.01218
+    role: primary
+  - type: paper
+    title: "RealFusion: 360° Reconstruction of Any Object from a Single Image"
+    authors: [melas-kyriazi-2023]
+    year: 2023
+    doi: 10.1109/cvpr52729.2023.00816
+    role: primary
+  - type: paper
+    title: "Make-It-3D: High-Fidelity 3D Creation from A Single Image with Diffusion Prior"
+    authors: [tang-2023]
+    year: 2023
+    doi: 10.1109/iccv51070.2023.02086
+    role: primary
+  - type: paper
+    title: "SparseFusion: Distilling View-Conditioned Diffusion for 3D Reconstruction"
+    authors: [zhou-2023]
+    year: 2023
+    doi: 10.1109/cvpr52729.2023.01211
+    role: primary
+  - type: paper
+    title: "Instruct-NeRF2NeRF: Editing 3D Scenes with Instructions"
+    authors: [haque-2023]
+    year: 2023
+    doi: 10.1109/iccv51070.2023.01808
+    role: primary
+---
+
+Reconstructing or generating a 3D scene from a single image — or from a text prompt with no images at all — is fundamentally ill-posed: most of the geometry is unobserved. Until recently the only way around this was to train a model on large 3D datasets and hope it generalises. **Diffusion priors for 3D generation** take a different route: assume that a powerful 2D image diffusion model, trained on hundreds of millions of internet images, has internalised what plausible images of 3D objects look like, and use that 2D model to *supervise* the unobserved viewpoints during 3D optimisation. The recipe — instantiate a differentiable 3D representation, render it from many viewpoints, and have a frozen image diffusion model push each rendered view toward the 2D image manifold — has spawned an entire research line.
+
+## Score distillation from latent diffusion
+
+The technical primitive is **score distillation sampling (SDS)**, introduced by DreamFusion. Rather than sample from the diffusion model, SDS treats the score function — the gradient of log-density learned during diffusion training — as a critic that pushes renderings of the 3D representation toward higher-density images. *Metzer et al.* (Latent-NeRF, 2023) adapt this idea to **latent** diffusion models, which run the entire diffusion process in the compact latent space of a pretrained autoencoder. Their contribution is non-trivial: NeRFs render in image space, so naive SDS would require encoding each rendered view through the autoencoder, which is expensive and lossy. Latent-NeRF instead has the NeRF emit features directly in the diffusion latent space, sidestepping the encoder. The paper also introduces **Sketch-Shape guidance** — coarse 3D shapes the user provides as a layout constraint — and **Latent-Paint**, a recipe for texturing existing meshes with text-driven appearance. Together these established latent-space score distillation as a practical foundation for text-driven 3D content creation.
+
+## From a single image to a full 3D object
+
+When a single image is provided, the prior needs to fill in everything that is not visible. *Melas-Kyriazi et al.* (RealFusion, 2023) optimise a NeRF whose constraints come from two sources: a photometric reconstruction loss against the input view, and a DreamFusion-style score-distillation loss against unseen views. The trick is prompt engineering: they fit a textual inversion to the input image so that the conditional diffusion prior is asked to "dream up" novel views of *that specific object* rather than a generic instance of its class. RealFusion produces full 360° reconstructions from a single in-the-wild image, defining a category of single-image-to-3D methods that does not rely on large 3D supervision.
+
+A parallel line is *Tang et al.* (Make-It-3D, 2023), which proposes a two-stage pipeline: a coarse stage optimises a NeRF using both an input-view reconstruction loss and a diffusion prior on novel views, and a refinement stage transports the textures from the input image onto an extracted mesh and uses the diffusion model to inpaint the unseen regions. The two-stage decomposition addresses a known weakness of pure SDS approaches — the textures of generated 3D objects are often blurry and over-smoothed — by anchoring the visible side of the object in the actual pixels of the input image rather than in the diffusion prior.
+
+## Sparse-view reconstruction with view-conditioned diffusion
+
+Between the extremes of dense multi-view capture and a single image lies the **sparse-view** regime — two to ten images, often with large viewpoint gaps. Classical multi-view stereo fails here because there is no triangulation signal between distant views. *Zhou et al.* (SparseFusion, 2023) train a *view-conditioned* diffusion model that, given a target camera pose and a small set of input images, generates the image at the target pose, then distil this 2D generator into a consistent 3D representation. The contribution unifies two threads that had been seen as competing: deterministic neural rendering (which extrapolates poorly across large viewpoint changes) and probabilistic 2D image generation (which handles uncertainty but is not 3D-consistent). By distilling the latter into the former, the system produces sharp, plausible reconstructions even where input views are very sparse.
+
+## Editing 3D scenes with text instructions
+
+Once a 3D scene is reconstructed, can a user *edit* it with a natural-language instruction? *Haque et al.* (Instruct-NeRF2NeRF, 2023) propose an iterative scheme: for each training image of an existing NeRF, an image-conditioned diffusion model (InstructPix2Pix) edits the image according to a user instruction; the NeRF is then re-fit on the edited images; the cycle repeats. The dataset-update-edit loop converges to a NeRF whose every rendered view respects the instruction, even though no single edit is globally consistent. The method scales to large, real-world scenes and produces semantically meaningful edits — a building's colour, a person's clothing, a season change — that previous geometry-aware editors could not achieve.
+
+## What the cluster shares
+
+These five papers are unified by a methodological pattern: a frozen, large-scale 2D image diffusion model is treated as a *prior over plausible images*, and a 3D representation is optimised so that its renderings stay on the 2D image manifold. They differ in what is fixed and what is optimised — text only, image plus text, sparse images, an existing 3D scene plus an instruction — but they share the same core mechanism. The active research surface includes 3D-consistent diffusion models that bypass score distillation entirely, faster optimisation via Gaussian splatting representations, and the use of these methods as *upstream supervision* for feed-forward 3D generators.
