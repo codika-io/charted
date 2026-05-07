@@ -83,6 +83,68 @@ Operationally:
    two near-duplicate topics. Split only when a future paper makes the
    broader topic a *bag* of unrelated work, not a *cluster*.
 
+### Recursive nesting and intermediate-node insertion
+
+The graph is allowed to grow **between** existing nodes, not only at the
+leaves. When the agent proposes a new topic `T`, before placing `T` as a
+direct child of an existing parent `P`, it must check whether `T`
+should sit *between* `P` and one or more of `P`'s existing children.
+
+Worked example. Suppose the graph currently has:
+
+```
+natural-language-processing
+├── retrieval-augmented-generation
+└── language-model-fairness
+```
+
+A new paper proposes `language-models` as a topic — the umbrella concept
+covering transformer LMs, pre-training, decoding strategies, etc. RAG
+and language-model-fairness are *both* properties / methods of language
+models, so they belong *underneath* `language-models`, not as siblings
+of it. The correct topology change is:
+
+```
+natural-language-processing
+└── language-models           ← new intermediate node
+    ├── retrieval-augmented-generation     ← re-parented
+    └── language-model-fairness            ← re-parented
+```
+
+The agent's plan must therefore include **topology changes**, not only
+node additions. Specifically:
+
+- `add_topic`: new topic with `{id, parent, frontmatter, body}`
+- `attach_source`: add a source to an existing topic + insert the matching
+  inline paragraph in its body
+- `reparent_topic`: change an existing topic's `parent` field
+- `extend_prerequisites`: add a prerequisite edge between two existing
+  topics (e.g., the new intermediate node becomes a prerequisite of its
+  former-sibling-now-child)
+
+The recursive check is bounded:
+
+1. After proposing `T` under `P`, list `P`'s existing children.
+2. For each child `C`, ask: *would a reader who is deep on `C` consider
+   `C` to be a kind of `T`, or a property/method of `T`?*
+3. If yes, mark `C` for re-parenting under `T`.
+4. Apply the same check one level deeper: if `C` itself has children
+   that are also kinds-of-`T`, prefer to keep `C`'s subtree intact and
+   re-parent `C` (whole subtree) rather than disassembling it.
+5. Stop when no further re-parenting is justified.
+
+Two guardrails:
+
+- **Re-parenting must be conservative.** When in doubt, leave the child
+  where it is and let the next wave's data justify the move. Aggressive
+  re-parenting on every wave would churn the graph.
+- **Never re-parent across branches.** A new topic under `mathematics`
+  can't pull in children from `computer-science`. Topology changes are
+  scoped to a single branch.
+
+The agent surfaces every topology change in the PR body so a human can
+sanity-check the new graph shape before merge.
+
 ## Author resolution priority
 
 1. PDF email parse (LaTeX header/footnote — highest confidence).
@@ -96,10 +158,16 @@ Always store `email_source` and `email_confidence` in the lead CSV.
 ## Outputs
 
 - `src/content/topics/.../<new-topic>.mdx` — frontmatter + body + sources.
+- Edits to existing `.mdx` files for `attach_source` (body paragraph +
+  `sources[]` entry) and `reparent_topic` (frontmatter `parent`).
+- Conversion of any `<branch>/<topic>.mdx` to `<branch>/<topic>/index.mdx`
+  when an existing leaf becomes a parent (host of new subtopics).
 - `authors.yml` — one entry per cited author, keyed `<lastname>-<paper-year>`.
 - `.docs/leads/YYYY-MM-wave-NN.csv` — one row per author per paper, schema
   defined in this directory.
-- One PR per wave with a section summarising each topic added/extended.
+- One PR per wave (or per parallel agent in a multi-seed run) with a
+  section summarising each topic added/extended **and every topology
+  change** (re-parent / intermediate node insertion).
 
 ## Per-wave dashboard fields to track
 
