@@ -1,0 +1,68 @@
+---
+title: Vision-Language Pretraining
+description: The training recipes, architectural choices, and data curation strategies that turn separate vision and language models into a single system aligned across both modalities — covering encoder fusion, generative pretraining, and unified decoding.
+parent: computer-science/ai-and-machine-learning/natural-language-processing/multimodal-language-models
+order: 1
+color: '#3b82f6'
+difficulty: advanced
+prerequisites:
+  - computer-science/ai-and-machine-learning/natural-language-processing/multimodal-language-models
+status: draft
+reviewTier: frontier
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-07'
+sources:
+  - type: paper
+    title: 'Vid2Seq: Large-Scale Pretraining of a Visual Language Model for Dense Video Captioning'
+    authors: [yang-antoine-2023]
+    year: 2023
+    doi: 10.1109/cvpr52729.2023.01032
+    role: primary
+  - type: paper
+    title: 'VILA: On Pre-training for Visual Language Models'
+    authors: [lin-ji-2024]
+    year: 2024
+    doi: 10.1109/cvpr52733.2024.02520
+    role: primary
+  - type: paper
+    title: 'Generalized Decoding for Pixel, Image, and Language'
+    authors: [zou-2023]
+    year: 2023
+    doi: 10.1109/cvpr52729.2023.01451
+    role: supporting
+  - type: paper
+    title: 'Unifying Vision, Text, and Layout for Universal Document Processing'
+    authors: [tang-2023]
+    year: 2023
+    doi: 10.1109/cvpr52729.2023.01845
+    role: supporting
+  - type: paper
+    title: 'UniVTG: Towards Unified Video-Language Temporal Grounding'
+    authors: [lin-kevin-2023]
+    year: 2023
+    doi: 10.1109/iccv51070.2023.00262
+    role: supporting
+---
+
+**Vision-language pretraining (VLP)** is the training stage that produces the joint-modality backbone reused by most downstream multimodal language models. The choices made at pretraining time — what data to use, what objective to optimise, how to fuse modalities, how much of each unimodal pretraining to keep frozen — shape what the resulting model can and cannot do far more than fine-tuning ever will. This page collects methodology papers that interrogate those choices systematically rather than reporting a single application benchmark.
+
+## Pretraining recipes for visual language models
+
+Most early VLMs treat the language model as a passive decoder bolted onto a frozen vision encoder via a small projector or set of cross-attention layers. *Lin et al.* push back on that minimalist view in **VILA**, an empirical study of *what actually happens during VLM pretraining*. They identify three findings that contradict common practice: (i) freezing the LLM during pretraining preserves zero-shot text capabilities but cripples in-context multimodal learning; (ii) interleaved image-text data — pages of mixed modality, not just clean image-caption pairs — is essential for emergent few-shot multimodal behaviour; and (iii) text-only instruction data mixed in during multimodal fine-tuning prevents the model from forgetting how to follow text instructions. Together these prescribe a pretraining recipe, not merely an architecture, and the recipe transfers across model sizes.
+
+Where VILA studies still images, **Vid2Seq** by *Yang et al.* targets the same problem for video. Dense video captioning — describing every event in a multi-minute clip — requires both temporal localisation and language generation, and prior approaches handled the two with separate modules. Vid2Seq replaces this with a single sequence-to-sequence model that generates time tokens (special tokens encoding frame indices) interleaved with caption tokens, pretrained at scale on YouTube narrated videos using the **transcribed speech as weak captions**. The architecture demonstrates that scale plus a unified token vocabulary can subsume a complex multi-stage pipeline, and the use of speech transcripts as supervision shows how to bootstrap dense temporal annotation without expensive manual labelling.
+
+## Unified decoding across modalities and tasks
+
+A second design axis at pretraining time is the *decoder*. Vision tasks have historically used task-specific heads (segmentation masks, bounding boxes, region scores), while language tasks share a single token-level head. *Zou et al.* propose **X-Decoder**, a generalised decoder that emits both pixel-level segmentation queries and language tokens from the same transformer, trained jointly across image-text pairs and dense prediction datasets. The model handles open-vocabulary segmentation, referring expression segmentation, image captioning, and VQA without per-task heads — an early step toward the kind of unified decoding that makes multimodal systems composable.
+
+*Tang et al.* extend the unification a level further with **UDOP**, which unifies **vision, text, and layout** for document understanding. Documents (PDFs, forms, scanned reports) carry information in three correlated modalities — visual appearance, OCR'd text, and 2D coordinates of each text region — and prior systems treated layout as a separate side input. UDOP encodes all three jointly and trains with a mixture of pretraining objectives (masked layout modelling, vision-text matching, and standard generative tasks) so that downstream tasks like form filling and document VQA can be expressed as text-to-text prompts over the unified representation.
+
+## Temporal grounding as a pretraining target
+
+A subtle direction within video VLP is treating **temporal grounding** — locating the moment in a video that corresponds to a textual query — as a first-class pretraining objective rather than a downstream task. *Lin et al.* argue in **UniVTG** that classical video-language tasks (moment retrieval, highlight detection, video summarisation) all reduce to predicting alignment scores between text queries and video timestamps, and a single model pretrained on a unified label set can subsume them. The framing matters at pretraining time because it changes what counts as "supervision": every aligned text-timestamp pair from millions of unlabelled videos becomes a training signal, dramatically expanding the effective training set for video-language alignment.
+
+## Open methodology questions
+
+Common threads across these papers point to open questions for the field: how much of multimodal capability is determined at pretraining vs. at instruction tuning; whether interleaved web data is necessary or merely sufficient for in-context learning; how to balance modality-specific pretraining objectives without one dominating; and how to evaluate pretraining quality without reducing to downstream task accuracy on a small set of benchmarks. The next generation of VLP research is likely to formalise these questions — the way scaling laws formalised them for unimodal LLMs — rather than continuing to enumerate point recipes.

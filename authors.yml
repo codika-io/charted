@@ -60,6 +60,13 @@ metzer-2023:
   affiliation_country: IL
   openalex: https://openalex.org/A5085386004
   h_index: 7
+avrahami-2023:
+  name: Omri Avrahami
+  orcid: 0000-0002-7628-7525
+  affiliation: Hebrew University of Jerusalem
+  affiliation_country: IL
+  openalex: https://openalex.org/A5037338627
+  h_index: 8
   contact:
     email: ~
     scholar: ~
@@ -183,6 +190,12 @@ bergman-2024:
   affiliation: Google DeepMind (United Kingdom)
   affiliation_country: GB
   openalex: https://openalex.org/A5000039831
+wu-2023:
+  name: Xiaoshi Wu
+  orcid: ~
+  affiliation: Chinese University of Hong Kong
+  affiliation_country: CN
+  openalex: https://openalex.org/A5010084955
   h_index: 6
   contact:
     email: ~
@@ -291,6 +304,12 @@ schult-2023:
   affiliation: RWTH Aachen University
   affiliation_country: DE
   openalex: https://openalex.org/A5075529365
+li-2023:
+  name: Alexander C. Li
+  orcid: 0000-0002-9884-6383
+  affiliation: Carnegie Mellon University
+  affiliation_country: US
+  openalex: https://openalex.org/A5066668949
   h_index: 7
   contact:
     email: ~
@@ -308,6 +327,12 @@ gong-2025:
   affiliation: Tsinghua University
   affiliation_country: CN
   openalex: https://openalex.org/A5110849518
+yu-2023:
+  name: Sihyun Yu
+  orcid: ~
+  affiliation: Korea Advanced Institute of Science and Technology
+  affiliation_country: KR
+  openalex: https://openalex.org/A5044591479
   h_index: 4
   contact:
     email: ~
@@ -320,6 +345,13 @@ qian-2024:
   affiliation_country: DE
   openalex: https://openalex.org/A5069574943
   h_index: 8
+urain-2023:
+  name: Julen Urain
+  orcid: 0000-0003-1135-6654
+  affiliation: Technical University of Darmstadt
+  affiliation_country: DE
+  openalex: https://openalex.org/A5045009197
+  h_index: 7
   contact:
     email: ~
     scholar: ~
@@ -331,6 +363,26 @@ tang-2023:
   affiliation_country: CN
   openalex: https://openalex.org/A5045789612
   h_index: 9
+casco-rodriguez-2023:
+  name: Josue Casco-Rodriguez
+  orcid: ~
+  affiliation: Rice University
+  affiliation_country: US
+  openalex: https://openalex.org/A5068384228
+  h_index: 4
+  contact:
+    email: ~
+    scholar: ~
+
+# wave-2/multimodal-language-models — 2026-05-07
+
+wu-jiayang-2023:
+  name: Jiayang Wu
+  orcid: 0009-0001-1847-594X
+  affiliation: Jinan University
+  affiliation_country: CN
+  openalex: https://openalex.org/A5024848410
+  h_index: 7
   contact:
     email: ~
     scholar: ~
@@ -341,6 +393,45 @@ melas-kyriazi-2023:
   affiliation: University of Oxford
   affiliation_country: GB
   openalex: https://openalex.org/A5079016134
+shao-2023:
+  name: Zhenwei Shao
+  orcid: ~
+  affiliation: Hangzhou Dianzi University
+  affiliation_country: CN
+  openalex: https://openalex.org/A5064914638
+  h_index: 2
+  contact:
+    email: ~
+    scholar: ~
+
+leng-2024:
+  name: Sicong Leng
+  orcid: 0000-0002-3084-5026
+  affiliation: Alibaba Group
+  affiliation_country: KY
+  openalex: https://openalex.org/A5051640038
+  h_index: 6
+  contact:
+    email: ~
+    scholar: ~
+
+shtedritski-2023:
+  name: Aleksandar Shtedritski
+  orcid: ~
+  affiliation: University of Oxford
+  affiliation_country: GB
+  openalex: https://openalex.org/A5025880600
+  h_index: 7
+  contact:
+    email: ~
+    scholar: ~
+
+mei-2024:
+  name: Xinhao Mei
+  orcid: 0000-0001-6079-5130
+  affiliation: University of Surrey
+  affiliation_country: GB
+  openalex: https://openalex.org/A5070892237
   h_index: 13
   contact:
     email: ~
@@ -352,6 +443,34 @@ yariv-2023:
   affiliation: Google (Israel)
   affiliation_country: IL
   openalex: https://openalex.org/A5070302579
+yang-antoine-2023:
+  name: Antoine Yang
+  orcid: 0000-0002-7258-571X
+  affiliation: Centre National de la Recherche Scientifique
+  affiliation_country: FR
+  openalex: https://openalex.org/A5009826104
+  h_index: 12
+  contact:
+    email: ~
+    scholar: ~
+
+lin-ji-2024:
+  name: Ji Lin
+  orcid: 0009-0000-8291-4022
+  affiliation: ~
+  affiliation_country: ~
+  openalex: https://openalex.org/A5101701847
+  h_index: 3
+  contact:
+    email: ~
+    scholar: ~
+
+zou-2023:
+  name: Xueyan Zou
+  orcid: ~
+  affiliation: University of Wisconsin–Madison
+  affiliation_country: US
+  openalex: https://openalex.org/A5112985166
   h_index: 10
   contact:
     email: ~
@@ -364,6 +483,13 @@ zhou-2023:
   affiliation_country: US
   openalex: https://openalex.org/A5091207481
   h_index: 3
+tang-2023:
+  name: Zineng Tang
+  orcid: ~
+  affiliation: Microsoft
+  affiliation_country: US
+  openalex: https://openalex.org/A5022885986
+  h_index: 9
   contact:
     email: ~
     scholar: ~
@@ -382,6 +508,13 @@ trung-2024:
   affiliation_country: ~
   openalex: https://openalex.org/A5107403608
   h_index: 1
+lin-kevin-2023:
+  name: Kevin Qinghong Lin
+  orcid: 0000-0003-2568-2346
+  affiliation: National University of Singapore
+  affiliation_country: SG
+  openalex: https://openalex.org/A5083481253
+  h_index: 9
   contact:
     email: ~
     scholar: ~
@@ -393,6 +526,35 @@ lin-2025:
   affiliation_country: CN
   openalex: https://openalex.org/A5105206377
   h_index: 2
+wu-jianzong-2024:
+  name: Jianzong Wu
+  orcid: 0009-0007-4559-7970
+  affiliation: Peking University
+  affiliation_country: CN
+  openalex: https://openalex.org/A5024765927
+  h_index: 7
+  contact:
+    email: ~
+    scholar: ~
+
+wu-size-2023:
+  name: Size Wu
+  orcid: ~
+  affiliation: Nanyang Technological University
+  affiliation_country: SG
+  openalex: https://openalex.org/A5101236497
+  h_index: 5
+  contact:
+    email: ~
+    scholar: ~
+
+zhang-renrui-2023:
+  name: Renrui Zhang
+  orcid: ~
+  affiliation: Beijing Academy of Artificial Intelligence
+  affiliation_country: CN
+  openalex: https://openalex.org/A5086183847
+  h_index: 8
   contact:
     email: ~
     scholar: ~
