@@ -4,6 +4,7 @@ import BaseLayout from './BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import ContributeButton from '../components/ContributeButton.astro';
 import OrcidStatus from '../components/islands/OrcidStatus';
+import FlagWidget from '../components/islands/FlagWidget';
 import DottedSeparator from '../components/DottedSeparator.astro';
 import BranchSidebar from '../components/BranchSidebar.astro';
 import SectionNav from '../components/SectionNav.astro';
@@ -21,6 +22,11 @@ interface Props {
   currentTopicId?: string;
   domain?: Domain;
 }
+
+// ── Review CTA copy ──
+// Surface review-this-topic as the primary action at the foot of every topic
+// page. Reviewers are the whole point: agents draft, humans review.
+const reviewCardId = `review-${(Astro.props.currentTopicId ?? 'topic').replace(/[^a-z0-9]/gi, '-')}`;
 
 const {
   title,
@@ -63,10 +69,32 @@ const {
 
         <DottedSeparator />
 
-        <div class="flex flex-wrap justify-center items-center gap-3">
-          <ContributeButton filePath={filePath} />
-          <OrcidStatus client:only="react" returnTo={Astro.url.pathname} />
-        </div>
+        {currentTopicId && (
+          <section
+            id={reviewCardId}
+            class="border border-surface-300 px-6 py-8 my-2 text-center"
+            aria-labelledby={`${reviewCardId}-title`}
+          >
+            <h2 id={`${reviewCardId}-title`} class="text-xl mb-2">Review this topic</h2>
+            <p class="text-sm text-surface-600 max-w-xl mx-auto mb-5">
+              This page was drafted by an agent and is waiting on expert review. Spotted a wrong prerequisite, a missing concept, a misattributed source, or a factual slip? Tell us — your review opens a tracked issue maintainers act on.
+            </p>
+            <div class="flex justify-center mb-5">
+              <FlagWidget
+                client:only="react"
+                topicId={currentTopicId}
+                label="Review this topic"
+                variant="cta"
+                defaultKind="factual-error"
+              />
+            </div>
+            <div class="flex flex-wrap justify-center items-center gap-3 text-xs">
+              <OrcidStatus client:only="react" returnTo={Astro.url.pathname} />
+              <span class="text-surface-300">·</span>
+              <ContributeButton filePath={filePath} />
+            </div>
+          </section>
+        )}
       </div>
 
       <SectionNav headings={h2Headings} />
@@ -87,9 +115,36 @@ const {
 
       <DottedSeparator />
 
-      <div class="flex justify-center">
-        <ContributeButton filePath={filePath} />
-      </div>
+      {currentTopicId ? (
+        <section
+          id={reviewCardId}
+          class="border border-surface-300 px-6 py-8 my-2 text-center"
+          aria-labelledby={`${reviewCardId}-title`}
+        >
+          <h2 id={`${reviewCardId}-title`} class="text-xl mb-2">Review this topic</h2>
+          <p class="text-sm text-surface-600 max-w-xl mx-auto mb-5">
+            This page was drafted by an agent and is waiting on expert review. Spotted a wrong prerequisite, a missing concept, a misattributed source, or a factual slip? Tell us — your review opens a tracked issue maintainers act on.
+          </p>
+          <div class="flex justify-center mb-5">
+            <FlagWidget
+              client:only="react"
+              topicId={currentTopicId}
+              label="Review this topic"
+              variant="cta"
+              defaultKind="factual-error"
+            />
+          </div>
+          <div class="flex flex-wrap justify-center items-center gap-3 text-xs">
+            <OrcidStatus client:only="react" returnTo={Astro.url.pathname} />
+            <span class="text-surface-300">·</span>
+            <ContributeButton filePath={filePath} />
+          </div>
+        </section>
+      ) : (
+        <div class="flex justify-center">
+          <ContributeButton filePath={filePath} />
+        </div>
+      )}
     </div>
   )}
 </BaseLayout>
