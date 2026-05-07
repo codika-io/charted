@@ -1,0 +1,75 @@
+---
+title: Jailbreak and Red Teaming
+description: Adversarial methods for breaking language model alignment — black-box and white-box jailbreaks, multimodal attacks, nested-prompt attacks, and the systematic study of safety failure modes.
+parent: computer-science/ai-and-machine-learning/natural-language-processing
+order: 4
+color: '#3b82f6'
+difficulty: advanced
+prerequisites:
+  - computer-science/ai-and-machine-learning/natural-language-processing
+  - computer-science/ai-and-machine-learning/natural-language-processing/language-model-alignment
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-07'
+reviewTier: frontier
+sources:
+  - type: paper
+    title: 'Visual Adversarial Examples Jailbreak Aligned Large Language Models'
+    authors: [qi-xiangyu-2024]
+    year: 2024
+    doi: 10.1609/aaai.v38i19.30150
+    role: primary
+  - type: paper
+    title: 'Open Sesame! Universal Black-Box Jailbreaking of Large Language Models'
+    authors: [lapid-2024]
+    year: 2024
+    doi: 10.3390/app14167150
+    role: primary
+  - type: paper
+    title: 'A Wolf in Sheep''s Clothing: Generalized Nested Jailbreak Prompts can Fool Large Language Models Easily'
+    authors: [ding-2024]
+    year: 2024
+    doi: 10.18653/v1/2024.naacl-long.118
+    role: primary
+  - type: paper
+    title: 'FigStep: Jailbreaking Large Vision-Language Models via Typographic Visual Prompts'
+    authors: [gong-2025]
+    year: 2025
+    doi: 10.1609/aaai.v39i22.34568
+    role: primary
+  - type: paper
+    title: 'Against The Achilles'' Heel: A Survey on Red Teaming for Generative Models'
+    authors: [lin-2025]
+    year: 2025
+    doi: 10.1613/jair.1.17654
+    role: supporting
+---
+
+Aligned language models are *trained* to refuse harmful requests, but the alignment is implemented as a learned policy — and learned policies can be attacked. **Jailbreaking** is the crafting of prompts that induce an aligned model to produce content its alignment was meant to suppress; **red teaming** is the systematic, often adversarial, process of finding such failures before deployment. The two activities form a coupled feedback loop with the alignment work covered in the [Language Model Alignment](./language-model-alignment) topic: every published attack pushes the next round of training, and every alignment recipe is provisionally trusted only until the next attack succeeds.
+
+## Why Alignment Is Attackable
+
+The fundamental observation is that alignment training imposes a behavioural constraint on a model that *retains the capability* to produce the suppressed content. The harmful capability lives in the weights; the refusal lives in a thin policy layer on top. Any input distribution that the alignment training did not cover well — a new language, a new prompt template, a new modality — risks triggering the underlying capability. *Lin et al.* (2025) survey the resulting attack surface across generative-model families, organising attacks by the stage they target (prompting, training data, alignment data, decoding) and the threat model they assume (white-box gradient access, query-only black-box access, transfer attacks). The taxonomy makes clear that "is this model safe" is not a single question but a vector of questions, one per threat model.
+
+## Black-Box Universal Attacks
+
+The most operationally relevant threat model assumes only query access to a deployed model. *Lapid et al.* (2024) introduce **Open Sesame**, a black-box optimisation procedure that uses a genetic algorithm to discover **universal adversarial suffixes** — short token sequences that, when appended to almost any harmful prompt, reliably elicit a compliant response from an otherwise-aligned model. Unlike earlier white-box attacks that required gradients, Open Sesame works against models behind APIs and produces suffixes that transfer across model families, suggesting that the attacked behaviour is a generic property of current alignment training rather than an idiosyncrasy of any one model. The result is one of the strongest empirical demonstrations that current refusal training does not robustly generalise.
+
+## Prompt-Structure Attacks
+
+A second family of attacks exploits the model's **instruction-following capability** rather than its weights. *Ding et al.* (2024) systematise these as **generalized nested jailbreak prompts**: the harmful request is wrapped inside a sequence of innocuous framings — "translate the following," "complete this story," "rewrite this in a more formal register" — that progressively decontextualise the alignment-relevant signal. The wrapping is recursive and templated, so a single attack template generalises to many harmful intents. The paper's message is methodological: refusal classifiers that look at the surface form of the prompt are systematically defeated by attacks that operate on the prompt's structure, and alignment training therefore needs to cover the space of nested instructions explicitly.
+
+## Multimodal and Cross-Modal Attacks
+
+The same alignment-vs-capability gap is widened, not narrowed, by adding modalities. *Qi et al.* (2024) show that **a single visually adversarial image**, optimised against an open vision-language model, can serve as a universal jailbreak: paired with arbitrary harmful text instructions, the image induces compliance across categories of harm (toxicity, violence, sexual content) that the model's text-only alignment was supposed to refuse. The attack is white-box on the open model but transfers to closed multimodal systems, and demonstrates that vision-language alignment cannot be treated as the union of vision safety and language safety — it has its own attack surface that neither component sees alone.
+
+*Gong et al.* (2025) introduce **FigStep**, a more accessible variant of the same vulnerability: rather than optimising an adversarial image, FigStep simply **renders the harmful instruction as text inside an image** and accompanies it with an innocuous text prompt ("answer the question shown in the image"). The image's typographic content bypasses the language-side alignment classifier, which never sees the harmful text directly, while the OCR-capable vision encoder reconstructs it for the language model to act on. FigStep requires no optimisation, no gradient access, and no specialised tooling — a stark demonstration that multimodal alignment in current systems is held together by assumptions about which channels carry safety-relevant content.
+
+## From Attack Catalogues to a Methodology
+
+The collective lesson of these papers is that **alignment evaluation is a moving target**. A model that resists every published attack is not a "safe" model; it is a model that has been trained against the published attacks. Robust evaluation therefore requires (i) standing red-team capacity that produces novel attacks against the latest defenses, (ii) automated attack generators — the *Wolf in Sheep's Clothing* and Open Sesame templates illustrate two automation styles — that scale beyond what manual red teamers can produce, and (iii) public benchmarks tracking attack success rates over time so that progress is measurable. *Lin et al.* (2025) close their survey with a research agenda along exactly these axes; the next wave of work in this area is being framed accordingly.
+
+## Connections
+
+This topic feeds back into [Language Model Alignment](./language-model-alignment): every successful attack here is a counterexample to the alignment guarantees claimed there, and the alignment work is partially evaluated by how it raises the cost of red-team success. It also touches [Language Model Fairness](./language-model-fairness), since both fields share a methodology of probing trained models for behaviours their developers did not intend, though the threat models and intervention points differ.

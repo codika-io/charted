@@ -37,6 +37,8 @@ hofmann-2024:
     email: ~
     scholar: ~
 
+# wave-2/ai-alignment — 2026-05-07
+
 retzlaff-2024:
   name: Carl Orge Retzlaff
   orcid: 0000-0002-0139-2590
@@ -58,6 +60,39 @@ metzer-2023:
   affiliation_country: IL
   openalex: https://openalex.org/A5085386004
   h_index: 7
+  contact:
+    email: ~
+    scholar: ~
+
+qi-xiangyu-2024:
+  name: Xiangyu Qi
+  orcid: ~
+  affiliation: Princeton University
+  affiliation_country: US
+  openalex: https://openalex.org/A5064279600
+  h_index: 4
+  contact:
+    email: ~
+    scholar: ~
+
+lapid-2024:
+  name: Raz Lapid
+  orcid: ~
+  affiliation: Ben-Gurion University of the Negev
+  affiliation_country: IL
+  openalex: https://openalex.org/A5054480906
+  h_index: 5
+  contact:
+    email: ~
+    scholar: ~
+
+ding-2024:
+  name: Peng Ding
+  orcid: ~
+  affiliation: ~
+  affiliation_country: ~
+  openalex: https://openalex.org/A5102579940
+  h_index: 3
   contact:
     email: ~
     scholar: ~
@@ -142,6 +177,12 @@ wang-2023:
   affiliation: Zhejiang University
   affiliation_country: CN
   openalex: https://openalex.org/A5029109301
+bergman-2024:
+  name: Stevie Bergman
+  orcid: ~
+  affiliation: Google DeepMind (United Kingdom)
+  affiliation_country: GB
+  openalex: https://openalex.org/A5000039831
   h_index: 6
   contact:
     email: ~
@@ -216,6 +257,12 @@ li-2023:
   affiliation: Harbin Institute of Technology
   affiliation_country: CN
   openalex: https://openalex.org/A5050023810
+cao-2024:
+  name: Bochuan Cao
+  orcid: 0009-0007-1973-8186
+  affiliation: Pennsylvania State University
+  affiliation_country: US
+  openalex: https://openalex.org/A5030879739
   h_index: 4
   contact:
     email: ~
@@ -255,6 +302,12 @@ charatan-2024:
   affiliation: Massachusetts Institute of Technology
   affiliation_country: US
   openalex: https://openalex.org/A5060045560
+gong-2025:
+  name: Yichen Gong
+  orcid: ~
+  affiliation: Tsinghua University
+  affiliation_country: CN
+  openalex: https://openalex.org/A5110849518
   h_index: 4
   contact:
     email: ~
@@ -322,6 +375,24 @@ butoi-2023:
   affiliation_country: ~
   openalex: https://openalex.org/A5027191885
   h_index: 3
+trung-2024:
+  name: Luong Trung
+  orcid: ~
+  affiliation: ~
+  affiliation_country: ~
+  openalex: https://openalex.org/A5107403608
+  h_index: 1
+  contact:
+    email: ~
+    scholar: ~
+
+lin-2025:
+  name: Lizhi Lin
+  orcid: ~
+  affiliation: Huaihua University
+  affiliation_country: CN
+  openalex: https://openalex.org/A5105206377
+  h_index: 2
   contact:
     email: ~
     scholar: ~
