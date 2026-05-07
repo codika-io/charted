@@ -3,6 +3,7 @@ import type { Domain } from '../lib/domain';
 import BaseLayout from './BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import ContributeButton from '../components/ContributeButton.astro';
+import OrcidStatus from '../components/islands/OrcidStatus';
 import DottedSeparator from '../components/DottedSeparator.astro';
 import BranchSidebar from '../components/BranchSidebar.astro';
 import SectionNav from '../components/SectionNav.astro';
@@ -62,8 +63,9 @@ const {
 
         <DottedSeparator />
 
-        <div class="flex justify-center">
+        <div class="flex flex-wrap justify-center items-center gap-3">
           <ContributeButton filePath={filePath} />
+          <OrcidStatus client:only="react" returnTo={Astro.url.pathname} />
         </div>
       </div>
 

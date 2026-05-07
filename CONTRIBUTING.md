@@ -101,7 +101,11 @@ This is **soft-enforced**. The CI bot posts an advisory check on every PR (✅ m
 
 ## How to register as a reviewer
 
-1. Edit [`reviewers.yml`](reviewers.yml) and add yourself:
+There are two paths.
+
+**A. ORCID one-click claim (cited authors only).** If a topic page cites a paper you authored, signing in with ORCID on that page surfaces a "You're cited here" banner. One click opens a PR adding you to `reviewers.yml` for that topic. Your ORCID is verified end-to-end (`authors.yml` confirms you wrote the cited paper, ORCID OAuth confirms you control the iD).
+
+**B. Manual PR (everyone else).** Edit [`reviewers.yml`](reviewers.yml) and add yourself:
 
    ```yaml
    - github: your-handle

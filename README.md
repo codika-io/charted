@@ -47,9 +47,11 @@ Open [http://localhost:4321](http://localhost:4321). The dev server hot-reloads 
 
 ## Contributing
 
-PRs touching content require **reviewer attestation** — `Reviewer-GitHub`, `Reviewer-ORCID`, and `Reviewer-Tier` trailers in the PR body. CI posts an advisory comment; final approval is a maintainer call.
+There are three ways to contribute, ordered by friction:
 
-To register as a reviewer, add yourself to [`reviewers.yml`](reviewers.yml) and open a PR with a brief justification.
+1. **In-page flag** — every topic page exposes a "Flag" affordance next to the title, prerequisites, and sources. It opens a structured GitHub issue for maintainers (no GitHub account required).
+2. **ORCID claim** — if a topic cites a paper you authored, signing in with ORCID surfaces a "You're cited here" banner. One click opens a PR adding you to `reviewers.yml`, verified end-to-end via ORCID + `authors.yml`.
+3. **Pull request** — content PRs require **reviewer attestation** (`Reviewer-GitHub`, `Reviewer-ORCID`, `Reviewer-Tier` trailers). CI posts an advisory comment; final approval is a maintainer call.
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for the full flow, including the unified topic/source model, reviewer tiers, and writing guidelines.
 

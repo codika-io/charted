@@ -1,5 +1,6 @@
 # build output
 dist/
+.vercel/
 
 # generated types
 .astro/
@@ -42,3 +43,5 @@ CLAUDE.md
 
 # ── Entire ───────────────────────────────────────────────────
 .entire/
+.vercel
+.env*.local
