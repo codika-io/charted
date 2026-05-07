@@ -1,0 +1,45 @@
+---
+title: Vision Foundation Models
+description: >-
+  Vision systems trained once at scale and applied to novel tasks, objects, or
+  domains without retraining — generalising the language-model recipe of
+  pretrain-once-prompt-many to dense vision problems.
+parent: computer-science/ai-and-machine-learning/computer-vision
+order: 4
+color: "#3b82f6"
+difficulty: advanced
+prerequisites:
+  - computer-science/ai-and-machine-learning/computer-vision
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: "2026-05-07"
+reviewTier: frontier
+sources:
+  - type: paper
+    title: "FoundationPose: Unified 6D Pose Estimation and Tracking of Novel Objects"
+    authors: [wen-2024]
+    year: 2024
+    doi: 10.1109/cvpr52733.2024.01692
+    role: primary
+  - type: paper
+    title: "UniverSeg: Universal Medical Image Segmentation"
+    authors: [butoi-2023]
+    year: 2023
+    doi: 10.1109/iccv51070.2023.01960
+    role: primary
+---
+
+A **vision foundation model** is a model trained once on a broad distribution and then applied to novel tasks at test time without per-task fine-tuning, by analogy with large language models that prompt-condition for unfamiliar tasks. The category is well-established for general-purpose representations (CLIP, DINO, SAM), but it is increasingly being pushed into structured-output vision problems — 6D pose, medical segmentation, scene-level dense prediction — where per-task training has historically been the norm. This topic tracks methodology contributions that adapt the foundation-model recipe to such structured outputs.
+
+## Foundation models for 6D object pose
+
+Estimating an object's 6D pose — three rotational and three translational degrees of freedom — is the canonical entry point for robotic manipulation and AR. Until recently each new object required either re-training a network or a careful test-time optimisation pipeline. *Wen et al.* (FoundationPose, 2024) propose a single model that handles a novel object **at test time** with no fine-tuning, in two operating modes: model-based, when a CAD model is provided, and model-free, when only a small set of reference images is available. A unified neural architecture handles both regimes by pivoting on a learned object-centric implicit representation that can be conditioned either on rendered CAD views or on captured reference views. The training recipe is large-scale synthetic data generation: an LLM-driven scene composer plus a high-fidelity renderer produce millions of synthetic interactions that cover the long tail of object shapes, materials, lighting, and clutter. The system unifies pose *estimation* and *tracking* in a single network, generalises to objects unseen during training, and outperforms specialist baselines on every standard benchmark. The methodological contribution is the demonstration that a foundation-model recipe — large-scale pretraining plus a test-time conditioning interface — works for a structured 6D output, not only for classification or open-vocabulary recognition.
+
+## In-context learning for medical segmentation
+
+Medical image segmentation is the textbook case of a per-task vision problem: each new modality, anatomy, and label requires a fresh model. *Butoi et al.* (UniverSeg, 2023) propose a single network that segments any unseen task at test time, given a small **support set** of paired example image and segmentation. The architecture uses a CrossBlock module that lets the query image attend to the support pairs at every resolution, so the segmentation prediction is conditioned on the examples in much the same way that a language model's output is conditioned on in-context demonstrations. The model is trained on a curated meta-distribution of 53 open medical datasets covering many anatomies, modalities, and label conventions, and at test time it segments tasks it has never seen during training — including new anatomies, label sets, and imaging modalities — without any gradient updates. UniverSeg reframes medical segmentation methodology: instead of training a specialist per dataset, train a generalist once and condition it with a handful of labelled examples per deployment. The contribution is the demonstration that *in-context learning*, the trait that defines large language models, transfers to dense pixel-level vision outputs.
+
+## What the cluster shares
+
+The two papers above are united by a methodological pattern that defines this topic: a single model is trained at scale once, and at test time is conditioned to a novel object, task, or domain through an interface — CAD models or reference images for FoundationPose, an in-context support set for UniverSeg — that does not involve gradient updates. The active research surface includes scaling laws for these recipes, more efficient conditioning interfaces, prompt-tunable open-vocabulary detectors and segmenters, and the integration of vision foundation models with language-model agents that issue the prompts.

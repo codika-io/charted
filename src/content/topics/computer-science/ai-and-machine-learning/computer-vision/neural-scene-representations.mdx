@@ -1,0 +1,73 @@
+---
+title: Neural Scene Representations
+description: >-
+  Representing 3D scenes as continuous neural functions — radiance fields,
+  signed distance fields, and 3D Gaussian splats — that can be optimised from
+  multi-view images and rendered from novel viewpoints.
+parent: computer-science/ai-and-machine-learning/computer-vision
+order: 1
+color: "#3b82f6"
+difficulty: advanced
+prerequisites:
+  - computer-science/ai-and-machine-learning/computer-vision
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: "2026-05-07"
+reviewTier: frontier
+sources:
+  - type: paper
+    title: "BakedSDF: Meshing Neural SDFs for Real-Time View Synthesis"
+    authors: [yariv-2023]
+    year: 2023
+    doi: 10.1145/3588432.3591536
+    role: primary
+  - type: paper
+    title: "NeRF-SLAM: Real-Time Dense Monocular SLAM with Neural Radiance Fields"
+    authors: [rosinol-2023]
+    year: 2023
+    doi: 10.1109/iros55552.2023.10341922
+    role: primary
+  - type: paper
+    title: "Compact 3D Gaussian Representation for Radiance Field"
+    authors: [lee-2024]
+    year: 2024
+    doi: 10.1109/cvpr52733.2024.02052
+    role: primary
+  - type: paper
+    title: "PixelSplat: 3D Gaussian Splats from Image Pairs for Scalable Generalizable 3D Reconstruction"
+    authors: [charatan-2024]
+    year: 2024
+    doi: 10.1109/cvpr52733.2024.01840
+    role: primary
+  - type: paper
+    title: "GaussianAvatars: Photorealistic Head Avatars with Rigged 3D Gaussians"
+    authors: [qian-2024]
+    year: 2024
+    doi: 10.1109/cvpr52733.2024.01919
+    role: primary
+---
+
+A **neural scene representation** parameterises a 3D scene as a continuous function from spatial coordinates (and sometimes viewing direction) to colour, density, or signed distance, and fits the parameters by optimising a differentiable rendering loss against captured images. The line of work that began with Neural Radiance Fields (NeRF) reframed novel-view synthesis as an optimisation problem over an implicit volumetric function, replacing explicit meshes and textures with a small neural network whose weights *are* the scene. Subsequent research has pulled the representation in two directions: toward surfaces (signed distance fields, meshes) for fidelity and editability, and toward explicit primitives (3D Gaussian splats) for rendering speed.
+
+## From volumetric NeRFs to surfaces and meshes
+
+Vanilla NeRFs encode a scene as a multi-layer perceptron and render images by ray-marching with hundreds of network evaluations per ray. This is accurate but slow, and the implicit volume does not expose a clean surface for downstream graphics pipelines. **Signed distance field (SDF)** representations replace density with a function whose zero level set defines the surface, which makes geometry well-defined but is harder to optimise from images alone. *Yariv et al.* (BakedSDF, 2023) bridge this gap by first optimising a hybrid neural volume-surface representation engineered to have well-behaved level sets, then *baking* the result into a high-quality triangle mesh equipped with a fast view-dependent appearance model based on spherical Gaussians. The baked representation runs in real time on commodity rasterisers, recovers high-frequency view-dependent effects that classical mesh extraction loses, and exports cleanly to standard graphics tools.
+
+## Real-time scene reconstruction and SLAM
+
+Treating the scene representation as the map in a SLAM system tightly couples reconstruction with localisation. *Rosinol et al.* (NeRF-SLAM, 2023) combine a real-time dense monocular SLAM front-end with a hierarchical volumetric radiance field back-end: the SLAM tracker provides accurate camera poses and depth maps with calibrated uncertainty, which the radiance field consumes as supervision instead of relying purely on photometric loss. The pipeline produces dense geometric and photometric reconstructions from a single moving camera at interactive rates — a capability previously restricted to RGB-D systems. The contribution is methodological: it shows that the noisy, partial outputs of a classical SLAM tracker are precisely the right conditioning signal to make a neural radiance field tractable in real time.
+
+## Explicit 3D Gaussian primitives
+
+3D Gaussian splatting replaces the implicit MLP with millions of explicit anisotropic Gaussian primitives that can be rasterised directly, achieving real-time rendering while matching NeRF-quality view synthesis. The trade-off is memory: high-fidelity scenes need many millions of Gaussians, each with position, scale, rotation, opacity, and view-dependent colour coefficients. *Lee et al.* (Compact 3D Gaussian Representation, 2024) attack this directly with a learnable mask over Gaussians plus a grid-based neural field that compresses view-dependent colour, cutting storage by roughly an order of magnitude with negligible quality loss. The work also shows that vector quantisation of Gaussian parameters is a productive axis for compression — important for any deployment of Gaussian splatting outside the lab.
+
+A complementary direction asks whether 3D Gaussians can be predicted feed-forward from a small number of images rather than optimised per scene. *Charatan et al.* (pixelSplat, 2024) introduce a model that consumes a pair of input views and emits a full 3D Gaussian radiance field in a single forward pass. The technical contribution is overcoming the local minima that plague locally-supported representations: the model predicts a dense probability distribution over 3D space and samples Gaussian means via a reparameterisation trick that keeps gradients flowing. The result is generalisable, real-time 3D reconstruction from sparse inputs — a capability category previously dominated by per-scene optimisation methods.
+
+## Driving Gaussian splats with parametric models
+
+Static Gaussian splats describe one frozen scene; controllable avatars and animatable objects need the splats to deform consistently. *Qian et al.* (GaussianAvatars, 2024) rig 3D Gaussian splats to a parametric morphable face model (FLAME), so that expression, pose, and viewpoint changes drive the underlying parametric model and the Gaussians inherit the deformation through skinning. The architecture preserves the rendering speed of static Gaussian splatting while giving controllable head avatars at photographic fidelity, illustrating a general pattern — coupling explicit Gaussian primitives to articulated or parametric priors — that has spread across body avatars, hands, and animal models.
+
+## What the cluster shares
+
+All five papers above are methodology contributions to the same axis: how to choose a 3D representation that is differentiable enough to train from images, expressive enough to capture appearance and geometry, and structured enough to be fast at inference. The broader research surface — appearance editing, dynamic scenes, large-scale scene-level reconstruction, generalisable feed-forward models, and integration with text-conditioned generative priors — branches off from these foundations and is tracked partly under the sibling topic on diffusion priors for 3D generation.

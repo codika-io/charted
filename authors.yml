@@ -51,6 +51,13 @@ peng-2024:
   affiliation_country: ~
   openalex: https://openalex.org/A5075735963
   h_index: 9
+metzer-2023:
+  name: Gal Metzer
+  orcid: 0009-0007-6541-6129
+  affiliation: Tel Aviv University
+  affiliation_country: IL
+  openalex: https://openalex.org/A5085386004
+  h_index: 7
   contact:
     email: ~
     scholar: ~
@@ -129,6 +136,12 @@ qiang-2024:
   affiliation: Kuaishou (China)
   affiliation_country: ~
   openalex: https://openalex.org/A5028353824
+wang-2023:
+  name: Wenxiao Wang
+  orcid: 0000-0002-6399-292X
+  affiliation: Zhejiang University
+  affiliation_country: CN
+  openalex: https://openalex.org/A5029109301
   h_index: 6
   contact:
     email: ~
@@ -147,6 +160,34 @@ guan-2024:
   affiliation: Xiamen University
   affiliation_country: CN
   openalex: https://openalex.org/A5111310824
+ding-2024:
+  name: Xiaohan Ding
+  orcid: 0000-0001-8817-108X
+  affiliation: Tencent
+  affiliation_country: CN
+  openalex: https://openalex.org/A5003160545
+  h_index: 3
+  contact:
+    email: ~
+    scholar: ~
+
+rosinol-2023:
+  name: Antoni Rosinol
+  orcid: ~
+  affiliation: Massachusetts Institute of Technology
+  affiliation_country: US
+  openalex: https://openalex.org/A5113909824
+  h_index: 7
+  contact:
+    email: ~
+    scholar: ~
+
+haque-2023:
+  name: Ayaan Haque
+  orcid: ~
+  affiliation: Berkeley College
+  affiliation_country: US
+  openalex: https://openalex.org/A5035149922
   h_index: 5
   contact:
     email: ~
@@ -158,6 +199,23 @@ lu-2025:
   affiliation: National Taiwan University
   affiliation_country: TW
   openalex: https://openalex.org/A5015216145
+wen-2024:
+  name: Bowen Wen
+  orcid: 0000-0002-9207-6103
+  affiliation: ~
+  affiliation_country: ~
+  openalex: https://openalex.org/A5003458289
+  h_index: 14
+  contact:
+    email: ~
+    scholar: ~
+
+li-2023:
+  name: Zhenyu Li
+  orcid: 0000-0003-2932-9179
+  affiliation: Harbin Institute of Technology
+  affiliation_country: CN
+  openalex: https://openalex.org/A5050023810
   h_index: 4
   contact:
     email: ~
@@ -169,7 +227,101 @@ qi-2024:
   affiliation: Southeast University
   affiliation_country: CN
   openalex: https://openalex.org/A5040782290
+lee-2024:
+  name: Joo Chan Lee
+  orcid: 0000-0001-9398-9089
+  affiliation: Sungkyunkwan University
+  affiliation_country: KR
+  openalex: https://openalex.org/A5091809877
+  h_index: 8
+  contact:
+    email: ~
+    scholar: ~
+
+schult-2023:
+  name: Jonas Schult
+  orcid: ~
+  affiliation: RWTH Aachen University
+  affiliation_country: DE
+  openalex: https://openalex.org/A5075529365
+  h_index: 7
+  contact:
+    email: ~
+    scholar: ~
+
+charatan-2024:
+  name: David Charatan
+  orcid: ~
+  affiliation: Massachusetts Institute of Technology
+  affiliation_country: US
+  openalex: https://openalex.org/A5060045560
   h_index: 4
+  contact:
+    email: ~
+    scholar: ~
+
+qian-2024:
+  name: Shenhan Qian
+  orcid: 0000-0003-0416-7548
+  affiliation: Technical University of Munich
+  affiliation_country: DE
+  openalex: https://openalex.org/A5069574943
+  h_index: 8
+  contact:
+    email: ~
+    scholar: ~
+
+tang-2023:
+  name: Junshu Tang
+  orcid: 0000-0002-6549-5257
+  affiliation: Shanghai Jiao Tong University
+  affiliation_country: CN
+  openalex: https://openalex.org/A5045789612
+  h_index: 9
+  contact:
+    email: ~
+    scholar: ~
+
+melas-kyriazi-2023:
+  name: Luke Melas-Kyriazi
+  orcid: ~
+  affiliation: University of Oxford
+  affiliation_country: GB
+  openalex: https://openalex.org/A5079016134
+  h_index: 13
+  contact:
+    email: ~
+    scholar: ~
+
+yariv-2023:
+  name: Lior Yariv
+  orcid: 0009-0002-2164-9223
+  affiliation: Google (Israel)
+  affiliation_country: IL
+  openalex: https://openalex.org/A5070302579
+  h_index: 10
+  contact:
+    email: ~
+    scholar: ~
+
+zhou-2023:
+  name: Zhizhuo Zhou
+  orcid: ~
+  affiliation: Carnegie Mellon University
+  affiliation_country: US
+  openalex: https://openalex.org/A5091207481
+  h_index: 3
+  contact:
+    email: ~
+    scholar: ~
+
+butoi-2023:
+  name: Victor Ion Butoi
+  orcid: ~
+  affiliation: ~
+  affiliation_country: ~
+  openalex: https://openalex.org/A5027191885
+  h_index: 3
   contact:
     email: ~
     scholar: ~
