@@ -44,6 +44,13 @@ retzlaff-2024:
   affiliation_country: PL
   openalex: https://openalex.org/A5013076932
   h_index: 8
+peng-2024:
+  name: Puyuan Peng
+  orcid: ~
+  affiliation: ~
+  affiliation_country: ~
+  openalex: https://openalex.org/A5075735963
+  h_index: 9
   contact:
     email: ~
     scholar: ~
@@ -55,6 +62,13 @@ nahrendra-2023:
   affiliation_country: KR
   openalex: https://openalex.org/A5031946207
   h_index: 5
+guo-2025:
+  name: Yiwei Guo
+  orcid: 0009-0003-8114-2085
+  affiliation: Shanghai Jiao Tong University
+  affiliation_country: CN
+  openalex: https://openalex.org/A5101579214
+  h_index: 10
   contact:
     email: ~
     scholar: ~
@@ -65,6 +79,56 @@ margolis-2024:
   affiliation: Massachusetts Institute of Technology
   affiliation_country: US
   openalex: https://openalex.org/A5014707090
+he-2024:
+  name: Haorui He
+  orcid: ~
+  affiliation: Chinese University of Hong Kong, Shenzhen
+  affiliation_country: CN
+  openalex: https://openalex.org/A5033905098
+  h_index: 2
+  contact:
+    email: ~
+    scholar: ~
+
+li-2025:
+  name: Yinghao Aaron Li
+  orcid: 0000-0003-4520-267X
+  affiliation: Columbia University
+  affiliation_country: US
+  openalex: https://openalex.org/A5047016930
+  h_index: 2
+  contact:
+    email: ~
+    scholar: ~
+
+ji-2024:
+  name: Shengpeng Ji
+  orcid: ~
+  affiliation: Zhejiang University
+  affiliation_country: CN
+  openalex: https://openalex.org/A5102904447
+  h_index: 4
+  contact:
+    email: ~
+    scholar: ~
+
+miao-2024:
+  name: Chenfeng Miao
+  orcid: 0009-0006-1986-3035
+  affiliation: Ping An (China)
+  affiliation_country: ~
+  openalex: https://openalex.org/A5093993569
+  h_index: 4
+  contact:
+    email: ~
+    scholar: ~
+
+qiang-2024:
+  name: Chunyu Qiang
+  orcid: 0009-0007-2290-3074
+  affiliation: Kuaishou (China)
+  affiliation_country: ~
+  openalex: https://openalex.org/A5028353824
   h_index: 6
   contact:
     email: ~
@@ -77,6 +141,35 @@ zhu-2024:
   affiliation_country: NL
   openalex: https://openalex.org/A5053438680
   h_index: 8
+guan-2024:
+  name: Wenhao Guan
+  orcid: ~
+  affiliation: Xiamen University
+  affiliation_country: CN
+  openalex: https://openalex.org/A5111310824
+  h_index: 5
+  contact:
+    email: ~
+    scholar: ~
+
+lu-2025:
+  name: Ke-Han Lu
+  orcid: ~
+  affiliation: National Taiwan University
+  affiliation_country: TW
+  openalex: https://openalex.org/A5015216145
+  h_index: 4
+  contact:
+    email: ~
+    scholar: ~
+
+qi-2024:
+  name: Tianhua Qi
+  orcid: 0009-0005-5780-9374
+  affiliation: Southeast University
+  affiliation_country: CN
+  openalex: https://openalex.org/A5040782290
+  h_index: 4
   contact:
     email: ~
     scholar: ~
