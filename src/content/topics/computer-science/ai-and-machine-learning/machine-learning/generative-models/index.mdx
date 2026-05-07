@@ -1,0 +1,22 @@
+---
+title: Generative Models
+description: Models that learn the data distribution itself — capable of synthesizing new samples, scoring likelihoods, and serving as priors for downstream tasks.
+parent: computer-science/ai-and-machine-learning/machine-learning
+order: 4
+color: '#3b82f6'
+difficulty: advanced
+prerequisites:
+  - computer-science/ai-and-machine-learning/machine-learning
+  - mathematics/probability/probability-theory
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-07'
+reviewTier: field
+---
+
+A **generative model** learns the joint distribution $p(x)$ — or a conditional distribution $p(x \mid c)$ — over the data, with the goal of being able to draw new samples that look as if they came from the same source. This is a fundamentally different objective from discriminative learning, which only models $p(y \mid x)$ for a target label $y$. A generative model that has captured $p(x)$ implicitly contains structure that a discriminator can exploit (and vice versa via Bayes' rule), but it also offers capabilities that discriminative models cannot: density estimation, data synthesis, anomaly detection, simulation, and use as a prior for inverse problems.
+
+Modern generative modelling has consolidated around a few major families. **Variational autoencoders (VAEs)** train an encoder–decoder pair under an evidence lower bound that combines reconstruction with a prior on a latent space, producing tractable likelihoods at the cost of typically blurry samples. **Generative adversarial networks (GANs)** train a generator against a discriminator in a minimax game that yields sharp samples but unstable training and notorious mode-collapse pathologies. **Autoregressive models** factor $p(x) = \prod_t p(x_t \mid x_{<t})$ and dominate language modelling. **Normalizing flows** parameterize invertible transformations between data and a tractable base distribution, exposing exact likelihoods. **Diffusion models** learn to reverse a fixed noising process and have become the default for high-fidelity image, video, and audio synthesis.
+
+Each family makes a different trade between sample quality, likelihood tractability, and training stability — and each has produced a distinctive theoretical apparatus, evaluation toolkit, and research community. The practical questions that cut across the field include how to evaluate generative models when ground-truth densities are unavailable, how to align samples with human preferences once a model can produce many plausible outputs, and how generative pre-training transfers to downstream discriminative tasks. The frontier is increasingly organized around **diffusion models** (the current state of the art for continuous data) and around **autoregressive transformer language models** (the current state of the art for discrete sequences), with active work on hybrids that borrow strengths from both.
