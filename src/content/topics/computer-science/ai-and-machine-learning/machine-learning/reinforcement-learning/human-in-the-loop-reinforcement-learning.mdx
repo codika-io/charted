@@ -1,0 +1,30 @@
+---
+title: "Human-in-the-Loop Reinforcement Learning"
+description: "Reinforcement learning algorithms that treat human feedback — preferences, demonstrations, interventions, language — as a first-class learning signal."
+parent: computer-science/ai-and-machine-learning/machine-learning/reinforcement-learning
+order: 1
+color: "#3b82f6"
+difficulty: advanced
+prerequisites:
+  - computer-science/ai-and-machine-learning/machine-learning/reinforcement-learning
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: "2026-05-07"
+reviewTier: frontier
+sources:
+  - type: paper
+    title: "Human-in-the-Loop Reinforcement Learning: A Survey and Position on Requirements, Challenges, and Opportunities"
+    authors: [retzlaff-2024]
+    year: 2024
+    doi: 10.1613/jair.1.15348
+    role: primary
+---
+
+**Human-in-the-loop reinforcement learning (HITL-RL)** is the family of methods that treat humans not as passive data labellers but as ongoing participants in the agent's training loop. The motivation is structural: many tasks worth solving with RL have reward functions that are hard to specify, hard to verify, or both — a robotic assistant that should be "helpful and not annoying", a language model that should be "truthful", a recommender that should "respect the user's preferences". In each case the designer has a richer notion of desired behavior than any scalar reward function readily captures, and the cleanest way to access that richness is to keep the human inside the loop.
+
+The methodological space is broad. **Reward shaping from preferences** asks the human to compare two trajectories and trains a reward model from those comparisons, then optimizes a policy against the learned reward — the recipe behind reinforcement learning from human feedback (RLHF) for language models. **Learning from demonstrations** uses recorded human behavior as a prior over good policies, either via behavior cloning or as initialization for RL fine-tuning. **Interactive correction** lets a human intervene during deployment to override or correct the agent's actions, generating both new training data and a built-in safety layer. **Natural-language feedback** treats free-form human comments as a signal to be grounded against the agent's internal representations.
+
+Retzlaff and colleagues survey this design space and argue that even autonomous-looking RL systems are fundamentally HITL: humans choose the reward function, the environment, the evaluation criteria, and increasingly the feedback signal that drives the policy itself. Their position paper enumerates the requirements that distinguish HITL-RL from standard RL — sample-efficient use of human time, robustness to noisy or inconsistent feedback, principled handling of disagreement, and credible safety guarantees during exploration — and identifies the open challenges that follow from taking humans seriously as part of the optimization objective rather than as offline supervisors.
+
+The cluster connects upward to alignment and policy-learning theory and downward to concrete deployed systems: the reward-model-plus-PPO pipeline used to fine-tune chat assistants, the preference-elicitation strategies that gather data efficiently, and the interactive-imitation methods that scale to long-horizon manipulation tasks. Open questions on every layer — how to certify that a learned reward actually tracks human intent, how to detect and recover from feedback drift, how to compose feedback from many humans with conflicting preferences — keep this an active and consequential research area.

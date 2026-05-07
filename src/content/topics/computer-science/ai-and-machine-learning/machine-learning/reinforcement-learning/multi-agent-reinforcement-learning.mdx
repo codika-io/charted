@@ -1,0 +1,30 @@
+---
+title: "Multi-Agent Reinforcement Learning"
+description: "Reinforcement learning in systems with many simultaneously-learning agents — joint-policy optimization, non-stationarity, and learned communication."
+parent: computer-science/ai-and-machine-learning/machine-learning/reinforcement-learning
+order: 3
+color: "#3b82f6"
+difficulty: advanced
+prerequisites:
+  - computer-science/ai-and-machine-learning/machine-learning/reinforcement-learning
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: "2026-05-07"
+reviewTier: frontier
+sources:
+  - type: paper
+    title: "A Survey of Multi-Agent Deep Reinforcement Learning With Communication"
+    authors: [zhu-2024]
+    year: 2024
+    doi: 10.1007/s10458-023-09633-6
+    role: primary
+---
+
+**Multi-agent reinforcement learning (MARL)** generalizes the single-agent MDP to systems where several decision-makers interact in a shared environment, each optimizing its own (possibly cooperative, possibly competitive, possibly mixed) reward. The standard formalism is the **stochastic game** or **partially observable Markov game**. Two structural difficulties separate MARL from single-agent RL: the **joint policy** lives in a space exponentially larger than any individual policy, and from any single agent's vantage point the environment is **non-stationary** because the other agents are themselves learning. Convergence guarantees that hold trivially in single-agent RL break down, and naïvely applying single-agent algorithms in parallel often diverges or oscillates.
+
+Modern deep MARL has converged on a small family of training paradigms. **Centralized training with decentralized execution (CTDE)** trains a critic that has access to the joint state and the actions of all agents, but produces actor policies that act on local observations only — a multi-agent analogue of the asymmetric actor-critic recipe. **Value decomposition** methods (VDN, QMIX, QTRAN) factor the joint action-value into per-agent components under monotonicity constraints, enabling decentralized execution while preserving consistency between local greedy actions and the joint-greedy choice. **Independent learners** with stabilization tricks — population-based training, self-play with frozen opponents, opponent modelling — form a third family.
+
+A particularly active sub-thread treats **communication** as a learned policy rather than a fixed protocol. Zhu and colleagues survey this design space and organize the literature along three axes: what messages are sent (continuous vectors, attention queries, language-like tokens), to whom they are sent (broadcast, group, point-to-point, attention-routed), and under what constraints (bandwidth, noise, delay). Across architectures, three patterns recur. **Differentiable communication channels** let gradients flow between agents through messages, turning the joint multi-agent system into one large recurrent network that backpropagation can train end-to-end. **Attention-based message routing** lets each agent learn whom to listen to, producing protocols that are sparse in practice even when the channel is nominally broadcast. **Information-bottleneck regularization** on messages encourages agents to send only task-relevant content, which improves both interpretability and bandwidth efficiency.
+
+The survey also catalogs the open problems that distinguish MARL-with-communication from its single-agent counterpart: emergence and stability of learned protocols, generalization to new team compositions, sample efficiency under bandwidth constraints, and credit assignment between agents whose communication shaped each other's behavior. The methodology is developing into its own cluster — with its own benchmarks (StarCraft Multi-Agent Challenge, Hanabi, Overcooked), its own conferences within ML venues, and its own theoretical scaffolding around partially-observable stochastic games — and increasingly informs deployed multi-agent systems where coordination, not just individual competence, is the bottleneck.

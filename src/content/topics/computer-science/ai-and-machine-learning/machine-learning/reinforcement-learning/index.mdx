@@ -1,0 +1,32 @@
+---
+title: "Reinforcement Learning"
+description: "Sequential decision-making under uncertainty — agents learn policies that maximize long-horizon reward by interacting with an environment."
+parent: computer-science/ai-and-machine-learning/machine-learning
+order: 4
+color: "#3b82f6"
+difficulty: advanced
+prerequisites:
+  - computer-science/ai-and-machine-learning/machine-learning
+  - mathematics/probability/probability-theory
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: "2026-05-07"
+reviewTier: field
+---
+
+Reinforcement learning (RL) is the branch of machine learning concerned with how an **agent** should act in an **environment** so as to maximize a scalar **reward** received over time. Unlike supervised learning, the learner is never told the correct action; it must discover, through trial and error, which sequences of decisions yield the highest cumulative return. This makes RL the natural framework for problems where outcomes unfold over many steps — playing games, controlling robots, scheduling resources, aligning language models with human preferences.
+
+## The Markov decision process
+
+The standard formalism is the **Markov decision process (MDP)** $(\mathcal{S}, \mathcal{A}, P, R, \gamma)$: a state space, an action space, a transition kernel $P(s' \mid s, a)$, a reward function $R(s, a)$, and a discount factor $\gamma \in [0, 1)$. A **policy** $\pi(a \mid s)$ assigns a distribution over actions to each state, and the agent's goal is to maximize the expected discounted return $\mathbb{E}_\pi\!\left[\sum_{t=0}^\infty \gamma^t R(s_t, a_t)\right]$. The **Bellman equations** decompose this objective recursively, and **dynamic programming** solves them exactly when $P$ and $R$ are known.
+
+In practice the model is usually unknown, and the agent must learn from samples. **Value-based** methods estimate $Q^\pi(s, a)$ — the expected return starting from $(s, a)$ and following $\pi$ thereafter — and act greedily with respect to it. Watkins's **Q-learning** updates these estimates from temporal-difference targets and converges, in tabular settings, to the optimal action-value function regardless of the behavior policy. **Policy-gradient** methods parameterize $\pi_\theta$ directly and ascend the expected-return gradient $\nabla_\theta J(\theta) = \mathbb{E}_\pi[\nabla_\theta \log \pi_\theta(a \mid s) \cdot Q^\pi(s, a)]$. **Actor-critic** algorithms combine the two: the critic estimates a value function that is plugged into the actor's policy-gradient update as a low-variance baseline.
+
+## Deep RL and the modern landscape
+
+The 2010s brought neural function approximation into RL at scale. **DQN** showed that a convolutional network trained with experience replay and a target network could learn Atari games from raw pixels. **TRPO** and **PPO** stabilized policy-gradient training by constraining the size of policy updates, making deep policy optimization practical for high-dimensional control. **AlphaGo** and **AlphaZero** combined Monte Carlo tree search with self-play and deep neural networks to surpass human champions in Go, chess, and shogi.
+
+The frontier has since fragmented into specialized methodology clusters. **Sim-to-real** transfer studies how to train policies in simulation that survive deployment on physical robots — a problem dominated by domain randomization, asymmetric actor-critic architectures, and explicit modelling of environment uncertainty. **Multi-agent RL** generalizes the single-agent MDP to systems where many agents learn simultaneously and may need to communicate, cooperate, or compete; the joint policy and the non-stationarity of each agent's effective environment make convergence guarantees substantially harder. **Human-in-the-loop RL** treats human feedback — preferences, demonstrations, interventions, language — as a first-class signal for shaping reward and behavior, and underlies the alignment pipeline used to train modern instruction-following language models. Each of these clusters has its own conferences, benchmarks, and open problems, and is treated as a sub-topic below.
+
+Beyond these, active threads include **offline RL** (learning from fixed batches without further interaction), **model-based RL** (learning a world model and planning inside it), **hierarchical RL** (composing skills across temporal scales), **exploration** (intrinsic motivation, curiosity, count-based bonuses), and **meta-RL** (learning algorithms that adapt to new tasks). The unifying thread is the credit-assignment problem — distributing the influence of a delayed scalar reward across the many actions that contributed to it — and every methodological advance is, in some sense, a sharper instrument for solving it.
