@@ -4,6 +4,7 @@ import { getDomainFromId } from '../lib/domain';
 import TopicLayout from '../layouts/TopicLayout.astro';
 import AtlasGraph from '../components/islands/AtlasGraph';
 import FlagWidget from '../components/islands/FlagWidget';
+import ReviewChooser from '../components/islands/ReviewChooser';
 import ClaimBanner from '../components/islands/ClaimBanner';
 import { neighborhood, getNode, graph } from '../lib/graph';
 
@@ -141,11 +142,12 @@ const currentBranch = isTopicPage
       </span>
     )}
     <span class="ml-auto">
-      <FlagWidget
+      <ReviewChooser
         client:only="react"
         topicId={topic.id}
+        filePath={filePath}
         label="Review this topic"
-        variant="cta"
+        variant="badge"
         defaultKind="factual-error"
       />
     </span>

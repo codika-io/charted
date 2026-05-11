@@ -4,7 +4,7 @@ import BaseLayout from './BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import ContributeButton from '../components/ContributeButton.astro';
 import OrcidStatus from '../components/islands/OrcidStatus';
-import FlagWidget from '../components/islands/FlagWidget';
+import ReviewChooser from '../components/islands/ReviewChooser';
 import DottedSeparator from '../components/DottedSeparator.astro';
 import BranchSidebar from '../components/BranchSidebar.astro';
 import SectionNav from '../components/SectionNav.astro';
@@ -80,9 +80,10 @@ const {
               This page was drafted by an agent and is waiting on expert review. Spotted a wrong prerequisite, a missing concept, a misattributed source, or a factual slip? Tell us — your review opens a tracked issue maintainers act on.
             </p>
             <div class="flex justify-center mb-5">
-              <FlagWidget
+              <ReviewChooser
                 client:only="react"
                 topicId={currentTopicId}
+                filePath={filePath}
                 label="Review this topic"
                 variant="cta-large"
                 defaultKind="factual-error"
@@ -90,8 +91,6 @@ const {
             </div>
             <div class="flex flex-wrap justify-center items-center gap-3 text-xs">
               <OrcidStatus client:only="react" returnTo={Astro.url.pathname} />
-              <span class="text-surface-300">·</span>
-              <ContributeButton filePath={filePath} />
             </div>
           </section>
         )}
@@ -126,9 +125,10 @@ const {
             This page was drafted by an agent and is waiting on expert review. Spotted a wrong prerequisite, a missing concept, a misattributed source, or a factual slip? Tell us — your review opens a tracked issue maintainers act on.
           </p>
           <div class="flex justify-center mb-5">
-            <FlagWidget
+            <ReviewChooser
               client:only="react"
               topicId={currentTopicId}
+              filePath={filePath}
               label="Review this topic"
               variant="cta-large"
               defaultKind="factual-error"
@@ -136,8 +136,6 @@ const {
           </div>
           <div class="flex flex-wrap justify-center items-center gap-3 text-xs">
             <OrcidStatus client:only="react" returnTo={Astro.url.pathname} />
-            <span class="text-surface-300">·</span>
-            <ContributeButton filePath={filePath} />
           </div>
         </section>
       ) : (
