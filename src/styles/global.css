@@ -198,3 +198,20 @@ code, pre, kbd {
   background-color: var(--color-accent-100);
   color: var(--color-accent-900);
 }
+
+/* ─── Focus rings: keyboard-only ─── */
+/* Mouse-click focus shouldn't leave a persistent ring — only keyboard
+   navigation should surface one. Without this, clicking a button traps
+   its focus state until the user clicks elsewhere, which stacks visually
+   on top of hover states elsewhere on the page. */
+button:focus,
+a:focus,
+[role="button"]:focus {
+  outline: none;
+}
+button:focus-visible,
+a:focus-visible,
+[role="button"]:focus-visible {
+  outline: 2px solid var(--color-accent-500);
+  outline-offset: 2px;
+}
