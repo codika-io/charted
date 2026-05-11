@@ -21,10 +21,12 @@ export type FlagWidgetProps = {
   topicId: string;
   /** Initial label for the trigger. */
   label?: string;
-  /** Visual variant. `cta` is the prominent reviewer-facing button; `block`
-   *  is the dashed-border secondary affordance; `inline` is the small
-   *  per-prereq / per-source flag. */
-  variant?: 'inline' | 'block' | 'cta';
+  /** Visual variant.
+   *  - `cta`: compact filled-accent button — sits beside badges at top of topic page.
+   *  - `cta-large`: prominent filled-accent button — centerpiece of bottom review card.
+   *  - `block`: dashed-border secondary affordance.
+   *  - `inline` (default): tiny per-prereq / per-source flag. */
+  variant?: 'inline' | 'block' | 'cta' | 'cta-large';
   /** Optional pre-filled context (e.g. "edge: linear-algebra → self-attention"). */
   context?: string;
   /** Default flag kind selection. */
@@ -105,6 +107,15 @@ export default function FlagWidget({
       <button
         type="button"
         onClick={() => setOpen(true)}
+        className="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-wider text-surface-0 bg-accent-600 hover:bg-accent-700 px-2.5 py-1 transition-colors"
+      >
+        <ReviewIcon size={11} />
+        {label}
+      </button>
+    ) : variant === 'cta-large' ? (
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
         className="inline-flex items-center gap-2 font-mono text-sm uppercase tracking-wider text-surface-0 bg-accent-600 hover:bg-accent-700 px-5 py-3 transition-colors"
       >
         <ReviewIcon size={16} />
@@ -147,7 +158,7 @@ export default function FlagWidget({
             role="dialog"
             aria-modal="true"
             aria-labelledby="flag-title"
-            className="w-full max-w-lg bg-surface-0 border border-surface-300 shadow-xl"
+            className="w-full max-w-lg bg-surface-0 border border-surface-300 shadow-xl text-left"
           >
             {success ? (
               <div className="p-6">
