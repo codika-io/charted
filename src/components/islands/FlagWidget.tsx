@@ -158,7 +158,7 @@ export default function FlagWidget({
             role="dialog"
             aria-modal="true"
             aria-labelledby="flag-title"
-            className="w-full max-w-lg bg-surface-0 border border-surface-300 shadow-xl text-left"
+            className="w-full max-w-lg max-h-[90vh] overflow-y-auto bg-surface-0 border border-surface-300 shadow-xl text-left"
           >
             {success ? (
               <div className="p-6">
