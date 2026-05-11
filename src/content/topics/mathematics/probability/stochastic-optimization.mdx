@@ -1,0 +1,62 @@
+---
+title: Stochastic Optimization
+description: Optimisation of objective functions that depend on random variables — covering scenario-based stochastic programming, sample-path methods, distributionally robust formulations, and the stochastic-gradient family.
+parent: mathematics/probability
+order: 3
+color: '#3b82f6'
+difficulty: advanced
+prerequisites:
+  - mathematics/probability
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-11'
+reviewTier: frontier
+sources:
+  - type: paper
+    title: 'Developmental changes in exploration resemble stochastic optimization'
+    authors: [giron-2023]
+    year: 2023
+    doi: 10.1038/s41562-023-01662-1
+    role: primary
+  - type: paper
+    title: 'Problem-based scenario generation by decomposing output distributions'
+    authors: [narum-2024]
+    year: 2024
+    doi: 10.1016/j.ejor.2024.04.006
+    role: primary
+  - type: paper
+    title: 'Quantum Kernel Alignment with Stochastic Gradient Descent'
+    authors: [gentinetta-2023]
+    year: 2023
+    doi: 10.1109/qce57702.2023.00036
+    role: supporting
+  - type: paper
+    title: 'Solving constrained optimization problems via the variational quantum eigensolver with constraints'
+    authors: [le-thinh-2024]
+    year: 2024
+    doi: 10.1103/physreva.110.022430
+    role: primary
+  - type: paper
+    title: 'Trajectory-Oriented Optimization of Stochastic Epidemiological Models'
+    authors: [fadikar-2023]
+    year: 2023
+    doi: 10.1109/wsc60868.2023.10408258
+    role: supporting
+---
+
+**Stochastic optimization** is the discipline of choosing a decision that minimises (or maximises) an objective whose value depends on a random variable. Formally one studies problems of the form $\min_{x \in \mathcal{X}} \mathbb{E}_{\xi \sim P}[f(x, \xi)]$, where the expectation is intractable, the distribution $P$ may itself be unknown, and the feasible set $\mathcal{X}$ may carry its own random constraints. Methodological work in the field organises around four interacting axes: *how the randomness is represented* (closed-form distributions, scenario trees, sample-average approximations, or distributionally robust ambiguity sets), *how the expectation is evaluated* (deterministic equivalents, Monte Carlo, importance sampling, surrogate models), *how iterates are updated* (stochastic-gradient descent and its variance-reduced and accelerated descendants, trust-region schemes, primal-dual splitting), and *how risk and constraints are encoded* (chance constraints, CVaR, two-stage recourse, distributionally robust counterparts). The papers below trace the recent methodological frontier across these axes; each addresses a concrete bottleneck without retreating to a narrow domain application.
+
+## Scenario representation and two-stage programming
+
+Two-stage stochastic programming is the workhorse formulation for decisions made under uncertainty with a recourse opportunity, but its practical effectiveness depends almost entirely on the quality of the discrete scenario set used to approximate the underlying distribution. *Narum* (2024) attacks the scenario-generation step directly with a **problem-based** method that is agnostic to the specific stochastic program and to the family of distributions involved. Rather than sampling from $P$ in isolation, the method studies how the *output distribution of the recourse problem* varies across candidate first-stage decisions and extracts a small number of components that span this family of output distributions; scenarios are then constructed to span these components rather than the input space. The result is a scenario set whose cardinality is calibrated to the structure of the recourse problem rather than to the ambient dimensionality of $\xi$, which is the operative quantity for stochastic-programming solvers.
+
+## Stochastic gradients and constrained quantum subroutines
+
+The stochastic-gradient family generalises beyond classical convex optimisation in two directions that recent work makes concrete. *Gentinetta et al.* (2023) extend the **Pegasos** stochastic-gradient algorithm for support vector machines to the quantum setting, addressing **quantum kernel alignment**: given a parametrised quantum kernel and a labelled dataset, find kernel parameters whose induced SVM minimises classification risk. The Pegasos update structure transfers cleanly because it depends only on subgradient estimates of the hinge loss, which the quantum subroutine produces unbiasedly. The contribution to stochastic optimisation theory is showing that an unbiased gradient oracle is enough; the inner workings of the oracle can be quantum without breaking SGD's convergence machinery. *Le et al.* (2024) tackle the dual question on the optimisation side: how to handle **constraints** inside a variational quantum eigensolver (VQE), which has historically been formulated as an unconstrained energy-minimisation procedure. Their **VQEC** framework adapts classical penalty and Lagrangian techniques to the variational quantum setting, producing a hybrid quantum-classical loop that respects equality and inequality constraints during optimisation rather than relying on post-hoc projection.
+
+## Trajectory-level objectives and behavioural connections
+
+Most stochastic optimisation procedures evaluate candidate decisions by the *expected* objective. *Fadikar et al.* (2023) propose **trajectory-oriented optimisation**, in which the criterion is not the mean simulation behaviour but the typicality of full sample paths against empirical observations. The framework targets stochastic epidemiological models, where two parameter settings producing the same mean curve can produce wildly different realised trajectories, and shows that calibrating to trajectory similarity rather than to moment statistics changes the inferred parameter posterior. Methodologically this is a clean instance of moving objectives one level up the distributional hierarchy: from $\mathbb{E}[f]$ to a functional of the distribution of $f$. In a complementary direction, *Giron et al.* (2023) ask what stochastic optimisation has to say about human learning: using behavioural data from 281 participants ages five to fifty-five, they show that developmental change in exploration is best described as joint optimisation of multiple algorithmic parameters (reward generalisation, uncertainty-directed exploration, random temperature) rather than as a single one-dimensional cooling schedule. The result reframes a long-standing analogy as a quantitative empirical claim about which parameter trajectories a real adaptive system follows.
+
+Open methodological questions cut across the axes above. When does problem-based scenario generation provably beat distributionally robust formulations at the same sample budget? Can quantum oracles deliver variance reduction comparable to classical control-variate schemes, or is the noise floor of NISQ devices the binding constraint? And do trajectory-level objectives admit tractable surrogate gradients, or must they remain the province of derivative-free and Bayesian optimisation?

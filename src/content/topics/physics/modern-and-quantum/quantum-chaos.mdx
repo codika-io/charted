@@ -1,0 +1,66 @@
+---
+title: Quantum Chaos
+description: The study of how classical chaotic dynamics, ergodicity, and information scrambling are encoded in the spectra, eigenstates, and out-of-time-order correlators of quantum systems.
+parent: physics/modern-and-quantum
+order: 6
+color: '#f59e0b'
+difficulty: advanced
+prerequisites:
+  - physics/modern-and-quantum/quantum-mechanics
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-11'
+reviewTier: frontier
+sources:
+  - type: paper
+    title: 'Diagnosing non-Hermitian many-body localization and quantum chaos via singular value decomposition'
+    authors: [roccati-2024]
+    year: 2024
+    doi: 10.1103/physrevb.109.l140201
+    role: primary
+  - type: paper
+    title: 'Complete Hilbert-Space Ergodicity in Quantum Dynamics of Generalized Fibonacci Drives'
+    authors: [pilatowsky-cameo-2023]
+    year: 2023
+    doi: 10.1103/physrevlett.131.250401
+    role: primary
+  - type: paper
+    title: 'Quantum Scars and Regular Eigenstates in a Chaotic Spinor Condensate'
+    authors: [evrard-2024]
+    year: 2024
+    doi: 10.1103/physrevlett.132.020401
+    role: primary
+  - type: paper
+    title: 'Dynamical quantum ergodicity from energy level statistics'
+    authors: [vikram-2023]
+    year: 2023
+    doi: 10.1103/physrevresearch.5.033126
+    role: primary
+  - type: paper
+    title: 'Quantum chaos without false positives'
+    authors: [trunin-2023]
+    year: 2023
+    doi: 10.1103/physrevd.108.l101703
+    role: primary
+  - type: paper
+    title: 'Exact Universal Bounds on Quantum Dynamics and Fast Scrambling'
+    authors: [vikram-2024]
+    year: 2024
+    doi: 10.1103/physrevlett.132.040402
+    role: primary
+---
+
+**Quantum chaos** is the study of quantum systems whose classical counterparts are chaotic, and more broadly the search for genuinely quantum signatures of complex many-body dynamics in systems that have no clean classical limit at all. Classical chaos has a clean mathematical foundation, positive Lyapunov exponents, mixing on phase space, the ergodic hierarchy from ergodic to mixing to K-system to Bernoulli. Quantum mechanics has linear unitary evolution and a discrete energy spectrum, so it cannot have sensitivity to initial conditions in the strict classical sense. What it can have is universal random-matrix statistics in its energy spectrum, exponential growth of out-of-time-order correlators (OTOCs) on short time scales, eigenstate thermalisation, and complete spreading of local operators across the Hilbert space, a phenomenon called *scrambling*. Modern quantum chaos organises around four overlapping questions: what is the right definition of quantum ergodicity, what diagnostics distinguish chaos from integrability without false positives, what are the universal bounds on how fast scrambling can proceed, and how do the standard pictures extend to non-Hermitian and open quantum systems where the spectrum is complex.
+
+## Defining and diagnosing quantum ergodicity
+
+The textbook diagnostic for quantum chaos is the level-spacing distribution, Wigner-Dyson statistics for chaotic systems, Poisson for integrable ones. But level statistics describe a particular ensemble average and do not, on their own, capture dynamical ergodicity at the level of trajectories or eigenstates. *Vikram and Galitski* (2023) close this gap by deriving a **dynamical formulation of quantum ergodicity from energy-level statistics**: they show that a precise version of the spectral form factor controls a dynamical notion of mixing for observables, and that the random-matrix universality of energy levels implies a quantitative form of the ergodic hypothesis for finite-dimensional quantum systems. The result lifts level statistics from a phenomenological diagnostic to a controlled statement about dynamics. *Pilatowsky-Cameo et al.* (2023) attack the same question from a complementary direction by introducing **complete Hilbert-space ergodicity** in periodically driven systems: a Fibonacci-like aperiodic drive produces dynamics that uniformly explore the full Hilbert space in a sense stronger than eigenstate thermalisation, and the authors construct an explicit family of drives that achieve this without requiring a chaotic Hamiltonian at any single time. Together the two papers anchor opposite ends of the ergodic spectrum: a static-Hamiltonian, spectrum-derived notion of ergodicity on one side, and a drive-engineered, state-space-filling notion on the other.
+
+## Quantifying chaos without false positives
+
+OTOCs are the standard probe of scrambling: a positive Lyapunov-like exponent extracted from their early-time exponential growth has become the working definition of quantum chaos. *Trunin* (2023) shows that this diagnostic is not as clean as it looks: integrable systems with isolated saddle points produce exponential OTOC growth and therefore yield a positive quantum Lyapunov exponent, even though the systems are not chaotic. The paper proposes an alternative **false-positive-free indicator** built from a modified OTOC that vanishes on integrable systems while retaining the chaos-bound saturation property at large $N$. The result raises the methodological bar for any future scrambling diagnostic and is currently the cleanest line drawn between OTOC-as-symptom and OTOC-as-definition in the literature. *Roccati et al.* (2024) extend the diagnostic problem to **non-Hermitian many-body localisation**, where the natural spectral statistics tools fail because the spectrum is complex. They show that the singular value decomposition of the non-Hermitian Hamiltonian, rather than its eigendecomposition, recovers a clean chaos-versus-localisation diagnostic that interpolates correctly across the Hermitian limit. The paper effectively gives non-Hermitian quantum chaos its first robust statistical signature.
+
+## Bounds, scrambling, and structured exceptions
+
+How fast can a quantum system scramble information? The Maldacena-Shenker-Stanford bound caps the OTOC Lyapunov exponent at $2\pi k_B T / \hbar$, but it is asymptotic and applies only to a specific definition of scrambling. *Vikram et al.* (2024) derive **exact universal bounds on quantum dynamics and fast scrambling** that hold at all times and all system sizes, using the spectral form factor as the central object: the bound is state-independent and ties the speed limit on operator growth directly to the level statistics of the Hamiltonian. The result fixes a long-standing tension between energy-time uncertainty bounds and chaos bounds by deriving both from the same spectral quantity. Even in systems that look chaotic on the surface, there can be coherent dynamical exceptions, an effect known as *quantum scarring*. *Evrard and Bayha* (2024) demonstrate **regular eigenstates and quantum scars in a chaotic spinor condensate**: although the bulk eigenstate spectrum is well-described by random-matrix theory, a small set of low-entropy eigenstates concentrates on unstable periodic orbits of the mean-field equations and produces robust, long-lived oscillations in observables prepared near those orbits. The case study is methodologically important because the spinor condensate is a controlled experimental platform on which the scarred-versus-thermalising dichotomy can be tested directly, and it suggests scars are a generic feature of constrained chaotic spectra rather than a curiosity of fine-tuned lattice models. Open methodological questions remain at every layer: how do the spectral, dynamical, and scrambling definitions of chaos relate quantitatively in the thermodynamic limit; what is the right ergodic hierarchy for open and non-Hermitian quantum systems where eigenvalues, singular values, and Liouvillian gaps each carry partial information; and how should one diagnose chaos in driven and monitored systems where unitary evolution is interrupted by measurement?

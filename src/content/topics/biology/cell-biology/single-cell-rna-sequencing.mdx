@@ -1,0 +1,40 @@
+---
+title: Single-Cell RNA Sequencing
+description: Measuring transcriptomes one cell at a time, and the computational frameworks that turn the resulting sparse count matrices into cell-type maps, trajectories, and multi-modal models.
+parent: biology/cell-biology
+order: 1
+color: '#b83280'
+difficulty: advanced
+prerequisites:
+  - biology/cell-biology
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-11'
+reviewTier: frontier
+sources:
+  - type: paper
+    title: 'scAbsolute: measuring single-cell ploidy and replication status'
+    authors: [schneider-michael-2024]
+    year: 2024
+    doi: 10.1186/s13059-024-03204-y
+    role: primary
+  - type: paper
+    title: 'scMaui: a widely applicable deep learning framework for single-cell multiomics integration in the presence of batch effects and missing data'
+    authors: [jeong-yunhee-2024]
+    year: 2024
+    doi: 10.1186/s12859-024-05880-w
+    role: primary
+---
+
+**Single-cell RNA sequencing (scRNA-seq)** measures the transcriptome of individual cells rather than bulk tissue averages, and has reshaped cell biology by turning every tissue into a population of measurable cell states. The methodological frontier sits less in the wet-lab chemistry — droplet barcoding and combinatorial indexing are now mature — and more in the computational stack: the per-cell count matrices are sparse, batch-confounded, and increasingly produced alongside other modalities (chromatin accessibility, surface proteins, spatial position) that must be reconciled into a single representation. Four axes organise the recent literature: *quantitative extension* (going beyond expression counts to extract cell-cycle phase, ploidy, or replication state from the same reads), *multi-modal integration* (aligning paired or unpaired measurements across modalities and donors despite missing data), *batch and technology correction* (separating biological variation from chemistry, kit, and lab differences), and *cell-state representation* (deciding whether a "cell type" is a discrete cluster, a position on a manifold, or a probabilistic mixture).
+
+## Squeezing more biology out of the same reads
+
+The default scRNA-seq pipeline produces a gene-by-cell count matrix and treats everything beyond expression — DNA copy number, replication state, technical artefacts — as nuisance. *Schneider et al.* (2024) push back by introducing **scAbsolute**, which extracts **absolute single-cell ploidy and replication status** from low-coverage single-cell DNA sequencing data. The methodological insight is that the same low-coverage protocols used for copy-number profiling carry enough signal to distinguish cells that are mid-S-phase (with partially replicated regions producing intermediate read densities) from cells that have completed replication, and that calibrating to absolute rather than relative copy number lets ploidy be compared across cells without an external reference. The work matters for the broader single-cell field because it shows how a "ploidy" axis — typically discarded as a quality-control filter — can be promoted to a primary biological readout, particularly in cancer transcriptomics where aneuploidy is itself a phenotype that confounds expression analysis.
+
+## Multi-modal integration under missing data
+
+Most single-cell datasets are now multi-modal in some way — scRNA paired with scATAC, scRNA paired with surface protein measurements (CITE-seq), or spatial scRNA paired with imaging — but the pairing is incomplete: some cells are profiled in only one modality, modalities differ in coverage, and batch effects affect each modality differently. *Jeong et al.* (2024) introduce **scMaui**, a deep-learning framework for single-cell multi-omics integration that is explicitly designed for the **batch-effects-plus-missing-data** regime that defines real multi-modal datasets. scMaui learns a shared latent space across modalities while modelling the per-cell missingness pattern, so cells with one modality observed inform the embedding of cells with the other; the same latent space is regularised against batch covariates so that biological structure survives technical differences. The methodological pattern — a shared variational encoder with modality-specific decoders and explicit missingness handling — has become the dominant template for multi-omics single-cell integration, and scMaui's contribution is to demonstrate that this template generalises across pairings (RNA+ATAC, RNA+protein, RNA+DNA-methylation) rather than requiring a bespoke architecture per modality.
+
+Open methodological questions span the four axes: how do absolute-quantification measurements like ploidy and replication state combine with expression manifolds to define cell states that bulk measurements cannot resolve, how should multi-modal integration handle modalities that arrive in successive years of a longitudinal study, can batch correction be made dose-controlled — preserving biological gradients that happen to align with batch covariates — and what is the right inductive bias for the geometry of cell-state space (clusters, trees, smooth manifolds, or mixtures of each in different regions of the transcriptome)?

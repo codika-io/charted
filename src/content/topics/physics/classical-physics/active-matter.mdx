@@ -1,0 +1,80 @@
+---
+title: Active Matter
+description: >-
+  The non-equilibrium statistical physics of self-propelled units that
+  individually consume energy and collectively organise into flocks, swarms,
+  active fluids, and active solids.
+parent: physics/classical-physics
+order: 8
+color: '#f59e0b'
+difficulty: advanced
+prerequisites:
+  - physics/classical-physics/statistical-mechanics
+  - physics/classical-physics/fluid-dynamics
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-11'
+reviewTier: frontier
+sources:
+  - type: paper
+    title: 'Microscopic theory for hyperuniformity in two-dimensional chiral active fluid'
+    authors: [kuroda-2023]
+    year: 2023
+    doi: 10.1088/1742-5468/ad0639
+    role: primary
+  - type: paper
+    title: 'Simultaneous emergence of active turbulence and odd viscosity in a colloidal chiral active system'
+    authors: [mecke-2023]
+    year: 2023
+    doi: 10.1038/s42005-023-01442-3
+    role: primary
+  - type: paper
+    title: 'Model of Active Solids: Rigid Body Motion and Shape-Changing Mechanisms'
+    authors: [hernandez-lopez-2024]
+    year: 2024
+    doi: 10.1103/physrevlett.132.238303
+    role: primary
+  - type: paper
+    title: 'Inertial Active Matter with Coulomb Friction'
+    authors: [antonov-2024]
+    year: 2024
+    doi: 10.1103/physrevlett.133.198301
+    role: primary
+  - type: paper
+    title: 'Entropy production and thermodynamic inference for stochastic microswimmers'
+    authors: [chatzittofi-2024]
+    year: 2024
+    doi: 10.1103/physrevresearch.6.l022044
+    role: primary
+  - type: paper
+    title: 'Motility-induced phase separation and frustration in active matter swarmalators'
+    authors: [adorjani-2024]
+    year: 2024
+    doi: 10.1103/physreve.109.024607
+    role: supporting
+  - type: paper
+    title: 'Thermodynamics of Active Matter: Tracking Dissipation across Scales'
+    authors: [bebon-2025]
+    year: 2025
+    doi: 10.1103/physrevx.15.021050
+    role: primary
+---
+
+**Active matter** is the statistical physics of systems whose elementary units consume energy individually and use it to move, deform, or exert forces on their neighbours. Bacterial suspensions, motile cells, schools of fish, vibrated granular grains, and self-propelled colloids are all members of the family. The defining feature is that energy enters the system at the scale of each particle rather than at its boundary, so the steady states are intrinsically out of equilibrium even when no external gradient is applied. This breaks the symmetry assumptions that underpin equilibrium statistical mechanics and opens four interacting research axes: the *hydrodynamic description* (what conservation laws survive when momentum is exchanged with a substrate and energy is injected locally), *collective phases and pattern formation* (flocks, motility-induced phase separation, active turbulence, active solids), *thermodynamic accounting* (how to define entropy production, dissipation, and inference of activity from trajectory data), and *constitutive anomalies* (odd viscosity, hyperuniformity, and other transport coefficients forbidden at equilibrium).
+
+## Hydrodynamics and constitutive anomalies
+
+Chiral active fluids, made of units that spin around their own axis with a fixed handedness, are the cleanest laboratory for active hydrodynamics because their broken time-reversal and parity symmetries admit transport coefficients that equilibrium fluids cannot have. *Kuroda et al.* (2023) develop a **microscopic theory for hyperuniformity** in two-dimensional chiral active fluids, showing that the anomalous suppression of long-wavelength density fluctuations observed in simulations of spinning particles emerges from an effective fluctuating hydrodynamics in which the standard density-conservation noise is modified by chirality. The result turns hyperuniformity from a numerical curiosity into a generic prediction of active hydrodynamics with a clear microscopic origin. *Mecke et al.* (2023) close the loop on the experimental side: in a carpet of standing, spinning colloidal rods they observe **active turbulence and odd viscosity emerging simultaneously**, and back the experiments with simulations of synchronously rotating disks. The two phenomena, often discussed in isolation, share a single mechanism — the antisymmetric part of the stress tensor that chirality generates couples to vorticity and seeds the turbulent cascade. Together the two papers give active hydrodynamics a worked example in which a constitutive anomaly and a collective instability are derived from the same microscopic chirality.
+
+## Active solids and the role of inertia
+
+For decades, active matter theory focused on overdamped fluids of bacteria, colloids, and motile cells, where inertia is negligible and friction is viscous. *Hernández-López et al.* (2024) introduce a **model of active solids** in which self-propelled units are coupled by elastic bonds rather than embedded in a fluid; the framework captures both rigid-body translation/rotation of the cluster and internal shape-changing modes, and shows that noise selects which collective motion is realised when the elastic network hosts zero-energy deformation modes. This places **cell collectives, colloidal clusters, and active metamaterials** under a single non-linear elasticity. *Antonov et al.* (2024) push the field in a complementary direction by reintroducing inertia and replacing the textbook Stokes drag with **Coulomb friction**, the empirical law governing contact between solid bodies. Combining active granular experiments with simulations, they show that Coulomb friction produces qualitatively new dynamics — stick-slip motion, hysteretic response to driving, and shifted phase boundaries — that overdamped models miss entirely. The two papers stake out a new sub-field of inertial and elastic active matter that sits between traditional granular physics and the soft-matter mainstream.
+
+## Thermodynamics and entropy production
+
+Because active particles drive themselves, a microscopically consistent thermodynamics must account for energy injected and dissipated at the scale of each unit. *Chatzittofi et al.* (2024) study a stochastic microswimmer whose propulsion is driven by an internal chemical cycle and compute the **entropy production rate** from the coupled chemical-mechanical dynamics; the resulting rate cannot be obtained from linear-response approximations because of the non-trivial interplay between hydrodynamic and chemical degrees of freedom, so the paper provides a concrete benchmark for **thermodynamic inference** of activity from trajectory data. *Bebon et al.* (2025) generalise the question across scales. Starting from a microscopic model of chemically driven active particles, they show how local dissipation per chemical event manifests at the hydrodynamic scale and derive a **coarse-graining recipe** that maps molecular-level dissipation to a continuum entropy-production density. The result clarifies a long-standing confusion in the field about which entropy production is being measured when one only has access to coarse trajectories — a question increasingly pressing as experimental techniques resolve active systems at intermediate scales.
+
+## Collective phases and frustration
+
+The most studied collective phenomenon in active matter, **motility-induced phase separation (MIPS)**, occurs when self-propelled particles slow down in crowded regions and thereby accumulate, even with no attractive interaction. *Adorjáni et al.* (2024) couple MIPS with an internal phase variable to obtain **active swarmalators**, run-and-tumble disks that simultaneously cluster in space and synchronise (or anti-synchronise) in phase. The model reveals **frustration**: clusters that prefer to phase-lock can be destabilised by the spatial reorganisation MIPS imposes, producing intermittent states and travelling defects that neither pure MIPS nor pure synchronisation models predict. Open methodological questions cut across the four axes: which hydrodynamic anomalies survive once Coulomb friction or elasticity replaces Stokes drag, can the thermodynamic inference machinery of *Chatzittofi et al.* and *Bebon et al.* be applied to inertial active solids, and is there a unified order-parameter description that places swarmalator frustration, active turbulence, and hyperuniformity on a common phase diagram?

@@ -1,0 +1,74 @@
+---
+title: Exoplanet Characterization
+description: Inferring the masses, radii, atmospheric compositions, climates, and dynamical histories of planets orbiting other stars, primarily through transit, radial-velocity, and high-resolution-spectroscopy techniques.
+parent: physics/astrophysical
+order: 4
+color: '#f59e0b'
+difficulty: intermediate
+prerequisites:
+  - physics/astrophysical/astrophysics
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-11'
+reviewTier: frontier
+sources:
+  - type: paper
+    title: "Constraining the Thickness of TRAPPIST-1 b's Atmosphere from Its JWST Secondary Eclipse Observation at 15 micron"
+    authors: [ih-2023]
+    year: 2023
+    doi: 10.3847/2041-8213/ace03b
+    role: primary
+  - type: paper
+    title: 'Clouds and Clarity: Revisiting Atmospheric Feature Trends in Neptune-size Exoplanets'
+    authors: [brande-2024]
+    year: 2024
+    doi: 10.3847/2041-8213/ad1b5c
+    role: primary
+  - type: paper
+    title: 'The Runaway Greenhouse Effect on Hycean Worlds'
+    authors: [innes-2023]
+    year: 2023
+    doi: 10.3847/1538-4357/ace346
+    role: primary
+  - type: paper
+    title: 'Modelling the effect of 3D temperature and chemistry on the cross-correlation signal of transiting ultra-hot Jupiters'
+    authors: [wardenier-2023]
+    year: 2023
+    doi: 10.1093/mnras/stad2586
+    role: primary
+  - type: paper
+    title: 'A Unified Treatment of Kepler Occurrence to Trace Planet Evolution. I. Methodology'
+    authors: [dattilo-2023]
+    year: 2023
+    doi: 10.3847/1538-3881/acebc8
+    role: primary
+  - type: paper
+    title: 'Mapping the exo-Neptunian landscape'
+    authors: [castro-gonzalez-2024]
+    year: 2024
+    doi: 10.1051/0004-6361/202450957
+    role: supporting
+---
+
+**Exoplanet characterization** is the inverse-problem programme of inferring planetary properties — bulk composition, atmospheric structure, climate, dynamical history — from the small photometric and spectroscopic signals a planet imprints on its host star's light. The discipline grew out of the discovery era of the 1990s and 2000s, but the launch of JWST and the maturation of ground-based high-resolution spectroscopy have shifted the centre of gravity from *finding* planets to *understanding* them. The methodology decomposes along four axes: *atmospheric retrieval* (forward-model + Bayesian inversion of transmission and emission spectra), *population statistics* (occurrence rates and demographics across the radius-period plane), *climate and interior modelling* (coupled atmosphere-interior physics for habitability and structure), and *high-resolution spectroscopy* (cross-correlation of model templates with thousands of stellar lines to resolve atmospheric dynamics). Each axis is being rewritten now that JWST is delivering signal-to-noise that earlier instruments could not.
+
+## Rocky-planet atmospheres in the JWST era
+
+Whether the rocky planets around M-dwarfs retain atmospheres is the central unresolved question for habitability arguments. *Ih et al.* (2023) deploy JWST's MIRI to observe the secondary eclipse of **TRAPPIST-1 b** at 15 micron and combine the inferred dayside brightness temperature with one-dimensional radiative-transfer atmospheric models to bound the atmospheric thickness. Their analysis is consistent with the planet having no atmosphere, since any non-trivial heat redistribution would lower the dayside brightness below the observed value. The methodological contribution is the forward-model + retrieval framework for emission rather than transmission spectroscopy of small planets, where the contrast is set by the difference between dayside and nightside thermal emission rather than by absorption features in transit. *Castro-González et al.* (2024) extend the rocky-and-Neptune-transition discussion into the **Neptunian landscape**: by collating a homogeneous sample of close-in Neptunes and Neptunian-desert escapees they map the boundaries of the desert against irradiation and orbital period, and argue that atmospheric escape and high-eccentricity migration jointly shape the observed dearth, providing a clean population-level prior for follow-up atmospheric studies.
+
+## Aerosols and trends in transmission spectroscopy
+
+For larger planets, atmospheric inference relies on transmission spectra during transit. *Brande et al.* (2024) build a homogeneously reduced sample of Neptune-size exoplanet transmission spectra and revisit the long-standing claim that atmospheric **aerosols correlate with equilibrium temperature**. They argue that with the larger, JWST-augmented sample the apparent trend is washed out and that the conditions favouring high-altitude cloud or haze coverage are not simply a function of temperature, contrary to the earlier population-level picture. The methodology — uniform reduction of heterogeneous data into a common retrieval framework — exposes how strongly demographic conclusions in exoplanet science depend on the analysis pipeline and not only on the underlying observations.
+
+## Climate, habitability, and the Hycean hypothesis
+
+Bulk-composition arguments alone are not enough to assess habitability; one needs a self-consistent climate model. *Innes et al.* (2023) reanalyse the **Hycean** class of sub-Neptunes — water-rich worlds with deep oceans beneath hydrogen-dominated atmospheres — and recompute the **inner edge of the Hycean habitable zone** by tracking the onset of a runaway greenhouse. Their one-dimensional radiative-convective climate model with self-consistent water-vapour radiative transfer shifts the inner edge inward of previous estimates and dramatically reduces the parameter space in which Hycean conditions can plausibly exist for the most observable targets. The contribution is the explicit coupling between atmospheric water content, surface pressure, and the radiative balance, in a regime previously analysed with Earth-tuned approximations.
+
+## Three-dimensional atmospheres and high-resolution cross-correlation
+
+Ultra-hot Jupiters are the laboratory in which the inhomogeneity of exoplanet atmospheres is most visible: the dayside is several thousand kelvin hotter than the nightside, so the planet is intrinsically three-dimensional. *Wardenier et al.* (2023) couple a **3D general-circulation model** with chemical kinetics and a forward model of high-resolution transmission spectroscopy, and study how the resulting cross-correlation signal of five chemical species varies through transit. They show that day-night gradients introduce systematic biases in single-line interpretations and that the asymmetry between ingress and egress carries information about atmospheric circulation. The framework is now the de facto standard for interpreting high-resolution cross-correlation detections in ultra-hot Jupiters.
+
+## Demographics from occurrence rates
+
+Atmospheric science is empty without a denominator: how many planets of each size and period exist at all. *Dattilo et al.* (2023) present a **unified treatment of Kepler occurrence rates** between 0.5 and 16 Earth radii and 1 to 400 days, using non-parametric kernel-density estimation and bootstrap uncertainty propagation rather than the parametric forward modelling of earlier work. The methodology paper is explicitly framed as a recomputation of the dataset that anchors most current habitability arguments, and is paired with a follow-up paper that traces planet evolution across the same plane. Open methodological questions cut across the four axes: how to combine JWST emission spectra with high-resolution cross-correlation in a single retrieval; how to break the degeneracy between cloud properties and chemical abundance in transmission spectra; how to embed 3D atmospheric inhomogeneity into Bayesian retrievals without exploding the inference cost; and how to construct occurrence rates that propagate the heterogeneous detection efficiencies of JWST-era surveys into atmospheric population studies.

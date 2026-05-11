@@ -1,0 +1,66 @@
+---
+title: Topological Data Analysis
+description: Methods that extract qualitative shape — connected components, loops, voids — from finite point clouds using filtered simplicial complexes and persistent homology.
+parent: mathematics/topology
+order: 3
+color: '#ef4444'
+difficulty: advanced
+prerequisites:
+  - mathematics/topology
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-11'
+reviewTier: frontier
+sources:
+  - type: paper
+    title: 'Vietoris–Rips persistent homology, injective metric spaces, and the filling radius'
+    authors: [lim-2024]
+    year: 2024
+    doi: 10.2140/agt.2024.24.1019
+    role: primary
+  - type: paper
+    title: 'Topological Data Analysis for Multivariate Time Series Data'
+    authors: [el-yaagoubi-2023]
+    year: 2023
+    doi: 10.3390/e25111509
+    role: primary
+  - type: paper
+    title: 'PLPCA: Persistent Laplacian-Enhanced PCA for Microarray Data Analysis'
+    authors: [cottrell-2023]
+    year: 2023
+    doi: 10.1021/acs.jcim.3c01023
+    role: primary
+  - type: paper
+    title: 'MCMC sampling of directed flag complexes with fixed undirected graphs'
+    authors: [unger-2024]
+    year: 2024
+    doi: 10.1007/s41468-024-00178-5
+    role: primary
+  - type: paper
+    title: 'Predicting the generalization gap in neural networks using topological data analysis'
+    authors: [ballester-2024]
+    year: 2024
+    doi: 10.1016/j.neucom.2024.127787
+    role: supporting
+---
+
+**Topological data analysis (TDA)** is the discipline that recovers qualitative shape from finite, noisy point clouds by treating them as geometric objects rather than as random samples. The defining move is to attach to a point cloud a one-parameter family of simplicial complexes — most commonly the **Vietoris–Rips filtration**, in which every $k+1$ points within pairwise distance $\varepsilon$ span a $k$-simplex — and then track how the homology of those complexes is born and dies as $\varepsilon$ grows. The output is the **persistence diagram**: a multiset of birth–death pairs that summarises connected components, loops, voids, and higher-dimensional holes across all scales at once. Around this single construction the field organises four interacting axes: *theoretical foundations* (when does the diagram of a sample reflect the topology of an underlying space?), *computational machinery* (filtrations, complexes, Laplacians, samplers), *statistical and learning pipelines* (turning diagrams into features a downstream model can consume), and *null models* (deciding when an observed topological feature is signal rather than artefact). Methodology in TDA is best read as attacks on these four axes, and most new methods address one or two of them at the cost of another.
+
+## Theoretical foundations of persistence
+
+A persistent homology pipeline only makes sense if the diagram of a finite sample is a faithful surrogate for the topology of the underlying space, and the precise sense in which this holds remains an active research target. *Lim* (2024) revisits the most-used pipeline — the **Vietoris–Rips filtration** — and connects it to the classical **filling radius** from metric geometry by way of **injective metric spaces**. The paper shows that persistent homology of the Vietoris–Rips complex of a metric space $X$ can be read off from the filling radius of $X$ inside its injective hull, which sharpens what previous stability theorems controlled only up to constants. The result tightens the theoretical link between an applied tool that practitioners use as a black box and the metric-geometric quantities classically used to measure how a space fails to be Euclidean. This kind of foundational work matters because every downstream statistical claim about a persistence diagram inherits the looseness or tightness of the underlying stability bound.
+
+## Beyond persistence: persistent Laplacians and richer invariants
+
+Persistent homology summarises a filtration by its **Betti numbers across scales**, but the underlying chain complexes carry strictly more information than that, and a second generation of methods exploits the gap. *Cottrell et al.* (2023) introduce **PLPCA**, a **persistent-Laplacian-enhanced PCA** for microarray data. The persistent Laplacian is a one-parameter family of operators whose null space recovers persistent homology but whose non-zero spectrum is sensitive to geometric features that homology cannot see — small deformations, near-cycles, harmonic representatives. PLPCA folds the spectrum of the persistent Laplacian into the principal-component step, producing dimensionality-reduction directions that are aware of multi-scale topological structure rather than only of global linear variance. The paper is also a useful template for how to combine a topological summary with a classical learning primitive without discarding either object's algebraic structure.
+
+## TDA pipelines for time series and learned representations
+
+Most data scientists do not encounter point clouds in the abstract; they encounter time series, images, or neural-network activations. A productive line of work designs *pipelines* that turn those modalities into a point cloud or a filtration before passing the result to persistence. *El-Yaagoubi et al.* (2023) survey and benchmark **TDA pipelines for multivariate time series**, comparing sliding-window embeddings, recurrence networks, and time-delay constructions and reporting which combinations preserve which kinds of dynamical features. The paper functions less as a single method and more as a methodology paper for the practitioner: which lifting from a temporal signal to a metric space is appropriate for which class of dynamical question. *Ballester et al.* (2024) take the pipeline idea in a different direction by applying TDA to a learned representation rather than to raw data: they extract persistence features from the activation graphs of trained neural networks and use them to **predict the generalisation gap**. The work is a clean example of TDA being used as a diagnostic rather than as a feature extractor, and it provides empirical evidence that topological complexity of the learned hypothesis carries information that standard generalisation bounds miss.
+
+## Null models and significance
+
+A persistence diagram is a multiset; deciding whether a feature in that multiset is signal or noise requires a **null model** to compare against. *Unger* (2024) addresses a particularly stubborn instance of this problem for **directed flag complexes**, the simplicial complexes used to encode directed networks such as connectomes. The paper develops a Markov chain Monte Carlo sampler that uniformly samples directed flag complexes conditioned on a fixed (or near-fixed) undirected skeleton, producing a controlled population of null networks against which observed higher-order topological features can be tested. The result fills a methodological gap that practitioners had been working around with ad-hoc randomisations whose bias was hard to characterise, and it illustrates the broader pattern: as TDA matures, the methodological frontier moves from *computing* topological summaries to *certifying* them.
+
+Open methodological questions span the four axes above. Can stability bounds tight enough for statistical inference be obtained for filtrations beyond Vietoris–Rips and Čech? Do persistent Laplacian spectra admit clean asymptotic theory in the same way persistent Betti numbers do? Which classes of time-series lifting are *necessary* rather than merely sufficient for capturing a given dynamical invariant? And how should null-model machinery generalise from directed flag complexes to other structured filtrations used in real-world TDA pipelines?

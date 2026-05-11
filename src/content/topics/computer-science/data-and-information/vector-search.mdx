@@ -1,0 +1,76 @@
+---
+title: Vector Search
+description: Index structures and query algorithms for approximate nearest neighbor search over high-dimensional embedding vectors, the methodological core of modern vector databases and dense retrieval systems.
+parent: computer-science/data-and-information
+order: 4
+color: '#3b82f6'
+difficulty: advanced
+prerequisites:
+  - computer-science/data-and-information
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-11'
+reviewTier: frontier
+sources:
+  - type: paper
+    title: 'DB-LSH 2.0: Locality-Sensitive Hashing With Query-Based Dynamic Bucketing'
+    authors: [tian-yao-2023]
+    year: 2023
+    doi: 10.1109/tkde.2023.3295831
+    role: primary
+  - type: paper
+    title: 'DET-LSH: A Locality-Sensitive Hashing Scheme with Dynamic Encoding Tree for Approximate Nearest Neighbor Search'
+    authors: [wei-jiuqi-2024]
+    year: 2024
+    doi: 10.14778/3665844.3665854
+    role: primary
+  - type: paper
+    title: 'ARKGraph: All-Range Approximate K-Nearest-Neighbor Graph'
+    authors: [zuo-2023]
+    year: 2023
+    doi: 10.14778/3603581.3603601
+    role: primary
+  - type: paper
+    title: 'SeRF: Segment Graph for Range-Filtering Approximate Nearest Neighbor Search'
+    authors: [zuo-2024]
+    year: 2024
+    doi: 10.1145/3639324
+    role: primary
+  - type: paper
+    title: 'High-Throughput Vector Similarity Search in Knowledge Graphs'
+    authors: [mohoney-2023]
+    year: 2023
+    doi: 10.1145/3589777
+    role: primary
+  - type: paper
+    title: 'FedKNN: Secure Federated k-Nearest Neighbor Search'
+    authors: [zhang-xinyi-2024]
+    year: 2024
+    doi: 10.1145/3639266
+    role: primary
+  - type: paper
+    title: 'Fast Online Hashing with Multi-Label Projection'
+    authors: [jia-wenzhe-2023]
+    year: 2023
+    doi: 10.1609/aaai.v37i1.25181
+    role: supporting
+---
+
+**Vector search** is the problem of retrieving, from a collection of high-dimensional vectors, those closest to a query vector under a similarity metric such as Euclidean distance, cosine, or inner product. It is the engine underneath modern semantic search, recommendation, retrieval-augmented generation, and biomedical similarity systems: once images, text, molecules, or user interactions are encoded as embeddings, finding "what looks like this" becomes a nearest-neighbor problem in a space of hundreds to thousands of dimensions. Exact search at web scale is hopeless because the curse of dimensionality makes index pruning useless, so the field has converged on **approximate nearest neighbor (ANN)** algorithms that trade a small, controllable accuracy loss for orders-of-magnitude speedups. The methodology of vector search is organised around four interacting axes: *index structure* (locality-sensitive hashing, proximity graphs, inverted file with product quantisation), *query workload* (static top-k, range-filtered, streaming, batched at GPU width), *constraints from the surrounding system* (attribute predicates, freshness, privacy, distribution across shards), and *the metric–embedding contract* (whether the geometry the index exploits actually matches the model that produced the vectors). Recent methodology papers attack one or two axes at a time, and the design space is best read as a set of tradeoffs between recall, query latency, index build time, memory, and the expressiveness of queries the index can answer.
+
+## Locality-sensitive hashing under realistic queries
+
+LSH is the oldest principled family of ANN indexes: hash functions are chosen so that nearby points collide with high probability, and a query inspects only the buckets its own hash falls into. The classical formulation pays for its strong theoretical guarantees with bloated indexes and rigid bucket boundaries, which is exactly where modern LSH methodology lives. *Tian et al.* (2023) propose **DB-LSH 2.0**, which replaces fixed buckets with **query-based dynamic bucketing**: the bucket boundaries are determined at query time as a function of the incoming point, so two queries that fall near the same hash boundary no longer pay different costs for the same neighbourhood. The paper formalises the dynamic bucketing geometry, shows that it preserves the sub-linear query guarantees that make LSH attractive, and demonstrates substantially smaller indexes than classical multi-probe LSH at matched recall. *Wei et al.* (2024) push the same agenda from a different direction with **DET-LSH**, which encodes hashed points into a **dynamic encoding tree** rather than a flat bucket table. The tree adapts its branching to the local density of the dataset, so dense regions of the embedding space are partitioned more finely than sparse ones and the query phase walks a much shorter path before reaching candidate points. Read together, the two papers map a clean direction for LSH research after years of stagnation: stop treating the index as a static partition of the hash space and let it deform around the query distribution or the data distribution.
+
+## Proximity graphs and range-aware retrieval
+
+The most successful family of ANN indexes in the past decade has been **proximity graphs** (HNSW, NSG, DiskANN), in which every vector is a node connected to a small set of approximate neighbours and queries traverse the graph greedily. The methodology challenge is now less about raw top-k recall and more about supporting *queries with structure*. *Zuo et al.* (2023) introduce **ARKGraph**, an **all-range approximate K-nearest-neighbor graph**: instead of indexing only the K nearest neighbours of each point, the structure stores a compressed representation of the neighbour ranking up to a large K-max, so a single index can answer queries for any K below that bound without re-traversal. The paper shows that the union of per-K graphs admits a compact encoding because the neighbour lists are nested, and that traversal cost scales with the queried K rather than the index's K-max. *Zuo et al.* (2024) extend the family with **SeRF**, a **segment graph for range-filtering ANN**: in many real workloads (timestamps, prices, geo-cells) vectors carry a scalar attribute and queries combine vector similarity with an attribute range. Naïve solutions either run vector search and then filter (wasted work when the predicate is selective) or filter first and run brute-force NN (wasted work when the predicate matches most points). SeRF instead segments the attribute axis and builds graph shortcuts that respect both vector proximity and segment boundaries, giving a single index that answers hybrid queries in time proportional to the harder of the two constraints. The two papers together argue that the next generation of graph indexes will be parameterised by the query workload rather than just by the embedding geometry.
+
+## Vector search as a database operator
+
+Once vector search lives inside an OLTP or analytical system, the open questions stop being purely algorithmic and become operator-shaped: how does the index interact with the query planner, with concurrent updates, with distributed shards, and with the rest of the relational machinery? *Mohoney et al.* (2023) study **high-throughput vector similarity search in knowledge graphs**, where embeddings are produced by graph-learning models and the workload mixes vector top-k queries with structured graph traversals. The paper proposes a system in which vector search is a first-class relational operator with cost-based plan choices between graph-side filtering and vector-side ranking, and it characterises the throughput regime where batching many short queries beats running them sequentially against an isolated ANN index. The framing is a useful corrective to the still-common view of vector databases as "ANN libraries with an API": once the index has to coexist with predicates, joins, and transactions, the methodology questions shift from recall–latency curves to plan choice, concurrency control, and freshness guarantees on a moving embedding distribution.
+
+## Privacy, freshness, and the open questions
+
+Two methodology threads are starting to reshape the field beyond the static, single-tenant ANN benchmark. The first is **privacy**: when the corpus is encrypted or split across organisations, the server should learn nothing about queries or about which vectors are returned. *Zhang et al.* (2024) propose **FedKNN**, a secure federated k-nearest-neighbour protocol in which several data holders jointly answer a kNN query under cryptographic guarantees and without revealing their local vectors. The paper introduces a protocol for distance computation under secret sharing that is sub-linear in the local dataset size, closing a longstanding gap where prior private-kNN methods either leaked the access pattern or required impractical homomorphic-encryption budgets. The second thread is **freshness**: production embeddings are not a fixed corpus but a stream, with new vectors arriving continuously and labels updating in flight. *Jia et al.* (2023) tackle the streaming side with **fast online hashing under multi-label projection**, which updates the hash functions themselves as new labelled data arrives, rather than re-indexing the corpus periodically. The construction keeps hash codes consistent under incremental updates so the existing index remains usable, and it generalises cleanly to the multi-label setting common in real recommendation and retrieval workloads. Open methodological questions sit at the intersections of these axes: can graph indexes match LSH's privacy story under secret sharing, can range-filtering and freshness coexist without a quadratic blowup in index maintenance cost, and can the metric–embedding contract be verified at index time so that the index does not silently degrade when an upstream embedding model is retrained?

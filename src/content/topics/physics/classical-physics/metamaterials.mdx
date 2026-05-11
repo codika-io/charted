@@ -1,0 +1,80 @@
+---
+title: Metamaterials
+description: >-
+  Artificially patterned media whose effective properties (mechanical, thermal,
+  acoustic, electromagnetic) come from sub-wavelength architecture rather than
+  composition.
+parent: physics/classical-physics
+order: 9
+color: '#f59e0b'
+difficulty: advanced
+prerequisites:
+  - physics/classical-physics/classical-mechanics
+  - physics/classical-physics/electromagnetism
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-11'
+reviewTier: frontier
+sources:
+  - type: paper
+    title: 'Breaking the Tradeoffs between Different Mechanical Properties in Bioinspired Hierarchical Lattice Metamaterials'
+    authors: [wang-peng-2023]
+    year: 2023
+    doi: 10.1002/adfm.202305978
+    role: primary
+  - type: paper
+    title: 'Controlling mass and energy diffusion with metamaterials'
+    authors: [yang-fubao-2024]
+    year: 2024
+    doi: 10.1103/revmodphys.96.015002
+    role: primary
+  - type: paper
+    title: 'Obtaining auxetic and isotropic metamaterials in counterintuitive design spaces: an automated optimization approach and experimental characterization'
+    authors: [meier-2024]
+    year: 2024
+    doi: 10.1038/s41524-023-01186-2
+    role: primary
+  - type: paper
+    title: 'Deep Learning for Size-Agnostic Inverse Design of Random-Network 3D Printed Mechanical Metamaterials'
+    authors: [pahlavani-2023]
+    year: 2023
+    doi: 10.1002/adma.202303481
+    role: primary
+  - type: paper
+    title: 'Non-Hermitian topology in static mechanical metamaterials'
+    authors: [wang-aoxi-2023]
+    year: 2023
+    doi: 10.1126/sciadv.adf7299
+    role: primary
+  - type: paper
+    title: "Reversible negative compressibility metamaterials inspired by Braess's Paradox"
+    authors: [zha-2024]
+    year: 2024
+    doi: 10.1088/1361-665x/ad59e6
+    role: supporting
+  - type: paper
+    title: 'Counting and Sequential Information Processing in Mechanical Metamaterials'
+    authors: [kwakernaak-2023]
+    year: 2023
+    doi: 10.1103/physrevlett.130.268204
+    role: primary
+---
+
+**Metamaterials** are media whose macroscopic behaviour is governed not by chemistry but by deliberate sub-wavelength architecture. By tiling space with carefully designed unit cells, one can engineer effective properties — refractive index, elastic moduli, thermal conductivity, mass density — that no natural material exhibits, including values that are negative, anisotropic, or directionally biased. The field began in electromagnetism with negative-index materials and cloaking, but it has since branched into **mechanical, thermal, diffusive, acoustic, and photonic** families that share a methodology: write the homogenised field equations of the lattice, identify the constitutive parameters those equations support, then invert the relationship to design a unit cell that realises a target response. Active research lives along four axes: (i) extending metamaterial principles **beyond wave equations** to diffusion and transport, (ii) breaking long-standing **mechanical tradeoffs** through hierarchy and bioinspiration, (iii) using **inverse design and machine learning** to navigate the combinatorial design space, and (iv) embedding **non-Hermitian, topological, and computational** functionality into static structures.
+
+## From waves to diffusion
+
+The classical metamaterial story is built around wave propagation, where sub-wavelength patterning produces effective negative refraction, cloaking, or band gaps. *Yang et al.* (2024) review the much younger field of **diffusive metamaterials**, in which the governing equation is parabolic (heat conduction, mass diffusion) rather than hyperbolic. Their account makes the parallel explicit: the same homogenisation machinery used for wave equations applies to diffusion if one engineers anisotropic conductivities, time-modulated parameters, or transformation maps between curved coordinate systems. The paper organises a fragmented experimental literature — thermal cloaks, mass-transport concentrators, diffusion-based illusions — into a single theoretical framework and identifies which intuitions transfer from the wave setting and which break down because diffusion is dissipative and lacks a conserved energy density. The review functions as a methodology guide for designing parabolic-equation metamaterials and demarcates the open theoretical questions.
+
+## Breaking mechanical tradeoffs through architecture
+
+Lightweight lattice materials traditionally face conflicting design goals: stiffness fights toughness, strength fights energy absorption, isotropy fights auxeticity. *Wang et al.* (2023) attack the **strength-versus-toughness tradeoff** with a hierarchical face-centred-cubic lattice inspired by the glass-sponge skeletal system; the multi-level architecture distributes stress across structural scales so the same material exhibits high strength and high toughness instead of paying one against the other. *Meier et al.* (2024) widen the target: through automated optimisation they identify **counterintuitive design spaces** where mechanical metamaterials are simultaneously auxetic (negative Poisson ratio) and isotropic, two properties usually believed to be mutually exclusive at high auxeticity, and they validate the optimised geometries experimentally. *Zha et al.* (2024) explore a third anomaly — **reversible negative compressibility** — and show that an architecture inspired by Braess's paradox from network theory produces continuous, reversible negative compressibility rather than the abrupt threshold behaviour previous designs were limited to. Read together the three papers illustrate the central design principle of modern mechanical metamaterials: pick a textbook tradeoff, identify the assumption that creates it, then design an architecture that violates that assumption.
+
+## Inverse design and machine learning
+
+Forward design — choose a unit cell, predict its effective properties — is a solved problem. The inverse problem — given a target response, find a unit cell that realises it — is combinatorial and underdetermined. *Pahlavani et al.* (2023) train a **size-agnostic deep-learning inverse-design model** for random-network 3D-printed mechanical metamaterials. Their key contribution is the size-agnostic property: networks of different specimen sizes share a single learned representation, so a model trained on small samples generalises to the build volumes of real additive-manufacturing machines, where additionally the metamaterial must remain fatigue- and fracture-resistant. *Meier et al.*'s optimisation pipeline complements this learned-search approach with explicit derivative-based search through finite-element simulation, suggesting a broader pattern in the field: ML methods explore the design space and gradient methods refine the resulting candidates against high-fidelity physics.
+
+## Non-Hermiticity, topology, and computation
+
+The most recent frontier embeds **information-theoretic and topological functionality** into purely passive structures. *Wang et al.* (2023) demonstrate **non-Hermitian topology in a static mechanical metamaterial**: ordinarily, the non-Hermitian skin effect requires active control to break reciprocity and inject gain or loss, but a carefully designed mechanical lattice exhibits NHSE statically, with no external pumping, by exploiting asymmetric coupling within the unit cell. The result decouples non-Hermitian topology from the assumption of active driving and makes it accessible to mechanical experiment. *Kwakernaak and van Hecke* (2023) take a different route to functionality: their **counting metamaterials** undergo irreversible internal changes under cyclic driving and store the cycle count in easily-read internal states, with extensions to aperiodic driving where the order of inputs is also encoded. The material behaves as a sequential information-processing device built entirely from passive mechanical components. Open methodological questions cut across the axes: how do non-Hermitian and topological design principles transfer from waves to diffusion, can inverse-design models that work for elastic metamaterials predict diffusive or topological responses, and is there a unified hierarchy that places counting, computation, and topology on the same conceptual map of what a mechanical metamaterial can do?

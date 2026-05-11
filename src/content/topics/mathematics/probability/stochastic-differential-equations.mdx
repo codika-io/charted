@@ -1,0 +1,68 @@
+---
+title: Stochastic Differential Equations
+description: Differential equations driven by Brownian motion and other noise processes — covering existence and uniqueness theory, asymptotic and large-deviation analysis, statistical inference, and deep-learning solvers for high-dimensional and backward problems.
+parent: mathematics/probability
+order: 4
+color: '#3b82f6'
+difficulty: advanced
+prerequisites:
+  - mathematics/probability
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-11'
+reviewTier: frontier
+sources:
+  - type: paper
+    title: 'Quantum Quantile Mechanics: Solving Stochastic Differential Equations for Generating Time-Series'
+    authors: [paine-2023]
+    year: 2023
+    doi: 10.1002/qute.202300065
+    role: primary
+  - type: paper
+    title: 'A new result on averaging principle for Caputo-type fractional delay stochastic differential equations with Brownian motion'
+    authors: [zou-jing-2023]
+    year: 2023
+    doi: 10.1080/00036811.2023.2245845
+    role: supporting
+  - type: paper
+    title: 'Large deviations of the stochastic area for linear diffusions'
+    authors: [du-buisson-2023]
+    year: 2023
+    doi: 10.1103/physreve.108.044136
+    role: primary
+  - type: paper
+    title: 'Estimation for the reaction term in semi-linear SPDEs under small diffusivity'
+    authors: [gaudlitz-2023]
+    year: 2023
+    doi: 10.3150/22-bej1573
+    role: primary
+  - type: paper
+    title: 'Deep learning algorithms for solving high-dimensional nonlinear backward stochastic differential equations'
+    authors: [kapllani-2023]
+    year: 2023
+    doi: 10.3934/dcdsb.2023151
+    role: primary
+  - type: paper
+    title: 'Bayesian Deep Learning Framework for Uncertainty Quantification in Stochastic Partial Differential Equations'
+    authors: [jung-jeahan-2024]
+    year: 2024
+    doi: 10.1137/23m1560574
+    role: primary
+---
+
+**Stochastic differential equations (SDEs)** describe the time evolution of systems driven by both a deterministic vector field and a random forcing, most often a Wiener process: $dX_t = b(X_t, t)\,dt + \sigma(X_t, t)\,dW_t$. The theory mixes probability with differential analysis and supports an unusually wide modelling surface, ranging from molecular diffusion and population dynamics to mathematical finance and the score-based generative models that now dominate sampling research. Methodological work in SDEs decomposes along four axes: *well-posedness and asymptotics* (existence, uniqueness, averaging principles, large-deviation rates), *statistical inference* (estimation of drift and diffusion coefficients from discrete or noisy observations), *numerical and learned solvers* (Euler-Maruyama, Milstein, deep BSDE and PINN-style schemes for high-dimensional or backward problems), and *uncertainty quantification* for SPDEs whose coefficients are themselves random. The papers below sit on the recent frontier of each axis.
+
+## Asymptotic analysis and averaging principles
+
+When an SDE carries memory effects through a fractional derivative or a delayed argument, the classical Picard-iteration arguments for well-posedness must be redone with care, and asymptotic simplifications like the averaging principle require new proofs. *Zou et al.* (2023) establish an **averaging principle for Caputo-type fractional delay SDEs** with Brownian forcing: solutions of the full system converge in mean square to solutions of an averaged, simpler system as a slow-fast separation parameter tends to zero. The proof combines a Picard-iteration construction of the original system via Laplace transforms with a contradiction argument for uniqueness, and the averaging step gives a tractable surrogate for systems that otherwise resist analysis. In a different asymptotic regime, *du Buisson and Touchette* (2023) compute **large-deviation rates for the stochastic area** swept by linear two-dimensional diffusions, generalising Lévy's classical Brownian-area result. The generating function and rate function they obtain provide a probabilistic ruler for how often the area of an ergodic diffusion deviates from its mean, with explicit dependence on the drift matrix.
+
+## Inference and uncertainty quantification
+
+Estimation from noisy observations is the bridge from SDE theory to data. *Gaudlitz and Reiss* (2023) construct a parametric estimator for the **non-linear reaction term in a semi-linear SPDE** in the small-diffusivity regime and prove a central limit theorem for the estimation error, which produces asymptotic confidence intervals. The small-diffusivity asymptotic is the realistic regime for many physical and biological applications, and the CLT closes the gap between SPDE estimation theory and the kind of inferential guarantees practitioners require. *Jung and Lee* (2024) take the complementary uncertainty-quantification view: their **Bayesian deep learning framework** extends physics-informed neural networks (B-PINNs) so that the prior captures uncertainty in the random *physical parameters* of an SPDE, not only in noisy data. This addresses a real failure mode of standard B-PINNs, which can only express observational noise and therefore underestimate posterior spread when the SPDE coefficients are themselves stochastic.
+
+## Numerical and learned solvers
+
+High-dimensional and backward SDEs do not yield to classical grid-based methods. *Kapllani and Teng* (2023) propose a **deep learning scheme for high-dimensional nonlinear backward SDEs (BSDEs)** that reformulates the BSDE as a global optimisation problem with local loss terms attached at each time step. A neural network approximates the unknown $Y$-process and its gradient supplies the control $Z$-process; the global plus local loss structure tightens convergence relative to schemes that rely on a single terminal loss. From a different angle, *Paine et al.* (2023) introduce **quantum quantile mechanics**: a quantum algorithm that samples from the solution of an SDE by using differentiable quantum circuits to represent the quantile function of the underlying distribution and propagating it in time via quantile mechanics. The scheme is a methodological proof-of-concept that SDEs admit native quantum solvers whose primitives are differentiable expectation values rather than discretised paths, which is structurally different from the classical Euler-Maruyama family.
+
+Open methodological questions follow the axes above. Can averaging principles be combined with deep-learning solvers to yield certified surrogate dynamics for slow-fast SPDE systems? Do large-deviation rates for path functionals admit estimators with the same CLT structure as drift estimators? And how do quantum and classical neural solvers compare not in worst-case complexity but in calibrated uncertainty over the SDE posterior?

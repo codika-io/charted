@@ -1,0 +1,66 @@
+---
+title: Genome-Wide Association Studies
+description: Statistical methods that scan the genome for variants associated with traits and diseases, and the deep-learning, time-to-event, and reference-panel work that is widening their reach.
+parent: biology/genetics-and-genomics
+order: 1
+color: '#b83280'
+difficulty: advanced
+prerequisites:
+  - biology/genetics-and-genomics
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-11'
+reviewTier: frontier
+sources:
+  - type: paper
+    title: 'DNA language models are powerful predictors of genome-wide variant effects'
+    authors: [benegas-2023]
+    year: 2023
+    doi: 10.1073/pnas.2311219120
+    role: primary
+  - type: paper
+    title: 'A deep population reference panel of tandem repeat variation'
+    authors: [ziaei-jam-2023]
+    year: 2023
+    doi: 10.1038/s41467-023-42278-3
+    role: primary
+  - type: paper
+    title: 'High-dimensional phenotyping to define the genetic basis of cellular morphology'
+    authors: [tegtmeyer-2024]
+    year: 2024
+    doi: 10.1038/s41467-023-44045-w
+    role: primary
+  - type: paper
+    title: 'Evaluating the use of blood pressure polygenic risk scores across race/ethnic background groups'
+    authors: [kurniansyah-2023]
+    year: 2023
+    doi: 10.1038/s41467-023-38990-9
+    role: primary
+  - type: paper
+    title: 'ADuLT: An efficient and robust time-to-event GWAS'
+    authors: [pedersen-emil-2023]
+    year: 2023
+    doi: 10.1038/s41467-023-41210-z
+    role: primary
+  - type: paper
+    title: 'meQTL mapping in the GENOA study reveals genetic determinants of DNA methylation in African Americans'
+    authors: [shang-lulu-2023]
+    year: 2023
+    doi: 10.1038/s41467-023-37961-4
+    role: primary
+---
+
+**Genome-wide association studies (GWAS)** test millions of common variants for statistical association with a trait or disease across cohorts of unrelated individuals. The methodology that began as straightforward marginal regression on SNP genotypes has expanded along four axes: *variant scope* (moving beyond common SNPs to tandem repeats, structural variants, and rare variants that mainstream array-based GWAS misses), *phenotype scope* (replacing case/control labels with high-dimensional cellular or imaging-derived phenotypes), *time-aware modelling* (handling diseases that are characterised by an age of onset rather than a binary status), and *transferability across ancestry* (asking whether a score calibrated in one population retains meaning in another). Modern GWAS papers tend to advance one axis sharply rather than incrementally improving the classical recipe.
+
+## Widening the variant scope
+
+Array-based GWAS systematically misses repeat-region variation because short reads cannot resolve tandem repeat length and arrays do not interrogate it. *Ziaei Jam et al.* (2023) build **a deep population reference panel of tandem repeat variation** from long-read and high-coverage short-read data, producing a haplotype-resolved catalogue of tandem-repeat alleles that downstream GWAS can impute into existing cohorts. The methodological move — produce a population-scale reference for the variant class your study cannot directly genotype, then impute — is the same pattern that put SNP-GWAS on the map twenty years ago, applied to a class of variants known to drive several neurological diseases that classical GWAS has historically under-explained. *Benegas et al.* (2023) attack a complementary problem: which variants matter functionally? Their **DNA language models** are trained self-supervised on reference genomes and used to score each variant's predicted effect on its sequence context; the scores correlate with experimentally measured variant effects and with disease-association signals from independent GWAS. The methodology unbinds variant-effect prediction from explicit annotation — the model has not been told where exons or transcription factor binding sites are — and yields a single score that can be combined with GWAS summary statistics as a prior.
+
+## Better phenotypes and better time models
+
+A GWAS is only as good as the phenotype on the other side of the regression. *Tegtmeyer et al.* (2024) demonstrate **high-dimensional phenotyping** of cellular morphology in induced pluripotent stem cells: a Cell Painting-style imaging pipeline produces thousands of morphological features per cell line, and GWAS is run on those features instead of a single trait. The result is a map from genetic variants to cellular phenotypes that bypass the noisy intermediate of clinical labels. *Pedersen et al.* (2023) work the other end of the phenotype problem with **ADuLT**, an efficient time-to-event GWAS framework: when the phenotype is "age of onset of disease X", treating it as a binary case/control loses statistical power and biases effect estimates toward early-onset cases. ADuLT fits a liability-threshold model with explicit time-to-event structure, runs at genome-wide scale, and recovers loci that case/control GWAS misses on the same data.
+
+## Cross-ancestry transfer and tissue-specific regulation
+
+Polygenic scores built on European-ancestry cohorts often underperform when transferred to other ancestries, and the gap is large enough to matter clinically. *Kurniansyah et al.* (2023) evaluate **blood-pressure polygenic risk scores across race/ethnic background groups** using harmonised data from multiple cohorts and quantify how much of the gap is explained by allele-frequency differences, by ancestry-specific linkage patterns, and by residual environmental confounding. The methodological lesson is sharp: a score's portability cannot be inferred from its training-set accuracy and must be evaluated in the population it will be deployed in. *Shang et al.* (2023) address an adjacent gap on the regulatory side, building a high-resolution **meQTL map in African Americans** through the GENOA study. Their map connects genetic variants to DNA-methylation levels in a non-European cohort and exposes regulatory architectures that European-derived references missed entirely. Open methodological questions cluster around the same axes: how should GWAS infrastructure ingest variant classes (tandem repeats, structural variants, rare variants) that don't fit the SNP-array model, can self-supervised sequence models replace bespoke functional annotations as the default variant-prior, do time-aware and high-dimensional-phenotype frameworks compose, and what is the right benchmark for the equity of a polygenic score across populations rather than its accuracy in one?

@@ -1,0 +1,60 @@
+---
+title: Automated Theorem Proving
+description: The study of algorithms and systems that mechanically construct, search for, or verify mathematical proofs, sitting at the intersection of formal logic, proof assistants, and modern machine learning.
+parent: computer-science/programming-and-languages
+order: 5
+color: '#3b82f6'
+difficulty: advanced
+prerequisites:
+  - computer-science/programming-and-languages/formal-methods
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-11'
+reviewTier: frontier
+sources:
+  - type: paper
+    title: 'Solving olympiad geometry without human demonstrations'
+    authors: [trinh-2024]
+    year: 2024
+    doi: 10.1038/s41586-023-06747-5
+    role: primary
+  - type: paper
+    title: 'Baldur: Whole-Proof Generation and Repair with Large Language Models'
+    authors: [first-2023]
+    year: 2023
+    doi: 10.1145/3611643.3616243
+    role: primary
+  - type: paper
+    title: 'Martin-Löf à la Coq'
+    authors: [adjedj-2024]
+    year: 2024
+    doi: 10.1145/3636501.3636951
+    role: primary
+  - type: paper
+    title: 'CryptOpt: Verified Compilation with Randomized Program Search for Cryptographic Primitives'
+    authors: [kuepper-2023]
+    year: 2023
+    doi: 10.1145/3591272
+    role: primary
+---
+
+**Automated theorem proving (ATP)** is the discipline of building systems that mechanically construct, check, or search for mathematical proofs. Classical ATP grew out of first-order logic and resolution; modern ATP is a federation of three communities that have only partially merged: *interactive proof assistants* (Coq, Lean, Isabelle/HOL, Agda) where a human directs a kernel that checks every step; *automated solvers* (SAT, SMT, saturation provers) that close goals without human guidance; and a fast-moving *learning-guided* layer that uses neural models, sometimes large language models, to pick tactics, generate whole proofs, or steer symbolic search. The field's methodological work cuts across four axes: how to *represent the proof state* a prover or a model sees, how to *search* the resulting space efficiently, how to *trust* the answer (i.e. preserve a small checkable kernel), and how to *scale* either by mining existing libraries or by synthesising training data when human proofs are scarce.
+
+## Neuro-symbolic search and synthetic data
+
+The hardest open ATP problems sit in domains where human proofs barely exist as training data — olympiad geometry being the canonical example. *Trinh et al.* (2024) attack this with **AlphaGeometry**, a neuro-symbolic prover for Euclidean plane geometry that sidesteps the data scarcity by synthesising millions of theorems and proofs at varying levels of complexity, then training a language model from scratch on the synthetic corpus and pairing it with a symbolic deduction engine. The language model proposes auxiliary constructions — the points and lines a human geometer would draw — while the deduction engine grinds through the consequences. On 30 recent olympiad problems AlphaGeometry solves 25, approaching average IMO gold-medal performance and producing human-readable proofs. The result is interesting beyond geometry: it argues that for proof domains where corpora are too small to imitate, *synthetic-data generation paired with a symbolic verifier* can substitute for human demonstrations, with the verifier guaranteeing that every training example is sound.
+
+## Large language models and whole-proof generation
+
+A complementary thread treats ATP as a sequence-to-sequence task on top of existing proof-assistant libraries. *First et al.* (2023) introduce **Baldur**, a system that fine-tunes a large language model on Isabelle/HOL proofs and generates *whole proofs* in a single shot rather than one tactic at a time, breaking with the dominant tree-search paradigm of earlier learned provers. They further train a second model to *repair* failed proof attempts using the failed proof plus the kernel's error message as context, recovering a substantial fraction of initial failures. Evaluated on 6,336 Isabelle theorems, Baldur establishes a new state of the art for fully automated proof synthesis and is shown to be complementary to the search-based tool Thor: together they prove 65.7% of the benchmark fully automatically. Two methodological commitments stand out — generation in one shot is *more efficient* than search at comparable proving power, and giving the model the kernel's own error feedback turns the proof assistant into a tight outer loop.
+
+## Mechanising the metatheory of the prover itself
+
+The trust story for any ATP system terminates in its kernel. *Adjedj et al.* (2024) push that story one level deeper with **Martin-Löf à la Coq**, an extensive mechanisation in Coq of the metatheory of Martin-Löf Type Theory (MLTT) — the foundational system underlying Coq, Agda, and Lean. They prove not only decidability of conversion but decidability of type checking, using a development guided by bidirectional type checking and yielding a *certified, executable type checker* for MLTT with Π, Σ, ℕ, identity types, and one universe. The construction relies neither on impredicativity nor on induction-recursion, narrowing the gap between object theory and metatheory to a difference in universes. The methodological move is to bring the proof assistant's own justification inside the proof assistant: instead of trusting the implementation, one proves it correct in a closely related system, modularising the kernel-trust assumption rather than eliminating it.
+
+## Verified compilation and randomised program search
+
+A fourth strand applies ATP methodology to performance-critical software where compilers historically lose to hand-written assembly. *Kuepper et al.* (2023) present **CryptOpt**, a compilation pipeline that translates high-level cryptographic functional programs into x86-64 assembly faster than GCC or Clang, accompanied by a mechanised Coq proof whose final theorem mentions only the input program and the operational semantics of x86-64. CryptOpt combines two ideas usually kept apart: *randomised search* through the space of assembly programs, with repeated benchmarking on the target CPU, and a formally verified *program-equivalence checker* that incorporates a small SMT-style fragment and symbolic execution. Plugged into the Fiat Cryptography framework, the system produces new fastest-known implementations of Curve25519 and secp256k1 arithmetic on recent Intel CPUs. The result reframes verified compilation: instead of a single deterministic translator that must be correct by construction, one uses stochastic search to *find* fast code and a verified equivalence checker to *certify* it, decoupling discovery from trust.
+
+Open methodological questions cross all four axes. Can the synthetic-data trick that powers AlphaGeometry generalise beyond geometry to domains like algebra or analysis where the symbolic deduction engine is harder to write down? How do whole-proof LLMs interact with proof assistants whose metatheory is itself being mechanised — does a certified type checker change how aggressively a model can be trusted to produce kernel-acceptable terms? And does the randomised-search-plus-verified-checker pattern from CryptOpt port to non-cryptographic domains where the equivalence relation is harder to capture in an SMT-friendly logic?

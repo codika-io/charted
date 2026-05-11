@@ -1,0 +1,66 @@
+---
+title: Metal-Organic Frameworks
+description: Crystalline porous materials in which metal nodes are linked by organic struts into networks with designable pore geometry and chemistry.
+parent: chemistry/materials-chemistry
+order: 1
+color: '#c05621'
+difficulty: advanced
+prerequisites:
+  - chemistry/materials-chemistry
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-11'
+reviewTier: frontier
+sources:
+  - type: paper
+    title: 'Water-Enhanced Direct Air Capture of Carbon Dioxide in Metal–Organic Frameworks'
+    authors: [chen-oscar-2024]
+    year: 2024
+    doi: 10.1021/jacs.3c14125
+    role: primary
+  - type: paper
+    title: 'Immobilization of the Polar Group into an Ultramicroporous Metal–Organic Framework Enabling Benchmark Inverse Selective Separation'
+    authors: [yang-shanqing-2023]
+    year: 2023
+    doi: 10.1021/jacs.3c03265
+    role: primary
+  - type: paper
+    title: 'Wrinkled metal-organic framework thin films with tunable Turing patterns for pliable integration'
+    authors: [luo-xinyu-2024]
+    year: 2024
+    doi: 10.1126/science.adn8168
+    role: primary
+  - type: paper
+    title: 'DFT-Quality Adsorption Simulations in Metal–Organic Frameworks Enabled by Machine Learning Potentials'
+    authors: [goeminne-2023]
+    year: 2023
+    doi: 10.1021/acs.jctc.3c00495
+    role: primary
+  - type: paper
+    title: 'Metal–Organic Framework Glass Catalysts from Melting Glass-Forming Cobalt-Based Zeolitic Imidazolate Framework'
+    authors: [song-yurou-2023]
+    year: 2023
+    doi: 10.1002/anie.202306420
+    role: primary
+  - type: paper
+    title: 'DigiMOF: A Database of Metal–Organic Framework Synthesis Information Generated via Text Mining'
+    authors: [glasby-2023]
+    year: 2023
+    doi: 10.1021/acs.chemmater.3c00788
+    role: primary
+---
+
+**Metal-organic frameworks (MOFs)** are crystalline porous materials in which metal nodes — single ions or small clusters — are linked by polytopic organic struts into extended networks. The combination of *modularity* (the same node can be paired with many different linkers, and vice versa) and *crystallinity* (the resulting framework has a well-defined pore geometry that survives guest removal) gives MOFs the highest surface areas of any known materials and a designable pore chemistry that zeolites and activated carbons cannot match. The field's methodological work organises around four axes: *function-targeted pore design* (engineering specific chemical environments inside the pore to recognise a target gas or molecule), *non-crystalline derivatives* (extending the toolkit to glasses, films, and composites whose properties go beyond what a bulk crystal can offer), *computational acceleration* (predicting adsorption from first principles fast enough to screen the combinatorial design space), and *data infrastructure* (capturing the synthesis knowledge buried in the literature so that machine-learning models have something to train on).
+
+## Function-targeted pore design
+
+The defining advantage of MOFs is that the chemistry of the pore is a design variable rather than a fixed property of the host. *Chen et al.* (2024) exploit this in their study of **water-enhanced direct air capture of CO2**: by engineering a MOF whose primary-amine-decorated pore preferentially binds CO2 in the presence of co-adsorbed water, they convert what is normally a problem (humidity competing with the target gas) into a feature, with capacity that grows under realistic atmospheric conditions instead of collapsing. The work reframes direct air capture from a humidity-management problem into a co-adsorption design problem. *Yang et al.* (2023) attack a different separation challenge with the same toolkit, **immobilising a polar group inside an ultramicroporous MOF** to achieve benchmark *inverse selectivity* between hydrocarbon isomers — the framework preferentially binds the less polarisable component, inverting the order predicted by surface-area arguments. Together the two papers illustrate the field's current synthetic granularity: not just "build a porous solid" but "place a specific functional group at a specific position relative to the metal node so that one guest binds and a similar guest does not".
+
+## Beyond the bulk crystal: films and glasses
+
+A MOF as conventionally synthesised is a polycrystalline powder, which limits integration into devices. *Luo et al.* (2024) report **wrinkled MOF thin films with tunable Turing patterns**: by controlling the kinetics of film growth on a flexible substrate, they programme the surface morphology into reaction-diffusion patterns whose wavelength can be tuned, and they demonstrate pliable device integration that powdered samples cannot support. The result connects MOF synthesis to the broader pattern-formation literature and opens a route to MOF-based wearable sensors. In a complementary direction, *Song et al.* (2023) melt a **glass-forming cobalt-based zeolitic imidazolate framework** and recover a MOF *glass* — an amorphous solid that retains the local coordination chemistry of the parent crystal but loses long-range order — and show that the glass is a viable photocatalyst. The work extends the MOF concept beyond its founding assumption (crystallinity) and asks whether function survives, and sometimes improves, when the framework loses its periodicity. Both papers fit a broader trend: the most interesting MOFs of the next decade may not be crystals at all.
+
+## Computational acceleration and data infrastructure
+
+The combinatorial design space of MOFs — millions of plausible node-linker combinations — is too large for synthesis-driven exploration alone, and screening needs predictions of adsorption energies that classical force fields cannot deliver reliably. *Goeminne et al.* (2023) close that gap with **DFT-quality adsorption simulations enabled by machine-learning interatomic potentials**: a neural-network potential trained on density-functional data reproduces DFT energetics at the cost of a classical simulation, making it tractable to screen thousands of framework-guest pairs at near-quantum accuracy. The paper is a worked example of how ML potentials are reshaping the screening pipeline for porous materials. *Glasby et al.* (2023) attack the other half of the problem with **DigiMOF**, a database of MOF synthesis recipes extracted from the literature by text mining; structural databases for MOFs exist, but the synthesis conditions that produce them have historically been locked inside experimental sections of papers. DigiMOF turns that knowledge into a structured resource that machine-learning models can use to predict which conditions produce which framework. The combined methodological direction is clear: the next generation of MOF design will couple ML interatomic potentials (for property prediction) with text-mined synthesis databases (for makeability prediction), so that a screening run produces not just a target framework but a plausible recipe to synthesise it. Open methodological frontiers include extending these tools to defect engineering, multivariate MOFs whose linkers vary along a single crystal, and operando structural studies that watch a framework respond to a guest under real conditions.

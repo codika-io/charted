@@ -1,0 +1,60 @@
+---
+title: Matroid Theory
+description: The combinatorics of independence — abstracting linear independence, graph cycles, and exchange properties into a single structure that organises base polytopes, valuative invariants, and matroid-constrained algorithms.
+parent: mathematics/combinatorics
+order: 9
+color: '#ef4444'
+difficulty: advanced
+prerequisites:
+  - mathematics/combinatorics
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-11'
+reviewTier: frontier
+sources:
+  - type: paper
+    title: 'Valuative invariants for large classes of matroids'
+    authors: [ferroni-2024a]
+    year: 2024
+    doi: 10.1112/jlms.12984
+    role: primary
+  - type: paper
+    title: 'Hilbert–Poincaré series of matroid Chow rings and intersection cohomology'
+    authors: [ferroni-2024b]
+    year: 2024
+    doi: 10.1016/j.aim.2024.109733
+    role: primary
+  - type: paper
+    title: 'A General Framework for Fair Allocation under Matroid Rank Valuations'
+    authors: [viswanathan-2023]
+    year: 2023
+    doi: 10.1145/3580507.3597675
+    role: primary
+  - type: paper
+    title: 'Secretary Problems with Biased Evaluations Using Partial Ordinal Information'
+    authors: [salem-2023]
+    year: 2023
+    doi: 10.1287/mnsc.2023.4926
+    role: supporting
+---
+
+A **matroid** is a finite set $E$ together with a family of *independent* subsets that abstracts the exchange behaviour shared by linearly independent vectors, forests in a graph, and transversals in a bipartite incidence. Three equivalent axiom systems pin the same object down: independence (closed under subsets, augmentation property), bases (all maximal independent sets have the same size, exchange property), and rank (a submodular function $r : 2^E \to \mathbb{Z}_{\ge 0}$ with $r(\emptyset)=0$ and unit jumps). From those axioms grows a remarkably rigid combinatorial universe in which problems coming from very different sources — graph minors, projective configurations, hyperplane arrangements, scheduling under fairness constraints, randomised online selection — turn out to be the same problem in different costumes. Modern matroid theory is organised around four interacting fronts: the *polyhedral geometry* of base polytopes and their valuative invariants, the *algebraic geometry* of matroid Chow rings and Kazhdan–Lusztig polynomials, *algorithmic matroid optimisation* under realistic informational constraints, and the *enumerative* problem of counting matroids and their structural classes.
+
+## Valuative invariants and base polytopes
+
+Every matroid $M$ on ground set $E$ has a **base polytope** $P(M) \subset \mathbb{R}^E$: the convex hull of the indicator vectors of its bases. Matroid subdivisions of these polytopes are the bridge between matroid theory and tropical geometry, and most useful matroid invariants — the Tutte polynomial, the volume of $P(M)$, the Ehrhart polynomial, the Kazhdan–Lusztig polynomial — are **valuative**, meaning they respect such subdivisions like a measure. *Ferroni* (2024a) develops a clean combinatorial framework around the operation of **relaxing a stressed subset**, which transitions a matroid into one with strictly more bases. He shows that this operation gives an explicit matroid subdivision of the hypersimplex and a new characterisation of the class of **elementary split matroids**, on which every valuative invariant is determined by its behaviour on a tractable sub-collection of Schubert matroids. The payoff is concrete: for these large classes of matroids one can write closed formulas for invariants that were previously accessible only through case-by-case computation, including base-polytope volumes and Kazhdan–Lusztig polynomials.
+
+## Chow rings, intersection cohomology, and real-rootedness
+
+A second line of recent progress treats matroids as if they were smooth projective varieties. To every matroid one attaches a graded **Chow ring** and an **augmented Chow ring**, whose Hilbert–Poincaré series encode delicate spectral information, and one can also attach an **intersection cohomology module** whose Poincaré polynomial recovers the matroid's Kazhdan–Lusztig polynomial. *Ferroni* (2024b) constructs an explicit parallelism between the Kazhdan–Lusztig polynomial of a matroid and the Hilbert–Poincaré series of its Chow ring, and between the matroid's $Z$-polynomial and the augmented version. The parallelism is more than aesthetic: it transports techniques between the two settings and lets him attack the **real-rootedness conjectures** for these polynomial families — a circle of conjectures predicting that several Hilbert series attached to matroids have only real roots, a property with strong combinatorial consequences (log-concavity, unimodality) that until very recently was out of reach.
+
+## Algorithmic matroid combinatorics
+
+Matroid structure has long underpinned algorithms — Kruskal's algorithm, Edmonds's matroid intersection — but a recent strand pushes matroid optimisation into settings where the *valuation* over the matroid, not just the matroid itself, is the structured object. *Viswanathan and Zick* (2023) study **fair allocation under matroid rank valuations**, where each agent's utility for a bundle equals the rank of that bundle in their personal matroid. They generalise the Yankee Swap procedure into a *General Yankee Swap* framework that maximises any reasonable justice criterion (prioritised Lorenz dominance, max-min utility, several others) in a quadratic number of valuation queries while remaining strategyproof. The framework converts what looked like five different combinatorial-optimisation problems into instances of one matroidal exchange procedure, and the matroid axioms do the heavy lifting in the proofs of fairness and welfare guarantees.
+
+## Online selection under partial information
+
+The classical **secretary problem** asks an algorithm to commit, irrevocably and online, to at most $k$ applicants out of a stream of $n$ whose numerical scores are observed once. *Salem and Gupta* (2023) define a **poset secretary problem** in which the algorithm observes not numerical scores but a *partial order* on applicants, where the partial order is constructed to absorb biased or noisy evaluations. They design algorithms with provable competitive ratios under structural assumptions on the underlying partial order, several of which are matroid-shaped (the feasible selections form the independent sets of a matroid). Their work fits into a broader pattern in algorithmic matroid theory: when the input is noisy or strategic, the matroid structure of the feasible sets, rather than the numerical objective, becomes the right invariant to design around.
+
+Open methodological questions cut across the four fronts. Can the valuative framework be extended to invariants that are not valuative (most interestingly, the **Whitney numbers** for matroids that are not realisable over any field)? Are the Chow-ring techniques powerful enough to settle the real-rootedness conjectures for arbitrary matroids, not just elementary split ones? And how far can matroidal algorithms be pushed when both the valuation and the matroid itself are revealed only adaptively?

@@ -1,0 +1,62 @@
+---
+title: Software-Defined Networking
+description: A network architecture that decouples the forwarding plane from a logically centralised control plane, exposing the network as a programmable platform that decides routes, policies, and resource allocation in software.
+parent: computer-science/systems
+order: 8
+color: '#3b82f6'
+difficulty: advanced
+prerequisites:
+  - computer-science/systems/computer-networks
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-11'
+reviewTier: frontier
+sources:
+  - type: paper
+    title: 'Network Load Balancing with In-network Reordering Support for RDMA'
+    authors: [song-chahwan-2023]
+    year: 2023
+    doi: 10.1145/3603269.3604849
+    role: primary
+  - type: paper
+    title: 'Experimental Demonstration of Partially Disaggregated Optical Network Control Using the Physical Layer Digital Twin'
+    authors: [borraccini-2023]
+    year: 2023
+    doi: 10.1109/tnsm.2023.3288823
+    role: primary
+  - type: paper
+    title: 'Reliable paths prediction with intelligent data plane monitoring enabled reinforcement learning in SD-IoT'
+    authors: [jisi-2024]
+    year: 2024
+    doi: 10.1016/j.jksuci.2024.102006
+    role: supporting
+  - type: paper
+    title: 'Priority based energy and load aware routing algorithms for SDN enabled data center network'
+    authors: [pathan-2023]
+    year: 2023
+    doi: 10.1016/j.comnet.2023.110166
+    role: supporting
+  - type: paper
+    title: 'Defending SDN against packet injection attacks using deep learning'
+    authors: [phu-2023]
+    year: 2023
+    doi: 10.1016/j.comnet.2023.109935
+    role: primary
+---
+
+**Software-defined networking (SDN)** factors a network into a forwarding **data plane** of programmable switches and a logically centralised **control plane** that installs forwarding rules in those switches over a southbound API (OpenFlow being the canonical instance). Because the control plane has a global view, it can compute routes, place virtual networks, enforce policy, and react to telemetry in software rather than via the distributed convergence of legacy protocols. The methodological agenda of modern SDN sits on four axes: *control-plane intelligence* (how to convert a global view into good decisions, increasingly with machine learning and digital twins), *data-plane programmability* (what should be pushed into switch silicon rather than handled at the controller), *robustness of the centralised plane* (the controller is a high-value target for both faults and attacks), and *cross-layer integration* with the physical media and the upper-layer applications it serves. Most contemporary contributions land at one of those intersections.
+
+## In-network primitives for high-performance data planes
+
+The first generation of SDN treated switches as dumb match-action tables and put all intelligence at the controller. A more recent line of work argues that some functions are too latency-sensitive to leave the data path. *Song et al.* (2023) make the case in the context of **RDMA load balancing**: existing per-flow ECMP and per-packet spraying both interact badly with RDMA because the transport assumes in-order delivery and cannot tolerate the reordering induced by fine-grained spraying. Their **ConWeave** framework gives the data plane a per-flow in-network reordering buffer that lets the controller spray packets across paths for load balance while the destination still observes ordered delivery. The methodological contribution is not the buffer itself but the partition between control- and data-plane responsibilities: the controller decides *which* paths to spread across and *when* to reshuffle, the switch silicon enforces the per-flow ordering invariant, and the host transport sees an unchanged interface. A similar division motivates *Phu et al.* (2023), who attack **packet injection** against the SDN controller — a class of attack that exploits the fact that the controller installs flow rules in response to data-plane events and can therefore be flooded by spoofed packets. Their detector runs a deep-learning classifier inside the SDN switch's coprocessor and drops suspect packets before they reach the controller, giving the centralised plane a denial-of-service shield that lives on the data path rather than on the slow path it was meant to protect.
+
+## Learning-based control planes
+
+Once routing and resource decisions are software, the question becomes which algorithm to put in the controller. Classical shortest-path or linear-programming formulations remain the default, but several recent papers argue that the controller is the natural place to deploy reinforcement learning, because it has the global state, the action space, and the reward signal that RL needs. *Jisi et al.* (2024) instantiate this for **software-defined IoT**: their RRSN system monitors data-plane telemetry continuously and trains an RL agent in the controller to predict which paths will remain reliable under variable IoT traffic. The contribution beyond off-the-shelf RL is the **monitoring discipline** — what telemetry to expose, at what rate, and how to encode it as state — because naïve telemetry policies either swamp the controller or starve the agent. *Pathan et al.* (2023) take a more structured approach in the **data-centre** setting: they cast routing as a multi-objective problem (priority class, link energy cost, and current load) and design a controller-side algorithm that schedules paths so that energy-hungry links can be powered down during low-load periods without violating priority constraints. The two papers together delimit a useful design space: when the workload is predictable enough to enumerate, structured optimisation in the controller is sufficient; when it is not, RL is the fallback, but only if the telemetry pipeline has been designed for it.
+
+## Digital twins and cross-layer integration
+
+SDN was conceived for packet networks, but its central abstraction — separate the global state from the per-device behaviour and program against it — extends naturally to optical and radio layers. *Borraccini et al.* (2023) demonstrate this for **partially disaggregated optical networks**, where wavelengths, amplifiers, and reconfigurable add-drop multiplexers come from different vendors and have historically been opaque to a single controller. Their system pairs an SDN controller with a **physical-layer digital twin**: a continuously calibrated model of the optical impairments along each path, which the controller queries when provisioning a new lightpath to decide which modulation, baud rate, and amplifier setting will work. The twin closes a loop the original SDN abstraction did not handle: the controller's view of the network now includes the physics of the medium, not just the topology. The same pattern is starting to show up in radio-access SDN and in cross-layer 5G/6G slicing, where the controller's state must include both the packet-forwarding graph and the underlying spectrum and power constraints.
+
+Open methodological questions span the four axes. How should the data-plane/control-plane partition evolve when both the silicon (programmable switches with on-die accelerators) and the controller (RL agents, digital twins) gain new capabilities at once? What is the right consistency model for a logically centralised controller that is physically distributed for availability — and how does that interact with Byzantine fault tolerance in the control plane? And as SDN abstractions migrate into the physical layer, how should the controller's state and APIs evolve so that one programmable interface covers packets, wavelengths, and beams without collapsing into a vendor-specific bundle?

@@ -1,0 +1,66 @@
+---
+title: Protein Folding
+description: The thermodynamic and kinetic problem of how a one-dimensional amino-acid sequence reaches its functional three-dimensional structure — and how that structure can be predicted, perturbed, and protected.
+parent: chemistry/biochemistry
+order: 1
+color: '#c05621'
+difficulty: advanced
+prerequisites:
+  - chemistry/biochemistry
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-11'
+reviewTier: frontier
+sources:
+  - type: paper
+    title: 'Two for One: Diffusion Models and Force Fields for Coarse-Grained Molecular Dynamics'
+    authors: [arts-2023]
+    year: 2023
+    doi: 10.1021/acs.jctc.3c00702
+    role: primary
+  - type: paper
+    title: 'The ribosome lowers the entropic penalty of protein folding'
+    authors: [streit-2024]
+    year: 2024
+    doi: 10.1038/s41586-024-07784-4
+    role: primary
+  - type: paper
+    title: 'Evolutionary selection of proteins with two folds'
+    authors: [schafer-2023]
+    year: 2023
+    doi: 10.1038/s41467-023-41237-2
+    role: primary
+  - type: paper
+    title: 'In situ analysis of osmolyte mechanisms of proteome thermal stabilization'
+    authors: [pepelnjak-2024]
+    year: 2024
+    doi: 10.1038/s41589-024-01568-7
+    role: primary
+  - type: paper
+    title: 'Protein–lipid charge interactions control the folding of outer membrane proteins into asymmetric membranes'
+    authors: [machin-2023]
+    year: 2023
+    doi: 10.1038/s41557-023-01319-6
+    role: primary
+  - type: paper
+    title: 'Mechanism of chaperone coordination during cotranslational protein folding in bacteria'
+    authors: [roeselova-2024]
+    year: 2024
+    doi: 10.1016/j.molcel.2024.06.002
+    role: primary
+---
+
+**Protein folding** is the process by which a polypeptide chain — a one-dimensional sequence of amino acids — reaches the three-dimensional structure that lets it do its biological job. The thermodynamic version of the problem is the *Levinthal problem*: the number of accessible conformations is astronomical, yet folding completes on a millisecond-to-second timescale, which means the energy landscape is funnelled rather than flat. The kinetic version is harder still: folding *in vivo* happens on the ribosome, against a crowded cytosol, with the help of chaperones that shepherd nascent chains away from aggregation, and sometimes against active perturbations from membranes, osmolytes, or post-translational modifications. Methodological work in the modern era organises around four axes: *physics-based and learned models of the energy landscape* (the descendants of force fields, now coupled to generative models from machine learning); *cotranslational folding* (recognising that the chain folds while it is still being synthesised, with the ribosome and its associated chaperones part of the energy landscape); *non-trivial folding behaviour* (proteins that adopt two folds, fold in asymmetric environments, or refold in response to the cellular state); and *the chemical environment* (how small-molecule osmolytes, lipids, and stressors shift folding equilibria).
+
+## Generative models meet physics-based simulation
+
+Coarse-grained molecular dynamics has long been the workhorse for sampling the protein-folding energy landscape, but its accuracy is bounded by the quality of the force field, and traditional force fields are difficult to train on the high-quality data that now exists. *Arts et al.* (2023) close that gap with **"Two for One": diffusion models that simultaneously act as generative samplers and as learnable force fields** for coarse-grained simulations. The trick is that a denoising diffusion model trained on equilibrium configurations encodes the underlying free-energy surface implicitly, so the same network that generates plausible configurations from noise also defines a force field that can be used in molecular dynamics. The result is a clean methodological route to learn force fields directly from structural data, rather than fitting them to a small set of hand-curated reference systems, and it places generative modelling alongside replica exchange and metadynamics as a tool for sampling folding landscapes. *Schafer et al.* (2023) use a complementary methodology — large-scale structural and evolutionary analysis — to identify **proteins that have been evolutionarily selected to adopt two folds** from the same sequence, a phenomenon that classical funnel theory does not predict. The finding sharpens the connection between sequence and structure: in some regions of sequence space, evolution actively prefers ambiguity, and the resulting two-fold proteins are a strong test case for any predictive model that assumes a single ground-state structure.
+
+## Cotranslational folding and chaperone coordination
+
+Folding does not start in the test tube; it starts on the ribosome, as the nascent chain extrudes through the exit tunnel. *Streit et al.* (2024) make this concrete by showing that **the ribosome lowers the entropic penalty of protein folding**: by restricting the conformational ensemble of the nascent chain through its tethering to the ribosomal surface, the ribosome acts as a part of the folding apparatus rather than as a passive synthesis machine. The thermodynamic consequence is that some folding events become favourable on the ribosome that would be unfavourable in solution. *Roeselová et al.* (2024) extend the picture to the chaperone layer, dissecting the **mechanism of chaperone coordination during cotranslational folding in bacteria**: trigger factor, DnaK, and downstream chaperones engage the nascent chain at distinct extents of synthesis, and the handovers between them are themselves a regulatory step that determines folding outcome. Together the two papers refocus the folding problem from "the equilibrium structure of a complete chain in dilute solution" to "the trajectory of a chain through synthesis, chaperone-binding, and release", which is the regime in which most folding actually happens.
+
+## Folding in non-trivial environments
+
+The classical folding problem assumes a homogeneous aqueous environment, but biology folds in many environments at once. *Machin et al.* (2023) show that **protein–lipid charge interactions control the folding of outer membrane proteins into asymmetric membranes**: the two leaflets of an outer membrane carry different charges, and that asymmetry biases the orientation and folding kinetics of nascent β-barrel proteins inserting into the membrane. The work converts the membrane from a passive solvent into an active component of the folding energy landscape. *Pepelnjak et al.* (2024) attack the small-molecule side of the same question with an **in situ analysis of how osmolytes thermally stabilise proteomes**: by combining limited proteolysis with thermal denaturation across an entire proteome, they identify which proteins each osmolyte stabilises and propose mechanisms for the selectivity. The result is a system-wide picture of how the chemical environment of the cell shifts folding equilibria, and it gives a template for studying any small molecule (drug, chaperone, stress response metabolite) that perturbs the proteome's folded state. Open methodological questions span all four axes: can learned force fields be made transferable across protein families, do cotranslational folding trajectories converge to the same structure as refolding *in vitro*, and how should two-fold proteins be represented in structure-prediction models that currently assume one ground state per sequence?

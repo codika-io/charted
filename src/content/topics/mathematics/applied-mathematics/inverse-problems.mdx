@@ -1,0 +1,62 @@
+---
+title: Inverse Problems
+description: Recovering hidden parameters, fields, or designs from indirect measurements — the mathematical inversion of forward models, modernised with neural surrogates and learned priors.
+parent: mathematics/applied-mathematics
+order: 8
+color: '#ef4444'
+difficulty: advanced
+prerequisites:
+  - mathematics/applied-mathematics
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-11'
+reviewTier: frontier
+sources:
+  - type: paper
+    title: 'Score-Based Diffusion Models as Principled Priors for Inverse Imaging'
+    authors: [feng-berthy-2023]
+    year: 2023
+    doi: 10.1109/iccv51070.2023.00965
+    role: primary
+  - type: paper
+    title: 'Inverse design of nonlinear mechanical metamaterials via video denoising diffusion models'
+    authors: [bastek-2023]
+    year: 2023
+    doi: 10.1038/s42256-023-00762-x
+    role: primary
+  - type: paper
+    title: 'Non-convex optimization for inverse problem solving in computer-generated holography'
+    authors: [sui-xiaomeng-2024]
+    year: 2024
+    doi: 10.1038/s41377-024-01446-w
+    role: primary
+  - type: paper
+    title: 'Physics-Informed Neural Networks for Solving Forward and Inverse Problems in Complex Beam Systems'
+    authors: [kapoor-2023]
+    year: 2023
+    doi: 10.1109/tnnls.2023.3310585
+    role: supporting
+  - type: paper
+    title: 'Spatiotemporal parallel physics-informed neural networks: A framework to solve inverse problems in fluid mechanics'
+    authors: [xu-shengfeng-2023]
+    year: 2023
+    doi: 10.1063/5.0155087
+    role: supporting
+---
+
+**Inverse problems** are the mathematical mirror image of forward simulation: given indirect, partial, noisy measurements $y = \mathcal{F}(x) + \eta$, recover the underlying parameters, fields, or designs $x$. The forward operator $\mathcal{F}$ encodes a known physical model — wave propagation, diffusion, elasticity, illumination — and the inverse task is typically *ill-posed*: solutions may be non-unique, may not exist for a given $y$, and may depend discontinuously on the data. Classical regularisation (Tikhonov, total-variation, sparsity) addresses ill-posedness by injecting prior knowledge about admissible solutions. Modern work organises around four methodological axes: *priors* (how to encode the space of plausible $x$, increasingly with learned generative models), *optimisation landscape* (most inverse problems are non-convex, and method choice changes which local minimum is reached), *neural surrogates* (replacing or augmenting $\mathcal{F}$ with a differentiable network), and *design vs. recovery* (using the same machinery to design $x$ producing a target $y$, not merely to recover an unknown one).
+
+## Learned priors via generative models
+
+For decades the prior in an inverse problem was a handcrafted regulariser. The shift of the last few years is to let a **generative model** play that role. *Feng et al.* (2023) make the connection precise for **score-based diffusion models**: they show that a pretrained diffusion model can be used as a *principled prior* — not just a heuristic — by combining its learned score function with the likelihood term from the forward operator inside a posterior-sampling scheme. The result is a Bayesian inverse-problem framework in which the prior is a high-fidelity neural network and the posterior is sampled via the diffusion reverse process modulated by data consistency, with explicit guarantees that recover MAP and posterior-mean estimators as limits. The framing has propagated into design problems as well: *Bastek and Kochmann* (2023) train a **video denoising diffusion model** over fields representing nonlinear mechanical metamaterials, then sample conditionally on a desired stress-strain response to obtain metamaterial geometries — an inverse-design problem cast as conditional generation under a learned prior.
+
+## Non-convex optimisation landscapes
+
+Even with a good prior, the inverse problem's loss surface is rarely convex. *Sui et al.* (2024) study **non-convex optimisation for computer-generated holography**, an inverse problem that asks for a phase pattern producing a target light field after free-space propagation. The paper systematically compares first-order and second-order non-convex solvers, characterises the trap structure of the holography loss, and identifies which features of the forward operator (under-determined phase, oscillatory kernels) make some optimisers consistently outperform others. The methodology generalises beyond holography: the same diagnostic — measure the operator's conditioning, then pick a solver whose convergence theory matches that conditioning — applies to most physics-based inverse problems.
+
+## Neural surrogates for forward and inverse
+
+A complementary direction replaces or augments the forward operator $\mathcal{F}$ with a differentiable neural surrogate, so that gradients with respect to $x$ are cheap. **Physics-informed neural networks (PINNs)** encode the governing PDE inside the loss function, so the same network parameterises both forward solutions and inverse parameter estimates. *Kapoor et al.* (2023) develop PINNs for **complex beam systems**, identifying the conditioning issues that arise when forward and inverse residuals are jointly minimised and proposing loss-weighting schemes that prevent the inverse parameters from collapsing to trivial solutions. *Xu et al.* (2023) extend the approach to high-Reynolds **fluid mechanics** with a *spatiotemporal parallel* PINN architecture: the spatiotemporal domain is partitioned across sub-networks that train in parallel and exchange interface conditions, making it tractable to invert for unknown viscosity or boundary terms from sparse velocity measurements. Both papers illustrate the general lesson that turning a forward simulator into an inverse-problem solver is not free — the loss landscape, the conditioning, and the parameter identifiability all need explicit attention.
+
+Open methodological questions cut across the axes: when does a learned diffusion prior provably outperform a hand-designed regulariser, and under what data regimes does it harm posterior coverage? Can non-convex landscape analysis be combined with score-based priors to produce inverse-problem solvers with finite-sample guarantees? And how should PINN-style surrogates be calibrated so that inverse parameter estimates carry uncertainty intervals consistent with the underlying physics?

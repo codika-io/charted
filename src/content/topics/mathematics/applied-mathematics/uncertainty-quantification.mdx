@@ -1,0 +1,68 @@
+---
+title: Uncertainty Quantification
+description: Methods for measuring, propagating, and calibrating the uncertainty of computational and statistical predictions, with a focus on machine learning surrogates and scientific simulators.
+parent: mathematics/applied-mathematics
+order: 7
+color: '#ef4444'
+difficulty: advanced
+prerequisites:
+  - mathematics/applied-mathematics
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-11'
+reviewTier: frontier
+sources:
+  - type: paper
+    title: 'NeuralUQ: A Comprehensive Library for Uncertainty Quantification in Neural Differential Equations and Operators'
+    authors: [zou-zongren-2024]
+    year: 2024
+    doi: 10.1137/22m1518189
+    role: primary
+  - type: paper
+    title: 'Single-model uncertainty quantification in neural network potentials does not consistently outperform model ensembles'
+    authors: [tan-aikrui-2023]
+    year: 2023
+    doi: 10.1038/s41524-023-01180-8
+    role: primary
+  - type: paper
+    title: 'How to evaluate uncertainty estimates in machine learning for regression?'
+    authors: [sluijterman-2024]
+    year: 2024
+    doi: 10.1016/j.neunet.2024.106203
+    role: primary
+  - type: paper
+    title: 'Uncertainty quantification for probabilistic machine learning in earth observation using conformal prediction'
+    authors: [singh-geethen-2024]
+    year: 2024
+    doi: 10.1038/s41598-024-65954-w
+    role: supporting
+  - type: paper
+    title: 'Calibrating ensembles for scalable uncertainty quantification in deep learning-based medical image segmentation'
+    authors: [buddenkotte-2023]
+    year: 2023
+    doi: 10.1016/j.compbiomed.2023.107096
+    role: supporting
+  - type: paper
+    title: 'Post-hoc Uncertainty Learning Using a Dirichlet Meta-Model'
+    authors: [shen-maohao-2023]
+    year: 2023
+    doi: 10.1609/aaai.v37i8.26167
+    role: primary
+---
+
+**Uncertainty quantification (UQ)** is the mathematical machinery that turns a point prediction into a calibrated probabilistic statement. A model — whether a finite-element simulator, a Gaussian process, or a deep neural network — produces an estimate of some quantity of interest; UQ asks how much that estimate should be trusted, decomposes the answer into *aleatoric* uncertainty (irreducible noise in the data) and *epistemic* uncertainty (model ignorance that more data could resolve), and propagates both through downstream decisions. Methodological work in UQ is organised around four axes: *representation* (how to encode the distribution over predictions — ensembles, Bayesian posteriors, conformal sets, Dirichlet meta-models), *calibration* (do the nominal confidence intervals match empirical coverage?), *scalability* (how to obtain reliable intervals without retraining a heavyweight model dozens of times), and *evaluation* (which metrics actually distinguish a well-calibrated predictor from a confidently-wrong one).
+
+## Representation: ensembles, posteriors, and meta-models
+
+The dominant baseline for epistemic uncertainty in deep learning remains the **deep ensemble** — train several independent models, treat their disagreement as a posterior surrogate. *Tan et al.* (2023) test the field's recurring claim that cheaper *single-model* alternatives (Monte Carlo dropout, evidential regression, mean-variance networks) can match ensembles on neural network potentials, and find that they consistently fail to do so once the test distribution drifts: ensembles dominate single-model methods on out-of-distribution detection precisely where UQ matters most. The result reframes single-model UQ as a *compression* of the ensemble baseline rather than a replacement, and motivates **post-hoc** approaches that attach an uncertainty head to an already-trained network. *Shen et al.* (2023) develop one such recipe with a **Dirichlet meta-model** that learns a distribution over the base classifier's softmax outputs after the fact, recovering ensemble-like uncertainty without paying the training cost a second time. The Dirichlet meta-model exemplifies a broader move in UQ toward decoupling the representational backbone from the uncertainty estimator.
+
+## Libraries and scientific simulators
+
+A practical bottleneck for UQ in scientific computing is the cost of running both a physical simulator and its UQ wrapper. *Zou et al.* (2024) introduce **NeuralUQ**, a library that brings several UQ algorithms — Hamiltonian Monte Carlo, deep ensembles, variational inference, deep evidential learning, generative-model priors — into a unified API specifically for **neural differential equations and neural operators** (e.g. PINNs, DeepONet, Fourier neural operators). The contribution is methodological rather than purely engineering: by fixing a common interface across UQ algorithms and across surrogate families, NeuralUQ makes head-to-head comparisons of representation choices reproducible for the first time in this corner of scientific ML.
+
+## Calibration and conformal coverage
+
+Even an expressive representation is useless if its intervals do not match empirical coverage. *Sluijterman et al.* (2024) provide a methodology paper on **how to evaluate** UQ for regression: they catalogue the metrics in common use (negative log-likelihood, expected calibration error, sharpness, prediction-interval coverage probability), show how each can be gamed by a poorly-calibrated model, and propose a set of evaluation protocols that jointly stress sharpness and coverage. *Buddenkotte et al.* (2023) push the calibration problem in a scalability direction: they show how to **calibrate ensembles** post-hoc for medical image segmentation using a lightweight temperature-scaling-style fit, recovering well-calibrated voxel-level uncertainties without retraining the segmentation networks. The complementary route is **conformal prediction**, which constructs distribution-free prediction sets with finite-sample coverage guarantees. *Singh et al.* (2024) adapt conformal prediction to probabilistic machine learning in **earth observation**, demonstrating that conformal wrappers can be applied to existing Bayesian and ensemble pipelines to obtain valid coverage even when the underlying model is mis-specified.
+
+Open methodological questions span the four axes: how to compose conformal calibration with the post-hoc meta-models above without losing finite-sample guarantees, how to make ensembles scale to foundation-model regimes where even a single training run is prohibitive, and how to design UQ-aware evaluation benchmarks that reward sharpness and coverage simultaneously rather than separately.

@@ -1,0 +1,70 @@
+---
+title: Cryo-Electron Microscopy
+description: Determining near-atomic structures of biological macromolecules from images of vitrified specimens, and the sample-preparation, detection, and computational advances that keep widening its reach.
+parent: biology/structural-biology
+order: 1
+color: '#b83280'
+difficulty: advanced
+prerequisites:
+  - biology/structural-biology
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-11'
+reviewTier: frontier
+sources:
+  - type: paper
+    title: 'Low-dose cryo-electron ptychography of proteins at sub-nanometer resolution'
+    authors: [kucukoglu-2024]
+    year: 2024
+    doi: 10.1038/s41467-024-52403-5
+    role: primary
+  - type: paper
+    title: 'CryoSegNet: accurate cryo-EM protein particle picking by integrating the foundational AI image segmentation model and attention-gated U-Net'
+    authors: [gyawali-2024]
+    year: 2024
+    doi: 10.1093/bib/bbae282
+    role: primary
+  - type: paper
+    title: 'LipIDens: simulation assisted interpretation of lipid densities in cryo-EM structures of membrane proteins'
+    authors: [ansell-2023]
+    year: 2023
+    doi: 10.1038/s41467-023-43392-y
+    role: primary
+  - type: paper
+    title: 'Enhancing cryo-EM maps with 3D deep generative networks for assisting protein structure modeling'
+    authors: [maddhuri-venkata-subramaniya-2023]
+    year: 2023
+    doi: 10.1093/bioinformatics/btad494
+    role: primary
+  - type: paper
+    title: 'Self-assembled superstructure alleviates air-water interface effect in cryo-EM'
+    authors: [zheng-liming-2024]
+    year: 2024
+    doi: 10.1038/s41467-024-51696-w
+    role: primary
+  - type: paper
+    title: 'Elemental mapping in single-particle reconstructions by reconstructed electron energy-loss analysis'
+    authors: [pfeil-gardiner-2024]
+    year: 2024
+    doi: 10.1038/s41592-024-02482-5
+    role: primary
+---
+
+**Cryo-electron microscopy (cryo-EM)** determines three-dimensional structures of biological macromolecules by recording two-dimensional projection images of vitrified single particles in random orientations and reconstructing the underlying density map computationally. The "resolution revolution" of the 2010s closed the gap between cryo-EM and X-ray crystallography for many targets; the methodological frontier has since shifted to four axes that determine which problems are now tractable: *sample preparation* (the air-water interface and grid-deposition pathologies that destroy or denature particles before they reach the microscope), *signal extraction at low dose* (squeezing more information from each electron, since beam damage caps the dose any specimen can absorb), *particle identification and map interpretation* (turning megapixel micrographs into reliable particle sets and turning density maps into atomic models), and *modality extension* (recording information beyond elastic scattering — chemical identity, lipid environment, conformational ensembles).
+
+## Surviving the grid: sample preparation as the new bottleneck
+
+For many biologically interesting complexes, the limiting step is no longer microscopy but biochemistry on the grid: particles preferentially adsorb to the air-water interface where they denature, orient anisotropically, or aggregate during the milliseconds between blot and plunge. *Zheng et al.* (2024) attack this directly with a **self-assembled superstructure** that protects particles from the air-water interface during vitrification, producing isotropic particle distributions for targets that previously yielded preferred-orientation reconstructions only. The methodological lesson — engineer the grid environment rather than the protein — has reshaped how challenging targets are approached: many "cryo-EM failures" are now reframed as sample-preparation failures with grid-chemistry solutions.
+
+## Squeezing the dose budget
+
+Beam damage sets a hard ceiling on how many electrons can be delivered to a single particle, which in turn sets a floor on the noise of each image and a ceiling on the resolution recoverable from any number of particles. *Küçükoğlu et al.* (2024) demonstrate **low-dose cryo-electron ptychography** of proteins at sub-nanometer resolution: rather than collecting conventional bright-field images, they record diffraction patterns from a focused probe and reconstruct phase information that conventional imaging discards. The result is a higher information-per-electron yield, which translates into reachable resolutions at doses that classical single-particle workflows cannot exploit. The methodology imports techniques from materials-science electron microscopy into the biological pipeline and reopens the question of what the optimal imaging mode is once dose, not optics, is the binding constraint.
+
+## From micrographs to atomic models
+
+Even with the microscope solved, the computational pipeline has its own bottlenecks. *Gyawali et al.* (2024) attack the first one — particle picking — with **CryoSegNet**, a hybrid system that combines a foundation-model image segmenter with an attention-gated U-Net specialised for cryo-EM micrographs; the result is robust particle picking even on noisy or contaminated grids where classical template-based pickers fail. *Maddhuri Venkata Subramaniya et al.* (2023) attack the downstream end of the pipeline with **3D deep generative networks** that enhance cryo-EM density maps to assist atomic-model building: the network learns the local correspondence between observed density features and the underlying atomic motifs, and effectively post-processes a map into a form that downstream model-building tools fit more accurately. Together the two papers map a pattern across modern cryo-EM software: replace bespoke filters and hand-tuned heuristics with learned models that absorb the long tail of failure modes the previous generation accumulated workarounds for.
+
+## Reading more than density
+
+Cryo-EM has classically delivered electrostatic-potential density and little else. *Pfeil-Gardiner et al.* (2024) extend the readout with **elemental mapping in single-particle reconstructions by reconstructed electron energy-loss analysis**: by recording EELS spectra alongside elastic scattering and back-projecting them into the same reconstructed volume, they distinguish chemical species (notably metals) at specific atomic positions within the macromolecule. The methodology adds a chemical axis to a previously chemistry-agnostic technique. *Ansell et al.* (2023) extend the readout in a different direction with **LipIDens**, a simulation-assisted framework that interprets the lipid-shaped densities surrounding membrane proteins in cryo-EM maps: rather than ignoring or hand-modelling these blobs, LipIDens uses molecular-dynamics simulations to assign specific lipid species and orientations to the observed density, turning a routinely-discarded feature into an annotated lipid-protein interaction map. Open methodological questions span the four axes: how far can ptychography and other phase-recovery modalities push the resolution-versus-dose frontier, can foundation-model approaches generalise across both single-particle and tomography pipelines, what is the right computational treatment of conformational ensembles versus discrete states, and how reliably can chemical-identity and lipid-environment readouts be made quantitative rather than qualitative?

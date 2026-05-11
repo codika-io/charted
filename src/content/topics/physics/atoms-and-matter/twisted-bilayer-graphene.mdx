@@ -1,0 +1,73 @@
+---
+title: Twisted Bilayer Graphene
+description: A two-dimensional moiré material in which two graphene sheets stacked at a small relative angle host flat electronic bands, strongly correlated phases, and unconventional superconductivity.
+parent: physics/atoms-and-matter
+order: 5
+color: '#f59e0b'
+difficulty: advanced
+prerequisites:
+  - physics/atoms-and-matter/condensed-matter-physics
+  - physics/modern-and-quantum/quantum-mechanics
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-11'
+reviewTier: frontier
+sources:
+  - type: paper
+    title: 'Transformer spin-triplet superconductivity at the onset of isospin order in bilayer graphene'
+    authors: [dong-zhiyu-2023]
+    year: 2023
+    doi: 10.1103/physrevb.107.174512
+    role: primary
+  - type: paper
+    title: 'Kondo phase in twisted bilayer graphene'
+    authors: [zhou-gengdong-2024]
+    year: 2024
+    doi: 10.1103/physrevb.109.045419
+    role: primary
+  - type: paper
+    title: 'Twisted bilayer graphene as topological heavy fermion: II. Analytical approximations of the model parameters'
+    authors: [calugaru-2023]
+    year: 2023
+    doi: 10.1063/10.0019421
+    role: primary
+  - type: paper
+    title: 'Engineering Flat Bands in Twisted-Bilayer Graphene away from the Magic Angle with Chiral Optical Cavities'
+    authors: [jiang-cunyuan-2024]
+    year: 2024
+    doi: 10.1103/physrevlett.132.166901
+    role: primary
+  - type: paper
+    title: 'Electron-phonon coupling and competing Kekulé orders in twisted bilayer graphene'
+    authors: [kwan-2024]
+    year: 2024
+    doi: 10.1103/physrevb.110.085160
+    role: supporting
+  - type: paper
+    title: 'Junctions and Superconducting Symmetry in Twisted Bilayer Graphene'
+    authors: [sainz-cruz-2023]
+    year: 2023
+    doi: 10.1103/physrevlett.131.016003
+    role: supporting
+---
+
+**Twisted bilayer graphene (TBG)** is built by stacking two atomically thin sheets of graphene with a small relative rotation angle. The mismatch between the two hexagonal lattices produces a long-period moiré superlattice whose electronic structure differs qualitatively from either isolated layer. Near a discrete set of *magic angles* (most prominently around 1.1°), the moiré bands flatten to the point that the kinetic energy of electrons becomes comparable to their Coulomb repulsion, and the material hosts a zoo of strongly correlated phases — correlated insulators, unconventional superconductivity, ferromagnetism, and quantum-anomalous-Hall states — that have made it one of the most actively studied platforms in condensed matter since 2018. Methodological work in TBG is organised around four interacting axes: *building tractable effective models* that capture the flat-band physics without the full continuum moiré Hamiltonian, *classifying the broken-symmetry phases* that emerge from interactions in the flat bands, *understanding the superconducting mechanism* and its pairing symmetry, and *engineering the band structure* by external knobs (substrate alignment, pressure, displacement field, light).
+
+## Effective models for the flat bands
+
+Direct treatment of the continuum moiré Hamiltonian at the magic angle is numerically forbidding because of the macroscopic moiré unit cell, so much of the field is built on reduced effective models. Călugăru et al. (2023) develop the **topological heavy-fermion** description of TBG, in which the flat-band electrons are mapped onto a small set of localised orbitals hybridised with itinerant conduction bands, in close analogy with rare-earth heavy-fermion metals. The companion analysis derives explicit analytical approximations for the hopping integrals, hybridisation strength, and on-site interactions of the effective lattice, turning the heavy-fermion picture from a phenomenological analogy into a quantitative model that downstream many-body calculations can use as input. The heavy-fermion framing has since become a workhorse for predicting both correlated phases and dynamical response, and motivates Kondo-physics questions inside TBG itself.
+
+Zhou et al. (2024) push this analogy onto experimental phenomenology by mapping out a **Kondo phase** inside the TBG phase diagram: at certain fillings the localised flat-band electrons act as effective magnetic impurities that screen against the conduction sea, producing a heavy-fermion liquid with a characteristic Kondo temperature scale. The result reframes parts of the correlated TBG phase diagram in language inherited from f-electron compounds and gives concrete predictions for resistivity and tunnelling signatures that distinguish a Kondo regime from a Mott insulator or a generic correlated metal.
+
+## Broken-symmetry phases and the role of phonons
+
+A second methodological strand asks which broken-symmetry orders the flat bands actually choose. Kwan et al. (2024) examine the interplay between **electron-phonon coupling** and competing **Kekulé orders**: the long-wavelength moiré bands couple non-trivially to short-wavelength acoustic and optical phonons of the underlying graphene lattices, and this coupling reweights the competition between intervalley-coherent Kekulé states. Their calculation shows that phonons are not a small correction to a purely electronic problem but participate directly in selecting which Kekulé order is energetically preferred at a given filling, which in turn constrains how scanning-tunnelling and Raman experiments should be interpreted. The takeaway pattern repeats throughout TBG: many proposed orders are nearly degenerate at the level of Coulomb interactions alone, and lattice degrees of freedom often act as the tie-breaker.
+
+## Superconductivity and pairing
+
+The TBG superconductivity question splits in two: what is the pairing symmetry, and what is the glue? Dong et al. (2023) propose a **spin-triplet superconductivity** mechanism driven by *transformer* fluctuations at the onset of isospin order in bilayer graphene, in which slow fluctuations of an emergent isospin order parameter mediate an attractive interaction in the triplet channel near the isospin-polarisation boundary. The mechanism is intrinsically tied to the proximity of an isospin transition rather than to phonons or to a separate magnetic mode, and it makes specific predictions for how the superconducting dome should track the underlying isospin phase diagram. Sainz-Cruz et al. (2023) attack the symmetry question from a different angle by studying **TBG–TBG junctions**: by interfacing two TBG regions with different stacking or twist configurations, one can read off the superconducting order parameter's symmetry through Josephson-like response, turning a notoriously hard bulk question into a transport measurement. The two papers represent the two complementary methodological moves in TBG superconductivity research: build candidate pairing mechanisms tied to nearby instabilities of the normal state, and design junction geometries that filter for specific pairing symmetries.
+
+## Engineering the band structure
+
+A final axis treats the moiré band structure itself as something to be sculpted. Jiang et al. (2024) propose that placing TBG inside a **chiral optical cavity** dresses the electrons with circularly polarised virtual photons and flattens the moiré bands at angles meaningfully away from the magic angle. The construction extends the magic-angle physics from a fragile, fabrication-limited operating point to a tunable continuum controlled by cavity geometry, and connects TBG to the broader programme of cavity-mediated control of correlated materials. Open methodological questions cut across all four axes above: which effective model captures both the correlated insulators and the superconducting domes inside a single framework, how do phonons and Coulomb interactions jointly select the broken-symmetry ground state at each integer filling, and how far can external engineering (cavity, displacement field, substrate alignment) be pushed before the heavy-fermion description itself breaks down?

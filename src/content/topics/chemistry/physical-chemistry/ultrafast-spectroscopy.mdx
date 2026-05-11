@@ -1,0 +1,60 @@
+---
+title: Ultrafast Spectroscopy
+description: Femtosecond-to-picosecond optical probes that resolve chemical events — bond cleavage, electron transfer, vibrational relaxation, excited-state evolution — on the timescales at which they actually happen.
+parent: chemistry/physical-chemistry
+order: 1
+color: '#c05621'
+difficulty: advanced
+prerequisites:
+  - chemistry/physical-chemistry
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-11'
+reviewTier: frontier
+sources:
+  - type: paper
+    title: 'Direct Observation of Triplet States in the Isomerization of Alkenylboronates by Energy Transfer Catalysis'
+    authors: [zahringer-2023]
+    year: 2023
+    doi: 10.1021/jacs.3c07678
+    role: primary
+  - type: paper
+    title: 'Quantifying Förster Resonance Energy Transfer from Single Perovskite Quantum Dots to Organic Dyes'
+    authors: [feld-2024]
+    year: 2024
+    doi: 10.1021/acsnano.3c11359
+    role: primary
+  - type: paper
+    title: 'Ultrafast Electron Transfer from CuInS2 Quantum Dots to a Molecular Catalyst for Hydrogen Production'
+    authors: [bagnall-2024]
+    year: 2024
+    doi: 10.1021/acscatal.3c06216
+    role: primary
+  - type: paper
+    title: 'Direct time-resolved observation of surface-bound carbon dioxide radical anions on metallic nanocatalysts'
+    authors: [jiang-zhiwen-2023]
+    year: 2023
+    doi: 10.1038/s41467-023-42936-6
+    role: primary
+  - type: paper
+    title: 'Unraveling the Ultrafast Photochemical Dynamics of Nitrobenzene in Aqueous Solution'
+    authors: [lau-nicholas-2024]
+    year: 2024
+    doi: 10.1021/jacs.3c13826
+    role: primary
+---
+
+**Ultrafast spectroscopy** uses femtosecond-to-picosecond optical pulses to resolve chemical events on the timescales at which bonds actually move. A pump pulse prepares the system in a non-equilibrium state — a vibrationally excited molecule, a photogenerated charge carrier, an open-shell intermediate — and a delayed probe pulse interrogates how that state evolves in time. The technique converts equilibrium quantities (rate constants, quantum yields, branching ratios) into trajectories one can watch directly, and it has reorganised photochemistry, photocatalysis, and condensed-phase reaction dynamics around questions that only make sense on the femtosecond timescale: which excited state is populated by absorption, how fast does it relax, through which conical intersection, and what fraction of trajectories survive each branching point. Methodological progress now organises around four threads: *quantum-state-resolved observation* of the specific intermediate (triplet, radical anion, hot carrier) that a mechanism predicts; *single-emitter measurements* that escape the averaging of bulk ensembles; *operando probes* that watch dynamics inside a working catalyst rather than in a clean photophysics cuvette; and *aqueous-phase femtosecond chemistry* of molecules whose photolysis matters for atmospheric and biological photoprocesses.
+
+## Catching the intermediate the mechanism predicts
+
+A long-standing weakness of mechanistic photochemistry was that competing cycles often fit the same product distribution. Ultrafast spectroscopy resolves the ambiguity by directly observing the proposed intermediate. *Zähringer et al.* (2023) apply transient absorption to **energy-transfer catalysis of alkenylboronate isomerisation** with a thioxanthone sensitiser and capture the triplet state of the substrate as a discrete intermediate, settling the question of whether the reaction proceeds through energy transfer (a triplet manifold) or single-electron transfer (a radical-ion manifold). The methodological pattern — propose a specific spectroscopic signature, find it in the time-resolved spectra, and rule out the competing mechanism — has become a standard validation step for new photocatalytic cycles. *Lau et al.* (2024) apply the same approach to a much older puzzle, the **ultrafast photochemistry of nitrobenzene in aqueous solution**: by tracking the decay of the initially excited state and the appearance of internal-conversion products, they reconstruct the branching between competing relaxation pathways on the sub-picosecond timescale, where simple yield measurements collapse all branches into one number. The result both clarifies a specific molecule and serves as a template for unravelling the photochemistry of nitroaromatic pollutants in water.
+
+## Single-emitter and operando measurements
+
+Bulk ultrafast measurements average over heterogeneous ensembles; single-emitter measurements remove that averaging at the cost of much harder experimental geometry. *Feld et al.* (2024) **quantify Förster resonance energy transfer from single perovskite quantum dots to molecular dyes**, extracting transfer efficiencies one nanoassembly at a time and showing that the ensemble-averaged number hides a wide distribution of donor–acceptor geometries. The same approach generalises to any donor–acceptor pair in which a single emitter can be isolated and triggered, and it gives a methodological route to test FRET-based catalyst designs at the granularity of individual particles rather than at the granularity of a sample. *Bagnall et al.* (2024) push the technique in the operando direction, using **ultrafast transient absorption to track electron transfer from CuInS2 quantum dots to a molecular hydrogen-evolution catalyst** inside the working photocatalytic system. The measurement turns a question previously answered with bulk turnover numbers — "is the rate-limiting step electron injection or catalyst turnover?" — into a direct kinetic measurement, and it identifies which interfacial step needs engineering for further improvement.
+
+## Catching short-lived radicals on catalyst surfaces
+
+Heterogeneous photocatalysis has been particularly resistant to mechanistic resolution because the productive intermediates live on a surface rather than in solution, where conventional spectroscopy has lower sensitivity. *Jiang et al.* (2023) achieve **direct time-resolved observation of surface-bound CO2 radical anions on metallic nanocatalysts** during photocatalytic CO2 reduction, using a transient absorption geometry tuned for surface sensitivity. The result confirms a long-postulated intermediate of the CO2-reduction cycle and quantifies its lifetime on the catalyst surface, which had previously been inferred only from product yields and isotope-labelling experiments. The work fits a broader methodological pattern visible across all four papers: identify the mechanistic intermediate predicted by a proposed cycle, design an ultrafast spectroscopy that can see it, and use the observation to upgrade a kinetic model into a microscopic one. Open methodological frontiers include extending these probes into the **attosecond regime** (where electronic motion itself can be resolved), pushing **X-ray transient absorption** to give element-specific snapshots in solution, and integrating ultrafast measurements with single-molecule electrochemistry so that a single reactive event can be watched and electrically gated at once.

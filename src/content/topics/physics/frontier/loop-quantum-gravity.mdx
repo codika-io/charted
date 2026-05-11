@@ -1,0 +1,71 @@
+---
+title: Loop Quantum Gravity
+description: A background-independent, non-perturbative canonical quantisation of gravity in which spacetime geometry is built from discrete spin-network states, with effective and spinfoam formulations connecting it to black-hole physics, cosmology, and observation.
+parent: physics/frontier
+order: 4
+color: '#f59e0b'
+difficulty: advanced
+prerequisites:
+  - physics/frontier/string-theory-and-quantum-gravity
+  - physics/modern-and-quantum/general-relativity
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-11'
+reviewTier: frontier
+sources:
+  - type: paper
+    title: 'Primordial regular black holes as all the dark matter. II. Non-time-radial-symmetric and loop quantum gravity-inspired metrics'
+    authors: [calza-2025]
+    year: 2025
+    doi: 10.1103/physrevd.111.024010
+    role: primary
+  - type: paper
+    title: "Status of Birkhoff's theorem in the polymerized semiclassical regime of loop quantum gravity"
+    authors: [cafaro-2024]
+    year: 2024
+    doi: 10.1103/physrevd.110.024072
+    role: primary
+  - type: paper
+    title: 'Spacetime geometry from canonical spherical gravity'
+    authors: [alonso-bardaji-2024a]
+    year: 2024
+    doi: 10.1103/physrevd.109.044065
+    role: primary
+  - type: paper
+    title: 'Shell-crossings and shock formation during gravitational collapse in effective loop quantum gravity'
+    authors: [fazzini-2024]
+    year: 2024
+    doi: 10.1103/physrevd.109.084052
+    role: primary
+  - type: paper
+    title: 'Complex critical points in Lorentzian spinfoam quantum gravity: Four-simplex amplitude and effective dynamics'
+    authors: [han-muxin-2023]
+    year: 2023
+    doi: 10.1103/physrevd.108.026010
+    role: primary
+  - type: paper
+    title: 'Generalized Symmetries for Generalized Gravitons'
+    authors: [benedetti-2023]
+    year: 2023
+    doi: 10.1103/physrevlett.131.111603
+    role: supporting
+---
+
+**Loop quantum gravity (LQG)** is a non-perturbative, background-independent canonical quantisation of general relativity. The phase space is reformulated in terms of an SU(2)-valued connection and a densitised triad, and the quantisation produces a Hilbert space spanned by **spin networks** — graphs whose edges carry SU(2) labels and whose nodes encode intertwiners. Geometric operators (areas, volumes) have discrete spectra in this Hilbert space, and the resulting picture is one of quantised, polymeric spacetime. The programme organises around four axes: *fundamental dynamics* (the Hamiltonian constraint, the spinfoam path integral, anomaly-free quantisation), *effective black holes* (singularity resolution from polymerised quantisation), *cosmology and phenomenology* (loop quantum cosmology, observable signatures), and *symmetries and structure* (generalised symmetries, dualities, swampland-style consistency constraints). Most modern methodology papers attack one of these axes — typically by upgrading the spherically symmetric or cosmological sectors that admit explicit calculation.
+
+## Singularity resolution and covariant spherical gravity
+
+A long-standing tension in effective LQG is that the polymerisation procedure breaks the four-dimensional covariance of the underlying classical theory: one chooses a foliation, polymerises the Hamiltonian constraint, and the resulting effective spacetime may fail to admit a consistent four-dimensional metric. *Alonso-Bardaji et al.* (2024) derive **the most general family of Hamiltonian constraints** for spherical vacuum gravity that is quadratic in first-order and linear in second-order triad derivatives, classifying anomaly-free polymerisations and identifying which produce a covariant effective metric. The construction recasts the polymerisation procedure as a constructive search inside a finite-dimensional space of ansätze, replacing case-by-case proposals with a systematic taxonomy. *Cafaro and Lewandowski* (2024) then examine **Birkhoff's theorem** in the polymerised semiclassical regime: starting from the general spherically symmetric polymerised constraints, they ask which models preserve the classical result that the vacuum spherical solution is static. Together the two papers redraw the boundary between effective LQG models that inherit the rigidity of classical vacuum spherical gravity and those that do not.
+
+## Collapse dynamics and effective black holes
+
+The effective-LQG picture of gravitational collapse predicts that matter compressed to Planck densities bounces and re-expands, replacing the classical singularity with a quantum-corrected non-singular core. *Fazzini and Husain* (2024) study **Lemaître-Tolman-Bondi dust collapse** in effective LQG and show that, even though the central singularity is resolved, generic initial data leads to **shell-crossings and shock formation** at intermediate radii. Their result is a clean methodological correction to the naïve singularity-resolution narrative: removing the central singularity does not remove the breakdown of the dust description elsewhere in the collapsing geometry, and a hydrodynamic shock treatment is required for any honest evolution. The work motivates a class of effective frameworks in which shocks, rather than singularities, control the late-time geometry. *Calzà et al.* (2025) push the phenomenology forward by studying **primordial regular black holes** as a dark-matter candidate using non-time-radial-symmetric and LQG-inspired metrics, mapping the parameter space in which such objects evade Hawking evaporation constraints and reproduce the full observed dark-matter abundance. The methodology — taking the effective LQG metric seriously as a candidate dark-matter object and propagating it through the standard cosmological abundance arguments — bridges quantum-gravity-motivated geometries to observational cosmology.
+
+## Spinfoam dynamics and complex critical points
+
+The covariant counterpart of canonical LQG is the **spinfoam path integral**, whose vertex amplitudes are computed in the **Engle-Pereira-Rovelli-Livine (EPRL) model**. The semiclassical regime is dominated by stationary-phase critical points, which classically realise discrete general relativity on a simplicial complex. *Han et al.* (2023) extend the semiclassical analysis to **complex critical points** in the Lorentzian four-simplex amplitude in the large-j regime, showing that they dominate when the boundary data are slightly off the real critical surface and that they account for the effective dynamics on a double-Δ³ triangulation. The result clarifies which configurations the spinfoam path integral actually sums over, beyond the textbook real critical points, and is a step toward a quantitative spinfoam phenomenology.
+
+## Generalised symmetries and the structure of perturbative gravity
+
+Approaching quantum gravity from the structural side rather than from quantisation, *Benedetti et al.* (2023) construct the full set of **generalised symmetries for linearised Einstein gravity in arbitrary dimensions**, exploiting the requirement that generalised symmetries appear in dual pairs. The classification produces conserved charges that are invisible in the standard Lagrangian formulation but that constrain the spectrum of allowed perturbative gravitons and the operators that source them. The result is methodologically aligned with the swampland and consistency-condition programmes in string theory: it identifies structural constraints on quantum gravity that any candidate non-perturbative completion — string-theoretic, loop-quantum-gravity-based, or otherwise — must respect. Open methodological questions cut across the four axes: how to extend the covariant spherical-gravity taxonomy to rotating effective black holes; how to evolve dust collapse beyond shell-crossing into the shock regime in a way that connects to spinfoam-level dynamics; whether complex critical points in the spinfoam path integral admit a continuum-limit interpretation matching effective field theory expectations; and whether generalised-symmetry constraints can be sharp enough to discriminate between competing quantum-gravity programmes.

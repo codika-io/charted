@@ -1,0 +1,64 @@
+---
+title: Differential Privacy
+description: A mathematical framework for releasing aggregate information about a dataset while bounding what an adversary can learn about any single record, by perturbing computations with carefully calibrated randomness.
+parent: computer-science/theoretical-foundations
+order: 6
+color: '#3b82f6'
+difficulty: advanced
+prerequisites:
+  - computer-science/theoretical-foundations
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-11'
+reviewTier: frontier
+sources:
+  - type: paper
+    title: 'Reconstructing Individual Data Points in Federated Learning Hardened with Differential Privacy and Secure Aggregation'
+    authors: [boenisch-2023]
+    year: 2023
+    doi: 10.1109/eurosp57164.2023.00023
+    role: primary
+  - type: paper
+    title: 'ReuseKNN: Neighborhood Reuse for Differentially Private KNN-Based Recommendations'
+    authors: [muellner-2023]
+    year: 2023
+    doi: 10.1145/3608481
+    role: primary
+  - type: paper
+    title: 'PrivLava: Synthesizing Relational Data with Foreign Keys under Differential Privacy'
+    authors: [cai-kuntai-2023]
+    year: 2023
+    doi: 10.1145/3589287
+    role: primary
+  - type: paper
+    title: 'Collaboration in Federated Learning With Differential Privacy: A Stackelberg Game Analysis'
+    authors: [huang-guangjing-2024]
+    year: 2024
+    doi: 10.1109/tpds.2024.3354713
+    role: supporting
+  - type: paper
+    title: 'PrivateRec: Differentially Private Model Training and Online Serving for Federated News Recommendation'
+    authors: [liu-ruixuan-2023]
+    year: 2023
+    doi: 10.1145/3580305.3599889
+    role: supporting
+---
+
+**Differential privacy (DP)** is a quantitative definition of privacy for randomised algorithms. A mechanism $\mathcal{M}$ is $(\varepsilon,\delta)$-differentially private if, for any two datasets differing in a single record and any output set $S$, $\Pr[\mathcal{M} \in S]$ on one dataset is at most $e^{\varepsilon}$ times the same probability on the neighbour, plus an additive slack $\delta$. The definition assumes no bound on an adversary's auxiliary knowledge: even an attacker who already knows every other record cannot reliably tell whether a given person was in the dataset. Useful answers always leak some information, so a DP mechanism is a calibration between the noise injected and the **privacy budget** $\varepsilon$ spent. Methodological work in the field organises around four axes: *mechanism design* (noise distribution and query class), *composition* (spending $\varepsilon$ across many queries), *threat model* (central, local, shuffle, or distributed with secure aggregation), and *utility geometry* (which data structures admit accurate DP releases).
+
+## Threat models and the failure modes of distributed DP
+
+The subtlest methodological question in DP is not how much noise to add but where the privacy boundary sits. *Boenisch et al.* (2023) interrogate the popular pipeline that combines **federated learning, central DP, and secure aggregation** and is widely advertised as privacy-preserving. They show the composition is brittle: a malicious server controlling model initialisation and aggregation can **reconstruct individual training points** even though it only observes a sum of clipped, noised client updates. Secure aggregation hides individual updates but not the *function* the server computes on them; by adversarially shaping the global model between rounds, the server engineers aggregations that collapse onto a single client. The paper reframes DP-FL as a problem of *protocol design*: the right $\varepsilon$ accounting is meaningless if the threat model under which it was proved does not match the deployment.
+
+## Mechanism design for query classes with structured utility
+
+DP mechanisms have to respect the geometry of the query. For k-nearest-neighbour recommendations, naïvely perturbing every neighbour destroys utility because the relevant signal lives on a few rated items. *Müllner et al.* (2023) introduce **ReuseKNN**, a mechanism in which a neighbour whose ratings have already been privacy-charged for an earlier recommendation can be *reused* for new recommendations at no additional cost, because the budget spent on them does not regenerate. The contribution is a refined accounting of *who* pays the privacy charge: a small core of high-value neighbours absorbs most of the budget while the long tail contributes anonymously, raising the accuracy/privacy frontier on MovieLens and similar benchmarks. The pattern generalises: modern DP utility gains come less from new noise distributions than from *re-deciding which entities are sensitive enough to need their own budget*.
+
+## Synthetic data and the curse of relational structure
+
+Releasing DP *synthetic data* lets downstream analysts run arbitrary queries against a fake dataset without further privacy spend. The methodology works for single tables but breaks on **relational databases with foreign keys**, where the join structure exposes correlations that any per-table mechanism shatters. *Cai et al.* (2023) propose **PrivLava**, which models a database as a Bayesian network over foreign-key paths and synthesises tables jointly so referential integrity and cross-table correlations survive the noise. The technical novelty is a budget split across the schema graph that respects the recursive dependence of child tables on parent keys. PrivLava is one of the few DP synthetic-data methods producing relational outputs an analyst can join, and it makes the case that **schema awareness is a first-class concern in DP mechanism design**, not an application-layer afterthought.
+
+## Incentives, composition, and the social structure of private learning
+
+Even with mechanisms in hand, multi-party DP raises a coordination problem: clients must voluntarily contribute, and stricter privacy is more attractive to clients but less attractive to the server who needs an accurate model. *Huang et al.* (2024) formalise this tension as a **Stackelberg game** between a server that sets per-round payments and clients who choose their privacy levels, and they characterise the equilibrium contracts that maximise accuracy under a fixed total budget. The result is *mechanism design above the DP mechanism*: even a perfect noise calibration fails if the protocol's incentives push clients to drop out or over-publish. *Liu et al.* (2023) raise a complementary issue in **PrivateRec**, a federated news-recommendation system that must remain DP **both during training and during online serving**, since each user query also leaks information about the receiving client. They show a naïve composition of central-DP training with local-DP serving wastes most of the joint budget; their solution shares state across the two stages so one noise discharge supports both. Together with the threads above, the methodological frontier of DP comes down to: composing budgets across pipeline stages, designing protocols whose threat model matches their accounting, and choosing data structures and incentives so the privacy guarantee survives contact with a real deployment.

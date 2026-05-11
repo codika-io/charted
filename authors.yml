@@ -658,3 +658,2121 @@ yuan-wei-2023:
   contact:
     scholar: ~
     email: ~
+
+# ── wave-04 additions ──
+
+dudeja-2023:
+  name: Rishabh Dudeja
+  orcid: 0000-0002-7974-4322
+  affiliation: Harvard University
+  affiliation_country: US
+  openalex: A5061942819
+  h_index: 7
+  contact:
+    scholar: ~
+    email: ~
+
+cipolloni-2024:
+  name: Giorgio Cipolloni
+  orcid: 0000-0002-4901-7992
+  affiliation: Princeton University
+  affiliation_country: US
+  openalex: A5063800561
+  h_index: 12
+  contact:
+    scholar: ~
+    email: ~
+
+cipolloni-2023:
+  name: Giorgio Cipolloni
+  orcid: 0000-0002-4901-7992
+  affiliation: Princeton University
+  affiliation_country: US
+  openalex: A5063800561
+  h_index: 12
+  contact:
+    scholar: ~
+    email: ~
+
+akara-pipattana-2023:
+  name: Pawat Akara-pipattana
+  orcid: ~
+  affiliation: Politecnico di Torino
+  affiliation_country: IT
+  openalex: A5044385266
+  h_index: 2
+  contact:
+    scholar: ~
+    email: ~
+
+gerbino-2024:
+  name: Federico Gerbino
+  orcid: 0009-0008-1485-3764
+  affiliation: Centre National de la Recherche Scientifique
+  affiliation_country: FR
+  openalex: A5092573897
+  h_index: 3
+  contact:
+    scholar: ~
+    email: ~
+
+bhattacharjee-2025:
+  name: Budhaditya Bhattacharjee
+  orcid: 0000-0003-1982-1346
+  affiliation: Institute for Basic Science
+  affiliation_country: KR
+  openalex: A5046467900
+  h_index: 6
+  contact:
+    scholar: ~
+    email: ~
+
+frusque-2024:
+  name: Gaëtan Frusque
+  orcid: 0000-0001-5833-4255
+  affiliation: École Polytechnique Fédérale de Lausanne
+  affiliation_country: CH
+  openalex: A5034284403
+  h_index: 10
+  contact:
+    scholar: ~
+    email: ~
+
+rho-2023:
+  name: Daniel Rho
+  orcid: 0000-0002-8568-9489
+  affiliation: University of North Carolina at Chapel Hill
+  affiliation_country: US
+  openalex: A5059784120
+  h_index: 7
+  contact:
+    scholar: ~
+    email: ~
+
+ahmed-shahid-2023:
+  name: Shahid Ahmed
+  orcid: 0000-0002-6763-7917
+  affiliation: Central University of Haryana
+  affiliation_country: IN
+  openalex: A5102711450
+  h_index: 5
+  contact:
+    scholar: ~
+    email: ~
+
+mulimani-2024:
+  name: Mallanagoud Mulimani
+  orcid: 0000-0003-0643-7396
+  affiliation: Bangalore University
+  affiliation_country: IN
+  openalex: A5076750721
+  h_index: 9
+  contact:
+    scholar: ~
+    email: ~
+
+parimala-geetha-2023:
+  name: K. Parimala Geetha
+  orcid: ~
+  affiliation: Vellore Institute of Technology University
+  affiliation_country: IN
+  openalex: A5101697453
+  h_index: 3
+  contact:
+    scholar: ~
+    email: ~
+
+tan-aikrui-2023:
+  name: Aik Rui Tan
+  orcid: 0000-0001-6731-5531
+  affiliation: Massachusetts Institute of Technology
+  affiliation_country: US
+  openalex: A5043932662
+  h_index: 6
+  contact:
+    scholar: ~
+    email: ~
+
+zou-zongren-2024:
+  name: Zongren Zou
+  orcid: 0009-0000-0095-3539
+  affiliation: ~
+  affiliation_country: ~
+  openalex: A5021341531
+  h_index: 14
+  contact:
+    scholar: ~
+    email: ~
+
+sluijterman-2024:
+  name: Laurens Sluijterman
+  orcid: 0000-0001-6964-6481
+  affiliation: Radboud University Nijmegen
+  affiliation_country: NL
+  openalex: A5067098078
+  h_index: 5
+  contact:
+    scholar: ~
+    email: ~
+
+singh-geethen-2024:
+  name: Geethen Singh
+  orcid: ~
+  affiliation: Stellenbosch University
+  affiliation_country: ZA
+  openalex: A5067375127
+  h_index: 4
+  contact:
+    scholar: ~
+    email: ~
+
+buddenkotte-2023:
+  name: Thomas Buddenkotte
+  orcid: 0000-0003-4872-4246
+  affiliation: Universität Hamburg
+  affiliation_country: DE
+  openalex: A5078167377
+  h_index: 7
+  contact:
+    scholar: ~
+    email: ~
+
+shen-maohao-2023:
+  name: Maohao Shen
+  orcid: ~
+  affiliation: Moscow Institute of Thermal Technology
+  affiliation_country: RU
+  openalex: A5068080887
+  h_index: 4
+  contact:
+    scholar: ~
+    email: ~
+
+feng-berthy-2023:
+  name: Berthy T. Feng
+  orcid: 0000-0002-1843-2165
+  affiliation: California Institute of Technology
+  affiliation_country: US
+  openalex: A5003656942
+  h_index: 8
+  contact:
+    scholar: ~
+    email: ~
+
+bastek-2023:
+  name: Jan-Hendrik Bastek
+  orcid: 0000-0003-3343-1977
+  affiliation: ETH Zurich
+  affiliation_country: CH
+  openalex: A5078828852
+  h_index: 5
+  contact:
+    scholar: ~
+    email: ~
+
+sui-xiaomeng-2024:
+  name: Xiaomeng Sui
+  orcid: 0000-0001-9010-0299
+  affiliation: University of Cambridge
+  affiliation_country: GB
+  openalex: A5101945506
+  h_index: 10
+  contact:
+    scholar: ~
+    email: ~
+
+kapoor-2023:
+  name: Taniya Kapoor
+  orcid: 0000-0002-6361-446X
+  affiliation: Delft University of Technology
+  affiliation_country: NL
+  openalex: A5082424531
+  h_index: 6
+  contact:
+    scholar: ~
+    email: ~
+
+xu-shengfeng-2023:
+  name: Shengfeng Xu
+  orcid: 0000-0003-2886-7864
+  affiliation: Institute of Mechanics
+  affiliation_country: CN
+  openalex: A5071389458
+  h_index: 7
+  contact:
+    scholar: ~
+    email: ~
+
+ferroni-2024a:
+  name: Luis Ferroni
+  orcid: 0000-0001-5181-7932
+  affiliation: KTH Royal Institute of Technology
+  affiliation_country: SE
+  openalex: A5062037243
+  h_index: 8
+  contact:
+    scholar: ~
+    email: ~
+
+ferroni-2024b:
+  name: Luis Ferroni
+  orcid: 0000-0001-5181-7932
+  affiliation: KTH Royal Institute of Technology
+  affiliation_country: SE
+  openalex: A5062037243
+  h_index: 8
+  contact:
+    scholar: ~
+    email: ~
+
+viswanathan-2023:
+  name: Vignesh Viswanathan
+  orcid: 0000-0002-6261-6228
+  affiliation: University of Massachusetts Amherst
+  affiliation_country: US
+  openalex: A5085767322
+  h_index: 2
+  contact:
+    scholar: ~
+    email: ~
+
+salem-2023:
+  name: Jad Salem
+  orcid: 0000-0003-4480-4601
+  affiliation: United States Naval Academy
+  affiliation_country: US
+  openalex: A5040464571
+  h_index: 3
+  contact:
+    scholar: ~
+    email: ~
+
+bendokat-2024:
+  name: Thomas Bendokat
+  orcid: 0000-0002-0671-6291
+  affiliation: University of Southern Denmark
+  affiliation_country: DK
+  openalex: A5032842879
+  h_index: 5
+  contact:
+    scholar: ~
+    email: ~
+
+montaut-2024:
+  name: Louis Montaut
+  orcid: 0000-0002-8399-7533
+  affiliation: Czech Technical University in Prague
+  affiliation_country: CZ
+  openalex: A5079202056
+  h_index: 5
+  contact:
+    scholar: ~
+    email: ~
+
+maruani-2023:
+  name: Nissim Maruani
+  orcid: 0009-0005-0866-7058
+  affiliation: Institut national de recherche en sciences et technologies du numerique
+  affiliation_country: FR
+  openalex: A5092629676
+  h_index: 3
+  contact:
+    scholar: ~
+    email: ~
+
+giron-2023:
+  name: Anna P. Giron
+  orcid: ~
+  affiliation: University of Tübingen
+  affiliation_country: DE
+  openalex: A5062415888
+  h_index: 3
+  contact:
+    scholar: ~
+    email: ~
+
+narum-2024:
+  name: Benjamin S. Narum
+  orcid: 0000-0002-0939-2536
+  affiliation: Norwegian School of Economics
+  affiliation_country: NO
+  openalex: A5091984008
+  h_index: 2
+  contact:
+    scholar: ~
+    email: ~
+
+gentinetta-2023:
+  name: Gian Gentinetta
+  orcid: 0000-0002-5891-3289
+  affiliation: Czech Academy of Sciences, Institute of Physics
+  affiliation_country: CZ
+  openalex: A5051341635
+  h_index: 4
+  contact:
+    scholar: ~
+    email: ~
+
+le-thinh-2024:
+  name: Thinh Viet Le
+  orcid: 0009-0008-7731-6317
+  affiliation: Purdue University West Lafayette
+  affiliation_country: US
+  openalex: A5031733766
+  h_index: 2
+  contact:
+    scholar: ~
+    email: ~
+
+fadikar-2023:
+  name: Arindam Fadikar
+  orcid: 0000-0001-7396-0350
+  affiliation: Argonne National Laboratory
+  affiliation_country: US
+  openalex: A5057409468
+  h_index: 8
+  contact:
+    scholar: ~
+    email: ~
+
+paine-2023:
+  name: Annie E. Paine
+  orcid: 0000-0003-4573-5126
+  affiliation: University of Exeter
+  affiliation_country: GB
+  openalex: A5044192093
+  h_index: 6
+  contact:
+    scholar: ~
+    email: ~
+
+zou-jing-2023:
+  name: Jing Zou
+  orcid: 0000-0003-3126-1804
+  affiliation: Guizhou University
+  affiliation_country: CN
+  openalex: A5101547785
+  h_index: 3
+  contact:
+    scholar: ~
+    email: ~
+
+du-buisson-2023:
+  name: Johan du Buisson
+  orcid: 0000-0003-4241-4554
+  affiliation: Stellenbosch University
+  affiliation_country: ZA
+  openalex: A5083844160
+  h_index: 6
+  contact:
+    scholar: ~
+    email: ~
+
+gaudlitz-2023:
+  name: Sascha Gaudlitz
+  orcid: 0000-0003-0121-3764
+  affiliation: Humboldt-Universität zu Berlin
+  affiliation_country: DE
+  openalex: A5027818678
+  h_index: 1
+  contact:
+    scholar: ~
+    email: ~
+
+kapllani-2023:
+  name: Lorenc Kapllani
+  orcid: 0000-0002-4521-0744
+  affiliation: University of Wuppertal
+  affiliation_country: DE
+  openalex: A5069832686
+  h_index: 2
+  contact:
+    scholar: ~
+    email: ~
+
+jung-jeahan-2024:
+  name: Jeahan Jung
+  orcid: ~
+  affiliation: Pohang University of Science and Technology
+  affiliation_country: KR
+  openalex: A5001704071
+  h_index: 2
+  contact:
+    scholar: ~
+    email: ~
+
+lim-2024:
+  name: Sunhyuk Lim
+  orcid: 0000-0002-2694-3512
+  affiliation: Sungkyunkwan University
+  affiliation_country: KR
+  openalex: A5017448265
+  h_index: 4
+  contact:
+    scholar: ~
+    email: ~
+
+el-yaagoubi-2023:
+  name: Anass B. El-Yaagoubi
+  orcid: 0000-0002-8886-0587
+  affiliation: King Abdullah University of Science and Technology
+  affiliation_country: SA
+  openalex: A5092172043
+  h_index: 2
+  contact:
+    scholar: ~
+    email: ~
+
+cottrell-2023:
+  name: Sean Cottrell
+  orcid: ~
+  affiliation: Michigan State University
+  affiliation_country: US
+  openalex: A5092160672
+  h_index: 3
+  contact:
+    scholar: ~
+    email: ~
+
+unger-2024:
+  name: Florian Unger
+  orcid: 0000-0003-3371-0335
+  affiliation: Graz University of Technology
+  affiliation_country: AT
+  openalex: A5003880446
+  h_index: 2
+  contact:
+    scholar: ~
+    email: ~
+
+ballester-2024:
+  name: Rubén Ballester
+  orcid: ~
+  affiliation: Centre de Recerca Matemàtica
+  affiliation_country: ES
+  openalex: A5005834702
+  h_index: 2
+  contact:
+    scholar: ~
+    email: ~
+
+# ── wave-04 phase-2 additions ──
+
+gupta-riddhi-2024:
+  name: Riddhi Swaroop Gupta
+  orcid: 0000-0002-8587-9979
+  affiliation: IBM Research - Almaden
+  affiliation_country: US
+  openalex: A5047870624
+  h_index: 5
+  contact:
+    scholar: ~
+    email: ~
+
+putterman-2025:
+  name: Harald Putterman
+  orcid: 0000-0002-5841-181X
+  affiliation: Amazon (United States)
+  affiliation_country: US
+  openalex: A5027882429
+  h_index: 7
+  contact:
+    scholar: ~
+    email: ~
+
+postler-2024:
+  name: Lukas Postler
+  orcid: ~
+  affiliation: Universität Innsbruck
+  affiliation_country: AT
+  openalex: A5023853428
+  h_index: 11
+  contact:
+    scholar: ~
+    email: ~
+
+jandura-2023:
+  name: Sven Jandura
+  orcid: 0000-0003-0282-7637
+  affiliation: Centre National de la Recherche Scientifique
+  affiliation_country: FR
+  openalex: A5079409267
+  h_index: 8
+  contact:
+    scholar: ~
+    email: ~
+
+marques-2023:
+  name: Jorge Marques
+  orcid: 0000-0001-9939-051X
+  affiliation: QuTech
+  affiliation_country: NL
+  openalex: A5079484229
+  h_index: 7
+  contact:
+    scholar: ~
+    email: ~
+
+vittal-2023:
+  name: Suhas Vittal
+  orcid: 0000-0003-0236-701X
+  affiliation: Georgia Institute of Technology
+  affiliation_country: US
+  openalex: A5002716031
+  h_index: 5
+  contact:
+    scholar: ~
+    email: ~
+
+sang-2024:
+  name: Shengqi Sang
+  orcid: 0000-0002-5815-4075
+  affiliation: University of Waterloo
+  affiliation_country: CA
+  openalex: A5051566560
+  h_index: 9
+  contact:
+    scholar: ~
+    email: ~
+
+mohoney-2023:
+  name: Jason Mohoney
+  orcid: 0000-0001-5497-0481
+  affiliation: University of Wisconsin–Madison
+  affiliation_country: US
+  openalex: A5041665675
+  h_index: 3
+  contact:
+    scholar: ~
+    email: ~
+
+tian-yao-2023:
+  name: Yao Tian
+  orcid: ~
+  affiliation: Hong Kong University of Science and Technology
+  affiliation_country: HK
+  openalex: A5039607869
+  h_index: 6
+  contact:
+    scholar: ~
+    email: ~
+
+zuo-2023:
+  name: Chaoji Zuo
+  orcid: 0000-0001-9869-5602
+  affiliation: Rutgers, The State University of New Jersey
+  affiliation_country: US
+  openalex: A5038546373
+  h_index: 4
+  contact:
+    scholar: ~
+    email: ~
+
+zuo-2024:
+  name: Chaoji Zuo
+  orcid: 0000-0001-9869-5602
+  affiliation: Rutgers, The State University of New Jersey
+  affiliation_country: US
+  openalex: A5038546373
+  h_index: 4
+  contact:
+    scholar: ~
+    email: ~
+
+wei-jiuqi-2024:
+  name: Jiuqi Wei
+  orcid: 0000-0001-7300-4246
+  affiliation: Institute of Computing Technology
+  affiliation_country: CN
+  openalex: A5111214623
+  h_index: 4
+  contact:
+    scholar: ~
+    email: ~
+
+zhang-xinyi-2024:
+  name: Xinyi Zhang
+  orcid: 0000-0003-3085-4878
+  affiliation: Hong Kong Baptist University
+  affiliation_country: HK
+  openalex: A5068147079
+  h_index: 1
+  contact:
+    scholar: ~
+    email: ~
+
+jia-wenzhe-2023:
+  name: Wenzhe Jia
+  orcid: ~
+  affiliation: Ocean University of China
+  affiliation_country: CN
+  openalex: A5048636177
+  h_index: 4
+  contact:
+    scholar: ~
+    email: ~
+
+jin-haian-2023:
+  name: Haian Jin
+  orcid: ~
+  affiliation: Zhejiang University
+  affiliation_country: CN
+  openalex: A5044074389
+  h_index: 5
+  contact:
+    scholar: ~
+    email: ~
+
+wu-haoqian-2023:
+  name: Haoqian Wu
+  orcid: 0000-0003-1035-1499
+  affiliation: NetEase
+  affiliation_country: CN
+  openalex: A5102745411
+  h_index: 11
+  contact:
+    scholar: ~
+    email: ~
+
+zeltner-2024:
+  name: Tizian Zeltner
+  orcid: 0000-0002-6434-465X
+  affiliation: NVIDIA
+  affiliation_country: US
+  openalex: A5010255059
+  h_index: 8
+  contact:
+    scholar: ~
+    email: ~
+
+balint-2023:
+  name: Martin Bálint
+  orcid: 0000-0001-6689-4770
+  affiliation: Max Planck Institute for Informatics
+  affiliation_country: DE
+  openalex: A5092590318
+  h_index: 2
+  contact:
+    scholar: ~
+    email: ~
+
+bati-2023:
+  name: Mégane Bati
+  orcid: 0009-0005-1954-2744
+  affiliation: Centre National de la Recherche Scientifique
+  affiliation_country: FR
+  openalex: A5071262927
+  h_index: 4
+  contact:
+    scholar: ~
+    email: ~
+
+zhu-junqiu-2023:
+  name: Junqiu Zhu
+  orcid: ~
+  affiliation: University of California, Santa Barbara
+  affiliation_country: US
+  openalex: A5059614767
+  h_index: 5
+  contact:
+    scholar: ~
+    email: ~
+
+li-chenhao-2023:
+  name: Chenhao Li
+  orcid: 0009-0005-8903-0955
+  affiliation: Osaka University
+  affiliation_country: JP
+  openalex: A5120055130
+  h_index: 8
+  contact:
+    scholar: ~
+    email: ~
+
+trinh-2024:
+  name: Trieu H. Trinh
+  orcid: 0000-0003-3597-6073
+  affiliation: Google (United States)
+  affiliation_country: US
+  openalex: A5016593310
+  h_index: 7
+  contact:
+    scholar: ~
+    email: ~
+
+first-2023:
+  name: Emily First
+  orcid: 0000-0002-2896-2928
+  affiliation: University of Massachusetts Amherst
+  affiliation_country: US
+  openalex: A5102852428
+  h_index: 5
+  contact:
+    scholar: ~
+    email: ~
+
+adjedj-2024:
+  name: Arthur Adjedj
+  orcid: ~
+  affiliation: Université Paris-Saclay
+  affiliation_country: FR
+  openalex: A5093047865
+  h_index: 1
+  contact:
+    scholar: ~
+    email: ~
+
+kuepper-2023:
+  name: Joel Kuepper
+  orcid: 0000-0002-0643-2440
+  affiliation: The University of Adelaide
+  affiliation_country: AU
+  openalex: A5005758241
+  h_index: 1
+  contact:
+    scholar: ~
+    email: ~
+
+kelkar-2023:
+  name: Mahimna Kelkar
+  orcid: 0009-0007-4268-4681
+  affiliation: Cornell University
+  affiliation_country: US
+  openalex: A5030879683
+  h_index: 8
+  contact:
+    scholar: ~
+    email: ~
+
+jalalzai-2023:
+  name: Mohammad M. Jalalzai
+  orcid: ~
+  affiliation: University of British Columbia
+  affiliation_country: CA
+  openalex: ~
+  h_index: 12
+  contact:
+    scholar: ~
+    email: ~
+
+sun-guangda-2023:
+  name: Guangda Sun
+  orcid: ~
+  affiliation: National University of Singapore
+  affiliation_country: SG
+  openalex: ~
+  h_index: 2
+  contact:
+    scholar: ~
+    email: ~
+
+xiang-zihang-2023:
+  name: Zihang Xiang
+  orcid: ~
+  affiliation: King Abdullah University of Science and Technology
+  affiliation_country: SA
+  openalex: ~
+  h_index: 10
+  contact:
+    scholar: ~
+    email: ~
+
+koushkbaghi-2024:
+  name: Sajad Koushkbaghi
+  orcid: ~
+  affiliation: RMIT University
+  affiliation_country: AU
+  openalex: ~
+  h_index: 2
+  contact:
+    scholar: ~
+    email: ~
+
+song-chahwan-2023:
+  name: Cha Hwan Song
+  orcid: ~
+  affiliation: National University of Singapore
+  affiliation_country: SG
+  openalex: ~
+  h_index: 5
+  contact:
+    scholar: ~
+    email: ~
+
+borraccini-2023:
+  name: Giacomo Borraccini
+  orcid: ~
+  affiliation: Politecnico di Torino
+  affiliation_country: IT
+  openalex: ~
+  h_index: 9
+  contact:
+    scholar: ~
+    email: ~
+
+jisi-2024:
+  name: Chandroth Jisi
+  orcid: ~
+  affiliation: Ajou University
+  affiliation_country: KR
+  openalex: ~
+  h_index: 2
+  contact:
+    scholar: ~
+    email: ~
+
+pathan-2023:
+  name: Md. Naimul Pathan
+  orcid: ~
+  affiliation: Green University of Bangladesh
+  affiliation_country: BD
+  openalex: ~
+  h_index: 3
+  contact:
+    scholar: ~
+    email: ~
+
+phu-2023:
+  name: Anh Tuan Phu
+  orcid: ~
+  affiliation: University of Adelaide
+  affiliation_country: AU
+  openalex: ~
+  h_index: 1
+  contact:
+    scholar: ~
+    email: ~
+
+boenisch-2023:
+  name: Franziska Boenisch
+  orcid: 0000-0002-2111-2234
+  affiliation: Vector Institute
+  affiliation_country: CA
+  openalex: A5039583147
+  h_index: 8
+  contact:
+    scholar: ~
+    email: ~
+
+muellner-2023:
+  name: Peter Müllner
+  orcid: 0000-0001-6581-1945
+  affiliation: Graz University of Technology
+  affiliation_country: AT
+  openalex: A5091484748
+  h_index: 5
+  contact:
+    scholar: ~
+    email: ~
+
+cai-kuntai-2023:
+  name: Kuntai Cai
+  orcid: 0009-0006-8278-716X
+  affiliation: National University of Singapore
+  affiliation_country: SG
+  openalex: A5039612701
+  h_index: 5
+  contact:
+    scholar: ~
+    email: ~
+
+huang-guangjing-2024:
+  name: Guangjing Huang
+  orcid: 0000-0002-1194-1274
+  affiliation: Sun Yat-sen University
+  affiliation_country: CN
+  openalex: A5054001028
+  h_index: 11
+  contact:
+    scholar: ~
+    email: ~
+
+liu-ruixuan-2023:
+  name: Ruixuan Liu
+  orcid: 0000-0002-0823-3760
+  affiliation: Renmin University of China
+  affiliation_country: CN
+  openalex: A5101507733
+  h_index: 10
+  contact:
+    scholar: ~
+    email: ~
+
+gong-2023:
+  name: Xiaoxun Gong
+  orcid: 0000-0002-6459-4288
+  affiliation: Peking University
+  affiliation_country: CN
+  openalex: A5101991608
+  h_index: 4
+  contact:
+    scholar: ~
+    email: ~
+
+qamar-2023:
+  name: Minaam Qamar
+  orcid: 0000-0002-3342-4307
+  affiliation: Ruhr University Bochum
+  affiliation_country: DE
+  openalex: A5065151746
+  h_index: 5
+  contact:
+    scholar: ~
+    email: ~
+
+alves-machado-filho-2024:
+  name: Manoel Alves Machado Filho
+  orcid: ~
+  affiliation: Linkoping University
+  affiliation_country: SE
+  openalex: A5062118461
+  h_index: 2
+  contact:
+    scholar: ~
+    email: ~
+
+moore-guy-2024:
+  name: Guy C. Moore
+  orcid: 0000-0002-8346-6871
+  affiliation: Lawrence Berkeley National Laboratory
+  affiliation_country: US
+  openalex: A5021670977
+  h_index: 3
+  contact:
+    scholar: ~
+    email: ~
+
+ih-2023:
+  name: Jegug Ih
+  orcid: 0000-0003-2775-653X
+  affiliation: University of Maryland, College Park
+  affiliation_country: US
+  openalex: A5001049193
+  h_index: 14
+  contact:
+    scholar: ~
+    email: ~
+
+brande-2024:
+  name: Jonathan Brande
+  orcid: 0000-0002-2072-6541
+  affiliation: University of Kansas
+  affiliation_country: US
+  openalex: A5042937433
+  h_index: 14
+  contact:
+    scholar: ~
+    email: ~
+
+innes-2023:
+  name: Hamish Innes
+  orcid: 0000-0001-5271-0635
+  affiliation: NOAA Oceanic and Atmospheric Research
+  affiliation_country: US
+  openalex: A5032481236
+  h_index: 7
+  contact:
+    scholar: ~
+    email: ~
+
+wardenier-2023:
+  name: Joost P. Wardenier
+  orcid: 0000-0003-3191-2486
+  affiliation: University of Oxford
+  affiliation_country: GB
+  openalex: A5084339602
+  h_index: 11
+  contact:
+    scholar: ~
+    email: ~
+
+castro-gonzalez-2024:
+  name: A. Castro-Gonzalez
+  orcid: 0000-0001-7439-3618
+  affiliation: Centro de Astrobiologia
+  affiliation_country: ES
+  openalex: A5043632149
+  h_index: 14
+  contact:
+    scholar: ~
+    email: ~
+
+dattilo-2023:
+  name: Anne Dattilo
+  orcid: 0000-0002-1092-2995
+  affiliation: University of California, Santa Cruz
+  affiliation_country: US
+  openalex: A5061670427
+  h_index: 7
+  contact:
+    scholar: ~
+    email: ~
+
+dong-zhiyu-2023:
+  name: Zhiyu Dong
+  orcid: 0000-0003-3979-914X
+  affiliation: Massachusetts Institute of Technology
+  affiliation_country: US
+  openalex: A5042106058
+  h_index: 12
+  contact:
+    scholar: ~
+    email: ~
+
+zhou-gengdong-2024:
+  name: Geng-Dong Zhou
+  orcid: ~
+  affiliation: Peking University
+  affiliation_country: CN
+  openalex: A5031571460
+  h_index: 4
+  contact:
+    scholar: ~
+    email: ~
+
+calugaru-2023:
+  name: Dumitru Călugăru
+  orcid: 0000-0002-5897-9878
+  affiliation: Princeton University
+  affiliation_country: US
+  openalex: A5014591055
+  h_index: 13
+  contact:
+    scholar: ~
+    email: ~
+
+jiang-cunyuan-2024:
+  name: Cunyuan Jiang
+  orcid: 0000-0002-1424-6509
+  affiliation: Shanghai Jiao Tong University
+  affiliation_country: CN
+  openalex: A5062886696
+  h_index: 7
+  contact:
+    scholar: ~
+    email: ~
+
+kwan-2024:
+  name: Yves H. Kwan
+  orcid: 0000-0001-6479-5584
+  affiliation: Princeton University
+  affiliation_country: US
+  openalex: A5003410720
+  h_index: 11
+  contact:
+    scholar: ~
+    email: ~
+
+sainz-cruz-2023:
+  name: Héctor Sainz-Cruz
+  orcid: 0000-0003-4791-0143
+  affiliation: IMDEA Nanoscience
+  affiliation_country: ES
+  openalex: A5085228718
+  h_index: 6
+  contact:
+    scholar: ~
+    email: ~
+
+ruttley-2023:
+  name: Daniel K. Ruttley
+  orcid: 0000-0002-7976-5430
+  affiliation: Durham University
+  affiliation_country: GB
+  openalex: A5074853187
+  h_index: 6
+  contact:
+    scholar: ~
+    email: ~
+
+homeier-2023:
+  name: Lukas Homeier
+  orcid: 0000-0002-6275-6204
+  affiliation: Harvard University
+  affiliation_country: US
+  openalex: A5065543562
+  h_index: 11
+  contact:
+    scholar: ~
+    email: ~
+
+chen-xingyan-2024:
+  name: Xing-Yan Chen
+  orcid: 0000-0001-7106-5029
+  affiliation: Max Planck Institute of Quantum Optics
+  affiliation_country: DE
+  openalex: A5048512268
+  h_index: 11
+  contact:
+    scholar: ~
+    email: ~
+
+xu-muqing-2025:
+  name: Muqing Xu
+  orcid: 0000-0003-2384-0208
+  affiliation: Harvard University
+  affiliation_country: US
+  openalex: A5030055785
+  h_index: 9
+  contact:
+    scholar: ~
+    email: ~
+
+bourgund-2025:
+  name: Dominik Bourgund
+  orcid: 0000-0002-1924-0720
+  affiliation: Max Planck Institute of Quantum Optics
+  affiliation_country: DE
+  openalex: A5019267785
+  h_index: 6
+  contact:
+    scholar: ~
+    email: ~
+
+pause-2023:
+  name: Lars Pause
+  orcid: 0009-0001-0759-5970
+  affiliation: Technische Universität Darmstadt
+  affiliation_country: DE
+  openalex: A5039843701
+  h_index: 2
+  contact:
+    scholar: ~
+    email: ~
+
+kuroda-2023:
+  name: Yuta Kuroda
+  orcid: 0000-0001-9496-6305
+  affiliation: University of Stuttgart
+  affiliation_country: DE
+  openalex: A5101848175
+  h_index: 4
+  contact:
+    scholar: ~
+    email: ~
+
+mecke-2023:
+  name: Joscha Mecke
+  orcid: 0000-0001-8984-6990
+  affiliation: Forschungszentrum Jülich
+  affiliation_country: DE
+  openalex: A5027004332
+  h_index: 4
+  contact:
+    scholar: ~
+    email: ~
+
+hernandez-lopez-2024:
+  name: Claudio Hernández-López
+  orcid: 0009-0001-8476-4256
+  affiliation: Pontificia Universidad Católica de Chile
+  affiliation_country: CL
+  openalex: A5063925794
+  h_index: 3
+  contact:
+    scholar: ~
+    email: ~
+
+antonov-2024:
+  name: Alexander P. Antonov
+  orcid: 0000-0002-0322-4152
+  affiliation: P.N. Lebedev Physical Institute
+  affiliation_country: RU
+  openalex: A5085640710
+  h_index: 6
+  contact:
+    scholar: ~
+    email: ~
+
+chatzittofi-2024:
+  name: Michalis Chatzittofi
+  orcid: 0009-0007-3898-3638
+  affiliation: University of Cambridge
+  affiliation_country: GB
+  openalex: A5033140203
+  h_index: 5
+  contact:
+    scholar: ~
+    email: ~
+
+adorjani-2024:
+  name: B. Adorjáni
+  orcid: 0009-0000-2540-5838
+  affiliation: Babeș-Bolyai University
+  affiliation_country: RO
+  openalex: A5092919228
+  h_index: 2
+  contact:
+    scholar: ~
+    email: ~
+
+bebon-2025:
+  name: Robin Bebon
+  orcid: 0009-0003-3189-5767
+  affiliation: University of Stuttgart
+  affiliation_country: DE
+  openalex: A5092532020
+  h_index: 3
+  contact:
+    scholar: ~
+    email: ~
+
+wang-peng-2023:
+  name: Peng Wang
+  orcid: 0000-0002-3343-7933
+  affiliation: Beijing Institute of Technology
+  affiliation_country: CN
+  openalex: A5135183552
+  h_index: 14
+  contact:
+    scholar: ~
+    email: ~
+
+yang-fubao-2024:
+  name: Fubao Yang
+  orcid: 0000-0003-0895-6325
+  affiliation: Università di Camerino
+  affiliation_country: IT
+  openalex: A5050018976
+  h_index: 14
+  contact:
+    scholar: ~
+    email: ~
+
+meier-2024:
+  name: Timon Meier
+  orcid: 0009-0009-6572-680X
+  affiliation: University of California
+  affiliation_country: US
+  openalex: A5029442759
+  h_index: 5
+  contact:
+    scholar: ~
+    email: ~
+
+pahlavani-2023:
+  name: H. Pahlavani
+  orcid: 0000-0002-0856-1617
+  affiliation: Sharif University of Technology
+  affiliation_country: IR
+  openalex: A5009195508
+  h_index: 8
+  contact:
+    scholar: ~
+    email: ~
+
+wang-aoxi-2023:
+  name: Aoxi Wang
+  orcid: 0009-0000-7468-2858
+  affiliation: Tsinghua University
+  affiliation_country: CN
+  openalex: A5005090547
+  h_index: 6
+  contact:
+    scholar: ~
+    email: ~
+
+zha-2024:
+  name: Jinmeng Zha
+  orcid: 0009-0009-2796-740X
+  affiliation: Tsinghua University
+  affiliation_country: CN
+  openalex: A5099241993
+  h_index: 1
+  contact:
+    scholar: ~
+    email: ~
+
+kwakernaak-2023:
+  name: Lennard J. Kwakernaak
+  orcid: 0000-0001-7100-447X
+  affiliation: Leiden University
+  affiliation_country: NL
+  openalex: A5009541669
+  h_index: 2
+  contact:
+    scholar: ~
+    email: ~
+
+calza-2025:
+  name: Marco Calza
+  orcid: 0000-0003-2432-9559
+  affiliation: University of Trento
+  affiliation_country: IT
+  openalex: A5054878537
+  h_index: 12
+  contact:
+    scholar: ~
+    email: ~
+
+cafaro-2024:
+  name: Luca Cafaro
+  orcid: 0009-0006-1650-2613
+  affiliation: University of Warsaw
+  affiliation_country: PL
+  openalex: A5094077169
+  h_index: 2
+  contact:
+    scholar: ~
+    email: ~
+
+alonso-bardaji-2024a:
+  name: Asier Alonso-Bardaji
+  orcid: 0000-0002-8982-0237
+  affiliation: Centre National de la Recherche Scientifique
+  affiliation_country: FR
+  openalex: A5044077935
+  h_index: 7
+  contact:
+    scholar: ~
+    email: ~
+
+fazzini-2024:
+  name: Francesco Fazzini
+  orcid: 0009-0007-2263-5727
+  affiliation: University of New Brunswick
+  affiliation_country: CA
+  openalex: A5092496701
+  h_index: 4
+  contact:
+    scholar: ~
+    email: ~
+
+han-muxin-2023:
+  name: Muxin Han
+  orcid: ~
+  affiliation: Friedrich-Alexander-Universitat Erlangen-Nurnberg
+  affiliation_country: DE
+  openalex: A5109624728
+  h_index: 3
+  contact:
+    scholar: ~
+    email: ~
+
+benedetti-2023:
+  name: Valentin Benedetti
+  orcid: 0000-0002-0919-5954
+  affiliation: Balseiro Institute
+  affiliation_country: AR
+  openalex: A5108167383
+  h_index: 7
+  contact:
+    scholar: ~
+    email: ~
+
+moroder-2024:
+  name: Mattia Moroder
+  orcid: 0000-0002-1046-9991
+  affiliation: Ludwig-Maximilians-Universitaet Muenchen
+  affiliation_country: DE
+  openalex: A5076034125
+  h_index: 3
+  contact:
+    scholar: ~
+    email: ~
+
+somhorst-2023:
+  name: F. H. B. Somhorst
+  orcid: 0000-0001-7035-9797
+  affiliation: University of Twente
+  affiliation_country: NL
+  openalex: A5085566261
+  h_index: 3
+  contact:
+    scholar: ~
+    email: ~
+
+menczel-2024:
+  name: Paul Menczel
+  orcid: 0000-0002-3968-0918
+  affiliation: Pioneer (Japan)
+  affiliation_country: JP
+  openalex: A5025569076
+  h_index: 9
+  contact:
+    scholar: ~
+    email: ~
+
+picatoste-2024:
+  name: Irene Ada Picatoste
+  orcid: 0009-0002-4545-5722
+  affiliation: University of Freiburg
+  affiliation_country: DE
+  openalex: A5101886275
+  h_index: 2
+  contact:
+    scholar: ~
+    email: ~
+
+rodrigues-2024:
+  name: Franklin L. S. Rodrigues
+  orcid: 0000-0003-0073-4066
+  affiliation: University of Stuttgart
+  affiliation_country: DE
+  openalex: A5008989712
+  h_index: 2
+  contact:
+    scholar: ~
+    email: ~
+
+bera-2024:
+  name: Mohit Lal Bera
+  orcid: 0000-0002-0811-9837
+  affiliation: Indian Institute of Science Education and Research Mohali
+  affiliation_country: IN
+  openalex: A5060867014
+  h_index: 5
+  contact:
+    scholar: ~
+    email: ~
+
+roccati-2024:
+  name: Federico Roccati
+  orcid: 0000-0002-6981-0613
+  affiliation: University of Luxembourg
+  affiliation_country: LU
+  openalex: A5045126170
+  h_index: 10
+  contact:
+    scholar: ~
+    email: ~
+
+pilatowsky-cameo-2023:
+  name: Saul Pilatowsky-Cameo
+  orcid: 0000-0001-9843-6491
+  affiliation: Massachusetts Institute of Technology
+  affiliation_country: US
+  openalex: A5060020687
+  h_index: 8
+  contact:
+    scholar: ~
+    email: ~
+
+evrard-2024:
+  name: Bertrand Evrard
+  orcid: 0000-0003-1949-0241
+  affiliation: ETH Zurich
+  affiliation_country: CH
+  openalex: A5024456770
+  h_index: 9
+  contact:
+    scholar: ~
+    email: ~
+
+vikram-2023:
+  name: Amit Vikram
+  orcid: ~
+  affiliation: Joint Quantum Institute
+  affiliation_country: US
+  openalex: A5052207030
+  h_index: 4
+  contact:
+    scholar: ~
+    email: ~
+
+vikram-2024:
+  name: Amit Vikram
+  orcid: ~
+  affiliation: Joint Quantum Institute
+  affiliation_country: US
+  openalex: A5052207030
+  h_index: 4
+  contact:
+    scholar: ~
+    email: ~
+
+trunin-2023:
+  name: Dmitrii A. Trunin
+  orcid: 0000-0002-9064-9342
+  affiliation: P.N. Lebedev Physical Institute of the Russian Academy of Sciences
+  affiliation_country: RU
+  openalex: A5048022019
+  h_index: 8
+  contact:
+    scholar: ~
+    email: ~
+
+altenkort-2023:
+  name: Luis Altenkort
+  orcid: 0000-0001-9382-0208
+  affiliation: Bielefeld University
+  affiliation_country: DE
+  openalex: A5049259280
+  h_index: 8
+  contact:
+    scholar: ~
+    email: ~
+
+abbott-ryan-2023:
+  name: Ryan Abbott
+  orcid: 0000-0002-5877-8005
+  affiliation: NSF AI Institute for Artificial Intelligence and Fundamental Interactions
+  affiliation_country: US
+  openalex: A5082670480
+  h_index: 5
+  contact:
+    scholar: ~
+    email: ~
+
+chu-2023:
+  name: Min-Huan Chu
+  orcid: 0000-0003-4445-5448
+  affiliation: Shanghai Jiao Tong University
+  affiliation_country: CN
+  openalex: A5031914672
+  h_index: 8
+  contact:
+    scholar: ~
+    email: ~
+
+ciavarella-2023:
+  name: Anthony N. Ciavarella
+  orcid: 0000-0003-3918-4110
+  affiliation: University of Washington
+  affiliation_country: US
+  openalex: A5068288518
+  h_index: 10
+  contact:
+    scholar: ~
+    email: ~
+
+draper-2023:
+  name: Zachary T. Draper
+  orcid: 0000-0003-3713-7871
+  affiliation: University of Washington
+  affiliation_country: US
+  openalex: A5091389467
+  h_index: 5
+  contact:
+    scholar: ~
+    email: ~
+
+khan-tanjib-2023:
+  name: Tanjib Khan
+  orcid: 0000-0002-6069-8215
+  affiliation: BRAC University
+  affiliation_country: BD
+  openalex: A5084610595
+  h_index: 5
+  contact:
+    scholar: ~
+    email: ~
+
+# ── wave-04 phase-3+4 additions ──
+
+an-qing-2024:
+  name: Qing An
+  orcid: 0000-0001-7475-0099
+  affiliation: Chinese Academy of Sciences
+  affiliation_country: CN
+  openalex: A5093127381
+  h_index: 3
+  contact:
+    scholar: ~
+    email: ~
+
+andrews-2023:
+  name: Jonathan A. Andrews
+  orcid: 0000-0003-0061-5083
+  affiliation: Mansfield University
+  affiliation_country: US
+  openalex: A5044504130
+  h_index: 5
+  contact:
+    scholar: ~
+    email: ~
+
+horsewill-2023:
+  name: Samuel J. Horsewill
+  orcid: 0000-0002-6547-9951
+  affiliation: University of Bath
+  affiliation_country: GB
+  openalex: A5008763811
+  h_index: 7
+  contact:
+    scholar: ~
+    email: ~
+
+pfund-2024:
+  name: Björn Pfund
+  orcid: 0000-0003-0936-2975
+  affiliation: University of Basel
+  affiliation_country: CH
+  openalex: A5008906291
+  h_index: 14
+  contact:
+    scholar: ~
+    email: ~
+
+harrison-wesley-2024:
+  name: Wesley Harrison
+  orcid: 0000-0001-8256-5926
+  affiliation: University of Illinois Urbana-Champaign
+  affiliation_country: US
+  openalex: A5057920936
+  h_index: 8
+  contact:
+    scholar: ~
+    email: ~
+
+schmitz-matthias-2024:
+  name: Matthias Schmitz
+  orcid: 0000-0003-0246-3036
+  affiliation: Johannes Gutenberg University Mainz
+  affiliation_country: DE
+  openalex: A5009881106
+  h_index: 8
+  contact:
+    scholar: ~
+    email: ~
+
+zahringer-2023:
+  name: Till J. B. Zähringer
+  orcid: 0000-0001-9285-3980
+  affiliation: Johannes Gutenberg University Mainz
+  affiliation_country: DE
+  openalex: A5079747410
+  h_index: 11
+  contact:
+    scholar: ~
+    email: ~
+
+feld-2024:
+  name: Leon G. Feld
+  orcid: 0000-0001-9755-5085
+  affiliation: ETH Zurich
+  affiliation_country: CH
+  openalex: A5088835709
+  h_index: 10
+  contact:
+    scholar: ~
+    email: ~
+
+bagnall-2024:
+  name: Andrew J. Bagnall
+  orcid: 0000-0002-3179-657X
+  affiliation: Uppsala University
+  affiliation_country: SE
+  openalex: A5068400290
+  h_index: 7
+  contact:
+    scholar: ~
+    email: ~
+
+jiang-zhiwen-2023:
+  name: Zhiwen Jiang
+  orcid: 0000-0003-3576-2534
+  affiliation: University of Science and Technology of China
+  affiliation_country: CN
+  openalex: A5060751858
+  h_index: 8
+  contact:
+    scholar: ~
+    email: ~
+
+lau-nicholas-2024:
+  name: Nicholas A. Lau
+  orcid: 0000-0001-9688-7002
+  affiliation: University College London
+  affiliation_country: GB
+  openalex: A5095687821
+  h_index: 2
+  contact:
+    scholar: ~
+    email: ~
+
+chen-oscar-2024:
+  name: Oscar Iu‐Fan Chen
+  orcid: 0000-0003-4361-0768
+  affiliation: Kavli Energy NanoScience Institute
+  affiliation_country: US
+  openalex: A5018952613
+  h_index: 6
+  contact:
+    scholar: ~
+    email: ~
+
+yang-shanqing-2023:
+  name: Shan‐Qing Yang
+  orcid: ~
+  affiliation: Nankai University
+  affiliation_country: CN
+  openalex: A5077815327
+  h_index: 12
+  contact:
+    scholar: ~
+    email: ~
+
+luo-xinyu-2024:
+  name: Xinyu Luo
+  orcid: 0009-0005-6788-1193
+  affiliation: Quzhou University
+  affiliation_country: CN
+  openalex: A5102995590
+  h_index: 2
+  contact:
+    scholar: ~
+    email: ~
+
+goeminne-2023:
+  name: Ruben Goeminne
+  orcid: 0000-0001-8920-3362
+  affiliation: Ghent University
+  affiliation_country: BE
+  openalex: A5068227324
+  h_index: 10
+  contact:
+    scholar: ~
+    email: ~
+
+song-yurou-2023:
+  name: Yurou Song
+  orcid: ~
+  affiliation: Dalian University of Technology
+  affiliation_country: CN
+  openalex: A5012135413
+  h_index: 14
+  contact:
+    scholar: ~
+    email: ~
+
+glasby-2023:
+  name: Lawson T. Glasby
+  orcid: ~
+  affiliation: University of Toronto
+  affiliation_country: CA
+  openalex: A5048792997
+  h_index: 6
+  contact:
+    scholar: ~
+    email: ~
+
+arts-2023:
+  name: Marloes Arts
+  orcid: 0000-0001-7918-8955
+  affiliation: University of Copenhagen
+  affiliation_country: DK
+  openalex: A5068582736
+  h_index: 5
+  contact:
+    scholar: ~
+    email: ~
+
+streit-2024:
+  name: Julian O. Streit
+  orcid: 0000-0001-6114-3636
+  affiliation: Institute of Structural and Molecular Biology
+  affiliation_country: GB
+  openalex: A5003262565
+  h_index: 5
+  contact:
+    scholar: ~
+    email: ~
+
+schafer-2023:
+  name: Joseph W. Schafer
+  orcid: 0000-0003-4345-1410
+  affiliation: National Institutes of Health
+  affiliation_country: US
+  openalex: A5085794545
+  h_index: 10
+  contact:
+    scholar: ~
+    email: ~
+
+pepelnjak-2024:
+  name: Monika Pepelnjak
+  orcid: 0000-0001-8502-1772
+  affiliation: ETH Zurich
+  affiliation_country: CH
+  openalex: A5065617422
+  h_index: 6
+  contact:
+    scholar: ~
+    email: ~
+
+machin-2023:
+  name: Jonathan Machin
+  orcid: 0000-0002-1920-149X
+  affiliation: University of Leeds
+  affiliation_country: GB
+  openalex: A5003164333
+  h_index: 10
+  contact:
+    scholar: ~
+    email: ~
+
+roeselova-2024:
+  name: Alžběta Roeselová
+  orcid: 0000-0002-0175-6462
+  affiliation: The Francis Crick Institute
+  affiliation_country: GB
+  openalex: A5067137748
+  h_index: 5
+  contact:
+    scholar: ~
+    email: ~
+
+yao-douglas-2023:
+  name: Douglas Yao
+  orcid: 0000-0002-0939-4670
+  affiliation: Harvard University
+  affiliation_country: US
+  openalex: A5090062337
+  h_index: 7
+  contact:
+    scholar: ~
+    email: ~
+
+yi-zongyi-2023:
+  name: Zongyi Yi
+  orcid: 0000-0002-5654-4221
+  affiliation: Peking University
+  affiliation_country: CN
+  openalex: A5077573366
+  h_index: 10
+  contact:
+    scholar: ~
+    email: ~
+
+camara-wilpert-2023:
+  name: Sarah Camara-Wilpert
+  orcid: 0000-0001-5713-5326
+  affiliation: University of Copenhagen
+  affiliation_country: DK
+  openalex: A5092253733
+  h_index: 5
+  contact:
+    scholar: ~
+    email: ~
+
+eggers-2024:
+  name: Amy R. Eggers
+  orcid: 0000-0001-5249-4872
+  affiliation: Innovative Genomics Institute
+  affiliation_country: US
+  openalex: A5017477218
+  h_index: 6
+  contact:
+    scholar: ~
+    email: ~
+
+saha-aakash-2024:
+  name: Aakash Saha
+  orcid: 0000-0003-0776-9771
+  affiliation: University of California, Riverside
+  affiliation_country: US
+  openalex: A5003328243
+  h_index: 11
+  contact:
+    scholar: ~
+    email: ~
+
+schneider-michael-2024:
+  name: Michael P Schneider
+  orcid: 0000-0002-6331-2357
+  affiliation: University of Cambridge
+  affiliation_country: GB
+  openalex: A5025167518
+  h_index: 3
+  contact:
+    scholar: ~
+    email: ~
+
+jeong-yunhee-2024:
+  name: Yunhee Jeong
+  orcid: 0000-0002-1150-7734
+  affiliation: German Cancer Research Center
+  affiliation_country: DE
+  openalex: A5041888987
+  h_index: 6
+  contact:
+    scholar: ~
+    email: ~
+
+benegas-2023:
+  name: Gonzalo Benegas
+  orcid: 0000-0002-6639-4394
+  affiliation: University of California, Berkeley
+  affiliation_country: US
+  openalex: A5037139627
+  h_index: 6
+  contact:
+    scholar: ~
+    email: ~
+
+ziaei-jam-2023:
+  name: Helyaneh Ziaei Jam
+  orcid: 0009-0002-9832-1437
+  affiliation: University of California San Diego
+  affiliation_country: US
+  openalex: A5042168623
+  h_index: 8
+  contact:
+    scholar: ~
+    email: ~
+
+tegtmeyer-2024:
+  name: Matthew Tegtmeyer
+  orcid: 0000-0002-9032-8207
+  affiliation: Broad Institute
+  affiliation_country: US
+  openalex: A5033088281
+  h_index: 11
+  contact:
+    scholar: ~
+    email: ~
+
+kurniansyah-2023:
+  name: Nuzulul Kurniansyah
+  orcid: ~
+  affiliation: Brigham and Women's Hospital
+  affiliation_country: US
+  openalex: A5031338573
+  h_index: 11
+  contact:
+    scholar: ~
+    email: ~
+
+pedersen-emil-2023:
+  name: Emil M. Pedersen
+  orcid: 0000-0002-3257-5269
+  affiliation: Aarhus University
+  affiliation_country: DK
+  openalex: A5079091110
+  h_index: 8
+  contact:
+    scholar: ~
+    email: ~
+
+shang-lulu-2023:
+  name: Lulu Shang
+  orcid: 0000-0002-2480-3065
+  affiliation: University of Michigan
+  affiliation_country: US
+  openalex: A5045377847
+  h_index: 13
+  contact:
+    scholar: ~
+    email: ~
+
+ding-zhuokun-2025:
+  name: Zhuokun Ding
+  orcid: 0000-0002-8610-5182
+  affiliation: Baylor College of Medicine
+  affiliation_country: US
+  openalex: A5042390187
+  h_index: 8
+  contact:
+    scholar: ~
+    email: ~
+
+yim-hyunsoo-2024:
+  name: Hyunsoo Yim
+  orcid: 0000-0001-7879-2341
+  affiliation: Seoul National University
+  affiliation_country: KR
+  openalex: A5079920420
+  h_index: 5
+  contact:
+    scholar: ~
+    email: ~
+
+celii-2025:
+  name: Brendan Celii
+  orcid: 0009-0008-5489-7438
+  affiliation: Baylor College of Medicine
+  affiliation_country: US
+  openalex: A5060772055
+  h_index: 8
+  contact:
+    scholar: ~
+    email: ~
+
+tanner-jacob-2024:
+  name: Jacob Tanner
+  orcid: 0000-0001-5647-3438
+  affiliation: Indiana University Bloomington
+  affiliation_country: US
+  openalex: A5029840174
+  h_index: 9
+  contact:
+    scholar: ~
+    email: ~
+
+cornean-2024:
+  name: Jacqueline Cornean
+  orcid: 0009-0008-5514-6046
+  affiliation: Johannes Gutenberg University Mainz
+  affiliation_country: DE
+  openalex: A5092721723
+  h_index: 3
+  contact:
+    scholar: ~
+    email: ~
+
+kucukoglu-2024:
+  name: Berk Küçüköğlu
+  orcid: 0000-0002-5544-4392
+  affiliation: École Polytechnique Fédérale de Lausanne
+  affiliation_country: CH
+  openalex: A5054140111
+  h_index: 5
+  contact:
+    scholar: ~
+    email: ~
+
+gyawali-2024:
+  name: Rajan Gyawali
+  orcid: 0000-0002-7052-4964
+  affiliation: University of Missouri
+  affiliation_country: US
+  openalex: A5075943283
+  h_index: 8
+  contact:
+    scholar: ~
+    email: ~
+
+ansell-2023:
+  name: T. Bertie Ansell
+  orcid: 0000-0003-4870-5387
+  affiliation: University of Oxford
+  affiliation_country: GB
+  openalex: A5032644017
+  h_index: 13
+  contact:
+    scholar: ~
+    email: ~
+
+maddhuri-venkata-subramaniya-2023:
+  name: Sai Raghavendra Maddhuri Venkata Subramaniya
+  orcid: 0000-0002-1696-7676
+  affiliation: Purdue University West Lafayette
+  affiliation_country: US
+  openalex: A5041487959
+  h_index: 10
+  contact:
+    scholar: ~
+    email: ~
+
+zheng-liming-2024:
+  name: Liming Zheng
+  orcid: 0009-0008-3174-4922
+  affiliation: Peking University
+  affiliation_country: CN
+  openalex: A5019912519
+  h_index: 3
+  contact:
+    scholar: ~
+    email: ~
+
+pfeil-gardiner-2024:
+  name: Olivia Pfeil-Gardiner
+  orcid: 0000-0001-8095-0759
+  affiliation: Max Planck Institute of Biophysics
+  affiliation_country: DE
+  openalex: A5034775139
+  h_index: 3
+  contact:
+    scholar: ~
+    email: ~

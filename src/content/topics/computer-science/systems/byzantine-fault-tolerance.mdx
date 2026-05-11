@@ -1,0 +1,66 @@
+---
+title: Byzantine Fault Tolerance
+description: Protocols that let a distributed system reach agreement on a single value despite a bounded fraction of nodes that may crash, lie, equivocate, or behave arbitrarily.
+parent: computer-science/systems
+order: 7
+color: '#3b82f6'
+difficulty: advanced
+prerequisites:
+  - computer-science/systems/distributed-systems
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-11'
+reviewTier: frontier
+sources:
+  - type: paper
+    title: 'Themis: Fast, Strong Order-Fairness in Byzantine Consensus'
+    authors: [kelkar-2023]
+    year: 2023
+    doi: 10.1145/3576915.3616658
+    role: primary
+  - type: paper
+    title: 'Fast-HotStuff: A Fast and Robust BFT Protocol for Blockchains'
+    authors: [jalalzai-2023]
+    year: 2023
+    doi: 10.1109/tdsc.2023.3308848
+    role: primary
+  - type: paper
+    title: 'NeoBFT: Accelerating Byzantine Fault Tolerance Using Authenticated In-Network Ordering'
+    authors: [sun-guangda-2023]
+    year: 2023
+    doi: 10.1145/3603269.3604874
+    role: primary
+  - type: paper
+    title: 'Practical Differentially Private and Byzantine-resilient Federated Learning'
+    authors: [xiang-zihang-2023]
+    year: 2023
+    doi: 10.1145/3589264
+    role: primary
+  - type: paper
+    title: 'Byzantine-Resilient Second-Order Consensus in Networked Systems'
+    authors: [koushkbaghi-2024]
+    year: 2024
+    doi: 10.1109/tcyb.2024.3359262
+    role: supporting
+---
+
+**Byzantine fault tolerance (BFT)** is the body of work that lets a distributed system commit a single, ordered history of operations even when a bounded fraction of its nodes behave **arbitrarily**: crashing, sending conflicting messages to different peers, withholding votes, or actively trying to corrupt the outcome. The classical setting fixes a population of *n* replicas with at most *f* Byzantine ones, requires correct replicas to agree on the same value (safety) and to eventually decide (liveness), and proves that *n* ≥ 3*f* + 1 is necessary in the partially synchronous network model. Modern BFT research is organised around four interacting axes: *latency and throughput* (how few rounds and how little authenticator work are needed per decision), *fairness* (whether the protocol determines transaction order or only which transactions enter the log), *composition with other guarantees* (privacy, learning, control), and *deployment surface* (which parts of the system the protocol pushes into network hardware or trusted infrastructure). Most contemporary methodology papers sit at the intersection of two of these axes.
+
+## Reducing rounds and authenticator cost
+
+The HotStuff protocol made BFT practical for large committees by reducing leader-change cost to linear in *n* and adding a pipelining round that lets new commits start before the previous one finishes. *Jalalzai et al.* (2023) propose **Fast-HotStuff**, which removes one of HotStuff's three communication rounds in the common case while preserving linear view change. The key observation is that the extra round HotStuff inserted is only required when leaders are malicious; under an honest leader, a single quorum certificate plus a forward-tracking mechanism is sufficient to commit safely. The protocol therefore matches PBFT's two-round happy path and HotStuff's linear view change at the same time, and the paper characterises exactly which adversarial schedules force the extra round back in. *Sun et al.* (2023) attack the same latency problem from a very different angle. Their **NeoBFT** offloads message **ordering** to programmable network switches: a small set of authenticated in-network sequencers stamps client requests with a Byzantine-verifiable order before they reach the replicas, so the replicas only have to validate the sequencer's signature rather than run a full ordering round. The result is a BFT data path whose critical section runs at switch line-rate, and a clean demonstration that the hardware/software boundary in BFT is a design knob, not a constraint.
+
+## Order fairness as a first-class property
+
+Classical BFT decides *which* transactions commit but says nothing about the order in which contending transactions are sequenced; an adversarial leader can freely reorder concurrent transactions, which matters in any setting where ordering has economic value (decentralised exchanges, auctions, oracle queries). *Kelkar et al.* (2023) introduce **Themis**, a scheme that bolts the strongest known notion of order-fairness onto Byzantine consensus while keeping standard liveness, with at most *f* faulty replicas among *n* ≥ 4*f* + 1. Themis collects per-replica receipt orders, derives a directed graph of pairwise precedence votes, and uses a deterministic graph-condensation procedure to break the cycles that the previous fair-ordering line of work could only handle with weaker liveness. The contribution is methodological rather than narrowly protocol-specific: the receipt-graph machinery is composable with multiple BFT cores, and the paper makes the trade-off between the fairness threshold and the replication factor explicit.
+
+## Composing BFT with privacy and learning
+
+When BFT is the trust substrate for a higher-level system, its guarantees must compose with whatever the upper layer needs. *Xiang et al.* (2023) study the federated-learning instance of this question: clients want **differential privacy** for their updates, the server wants **Byzantine resilience** against poisoning clients, and the two requirements pull in opposite directions because DP noise looks structurally similar to a Byzantine perturbation. Their protocol decomposes the aggregation step into a DP-noise budget and a robust-mean estimator that is calibrated to the noise distribution, and they prove that the resulting accuracy/robustness curve dominates the naïve sequential composition. The paper is one of the cleaner examples of a recurring BFT methodology: identify the *information* the BFT layer must throw away (here, raw client updates) and design the upper layer so that what remains is sufficient for its own guarantees.
+
+## Beyond agreement: continuous-state consensus
+
+Most BFT work lives in the discrete-decision setting (commit-or-abort, ordered logs). A parallel literature studies Byzantine resilience in **continuous-state** networked systems, where agents update real-valued variables according to a local rule and must converge to a common trajectory rather than a single committed value. *Koushkbaghi et al.* (2024) extend the resilient-consensus toolkit to the **second-order** setting: agents have both a position and a velocity, the dynamics couple the two, and the paper gives a local filtering rule that achieves consensus when only an upper bound on the number of Byzantine misbehaving nodes is known. The result is structural — it identifies the topological connectivity threshold (a generalised *r*-robustness condition) under which the second-order dynamics tolerate arbitrary deviations — and it ports the discrete-consensus intuition (drop the most extreme neighbours, then average) into a domain where the classical *n* ≥ 3*f* + 1 bound does not apply directly.
+
+Open methodological questions cut across the four axes. Can fairness schemes such as Themis be folded into in-network-ordering designs such as NeoBFT without losing either property? What is the right resilient-aggregation primitive when both DP noise and adversarial drift evolve over many rounds rather than a single shot? And how should BFT protocols be specified when the failure model itself is uncertain, with replicas drifting between crash, omission, and Byzantine behaviour over time?

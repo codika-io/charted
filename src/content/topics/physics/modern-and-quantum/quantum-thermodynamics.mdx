@@ -1,0 +1,66 @@
+---
+title: Quantum Thermodynamics
+description: The theory of work, heat, and entropy production for finite quantum systems whose dynamics are coherent, possibly non-Markovian, and strongly coupled to their environment.
+parent: physics/modern-and-quantum
+order: 5
+color: '#f59e0b'
+difficulty: advanced
+prerequisites:
+  - physics/modern-and-quantum/quantum-mechanics
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-11'
+reviewTier: frontier
+sources:
+  - type: paper
+    title: 'Thermodynamics of the Quantum Mpemba Effect'
+    authors: [moroder-2024]
+    year: 2024
+    doi: 10.1103/physrevlett.133.140404
+    role: primary
+  - type: paper
+    title: 'Quantum simulation of thermodynamics in an integrated quantum photonic processor'
+    authors: [somhorst-2023]
+    year: 2023
+    doi: 10.1038/s41467-023-38413-9
+    role: primary
+  - type: paper
+    title: 'Non-Hermitian pseudomodes for strongly coupled open quantum systems: Unravelings, correlations, and thermodynamics'
+    authors: [menczel-2024]
+    year: 2024
+    doi: 10.1103/physrevresearch.6.033237
+    role: primary
+  - type: paper
+    title: 'Dynamically emergent quantum thermodynamics: Non-Markovian Otto cycle'
+    authors: [picatoste-2024]
+    year: 2024
+    doi: 10.1103/physrevresearch.6.013258
+    role: primary
+  - type: paper
+    title: 'Nonequilibrium thermodynamics of quantum coherence beyond linear response'
+    authors: [rodrigues-2024]
+    year: 2024
+    doi: 10.1038/s42005-024-01548-2
+    role: primary
+  - type: paper
+    title: 'Steady-state quantum thermodynamics with synthetic negative temperatures'
+    authors: [bera-2024]
+    year: 2024
+    doi: 10.1103/physrevresearch.6.013318
+    role: supporting
+---
+
+**Quantum thermodynamics** asks how the classical laws of thermodynamics survive, deform, or break down when the system in question is small enough that quantum coherence, finite-size fluctuations, and non-Markovian memory of its environment all matter. The classical formulation assumes a system in contact with an infinite bath, weak coupling, and a clean separation of timescales between system and bath. None of those assumptions hold for a single trapped ion, a transmon qubit, a strongly driven photonic mode, or a few-atom molecular junction. Modern quantum thermodynamics rebuilds the central objects, work, heat, entropy production, free energy, around three competing concerns: *strong coupling and non-Markovian dynamics* (the bath has finite size and remembers), *quantum coherence as a resource* (off-diagonal elements of the density matrix carry energy that classical thermodynamics cannot account for), and *operational definitions on real hardware* (work and heat are not directly observable, so any framework must specify a measurement protocol). Most current methodology proposals can be read as a position in this three-axis design space.
+
+## Coherence, anomalous relaxation, and emergent phenomena
+
+Coherence is the most natural quantum resource: a state with off-diagonal energy-basis amplitudes carries free energy that cannot be extracted classically, and its dynamics can deliver thermodynamic phenomena with no classical analogue. *Moroder et al.* (2024) study the **quantum Mpemba effect** through this lens: starting from a state with energy-basis coherences and relaxing through a Davies map toward a thermal fixed point, they show that an exponential speedup toward equilibrium occurs whenever a unitary transformation eliminates coherences associated with a complex spectral gap of the generator. The result reframes a famously puzzling classical phenomenon, hot water freezing faster than cold, as a coherence-driven relaxation effect, and it produces a constructive prescription: given any initial state, one can engineer a unitary that yields a genuine Mpemba speedup, provided the transformed state has strictly higher nonequilibrium free energy. *Rodrigues et al.* (2024) attack the dual problem of writing a **nonequilibrium thermodynamics of coherence beyond linear response**: they decompose entropy production into a coherent contribution and a population contribution, derive coherent analogues of the Kubo relations valid far from equilibrium, and identify regimes in which coherent free energy converts into mechanical work at efficiencies that linear-response theory underestimates. Together the two papers stake out coherence as a first-class thermodynamic variable rather than a small correction.
+
+## Non-Markovian and strong-coupling frameworks
+
+Realistic baths have finite size and structured spectral densities, so the system either remembers earlier interactions or, equivalently, the bath retains correlations the system can re-absorb. The pseudomode formalism makes this concrete by replacing a continuum bath with a small set of effective oscillators whose joint state-system dynamics is Markovian. *Menczel et al.* (2024) extend this idea to the strongly coupled regime via **non-Hermitian pseudomodes**: they show that allowing the auxiliary modes to be non-Hermitian gives an exact unraveling of the reduced system dynamics in terms of stochastic trajectories, recovers physically meaningful system-bath correlators, and yields a consistent decomposition of internal energy into work and heat under strong coupling. *Picatoste et al.* (2024) build a related framework around a **dynamically emergent quantum Otto cycle**: instead of postulating a definition of work and heat and checking the second law a posteriori, they construct an exact treatment of a finite-temperature, non-Markovian bath coupled to a working medium and let the heat-current and work-flow operators emerge from the equations of motion. The cycle's efficiency, power, and entropy production then inherit consistency with the second law by construction, and the framework exposes how memory effects can either help or hurt cycle performance depending on stroke timing.
+
+## Operational definitions and experimental realisations
+
+A theoretical framework only matters if it tells experimentalists what to measure. *Somhorst et al.* (2023) demonstrate **quantum simulation of thermodynamics on an integrated quantum photonic processor**, using a reconfigurable interferometer to prepare unitary quantum dynamics on photonic modes and reconstruct entropy production and the second law from photon-counting statistics. The work matters less as a one-off demonstration than as a template: it specifies an operational protocol in which work, heat, and entropy production are all functions of the same set of measurement records, removing the ambiguity that plagues two-projective-measurement schemes when applied to states with initial coherence. *Bera et al.* (2024) explore an experimentally accessible extreme regime with **synthetic negative-temperature baths**: a population-inverted spin system can act as a steady-state heat bath with effective $T < 0$, and a quantum Otto engine coupled to such a bath operates beyond the Carnot bound defined with respect to the auxiliary positive-temperature reservoir. The result is a genuine quantum thermodynamic phenomenon, not a paradox: negative temperatures sit on the other side of $\beta = 0$ in inverse-temperature space, and an engine cycling between $\beta > 0$ and $\beta < 0$ has more thermodynamic room than the textbook bound suggests. Open methodological questions cut across these three axes: can the strong-coupling frameworks be reconciled with the operational protocols required by experiment, or does each measurement scheme implicitly fix its own definition of work? How much of the coherent free energy identified by *Rodrigues et al.* is recoverable in a finite-resource setting? And what is the right thermodynamic accounting for fast feedback control, where the controller itself is a quantum system that must be included in the entropy balance?

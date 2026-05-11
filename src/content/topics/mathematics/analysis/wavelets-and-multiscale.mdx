@@ -1,0 +1,62 @@
+---
+title: Wavelets and Multiscale Analysis
+description: Bases and transforms that decompose functions across scales, combining frequency localisation with spatial locality to analyse, compress, and solve problems on non-stationary signals and PDEs.
+parent: mathematics/analysis
+order: 9
+color: '#3b82f6'
+difficulty: advanced
+prerequisites:
+  - mathematics/analysis
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-11'
+reviewTier: frontier
+sources:
+  - type: paper
+    title: 'Robust time series denoising with learnable wavelet packet transform'
+    authors: [frusque-2024]
+    year: 2024
+    doi: 10.1016/j.aei.2024.102669
+    role: primary
+  - type: paper
+    title: 'Masked Wavelet Representation for Compact Neural Radiance Fields'
+    authors: [rho-2023]
+    year: 2023
+    doi: 10.1109/cvpr52729.2023.01981
+    role: primary
+  - type: paper
+    title: 'An efficient method for the fractional electric circuits based on Fibonacci wavelet'
+    authors: [ahmed-shahid-2023]
+    year: 2023
+    doi: 10.1016/j.rinp.2023.106753
+    role: supporting
+  - type: paper
+    title: 'A new approach to the Benjamin-Bona-Mahony equation via ultraspherical wavelets collocation method'
+    authors: [mulimani-2024]
+    year: 2024
+    doi: 10.2478/ijmce-2024-0014
+    role: primary
+  - type: paper
+    title: 'Seismic Random Noise Attenuation Using Optimal Empirical Wavelet Transform With a New Wavelet Thresholding Technique'
+    authors: [parimala-geetha-2023]
+    year: 2023
+    doi: 10.1109/jsen.2023.3334819
+    role: supporting
+---
+
+**Wavelets** are a family of basis functions, built by translating and dilating a single *mother wavelet*, that decompose a function simultaneously across position and scale. Where the Fourier basis trades spatial locality for perfect frequency resolution, wavelet bases localise in both domains and produce *multiresolution analyses*, hierarchical decompositions of a function into a coarse approximation plus a tower of bandpass details. The resulting transforms, discrete (DWT), continuous (CWT), packet (WPT), and overcomplete frames such as shearlets and curvelets, sit at the intersection of harmonic analysis, approximation theory, and signal processing. Methodological work in the area is organised along four axes: the *construction of bases* (which mother wavelet, which boundary conditions, which adapted frame produces sparse representations for a given function class), *thresholding and shrinkage* rules that turn the transform into a statistical denoiser, *learnable parameterisations* that fit the basis itself to data, and *wavelet-collocation* schemes that turn the basis into a numerical method for differential and integral equations.
+
+## Learnable bases and shrinkage rules
+
+Classical wavelet denoising fixes the basis ahead of time, applies the transform, shrinks small coefficients toward zero, and inverts. Two design choices dominate performance: which wavelet family is used and how the thresholds are chosen. *Frusque and Fink* (2024) attack both jointly with a **learnable wavelet packet transform**: their architecture parameterises the wavelet filters and the shrinkage thresholds as trainable layers of a convolutional network, and trains them end-to-end on clean–noisy pairs. The contribution is that the wavelet itself becomes a parameter of the denoiser rather than a hand-picked Daubechies or symlet, while the inverse transform is preserved exactly so the network remains a bona fide wavelet method rather than a black-box autoencoder. *Parimala Geetha et al.* (2023), working on seismic noise attenuation, take a complementary route within the classical paradigm: they pair an **optimal empirical wavelet transform**, in which the wavelet boundaries are adapted to the energy distribution of the input rather than pre-chosen, with a new thresholding rule that interpolates between hard and soft shrinkage according to a local kurtosis statistic. Together the two papers map the two ends of the learnable-versus-handcrafted spectrum: one optimises the basis end-to-end with gradient descent, the other optimises it analytically from second- and fourth-order statistics of the signal.
+
+## Wavelets as bases for numerical methods
+
+Because wavelets diagonalise large classes of operators and produce sparse representations of piecewise-smooth functions, they are natural trial spaces for collocation schemes that solve differential and integral equations. *Ahmed et al.* (2023) construct **operational matrices of fractional integration** in the **Fibonacci wavelet** basis and use them to reduce fractional-order electrical-circuit equations to algebraic systems; the contribution is the operational matrix itself, which converts a non-local fractional operator into a sparse finite-dimensional action on wavelet coefficients. *Mulimani and Lakshmi* (2024) develop a parallel construction for the **ultraspherical wavelet** family and apply it as a collocation method to the nonlinear **Benjamin-Bona-Mahony equation**, where the smoothness-tracking property of the wavelet expansion lets a small number of basis functions capture solitary-wave solutions that polynomial collocation handles poorly. Both papers illustrate the same recipe: choose a wavelet adapted to the regularity of the expected solution, derive the basis's operational matrices for the differential and integral operators that appear in the equation, and solve the resulting sparse system. The methodological question they leave open is convergence: rates are typically reported empirically and the optimal basis choice for a given operator class remains a case-by-case craft.
+
+## Wavelets as compact representations of high-dimensional signals
+
+Beyond denoising and PDE solvers, wavelets are increasingly used as **compact representations** of large, structured signals where the multiresolution hierarchy aligns with how the signal is queried. *Rho et al.* (2023) propose a **masked wavelet representation for neural radiance fields**: a 3D scene is stored as wavelet coefficients on a grid, the inverse wavelet transform reconstructs the radiance field at any query point, and a learned binary mask zeroes out coefficients that contribute negligibly to rendering. The result is a compact, query-cheap alternative to the dense MLP representations that dominate the NeRF literature, and a clean demonstration that the *compression* role wavelets played in JPEG-2000 transfers directly to neural fields once one is willing to learn the mask. The construction also surfaces an axis the classical theory rarely engages with: the wavelet basis is fixed but the *sparsity pattern* is learned, which sits between hand-designed transforms (full basis, analytic shrinkage) and fully learned bases (Frusque and Fink above).
+
+Open methodological questions cut across the four axes. Can learnable wavelets retain the approximation-theoretic guarantees that justify the classical bases, or do they trade those guarantees for empirical fit? Are there principled rules for choosing between competing adapted frames, ultraspherical, Fibonacci, shearlet, curvelet, given an equation or a function class? And as wavelets re-enter machine-learning architectures as inductive biases, what is the right way to compose them with attention and convolution while preserving the perfect-reconstruction property that distinguishes a wavelet method from a generic deep network?

@@ -1,0 +1,50 @@
+---
+title: Computational Geometry
+description: The algorithmic study of geometric objects — manifolds, meshes, point clouds, and convex bodies — with explicit attention to representation, complexity, and numerical stability.
+parent: mathematics/geometry
+order: 4
+color: '#ef4444'
+difficulty: advanced
+prerequisites:
+  - mathematics/geometry
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-11'
+reviewTier: frontier
+sources:
+  - type: paper
+    title: 'A Grassmann manifold handbook: basic geometry and computational aspects'
+    authors: [bendokat-2024]
+    year: 2024
+    doi: 10.1007/s10444-023-10090-8
+    role: primary
+  - type: paper
+    title: 'GJK++: Leveraging Acceleration Methods for Faster Collision Detection'
+    authors: [montaut-2024]
+    year: 2024
+    doi: 10.1109/tro.2024.3434445
+    role: primary
+  - type: paper
+    title: 'VoroMesh: Learning Watertight Surface Meshes with Voronoi Diagrams'
+    authors: [maruani-2023]
+    year: 2023
+    doi: 10.1109/iccv51070.2023.01345
+    role: primary
+---
+
+**Computational geometry** treats geometric objects — points, curves, surfaces, manifolds, convex bodies — as data structures and asks how algorithms operate on them under explicit budgets of time, memory, and numerical precision. Where classical geometry is content to describe a shape, computational geometry must commit to a representation: a triangle mesh, an implicit level set, a Voronoi diagram, a chart on a smooth manifold, or a finite collection of subspaces. The choice of representation determines which questions are easy (proximity, intersection, sampling, parameterisation) and which become numerically fragile. Modern work in the field is organised around four interacting axes: *representation* (how a continuous object is encoded discretely), *primitive operations* (closest-point queries, intersections, geodesics, projections) and their complexity, *numerical stability* (degenerate configurations, near-singular Jacobians, finite-precision arithmetic), and *learnability* (whether the representation admits gradients suitable for neural pipelines). Many recent advances cut across more than one of these axes, and the most influential methods rethink the representation itself rather than merely accelerating an existing pipeline.
+
+## Computing on smooth manifolds
+
+When the underlying geometric object is a smooth manifold rather than a subset of Euclidean space, even basic operations — geodesics, parallel transport, retractions, exponential and logarithmic maps — become nontrivial. *Bendokat et al.* (2024) take on the Grassmann manifold, the space of linear subspaces of fixed dimension, and assemble a comprehensive **handbook of its computational aspects**. The paper systematically catalogues representations of Grassmann points (orthonormal bases, projectors, quotient classes) and the formulas that translate between them, then derives explicit, numerically robust algorithms for distance, geodesic interpolation, parallel transport, and retraction in each representation. The contribution matters precisely because the Grassmann manifold is now a workhorse in machine learning, image processing, and low-rank optimisation, and ad-hoc implementations routinely lose accuracy near rank degeneracies. By treating representation, formula, and numerical conditioning as a single design problem, the handbook gives the community a stable substrate on which higher-level Grassmann algorithms can be built.
+
+## Primitive queries and acceleration
+
+Many computational geometry pipelines bottom out in a small number of primitives that get called millions of times: closest-point, distance-to-set, intersection-of-pair. The **Gilbert–Johnson–Keerthi (GJK) algorithm** for distance between convex sets is one of these primitives and underpins collision detection in robotics, physics simulation, and graphics. *Montaut et al.* (2024) reformulate GJK as a constrained optimisation problem on the Minkowski difference and apply Nesterov-style acceleration to its inner iterations, producing **GJK++**, which converges in measurably fewer iterations than the classical scheme while preserving the same termination guarantees. The result is small in lines of code but consequential in practice: a primitive that previously dominated simulation cost now scales better with mesh resolution, and the optimisation framing exposes a clean knob (the acceleration parameter) that downstream solvers can tune. The episode also illustrates a recurring pattern in the field: the most useful algorithmic improvements often arrive when a classical geometric procedure is reread as an instance of a more general numerical optimisation problem.
+
+## Learnable discrete representations
+
+A defining challenge of the last few years has been to make discrete geometric representations differentiable, so they can sit inside neural pipelines without breaking gradient flow. *Maruani et al.* (2023) introduce **VoroMesh**, which learns watertight surface meshes by parameterising them as **Voronoi diagrams** of a learned point set. The key insight is that the dual of a Voronoi diagram in an appropriate position gives a closed, manifold mesh almost by construction, side-stepping the genus-and-boundary pathologies that plague learned marching-cubes pipelines. The model jointly optimises the Voronoi sites and a per-cell occupancy, and reads out a clean mesh with guaranteed topology. The paper exemplifies an emerging design pattern in computational geometry: rather than smoothing a fundamentally discrete object until gradients work, choose a discrete primitive whose combinatorial structure aligns with the learning signal you want, and let the geometry do the work.
+
+Open methodological questions extend across the four axes above: can manifold handbooks be auto-generated for arbitrary homogeneous spaces from a symbolic specification of their structure? Can acceleration techniques designed for one geometric primitive transfer mechanically to others (Frank–Wolfe collision queries, accelerated geodesic shooting on Lie groups)? And how far can learnable combinatorial representations like VoroMesh be pushed before they hit the same topological cliffs that brought down their continuous predecessors?

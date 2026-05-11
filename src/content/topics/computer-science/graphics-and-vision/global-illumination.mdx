@@ -1,0 +1,78 @@
+---
+title: Global Illumination
+description: Physically based simulation of how light propagates, scatters, and accumulates across a scene, including the indirect light that bounces between surfaces and through participating media.
+parent: computer-science/graphics-and-vision
+order: 4
+color: '#3b82f6'
+difficulty: advanced
+prerequisites:
+  - computer-science/graphics-and-vision/computer-graphics
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-11'
+reviewTier: frontier
+sources:
+  - type: paper
+    title: 'TensoIR: Tensorial Inverse Rendering'
+    authors: [jin-haian-2023]
+    year: 2023
+    doi: 10.1109/cvpr52729.2023.00024
+    role: primary
+  - type: paper
+    title: 'NeFII: Inverse Rendering for Reflectance Decomposition with Near-Field Indirect Illumination'
+    authors: [wu-haoqian-2023]
+    year: 2023
+    doi: 10.1109/cvpr52729.2023.00418
+    role: primary
+  - type: paper
+    title: 'Real-time Neural Appearance Models'
+    authors: [zeltner-2024]
+    year: 2024
+    doi: 10.1145/3659577
+    role: primary
+  - type: paper
+    title: 'Neural Partitioning Pyramids for Denoising Monte Carlo Renderings'
+    authors: [balint-2023]
+    year: 2023
+    doi: 10.1145/3588432.3591562
+    role: primary
+  - type: paper
+    title: 'Coupling Conduction, Convection and Radiative Transfer in a Single Path-Space: Application to Infrared Rendering'
+    authors: [bati-2023]
+    year: 2023
+    doi: 10.1145/3592121
+    role: primary
+  - type: paper
+    title: 'A Realistic Surface-based Cloth Rendering Model'
+    authors: [zhu-junqiu-2023]
+    year: 2023
+    doi: 10.1145/3588432.3591554
+    role: supporting
+  - type: paper
+    title: 'Inverse Rendering of Translucent Objects using Physical and Neural Renderers'
+    authors: [li-chenhao-2023]
+    year: 2023
+    doi: 10.1109/cvpr52729.2023.01204
+    role: primary
+---
+
+**Global illumination (GI)** is the simulation of how light propagates through a scene once direct illumination from light sources, indirect inter-reflections between surfaces, and scattering through participating media (volumes, translucent materials, atmospheres) are all accounted for. The governing equation is Kajiya's **rendering equation**, an integral expression that states the outgoing radiance at a surface point equals emitted radiance plus an integral over the hemisphere of incoming radiance weighted by the surface's bidirectional reflectance distribution function (BRDF). Solving that integral is computationally expensive because the incoming radiance term is itself the outgoing radiance from somewhere else in the scene, so the equation is recursive and high-dimensional. Modern GI research is best read as a set of attacks on four interacting axes: *fidelity* (which physical effects, multi-bounce indirect light, subsurface scattering, polarisation, anisotropic appearance, the renderer must reproduce), *cost* (real-time interactivity versus minutes-per-frame offline), *the forward-versus-inverse problem* (synthesising images from known scenes versus recovering geometry, materials and lighting from observed images), and *integration with learned components* (where neural networks replace, accelerate, or constrain parts of the classical pipeline). Each methodological proposal in the field can be located along these axes, and most trade fidelity against cost or against inverse-problem tractability.
+
+## Inverse rendering and material recovery
+
+A growing line of work treats GI as an inverse problem: given multi-view photographs of a scene, recover the geometry, spatially varying materials, and illumination that explain them, so the scene can be relit or edited. *Jin et al.* (2023) propose **TensoIR**, which factorises the radiance field into a tensorial decomposition of geometry and reflectance and trains a neural inverse renderer on top. Because the underlying representation is a tensor factorisation rather than a pure MLP, TensoIR has both the capacity to capture high-frequency appearance and the structure needed to expose interpretable material parameters, and it makes joint optimisation of geometry, BRDF, and environment lighting tractable from a moderate number of input views. A persistent failure mode of earlier inverse renderers is that they assumed distant environment lighting and ignored the indirect bounces between nearby surfaces, which causes the optimiser to bake indirect light into spurious albedo variations. *Wu et al.* (2023) attack this directly with **NeFII**, an inverse rendering pipeline that explicitly models **near-field indirect illumination** during reflectance decomposition: rays are traced through the recovered scene to estimate the contribution of nearby surfaces to incoming radiance, which is then subtracted before the BRDF is fit. The result is materials that survive scene edits and relighting rather than collapsing as soon as the lighting changes. Translucent objects compound the difficulty because subsurface scattering hides multiple light bounces inside the material. *Li et al.* (2023) tackle this with a **hybrid physical-plus-neural** inverse renderer that jointly recovers shape, spatially varying surface reflectance, homogeneous subsurface-scattering parameters, and an environment map, using a physically based renderer to provide a strong inductive bias and a neural renderer to absorb residual model mismatch. These three papers map a coherent strategy for inverse GI: pick a representation whose structure already encodes the physics you care about (tensor factorisation, near-field bounces, subsurface scattering), and let the optimiser concentrate on the parameters the representation cannot eliminate by construction.
+
+## Forward rendering at interactive rates
+
+In the forward direction the central tension is whether GI effects that historically required offline path tracing can be made interactive without sacrificing physical realism. *Zeltner et al.* (2024) present **Real-time Neural Appearance Models**, a complete system in which BRDFs and the multi-layered shading networks built on top of them are evaluated by small neural networks compiled to run inside a real-time path tracer. Because the appearance model is a learned function whose evaluation cost is fixed and small, the renderer can afford the same number of shading queries per frame regardless of how complex the underlying material is, and effects such as car paint, fabrics, and layered skin that used to be reserved for offline rendering become tractable in real time. The closely related problem of how to render *specific* complex materials well rather than generically is taken up by *Zhu et al.* (2023), whose **surface-based cloth rendering model** generalises previous shading models to capture ply-level geometric and shading detail of woven and knitted fabrics within a surface BRDF rather than requiring explicit fibre-level geometry. The two papers illustrate two routes to the same goal: a generic learned appearance evaluator (Zeltner et al.) versus a domain-specific analytic model (Zhu et al.), with the trade-off being generality on one side and interpretability and editability on the other.
+
+## Monte Carlo noise and learned denoisers
+
+Even when the rendering equation is integrated correctly, sampling it with a finite ray budget produces noisy images, and an enormous fraction of practical GI research is about extracting clean images from noisy estimates. *Bálint et al.* (2023) propose **Neural Partitioning Pyramids**, a denoiser that partitions Monte Carlo samples into multiple components (direct versus indirect, diffuse versus specular, light-source-resolved buffers) and reconstructs each through a pyramid of learned filters before recombining them. The partitioning lets the network exploit the very different noise statistics of each component, which a single black-box denoiser would have to learn to disentangle on its own, and the pyramidal structure makes the filter receptive field large enough to handle the long-tailed noise that arises from rare high-energy paths. The paper sits in a methodological lineage where the architecture of the denoiser is matched to the physical structure of the noise, rather than treating denoising as an opaque image-to-image translation.
+
+## Beyond visible light: coupled physics in a single path-space
+
+Classical GI integrates only the radiative transfer equation, but many physically faithful simulations need to couple radiation with **conduction** and **convection** in the same scene (infrared rendering of warm objects, atmospheric simulation, thermal imaging). *Bati et al.* (2023) extend path-space Monte Carlo integration to all three transfer modes simultaneously, defining a unified path-space in which a single random walk can carry energy by radiation, by diffusion through a solid, or by advection through a fluid, and the contribution of each path is weighted by the appropriate physical kernel. The technical contribution is that the variance-reduction machinery developed for light transport (next-event estimation, multiple importance sampling, control variates) transfers cleanly to the coupled problem once the path-space is defined correctly. The paper points to a broader trend in modern GI methodology: the rendering equation is treated as one instance of a general transport problem, and the Monte Carlo toolbox is reused across physical domains rather than rebuilt for each one.
+
+Across these directions a small number of open questions recur. How tightly can learned components be integrated with physically based path tracing without inheriting the failure modes of both — the model bias of the network and the variance of the sampler? Can inverse renderers that explicitly model indirect light scale to scenes with strongly view-dependent appearance, where the line between geometry, material, and illumination becomes ill-defined? And as forward and inverse pipelines converge on the same neural appearance representations, is there a single representation that supports relighting, editing, and real-time rendering at once, or do these goals impose genuinely incompatible constraints?

@@ -1,0 +1,66 @@
+---
+title: Photoredox Catalysis
+description: Visible-light-driven catalysis in which a photoexcited chromophore drives single-electron transfer steps that unlock otherwise inaccessible organic transformations.
+parent: chemistry/organic-chemistry
+order: 1
+color: '#c05621'
+difficulty: advanced
+prerequisites:
+  - chemistry/organic-chemistry
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-11'
+reviewTier: frontier
+sources:
+  - type: paper
+    title: 'Ligand-to-Metal Charge Transfer (LMCT) Catalysis: Harnessing Simple Cerium Catalysts for Selective Functionalisation'
+    authors: [an-qing-2024]
+    year: 2024
+    doi: 10.1021/acs.accounts.4c00510
+    role: primary
+  - type: paper
+    title: 'Photocatalytic Carboxylate to Sulfinamide Switching Delivers a Divergent Synthesis of Sulfonamides and Sulfonyl Fluorides'
+    authors: [andrews-2023]
+    year: 2023
+    doi: 10.1021/jacs.3c07974
+    role: primary
+  - type: paper
+    title: 'Shining Fresh Light on Complex Photoredox Mechanisms through Isolation of Intermediate Radical Anions'
+    authors: [horsewill-2023]
+    year: 2023
+    doi: 10.1021/acscatal.3c02515
+    role: primary
+  - type: paper
+    title: 'Picosecond reactions of excited radical ion super-reductants'
+    authors: [pfund-2024]
+    year: 2024
+    doi: 10.1038/s41467-024-49006-5
+    role: primary
+  - type: paper
+    title: 'Photoenzymatic Asymmetric Hydroamination for Chiral Alkyl Amine Synthesis'
+    authors: [harrison-wesley-2024]
+    year: 2024
+    doi: 10.1021/jacs.4c00620
+    role: primary
+  - type: paper
+    title: 'Efficient Energy and Electron Transfer Photocatalysis with a Coulombic Dyad'
+    authors: [schmitz-matthias-2024]
+    year: 2024
+    doi: 10.1021/jacs.4c08551
+    role: primary
+---
+
+**Photoredox catalysis** uses a visible-light-absorbing chromophore as a single-electron-transfer (SET) catalyst: the photocatalyst absorbs a photon, the excited state becomes both a stronger oxidant and a stronger reductant than its ground state, and that excited-state reactivity is harnessed to inject or remove single electrons from organic substrates. The resulting open-shell intermediates (radicals, radical anions, radical cations) enable bond constructions that two-electron polar chemistry struggles with: C–C bonds across mismatched polarities, decarboxylative couplings, late-stage functionalisations on complex substrates, and stereoselective additions under mild conditions. Methodological work in the field organises around four interlocking axes: *the photocatalyst's redox window* (how strongly oxidising or reducing the excited state can be made before the catalyst photodecomposes), *the productive elementary step* (single-electron transfer, energy transfer, atom transfer, or proton-coupled electron transfer), *catalyst integration* (pairing photoredox with a second catalyst — a metal centre, an enzyme, a hydrogen-atom-transfer co-catalyst — to deliver bond-forming selectivity the photocatalyst alone cannot), and *mechanism resolution* (catching the radical-ion intermediates fast enough to tell which of several plausible cycles is actually operating).
+
+## Expanding the redox window of the photocatalyst
+
+The energetic ceiling of a photoredox transformation is set by the excited-state reduction or oxidation potential of the photocatalyst. *An et al.* (2024) survey the rapidly developing area of **ligand-to-metal charge transfer (LMCT) catalysis** with simple cerium salts: rather than relying on expensive ruthenium or iridium polypyridyl complexes, a CeIV alkoxide can be photoexcited into an LMCT state that delivers a powerfully oxidising alkoxyl radical, which then abstracts hydrogen atoms or fragments C–C bonds with selectivity that classical photoredox cycles cannot match. The strategy reframes the photocatalyst as a generator of radicals rather than a single-electron shuttle, and it shows that earth-abundant first-row metals can occupy redox windows previously dominated by precious-metal chromophores. *Pfund et al.* (2024) push the reductive ceiling in the opposite direction: they generate **excited radical-ion super-reductants** — radical anions of aromatic dyes that are then re-excited with a second photon — and use ultrafast transient absorption to track the picosecond chemistry of these extreme reductants directly. The work answers a methodological question that bears on every super-reductant scheme in the field: do these doubly-excited species live long enough to do useful chemistry, or do they decay before they can engage a substrate? The answer is "sometimes" — and Pfund et al. give a quantitative map of which substrates make the cut.
+
+## Catalyst integration: photoredox plus a partner
+
+Many of the most consequential recent advances couple the photoredox cycle to a second catalytic cycle that supplies the bond-forming selectivity. *Harrison et al.* (2024) introduce **photoenzymatic asymmetric hydroamination**: a flavin-dependent ene-reductase, when photoexcited under visible light, generates a key α-amino radical inside its chiral active site, which then adds across an alkene with enantiocontrol set by the protein scaffold. Conventional small-molecule photoredox catalysts give the right reactivity but the wrong stereoselectivity; the enzyme contributes the stereochemical recognition without supplying the open-shell chemistry on its own. *Schmitz et al.* (2024) attack the same integration problem from the other direction, fusing two chromophores into a **Coulombic dyad** held together by electrostatic rather than covalent bonds: the dyad enables sequential energy transfer and electron transfer through the same catalyst architecture, so the user does not have to optimise two separate photocatalysts whose photophysics interfere. Together the two papers map the design space of multi-catalyst photoredox: combine the chromophore with a partner (enzyme, organocatalyst, transition metal, or a second chromophore) that contributes orthogonal selectivity, and engineer their physical proximity so that the unstable radical intermediate finds its productive partner before it diffuses away.
+
+## Mechanism resolution and divergent synthesis
+
+A persistent weakness of photoredox methodology has been the difficulty of telling which mechanism is operating: many proposed cycles fit the observed kinetics equally well. *Horsewill et al.* (2023) attack this directly by **isolating the intermediate radical anions** in a complex photoredox transformation and characterising them spectroscopically, thereby distinguishing a single-electron-transfer pathway from a competing energy-transfer pathway that would have predicted the same product distribution. The methodological lesson — trap and characterise the radical intermediate rather than inferring it from product distributions — has reshaped how new photoredox cycles are validated. *Andrews et al.* (2023) demonstrate the synthetic payoff once a mechanism is understood: their **carboxylate-to-sulfinamide switching** protocol uses a single photoredox cycle to deliver either sulfonamides or sulfonyl fluorides from a common decarboxylative intermediate, with the product class selected by a downstream trapping reagent rather than by re-engineering the photocatalyst. The result is a *divergent* synthesis in which the same photocatalytic step services multiple target families, and it illustrates how mechanistic clarity translates into modular synthetic platforms. Open methodological questions remain across all four axes: how far can the redox window of earth-abundant photocatalysts be pushed before excited-state decomposition wins, how reliably can multi-catalyst systems be designed in silico, and how transferable are mechanistic conclusions between solvent regimes and substrate classes?

@@ -1,0 +1,59 @@
+---
+title: Density Functional Theory
+description: A workhorse electronic-structure framework that recasts the many-electron problem in terms of the electron density, enabling first-principles predictions of energies, forces, and spectra across molecules and solids.
+parent: physics/applied-and-computational
+order: 4
+color: '#f59e0b'
+difficulty: advanced
+prerequisites:
+  - physics/applied-and-computational/computational-physics
+  - physics/modern-and-quantum/quantum-mechanics
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-11'
+reviewTier: frontier
+sources:
+  - type: paper
+    title: 'General framework for E(3)-equivariant neural network representation of density functional theory Hamiltonian'
+    authors: [gong-2023]
+    year: 2023
+    doi: 10.1038/s41467-023-38468-8
+    role: primary
+  - type: paper
+    title: 'Atomic Cluster Expansion for Quantum-Accurate Large-Scale Simulations of Carbon'
+    authors: [qamar-2023]
+    year: 2023
+    doi: 10.1021/acs.jctc.2c01149
+    role: primary
+  - type: paper
+    title: 'Density Functional Theory-Fed Phase Field Model for Semiconductor Nanostructures'
+    authors: [alves-machado-filho-2024]
+    year: 2024
+    doi: 10.1021/acs.cgd.4c00316
+    role: supporting
+  - type: paper
+    title: 'High-throughput determination of Hubbard U and Hund J values for transition metal oxides via the linear response formalism'
+    authors: [moore-guy-2024]
+    year: 2024
+    doi: 10.1103/physrevmaterials.8.014409
+    role: primary
+---
+
+**Density functional theory (DFT)** reduces the intractable many-electron Schrödinger equation to a self-consistent problem in the **electron density**, an object of three spatial variables rather than 3N. The Hohenberg-Kohn theorems guarantee that the ground-state energy is a unique functional of the density; the Kohn-Sham construction makes the formalism practical by introducing a fictitious non-interacting system whose orbitals reproduce the true density. The accuracy and cost of any DFT calculation depend on three modelling choices: the **exchange-correlation functional**, which is approximate; the **treatment of strong electron correlation**, where local and semi-local functionals systematically fail; and the **interface between DFT and other scales**, since DFT can in principle resolve hundreds of atoms but real materials problems span thousands to millions. Modern methodology papers attack these three constraints — typically by learning surrogate models that share DFT's accuracy at a fraction of the cost, by tuning many-body corrections from first principles, or by coupling DFT outputs into multiscale frameworks.
+
+## Equivariant neural-network surrogates for the Kohn-Sham Hamiltonian
+
+Direct DFT self-consistency scales poorly with system size, but the underlying mapping from atomic geometry to Kohn-Sham Hamiltonian is local. *Gong et al.* (2023) construct an **E(3)-equivariant graph neural network** that predicts the full Kohn-Sham Hamiltonian matrix for arbitrary atomic configurations. The equivariance constraint guarantees that rotations and reflections of the input geometry produce the corresponding rotations of the output Hamiltonian without explicit data augmentation, dramatically reducing the training set needed to reach chemical accuracy. The network reaches sub-meV prediction accuracy for energies and provides direct access to the Hamiltonian itself — not only an energy or a force — so downstream operations (band-structure analysis, response functions, transport) inherit DFT-level fidelity at machine-learning cost. The construction generalises across materials classes (binary semiconductors, perovskites, twisted bilayer graphene) and represents one of the cleanest demonstrations to date that symmetry-aware ML can replace expensive self-consistency loops without sacrificing the physical content of the underlying theory.
+
+## Machine-learning interatomic potentials trained on DFT
+
+A complementary direction trains potentials on DFT energies and forces, then runs molecular dynamics with the surrogate instead of with DFT. *Qamar et al.* (2023) parametrise an **Atomic Cluster Expansion (ACE) potential for carbon** over an exhaustive set of structures (graphite, diamond, amorphous phases, defects, surfaces) spanning a wide range of volumes and energies. ACE expands the local environment in a basis of symmetric polynomial invariants, yielding a controlled hierarchy of body-order terms that converges systematically to the DFT reference. The carbon ACE reaches DFT-level accuracy across structural diversity while running at the cost of a classical potential, enabling large-scale, long-timescale simulations of carbon — defect dynamics, fracture, amorphous transitions — that DFT alone cannot reach. The methodology illustrates the general pattern of DFT-fed ML: train on a representative slice of the DFT-accessible configuration space, validate on out-of-distribution structures, and exploit the resulting potential as a multiscale connector.
+
+## Strong correlation: Hubbard parameters from first principles
+
+Standard exchange-correlation functionals (LDA, GGA) under-localise the partially filled d and f states of transition metals and rare earths, producing wrong magnetism, wrong band gaps, and wrong reaction energies. The DFT+U correction adds an on-site Hubbard penalty; the question is how to choose **U** (and the Hund coupling **J**) without fitting to experiment. *Moore et al.* (2024) perform a **high-throughput, linear-response determination of U and J** for transition-metal oxides, computing both parameters self-consistently from the response of the system to perturbations in the projector occupations rather than treating them as adjustable inputs. The resulting tables make DFT+U a parameter-free correction in a regime where it had functioned as a semi-empirical one, removing one of the last freely chosen inputs from correlated-materials calculations.
+
+## DFT as the small-scale input to multiscale models
+
+DFT excels at electronic structure and bonding, but not at micrometre-scale morphology. *Alves Machado Filho et al.* (2024) couple DFT-derived bonding and electronic parameters into a **phase-field model** of the self-induced formation of core-shell InAlN nanorods, demonstrating how immiscible-semiconductor mesoscale morphologies can be predicted from first-principles inputs. The DFT calculations supply the bulk and interface energetics; the phase-field machinery propagates them to the rod-scale dynamics. The architecture exemplifies a general pattern — DFT supplies thermodynamic and electronic parameters; a continuum or kinetic model uses them to predict the experimentally observable morphology. Open methodological questions remain: how to construct exchange-correlation functionals that are systematically improvable rather than empirically tuned; how to make ML-based surrogates extrapolate cleanly to chemistries and phases absent from the training set; how to couple linear-response Hubbard determination to thermodynamic averaging in finite-temperature DFT+DMFT pipelines; and how to embed DFT-derived parameters into multiscale workflows whose uncertainty propagates traceably to the macroscopic observable.

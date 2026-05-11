@@ -1,0 +1,64 @@
+---
+title: CRISPR Genome Editing
+description: Programmable nucleases and base/prime editors derived from microbial adaptive immunity that introduce targeted changes to genomic DNA, and the mechanistic and delivery work that determines what they can safely edit.
+parent: biology/molecular-biology
+order: 1
+color: '#b83280'
+difficulty: advanced
+prerequisites:
+  - biology/molecular-biology
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-11'
+reviewTier: frontier
+sources:
+  - type: paper
+    title: 'Scalable genetic screening for regulatory circuits using compressed Perturb-seq'
+    authors: [yao-douglas-2023]
+    year: 2023
+    doi: 10.1038/s41587-023-01964-9
+    role: primary
+  - type: paper
+    title: 'Strand-selective base editing of human mitochondrial DNA using mitoBEs'
+    authors: [yi-zongyi-2023]
+    year: 2023
+    doi: 10.1038/s41587-023-01791-y
+    role: primary
+  - type: paper
+    title: 'Bacteriophages suppress CRISPR–Cas immunity using RNA-based anti-CRISPRs'
+    authors: [camara-wilpert-2023]
+    year: 2023
+    doi: 10.1038/s41586-023-06612-5
+    role: primary
+  - type: paper
+    title: 'Rapid DNA unwinding accelerates genome editing by engineered CRISPR-Cas9'
+    authors: [eggers-2024]
+    year: 2024
+    doi: 10.1016/j.cell.2024.04.031
+    role: primary
+  - type: paper
+    title: 'An alpha-helical lid guides the target DNA toward catalysis in CRISPR-Cas12a'
+    authors: [saha-aakash-2024]
+    year: 2024
+    doi: 10.1038/s41467-024-45762-6
+    role: primary
+---
+
+**CRISPR genome editing** repurposes microbial adaptive-immunity systems — most prominently Cas9 and Cas12a — as programmable nucleases that cut, edit, or modify a chosen genomic locus specified by a short guide RNA. The methodological frontier of the field is no longer "can we cut?" but "can we cut what we want, where we want, with the consequences we want, in the cells we care about?" Four axes organise the recent literature: *editor chemistry* (extending beyond double-strand breaks to base editors, prime editors, and organelle-targeted variants that rewrite DNA without cutting it), *mechanistic resolution* (catching the conformational steps that determine on-target speed and off-target bleed), *evolutionary arms race* (mapping the anti-CRISPR systems that microbes use against each other, since they predict failure modes for therapeutic editors), and *screening throughput* (turning the editor into a measurement instrument that perturbs thousands of loci in parallel and reads out their regulatory consequences).
+
+## Expanding what the editor can write
+
+The first generation of CRISPR therapeutics relied on Cas9-induced double-strand breaks, which are blunt instruments: cells repair them through error-prone end-joining, and many genomic locations cannot tolerate the toxicity. *Yi et al.* (2023) push the editor into a compartment Cas9 cannot reach at all — the mitochondrial genome, which lacks the import machinery for guide RNAs — by building **mitoBEs**, mitochondrially targeted base editors that achieve strand-selective adenine and cytosine editing of mtDNA without introducing a double-strand break. The work matters methodologically because it decouples editor delivery (a TALE-DddA fusion crossing the mitochondrial membrane) from editor chemistry (a deaminase warhead), and it extends the toolkit to a genome whose mutations cause a large class of human disease.
+
+## Catching the nuclease in the act
+
+A persistent challenge in CRISPR mechanism work has been resolving the conformational substeps that follow guide-RNA loading. *Eggers et al.* (2024) attack this with an engineered **rapid-unwinding Cas9 variant** that accelerates the rate-limiting DNA-opening step; the variant achieves faster genome editing in cells precisely because it shortens the time the enzyme spends in the unwound-but-not-yet-cleaving state where dissociation and off-target sampling compete with productive cleavage. *Saha et al.* (2024) deliver complementary mechanistic resolution for the Cas12a family, identifying an **alpha-helical lid** that guides the target DNA strand toward the catalytic site. The lid is conserved across Cas12a orthologues, and mutating it decouples DNA binding from catalysis, supplying a structural explanation for why some Cas12a variants are intrinsically faster than others. Together the two papers move the field from "binding and cleavage" as a black box to a stepwise picture in which each substep can be tuned independently.
+
+## The microbial arms race and its therapeutic implications
+
+CRISPR systems evolved as bacterial immunity against phages, and phages have evolved counter-defences. *Camara-Wilpert et al.* (2023) report a previously unknown class of **RNA-based anti-CRISPRs** encoded in phage genomes: short RNAs that mimic the spacer-target interaction and sequester Cas complexes before they can find their genomic target. The result is not just a microbial curiosity — anti-CRISPRs predict the failure modes of therapeutic CRISPR systems in any environment containing competing nucleic acids, and they supply switches that can be deliberately engineered into delivery vehicles to turn editing off after a controlled exposure. The methodological lesson is that the bacterial pan-genome remains the primary reservoir of new editing chemistries and their off-switches; new orthologues are being characterised faster than they can be tested in mammalian cells.
+
+## Editor as measurement instrument
+
+The same property that makes Cas systems editors — programmable targeting by short guides — also makes them perturbation tools at genome scale. *Yao et al.* (2023) introduce **compressed Perturb-seq**, a scalable variant of pooled CRISPR screens with single-cell RNA-seq readout that uses compressed-sensing-style sparse pooling of guides to multiplex thousands of regulatory perturbations into a tractable number of cells. The reconstruction recovers the per-guide transcriptional effects without dedicating a cell to every guide, lifting the screen-size ceiling by an order of magnitude. The methodology rests on the observation that the underlying perturbation effects are sparse in gene-expression space, which lets standard compressed-sensing recovery untangle the mixture. Open methodological questions span the four axes: how far can base- and prime-editor windows be sharpened before specificity collapses, how transferable are mechanistic conclusions across Cas families, can anti-CRISPR-based safety switches be made dose-tunable in vivo, and what compressed-sensing readouts can be built for editor outcomes other than transcription (chromatin state, protein abundance, morphology)?

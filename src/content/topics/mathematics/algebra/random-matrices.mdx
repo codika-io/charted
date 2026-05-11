@@ -1,0 +1,72 @@
+---
+title: Random Matrices
+description: The asymptotic spectral theory of large matrices with random entries, where universal eigenvalue and eigenvector statistics emerge independently of the underlying distribution.
+parent: mathematics/algebra
+order: 7
+color: '#ef4444'
+difficulty: advanced
+prerequisites:
+  - mathematics/algebra
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-11'
+reviewTier: frontier
+sources:
+  - type: paper
+    title: 'Universality of approximate message passing with semirandom matrices'
+    authors: [dudeja-2023]
+    year: 2023
+    doi: 10.1214/23-aop1628
+    role: primary
+  - type: paper
+    title: 'Optimal lower bound on eigenvector overlaps for non-Hermitian random matrices'
+    authors: [cipolloni-2024]
+    year: 2024
+    doi: 10.1016/j.jfa.2024.110495
+    role: primary
+  - type: paper
+    title: 'On the rightmost eigenvalue of non-Hermitian random matrices'
+    authors: [cipolloni-2023]
+    year: 2023
+    doi: 10.1214/23-aop1643
+    role: primary
+  - type: paper
+    title: 'Random matrices with row constraints and eigenvalue distributions of graph Laplacians'
+    authors: [akara-pipattana-2023]
+    year: 2023
+    doi: 10.1088/1751-8121/acdcd3
+    role: primary
+  - type: paper
+    title: 'A Dyson Brownian Motion Model for Weak Measurements in Chaotic Quantum Systems'
+    authors: [gerbino-2024]
+    year: 2024
+    doi: 10.3390/quantum6020016
+    role: supporting
+  - type: paper
+    title: 'Krylov fractality and complexity in generic random matrix ensembles'
+    authors: [bhattacharjee-2025]
+    year: 2025
+    doi: 10.1103/physrevb.111.l060202
+    role: supporting
+---
+
+**Random matrix theory (RMT)** studies the spectral behaviour of large matrices whose entries are drawn from a probability distribution. Its central empirical observation, dating back to Wigner's analysis of heavy-nucleus spectra in the 1950s, is that as the dimension grows, the eigenvalue and eigenvector statistics of very different ensembles look indistinguishable: a small set of limiting laws, the **Wigner semicircle**, the **Marchenko-Pastur distribution**, the **circular law**, and the **Tracy-Widom edge**, governs essentially every model with enough independence. RMT methodology is best read as a sequence of attacks on four interlocking axes: *universality* (which microscopic distributional details survive in the large-N limit, and which wash out), *non-Hermitian spectra* (where eigenvalues live in the complex plane and eigenvectors become non-orthogonal, breaking the standard Hermitian toolbox), *structured ensembles* (matrices with sparsity, sign, or row-sum constraints that classical RMT does not cover), and *dynamics* (the Dyson Brownian motion picture that drives many of the modern proofs and connects RMT to interacting particle systems).
+
+## Universality beyond i.i.d. and rotation-invariant ensembles
+
+The strongest results in RMT historically required strong distributional assumptions: i.i.d. sub-Gaussian entries, or full rotational invariance of the matrix law. Both assumptions buy enormous symmetry but exclude matrices that arise in practice. *Dudeja et al.* (2023) take an important step beyond this by establishing universality of **approximate message passing (AMP)** algorithms on a broad class of **semirandom matrices**. AMP is iterative and is normally analysed on i.i.d. or rotation-invariant ensembles; the paper shows that its asymptotic dynamics depend only on generic eigenvector behaviour, so the same fixed-point equations describe AMP on matrices built with very limited randomness (including a randomly signed version of Marinari, Parisi, Potters, and Ritort's deterministic sine model). The methodological message is that the universality class of an algorithm can be wider than the universality class of the underlying matrix ensemble, and isolating that gap is itself a research programme.
+
+## Non-Hermitian random matrices
+
+When the entries of a real or complex matrix are i.i.d. without any symmetry constraint, the matrix is **non-Hermitian** and its eigenvalues are no longer real. Eigenvectors of non-Hermitian matrices come in left/right pairs and have nontrivial overlaps that control sensitivity to perturbations. *Cipolloni et al.* (2024) prove an **optimal lower bound on eigenvector overlaps** for non-Hermitian matrices with i.i.d. additive noise: even a noise of variance $1/N$ completely thermalises the bulk singular vectors, in particular driving them away from the deterministic eigenstructure of the unperturbed matrix. The same group, in *Cipolloni et al.* (2023), derive a **three-term asymptotic expansion**, with optimal error, for the **rightmost eigenvalue** of an i.i.d. non-Hermitian matrix as the dimension tends to infinity. The two results together sketch the modern non-Hermitian programme: pin down precise edge statistics and quantify how aggressively small perturbations reshape the spectrum, both of which are needed for applications to non-normal operators in fluid mechanics, ecology, and open quantum systems.
+
+## Structured ensembles and row constraints
+
+Many matrices arising in physics and network science do not have i.i.d. entries; they carry algebraic constraints, most commonly that each row sums to zero. The graph Laplacian is the canonical example. Classical Wigner-style theorems do not directly apply because the constraint couples the entries of each row. *Akara-pipattana et al.* (2023) develop a method for **symmetric random matrices with zero row sums** and derive the limiting eigenvalue distribution explicitly, recovering the spectral law of large random graph Laplacians in the process. The paper is a clean example of how a small structural constraint changes the limiting density (the bulk shape is no longer a semicircle), and how RMT toolkits can be adapted, rather than abandoned, when the i.i.d. assumption is broken.
+
+## Dyson Brownian motion and dynamical methods
+
+A defining technique of modern RMT is to interpret eigenvalues as interacting particles undergoing **Dyson Brownian motion (DBM)**: the spectrum becomes a stochastic process whose stationary distribution is the target ensemble, and short-time relaxation arguments yield universality results that are hard to obtain by static methods. *Gerbino et al.* (2024) put DBM to work outside of pure RMT, building a toy model of **weak continuous measurements in chaotic quantum systems**: a stochastic Schrödinger equation in which the monitoring operator is drawn from the Gaussian unitary ensemble reduces to a DBM-type evolution of measurement outcomes. The paper illustrates how a methodological tool developed inside RMT migrates to neighbouring fields and constrains their long-time statistics. From a different angle, *Bhattacharjee et al.* (2025) study **Krylov-space complexity** in generic random matrix ensembles, showing that the tridiagonal matrix associated with the Lanczos procedure exhibits fractal structure as one interpolates between chaotic and integrable spectral statistics. Krylov complexity has emerged as a sharp probe of how quickly an ensemble explores its Hilbert space, and tying its behaviour to RMT ensemble parameters gives a concrete dictionary between dynamical complexity and spectral randomness.
+
+Open methodological questions span the four axes. How wide is the universality class of fast iterative algorithms, in the spirit of Dudeja et al., once the matrix ensemble is allowed to be highly structured? Can the precise non-Hermitian edge statistics of Cipolloni and co-authors be extended to matrices with heavy-tailed entries, where the Tracy-Widom picture is known to fail? What is the right limit theory for constrained ensembles with several simultaneous constraints, not just zero row sums? And how far can DBM-style dynamical arguments be pushed into models where the noise is correlated in time, as in continuous quantum measurement chains? The answers will tighten RMT's role as a hub between probability, mathematical physics, and high-dimensional statistics.

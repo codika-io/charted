@@ -1,0 +1,78 @@
+---
+title: Quantum Error Correction
+description: Methods that protect quantum information from decoherence and gate noise by encoding logical qubits redundantly across many physical qubits, detecting errors via stabilizer measurements, and correcting them without disturbing the encoded state.
+parent: computer-science/applied-and-interdisciplinary
+order: 4
+color: '#3b82f6'
+difficulty: advanced
+prerequisites:
+  - computer-science/applied-and-interdisciplinary/quantum-computing
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-11'
+reviewTier: frontier
+sources:
+  - type: paper
+    title: 'Encoding a magic state with beyond break-even fidelity'
+    authors: [gupta-riddhi-2024]
+    year: 2024
+    doi: 10.1038/s41586-023-06846-3
+    role: primary
+  - type: paper
+    title: 'Hardware-efficient quantum error correction via concatenated bosonic qubits'
+    authors: [putterman-2025]
+    year: 2025
+    doi: 10.1038/s41586-025-08642-7
+    role: primary
+  - type: paper
+    title: 'Demonstration of Fault-Tolerant Steane Quantum Error Correction'
+    authors: [postler-2024]
+    year: 2024
+    doi: 10.1103/prxquantum.5.030326
+    role: primary
+  - type: paper
+    title: 'Optimizing Rydberg Gates for Logical-Qubit Performance'
+    authors: [jandura-2023]
+    year: 2023
+    doi: 10.1103/prxquantum.4.020336
+    role: primary
+  - type: paper
+    title: 'All-Microwave Leakage Reduction Units for Quantum Error Correction with Superconducting Transmon Qubits'
+    authors: [marques-2023]
+    year: 2023
+    doi: 10.1103/physrevlett.130.250602
+    role: supporting
+  - type: paper
+    title: 'Astrea: Accurate Quantum Error-Decoding via Practical Minimum-Weight Perfect-Matching'
+    authors: [vittal-2023]
+    year: 2023
+    doi: 10.1145/3579371.3589037
+    role: primary
+  - type: paper
+    title: 'Mixed-State Quantum Phases: Renormalization and Quantum Error Correction'
+    authors: [sang-2024]
+    year: 2024
+    doi: 10.1103/physrevx.14.031044
+    role: supporting
+---
+
+**Quantum error correction (QEC)** is the engineering and theoretical discipline that keeps quantum information alive long enough to be useful. Unlike a classical bit, a qubit cannot be copied (the no-cloning theorem) and decoheres under any interaction with its environment; gate operations themselves inject errors at rates that, on today's hardware, are orders of magnitude above what any nontrivial algorithm tolerates. QEC sidesteps this by encoding a single *logical* qubit into many physical qubits, choosing the encoding so that a small number of physical errors leaves the logical state untouched but visible: stabilizer measurements extract a syndrome that diagnoses the error without collapsing the encoded information, and a *decoder* maps that syndrome to a correction. The field organises itself around several interacting axes: *code structure* (which redundancy pattern, on which connectivity), *fault-tolerant gates* (which logical operations can be performed without amplifying noise faster than QEC removes it), *physical platform* (how the code lives on superconducting circuits, trapped ions, neutral atoms, or photonic modes), *decoders* (how quickly and accurately syndromes are processed), and *noise model* (which errors the hardware actually produces, and how QEC must be co-designed with them).
+
+## Code structures and concatenated encodings
+
+The dominant family of QEC codes today are **stabilizer codes** on two-dimensional lattices — most notably the surface code — but a long-standing alternative is **concatenation**: encode a logical qubit in a small block code, then encode each of those physical qubits in the same block code again, recursively. *Putterman et al.* (2025) demonstrate hardware-efficient QEC via **concatenated bosonic qubits**: at the lowest level, each qubit is a cat state stored in a microwave cavity that is biased to suppress bit-flip errors exponentially with the cat size, leaving phase-flip as the dominant residual; the outer code then only has to correct one error type, which dramatically reduces the qubit overhead compared with surface-code architectures that must protect against both. The bosonic-inner / discrete-outer split is a clean methodological contribution: instead of treating "the physical qubit" as a fixed primitive, the encoding is tuned to the actual noise asymmetry of the hardware, so QEC pays for redundancy only where redundancy is actually needed. *Postler et al.* (2024) take a complementary route on trapped-ion hardware, providing a full experimental demonstration of **fault-tolerant Steane code** error correction: they implement encoded state preparation, flag-based syndrome extraction, and logical operations on the 7-qubit Steane code with full fault-tolerance guarantees, and show that the logical error rate scales as predicted by the fault-tolerance threshold theorem. Together the two papers map the practical boundary of the field: concatenated bosonic codes optimise for biased-noise platforms, while small flag-protected stabilizer codes show that textbook fault-tolerance constructions are now realisable end-to-end.
+
+## Logical operations and magic states
+
+QEC protects a quantum memory, but a fault-tolerant computer also needs *logical gates* that do not exit the protected subspace. For most stabilizer codes the **Clifford gates** are easy — they admit transversal implementations that cannot spread single-qubit errors into uncorrectable patterns — but the non-Clifford gates required for universality (typically the **T gate**) must be injected via a separate distilled resource called a **magic state**. *Gupta et al.* (2024) report the first demonstration of encoding a magic state with **beyond break-even fidelity**: the encoded, distilled magic state has a higher fidelity than any physical state the unprotected hardware can produce. This crosses the threshold where QEC has actually paid for itself on a non-Clifford resource, not merely on memory — the regime that matters for practical fault-tolerant computation. Encoded magic-state preparation, combined with Clifford operations on the underlying code, gives a complete fault-tolerant gate set; the break-even result is therefore a methodological milestone rather than only an engineering one. *Sang et al.* (2024) place this kind of operational result in a broader theoretical frame by analysing **mixed-state quantum phases** through a renormalization-group lens connected to QEC. They show that the regions of parameter space in which a noisy, decohered state remains correctable correspond to genuine mixed-state phases of matter, and that the boundaries of these phases coincide with the error-correction threshold of the underlying code. The connection makes the threshold theorem feel less like a numerical fact about a particular code and more like a phase transition of the noisy quantum state itself, which sharpens what "correctability" means as a physical property.
+
+## Gate-level co-design with physical platforms
+
+QEC performance is determined as much by the underlying physical gates as by the code. *Jandura et al.* (2023) optimise **Rydberg gates for logical-qubit performance** on neutral-atom arrays: rather than tuning a two-qubit gate to maximise its raw fidelity in isolation, they optimise the gate's *error structure* — the relative balance of leakage, decoherence, and coherent miscalibration — so that the residual errors land in places the surrounding QEC code corrects efficiently. The lesson generalises beyond neutral atoms: a higher-fidelity gate with a hostile error model can perform worse, after encoding, than a lower-fidelity gate whose errors look like the noise the code was designed for. *Marques et al.* (2023) make the same point on superconducting transmons by introducing **all-microwave leakage reduction units (LRUs)**: transmon qubits are not strict two-level systems, and population that leaks out of the computational subspace is invisible to a stabilizer measurement and accumulates round after round. The LRU is a small inserted operation that resets leaked population to the computational manifold using only microwave drives, restoring the Markovian error model that surface-code decoders assume. Both papers exemplify a methodology that is now standard in the field: treat the gate, the leakage-recovery protocol, and the code as a single co-designed object rather than independent layers.
+
+## Decoders and the classical-side bottleneck
+
+Even a perfect encoded gate is useless if the *decoder* — the classical algorithm that converts syndromes into corrections — is too slow or too inaccurate to keep up with the syndrome stream. For surface codes the canonical decoder is **minimum-weight perfect matching (MWPM)** on a graph whose vertices are detected syndrome events; the difficulty is making it fast enough to run inside the QEC cycle on real hardware. *Vittal et al.* (2023) introduce **Astrea**, a practical MWPM decoder that achieves accuracy close to the optimal maximum-likelihood decoder while running fast enough for real-time operation on near-term surface-code experiments. Their construction reorganises the matching graph and exploits sparsity in realistic noise to skip computations that contribute negligibly to the matching, delivering both better accuracy and lower latency than prior MWPM implementations. The result re-positions the decoder as a first-class research target rather than a black box: at QEC code distances now being demonstrated experimentally, decoder accuracy and latency are the binding constraints on logical performance, and the methodology of building decoders that are both fast and close-to-optimal is as much a part of QEC as the codes themselves.
+
+Open methodological questions cut across all four axes. Can biased-noise inner codes be combined with low-overhead outer codes (e.g. quantum LDPC codes) without losing the bias advantage? Are co-designed gate-plus-LRU schemes portable between platforms, or must each new hardware substrate rediscover them? How should decoder design change as code distances grow and as logical operations — not just memory — become the dominant cost? And as theoretical work like the mixed-state-phases framework matures, will it suggest new code families whose thresholds correspond to physically meaningful phase transitions rather than to numerically observed crossings?

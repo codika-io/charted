@@ -1,0 +1,64 @@
+---
+title: Connectomics
+description: Reconstructing complete wiring diagrams of nervous systems from volumetric imaging, and turning those diagrams into models that connect circuit architecture to computation.
+parent: biology/neuroscience
+order: 1
+color: '#b83280'
+difficulty: advanced
+prerequisites:
+  - biology/neuroscience
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-11'
+reviewTier: frontier
+sources:
+  - type: paper
+    title: 'Functional connectomics reveals general wiring rule in mouse visual cortex'
+    authors: [ding-zhuokun-2025]
+    year: 2025
+    doi: 10.1038/s41586-025-08840-3
+    role: primary
+  - type: paper
+    title: 'Comparative connectomics of dauer reveals developmental plasticity'
+    authors: [yim-hyunsoo-2024]
+    year: 2024
+    doi: 10.1038/s41467-024-45943-3
+    role: primary
+  - type: paper
+    title: 'NEURD offers automated proofreading and feature extraction for connectomics'
+    authors: [celii-2025]
+    year: 2025
+    doi: 10.1038/s41586-025-08660-5
+    role: primary
+  - type: paper
+    title: 'A multi-modal, asymmetric, weighted, and signed description of anatomical connectivity'
+    authors: [tanner-jacob-2024]
+    year: 2024
+    doi: 10.1038/s41467-024-50248-6
+    role: primary
+  - type: paper
+    title: 'Heterogeneity of synaptic connectivity in the fly visual system'
+    authors: [cornean-2024]
+    year: 2024
+    doi: 10.1038/s41467-024-45971-z
+    role: primary
+---
+
+**Connectomics** reconstructs the wiring diagram of a nervous system at single-synapse resolution and turns it into a substrate for asking how circuits produce computation. The discipline now spans complete invertebrate connectomes (C. elegans, the fly larva and adult), partial cubic-millimetre mammalian volumes from electron microscopy, and whole-brain macroscale connectomes from diffusion MRI in humans. The methodological frontier organises around four axes: *throughput and proofreading* (automating the step that turns raw EM volumes into trusted neuron meshes, which is currently the rate-limiting bottleneck), *function from structure* (pairing the static wiring diagram with functional recordings so that connectivity statistics become predictions about activity), *comparative connectomics* (asking how the same circuit differs across developmental states, individuals, or species), and *representation* (deciding which graph object — directed, weighted, signed, multi-modal — actually captures what a circuit does).
+
+## Automating the proofreading bottleneck
+
+Even with petascale EM volumes, the limiting step of connectomics is human-supervised proofreading of automatic segmentations: every neurite must be checked for split and merge errors before its synaptic partners can be trusted. *Celii et al.* (2025) introduce **NEURD**, an automated proofreading and feature-extraction pipeline that combines learned mesh-cleanup heuristics with rule-based detection of likely segmentation errors, reducing the proofreading-hour cost per neuron by an order of magnitude on the millimetre-scale mouse cortex datasets where it is being deployed. The methodological move is to treat proofreading as a structured prediction problem in its own right — what does a correctly-segmented neuron mesh look like? — rather than as an extension of the underlying voxel segmentation. NEURD also exports per-neuron morphological features (axon length, dendritic branching, soma volume) in a standard schema, so downstream analyses can run on the cleaned graph without bespoke parsing.
+
+## Function from structure and the wiring rules of cortex
+
+A pure connectome is a static graph; the field's larger ambition is to use the graph to predict — or at least constrain — what the circuit does. *Ding et al.* (2025) attack this with **functional connectomics in mouse visual cortex**: a single cubic-millimetre volume is imaged with two-photon calcium imaging to record activity in response to visual stimuli, then prepared for serial-section EM and reconstructed at synapse resolution. The combined dataset lets them ask whether neurons with similar tuning properties are preferentially connected, and they uncover a **general wiring rule** — pyramidal neurons in mouse V1 connect to functionally similar partners with a probability that depends predictably on their tuning similarity, across multiple cell types. The result reframes cortical wiring not as random connectivity sculpted by experience but as a structured prior aligned with the functional axis that the area computes.
+
+## Comparative connectomics and what changes between states
+
+The complete C. elegans connectome has been a touchstone for forty years, but the field has only recently been able to ask how it changes across developmental conditions. *Yim et al.* (2024) report **comparative connectomics of the dauer larva**, an alternative developmental stage of C. elegans that survives harsh environments, and find substantial rewiring relative to the standard fed adult — connectivity changes that align with the behavioural changes characteristic of dauer animals. The methodology — full-EM reconstructions of two or more developmental states from the same species and quantitative graph comparison — is the prototype for a new wave of comparative work in larger nervous systems where complete reconstructions are now within reach.
+
+## Representing the graph and reading its heterogeneity
+
+Once a connectome exists, the choice of how to represent it determines what questions can be asked. *Tanner et al.* (2024) argue for a **multi-modal, asymmetric, weighted, and signed description of anatomical connectivity**: rather than reducing structural and functional measurements to a single symmetric correlation matrix, they keep the asymmetry of axonal projections, the weights of fibre counts, the signs of excitatory versus inhibitory contributions, and the modality (structural, functional, gene-expression-derived) as first-class attributes of each edge. The methodological pay-off is that classical graph-theoretic statistics (community detection, hub identification) yield qualitatively different answers under the richer representation than under their reduced symmetric counterparts. *Cornean et al.* (2024) zoom into a single specific circuit — **the fly visual system** — and show that even at the level of identifiable neuron types, **synaptic connectivity is heterogeneous** between individual cells of the same type, with biologically meaningful variance that the canonical "one neuron type, one connectivity pattern" assumption averages away. Open methodological questions cluster across the four axes: how do proofreading pipelines scale to whole-mouse-brain volumes, what activity-recording technologies pair cleanly with serial-section EM at scale, can comparative-connectomics methods isolate developmental versus individual variation in non-isogenic species, and what is the right graph object to compare circuits across orders of magnitude in size?

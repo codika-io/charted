@@ -1,0 +1,71 @@
+---
+title: Lattice QCD
+description: A non-perturbative formulation of quantum chromodynamics on a discretised Euclidean spacetime grid, used to compute hadronic spectra, transport coefficients, parton distributions, and other QCD observables from first principles.
+parent: physics/subatomic
+order: 3
+color: '#f59e0b'
+difficulty: advanced
+prerequisites:
+  - physics/subatomic/particle-physics
+  - physics/modern-and-quantum/quantum-field-theory
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-11'
+reviewTier: frontier
+sources:
+  - type: paper
+    title: 'Heavy Quark Diffusion from 2+1 Flavor Lattice QCD with 320 MeV Pion Mass'
+    authors: [altenkort-2023]
+    year: 2023
+    doi: 10.1103/physrevlett.130.231902
+    role: primary
+  - type: paper
+    title: 'Lattice quantum chromodynamics at large isospin density'
+    authors: [abbott-ryan-2023]
+    year: 2023
+    doi: 10.1103/physrevd.108.114506
+    role: primary
+  - type: paper
+    title: 'Lattice calculation of the intrinsic soft function and the Collins-Soper kernel'
+    authors: [chu-2023]
+    year: 2023
+    doi: 10.1007/jhep08(2023)172
+    role: primary
+  - type: paper
+    title: 'Quantum simulation of lattice QCD with improved Hamiltonians'
+    authors: [ciavarella-2023]
+    year: 2023
+    doi: 10.1103/physrevd.108.094513
+    role: primary
+  - type: paper
+    title: 'Three relativistic neutrons in a finite volume'
+    authors: [draper-2023]
+    year: 2023
+    doi: 10.1007/jhep07(2023)226
+    role: primary
+  - type: paper
+    title: 'Gluon helicity in the nucleon from lattice QCD and machine learning'
+    authors: [khan-tanjib-2023]
+    year: 2023
+    doi: 10.1103/physrevd.108.074502
+    role: supporting
+---
+
+**Lattice quantum chromodynamics (lattice QCD)** is the non-perturbative quantisation of QCD on a discretised four-dimensional Euclidean spacetime. The continuous gauge fields of the continuum theory are replaced by link variables living on the edges of a finite hypercubic lattice, and the quark fields are placed on the lattice sites. The path integral becomes a finite-dimensional integral that can be evaluated by Monte Carlo importance sampling, with the lattice spacing acting as an ultraviolet regulator and the lattice volume as an infrared one. The discipline organises around four interacting axes: *spectral and structural observables* (hadron masses, form factors, parton distributions), *finite-temperature and finite-density physics* (the quark-gluon plasma, transport coefficients, the phase diagram), *systematic improvement* (controlling discretisation errors, chiral and continuum extrapolation, excited-state contamination), and *new computational paradigms* (quantum simulation, machine learning, and effective theories that bridge the Euclidean lattice to Minkowski observables). Most modern methodology papers can be read as attacks on one of these axes while preserving the others.
+
+## Transport coefficients and the quark-gluon plasma
+
+Transport observables sit awkwardly inside the Euclidean formulation: they are defined by real-time correlators, but lattice QCD only directly computes Euclidean ones, so the inverse Laplace problem of analytic continuation dominates the systematic error. *Altenkort et al.* (2023) present the first calculation of the heavy-flavour spatial diffusion coefficient using **2+1 dynamical light quarks at a pion mass of around 320 MeV**, working in the temperature window where the quark-gluon plasma is created in heavy-ion collisions. The result lies significantly below earlier quenched-lattice and phenomenological estimates and therefore implies very fast hydrodynamisation of heavy quarks in the QGP — an inference that constrains the input transport coefficients of phenomenological models of RHIC and LHC data. The methodology is general: gradient-flow renormalisation of the chromoelectric correlator combined with a controlled spectral reconstruction, applied for the first time with light dynamical quarks at a near-physical pion mass.
+
+## Parton structure via large-momentum effective theory
+
+The internal partonic structure of hadrons is encoded in light-cone distributions that are intrinsically Minkowskian and therefore not directly accessible on a Euclidean lattice. **Large-momentum effective theory (LaMET)** circumvents this by computing equal-time correlators of fast-moving hadrons and matching them perturbatively to the desired light-cone objects. *Chu et al.* (2023) extend the programme to the **intrinsic soft function and the Collins-Soper kernel**, the universal ingredients controlling transverse-momentum-dependent (TMD) distributions used in semi-inclusive Drell-Yan and SIDIS analyses. They construct gauge-invariant quasi-TMD operators, perform a one-loop matching from the lattice to the continuum scheme, and demonstrate that the kernel — long believed to be inaccessible to first-principles QCD — can be extracted with controlled systematics from boosted nucleon correlators. The result enlarges the menu of light-cone observables for which lattice QCD can become a quantitative partner to collider phenomenology.
+
+## Many-hadron systems and finite-volume formalism
+
+Lattice volumes are finite, so two- and three-hadron scattering observables must be extracted from the finite-volume spectrum via a quantisation condition. *Abbott et al.* (2023) propose an algorithm to compute correlation functions for systems with the quantum numbers of **many identical mesons** — used to push lattice QCD to large isospin density, a regime previously inaccessible because the number of Wick contractions grows factorially with pion number. Their construction reorganises the contractions into a form that is numerically stable up to tens of pions and opens the door to first-principles studies of pion condensation. Complementary to that algorithmic advance, *Draper et al.* (2023) generalise the relativistic field-theoretic **three-particle finite-volume formalism** to systems of three identical spin-1/2 fermions, such as three neutrons. The generalisation closes a long-standing gap in lattice nuclear physics: until then, the three-neutron interaction — a crucial input for nuclear effective field theory and neutron-star equations of state — could not be extracted from finite-volume spectra in a controlled way.
+
+## Quantum simulation and machine-learning bridges
+
+Real-time dynamics in lattice gauge theory remain intractable for classical Monte Carlo because of the sign problem, motivating the search for alternative paradigms. *Ciavarella* (2023) derives **improved lattice-QCD Hamiltonians** designed to correct for the systematic effect of gauge-field truncations in the Hamiltonian lattice formulation that maps directly to a quantum simulator. Including the leading truncation correction recovers continuum-like behaviour at fixed qubit cost and is a necessary step for any near-term quantum simulation of QCD dynamics. On the classical side, *Khan et al.* (2023) demonstrate that lattice data combined with **machine-learning post-processing** can disentangle physical signals from inevitable mixing contamination in the gluon helicity quasi-PDF, presenting the first lattice determination of the light-cone gluon helicity correlation and numerical evidence disfavouring negative gluon polarisation in the nucleon. Open methodological questions cut across the four axes: how do quantum-simulation Hamiltonians inherit the continuum extrapolation theory of Euclidean lattice QCD; can ML-assisted reconstruction of spectral functions tame the heavy-quark transport ill-posedness; and can the three-particle formalism scale to the nuclei where chiral effective theory currently dominates?
