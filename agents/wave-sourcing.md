@@ -163,8 +163,17 @@ Always store `email_source` and `email_confidence` in the lead CSV.
 - Conversion of any `<branch>/<topic>.mdx` to `<branch>/<topic>/index.mdx`
   when an existing leaf becomes a parent (host of new subtopics).
 - `authors.yml` — one entry per cited author, keyed `<lastname>-<paper-year>`.
-- `.docs/leads/YYYY-MM-wave-NN.csv` — one row per author per paper, schema
-  defined in this directory.
+- `.docs/runs/YYYY-MM-DD-<wave-slug>/` — one self-contained folder per
+  sourcing run, containing:
+  - `run.md` — operator-written summary (seeds, dashboard counts, decisions).
+  - `candidates/<seed>.candidates.json` — raw OpenAlex dumps per seed.
+  - `keepers.json` — post-filter + judge survivors for the whole wave.
+  - `leads/<niche>.csv` — one row per author × paper × topic. Schema
+    documented in `.docs/outreach-process.md` §4.
+
+  Run folders are **immutable** once written. Cross-run dedup is handled by
+  `.docs/leads/registry.csv` (see `.docs/leads/REGISTRY.md`), reconciled
+  after every wave.
 - One PR per wave (or per parallel agent in a multi-seed run) with a
   section summarising each topic added/extended **and every topology
   change** (re-parent / intermediate node insertion).
