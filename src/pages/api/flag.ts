@@ -93,20 +93,29 @@ export const POST: APIRoute = async ({ request, cookies }) => {
     .filter(Boolean)
     .join('\n');
 
-  const labels = [
-    GITHUB_LABELS.flag,
-    KIND_LABELS[body.kind],
-    `topic/${body.topicId.replace(/\//g, ':')}`,
-  ];
+  // GitHub label names are capped at 50 characters and reject many separators.
+  // We only attach short, well-known labels (the flag-from-reviewer marker plus
+  // the kind label) — the full topic path lives in the title and body, which
+  // is enough for triage. Adding labels is also non-fatal: missing labels in
+  // the repo shouldn't kill the whole submission.
+  const labels = [GITHUB_LABELS.flag, KIND_LABELS[body.kind]];
 
   let issueUrl: string;
   let issueNumber: number;
   try {
     const octo = getOctokit();
     const { owner, repo } = repoCoords();
-    const created = await octo.issues.create({ owner, repo, title: issueTitle, body: issueBody, labels });
+    const created = await octo.issues.create({ owner, repo, title: issueTitle, body: issueBody });
     issueUrl = created.data.html_url;
     issueNumber = created.data.number;
+    // Attempt to label after creation; swallow label-only failures so a missing
+    // label in the repo doesn't surface as "GitHub issue creation failed" to
+    // the reviewer who actually got an issue opened.
+    try {
+      await octo.issues.addLabels({ owner, repo, issue_number: issueNumber, labels });
+    } catch {
+      /* labels are nice-to-have, not required for the flag to be actionable */
+    }
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Unknown error';
     const isConfig = /Missing required env var/.test(message);
