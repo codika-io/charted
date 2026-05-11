@@ -40,6 +40,7 @@ Thumbs.db
 # internal dev docs
 CLAUDE.md
 .docs/
+.claude/
 
 # ── Entire ───────────────────────────────────────────────────
 .entire/

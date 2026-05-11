@@ -59,11 +59,12 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for the full flow, including the unified 
 
 | File / dir | What it is |
 |---|---|
-| `src/content/topics/**.mdx` | Every topic. Frontmatter + MDX body. |
+| `src/content/topics/**.mdx` | Every topic. Frontmatter + MDX body. Schema in `src/content.config.ts`. |
 | `reviewers.yml` | Canonical reviewer registry. CI parses this. |
-| `authors.yml` | Paper-author registry referenced by `sources[].authors`. |
+| `authors.yml` | Paper-author registry referenced by `sources[].authors` on every topic. |
 | `scripts/build-graph.mjs` | Pre-build step. Emits `src/generated/graph.json` with bidirectional closures. |
-| `scripts/ingest-paper.mjs` | arXiv → closure overlap + frontmatter draft. |
+| `scripts/ingest-paper.mjs` | arXiv → closure overlap + frontmatter draft for adding a single new paper. |
+| `scripts/source-wave.mjs` | OpenAlex → candidate paper list for a seed topic (recency + citation + first-author filters). Output goes to the operator for methodology review before any topic page is written. |
 | `scripts/seed-issues.mjs` | One-time: creates a tracking issue per topic. |
 | `scripts/archive-non-mvp.mjs` | One-time: marks non-MVP topics `status: archived`. |
 | `src/components/islands/AtlasGraph.tsx` | Layered DAG visualization (ELK + React Flow). |
@@ -71,6 +72,14 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for the full flow, including the unified 
 | `src/pages/contributors/[handle].astro` | Per-reviewer profile page. |
 | `.github/PULL_REQUEST_TEMPLATE.md` | Required reviewer-attestation trailers. |
 | `.github/workflows/review-check.yml` | Soft-enforced CI attestation check. |
+
+### How `authors.yml` and `reviewers.yml` interact
+
+Every paper cited on a topic page lists its authors by key — `sources[].authors: [behrouz-2024, gui-2023, …]`. Those keys resolve against `authors.yml`, which carries the author's display name, ORCID, current affiliation, h-index, and (optionally) public contact info. Keys use the convention `<lastname>-<year-of-paper>`, disambiguated when needed (`song-rui-2023`, `yuan-wei-2023`).
+
+`reviewers.yml` is a separate registry of verified reviewers — domain experts who have signed off on one or more topic pages within their declared expertise. A reviewer entry includes their GitHub handle, ORCID, and the topic IDs they are attested for. When someone signs in via ORCID on the site and matches a key in `authors.yml`, they can one-click promote themselves into `reviewers.yml` via a PR.
+
+The two files together encode the core invariant of the project: an agent can draft anything, but a topic page is only "reviewed" once at least one `reviewers.yml` entry attests to it.
 
 ## Tech stack
 
