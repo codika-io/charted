@@ -47,11 +47,9 @@ export default function ReviewChooser({
     return () => document.removeEventListener('keydown', onKey);
   }, [open, view]);
 
-  useEffect(() => {
-    if (open && view === 'chooser') {
-      dialogRef.current?.querySelector<HTMLElement>('[data-autofocus]')?.focus();
-    }
-  }, [open, view]);
+  // Intentionally no auto-focus on the chooser cards: both paths are peers
+  // and pre-selecting one leaves a persistent blue border that stacks with
+  // hover state on the other card. The user picks.
 
   function rememberPath(path: 'flag' | 'edit') {
     try {
@@ -126,8 +124,7 @@ export default function ReviewChooser({
                   <button
                     type="button"
                     onClick={openFlag}
-                    data-autofocus
-                    className="group text-left border border-surface-300 hover:border-accent-500 p-5 transition-colors focus:outline-none focus:border-accent-500"
+                    className="group text-left border border-surface-300 hover:border-accent-500 focus-visible:border-accent-500 p-5 transition-colors"
                   >
                     <div className="flex items-center gap-2 mb-2 text-surface-700 group-hover:text-accent-700">
                       <FlagIcon size={16} />
@@ -147,7 +144,7 @@ export default function ReviewChooser({
                   <button
                     type="button"
                     onClick={openEdit}
-                    className="group text-left border border-surface-300 hover:border-accent-500 p-5 transition-colors focus:outline-none focus:border-accent-500"
+                    className="group text-left border border-surface-300 hover:border-accent-500 focus-visible:border-accent-500 p-5 transition-colors"
                   >
                     <div className="flex items-center gap-2 mb-2 text-surface-700 group-hover:text-accent-700">
                       <EditIcon size={16} />
