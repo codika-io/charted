@@ -151,9 +151,24 @@ export default function FlagForm({ topicId, defaultKind = 'factual-error', conte
           minLength={5}
           maxLength={4000}
           rows={5}
+          aria-describedby="flag-details-help"
           placeholder="Be specific. What's wrong, and how would you fix it?"
           className="w-full text-sm border border-surface-300 px-3 py-2 focus:outline-none focus:border-accent-500 font-sans"
         />
+        <span
+          id="flag-details-help"
+          className={`text-xs mt-1 block ${
+            comment.trim().length > 0 && comment.trim().length < 5
+              ? 'text-accent-700'
+              : 'text-surface-400'
+          }`}
+        >
+          {comment.trim().length === 0
+            ? 'At least 5 characters.'
+            : comment.trim().length < 5
+              ? `${5 - comment.trim().length} more character${5 - comment.trim().length === 1 ? '' : 's'} needed to submit.`
+              : `${comment.trim().length} / 4000 characters.`}
+        </span>
       </label>
 
       <label className="block mb-6">
@@ -178,6 +193,7 @@ export default function FlagForm({ topicId, defaultKind = 'factual-error', conte
           <button
             type="submit"
             disabled={submitting || comment.trim().length < 5}
+            title={comment.trim().length < 5 ? 'Add at least 5 characters in Details to submit' : undefined}
             className="font-mono text-xs uppercase tracking-wider px-4 py-2 border border-accent-500 bg-accent-500 text-surface-0 hover:bg-accent-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             {submitting ? 'Submitting…' : 'Submit flag'}
