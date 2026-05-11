@@ -581,3 +581,80 @@ gui-2023:
   contact:
     email: ~
     scholar: ~
+
+guo-tao-2023:
+  name: Tao Guo
+  orcid: ~
+  affiliation: Hong Kong Polytechnic University
+  affiliation_country: HK
+  openalex: ~
+  h_index: 3
+  contact:
+    scholar: ~
+    email: ~
+
+xiong-2023:
+  name: Yuanhao Xiong
+  orcid: 0000-0002-0940-2079
+  affiliation: UCLA Health
+  affiliation_country: US
+  openalex: ~
+  h_index: 11
+  contact:
+    scholar: ~
+    email: ~
+
+song-rui-2023:
+  name: Rui Song
+  orcid: 0000-0001-7359-1081
+  affiliation: Technical University of Munich
+  affiliation_country: DE
+  openalex: ~
+  h_index: 11
+  contact:
+    scholar: ~
+    email: ~
+
+su-ningxin-2023:
+  name: Ningxin Su
+  orcid: 0000-0003-0132-7585
+  affiliation: University of Toronto
+  affiliation_country: CA
+  openalex: ~
+  h_index: 4
+  contact:
+    scholar: ~
+    email: ~
+
+luo-kangyang-2023:
+  name: Kangyang Luo
+  orcid: 0009-0002-0328-2026
+  affiliation: East China Normal University
+  affiliation_country: CN
+  openalex: ~
+  h_index: 5
+  contact:
+    scholar: ~
+    email: ~
+
+chen-dengsheng-2023:
+  name: Dengsheng Chen
+  orcid: ~
+  affiliation: ~
+  affiliation_country: ~
+  openalex: ~
+  h_index: 8
+  contact:
+    scholar: ~
+    email: ~
+
+yuan-wei-2023:
+  name: Wei Yuan
+  orcid: 0000-0002-9400-842X
+  affiliation: The University of Queensland
+  affiliation_country: AU
+  openalex: ~
+  h_index: 10
+  contact:
+    scholar: ~
+    email: ~

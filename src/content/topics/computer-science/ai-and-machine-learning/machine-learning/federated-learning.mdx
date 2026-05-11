@@ -1,0 +1,76 @@
+---
+title: Federated Learning
+description: A distributed learning paradigm in which many clients collaboratively train a shared model under privacy and communication constraints, exchanging only model updates rather than raw data.
+parent: computer-science/ai-and-machine-learning/machine-learning
+order: 5
+color: '#3b82f6'
+difficulty: advanced
+prerequisites:
+  - computer-science/ai-and-machine-learning/machine-learning
+status: draft
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-11'
+reviewTier: frontier
+sources:
+  - type: paper
+    title: 'PromptFL: Let Federated Participants Cooperatively Learn Prompts Instead of Models'
+    authors: [guo-tao-2023]
+    year: 2023
+    doi: 10.1109/tmc.2023.3302410
+    role: primary
+  - type: paper
+    title: 'FedDM: Iterative Distribution Matching for Communication-Efficient Federated Learning'
+    authors: [xiong-2023]
+    year: 2023
+    doi: 10.1109/cvpr52729.2023.01566
+    role: primary
+  - type: paper
+    title: 'Federated Learning via Decentralized Dataset Distillation in Resource-Constrained Edge Environments'
+    authors: [song-rui-2023]
+    year: 2023
+    doi: 10.1109/ijcnn54540.2023.10191879
+    role: supporting
+  - type: paper
+    title: 'Asynchronous Federated Unlearning'
+    authors: [su-ningxin-2023]
+    year: 2023
+    doi: 10.1109/infocom53939.2023.10229075
+    role: primary
+  - type: paper
+    title: 'GradMA: A Gradient-Memory-based Accelerated Federated Learning with Alleviated Catastrophic Forgetting'
+    authors: [luo-kangyang-2023]
+    year: 2023
+    doi: 10.1109/cvpr52729.2023.00361
+    role: primary
+  - type: paper
+    title: 'Elastic Aggregation for Federated Optimization'
+    authors: [chen-dengsheng-2023]
+    year: 2023
+    doi: 10.1109/cvpr52729.2023.01173
+    role: primary
+  - type: paper
+    title: 'Manipulating Federated Recommender Systems: Poisoning with Synthetic Users and Its Countermeasures'
+    authors: [yuan-wei-2023]
+    year: 2023
+    doi: 10.1145/3539618.3591722
+    role: primary
+---
+
+**Federated learning (FL)** trains a shared model across many clients — phones, hospitals, banks, edge sensors — without centralising their raw data. Each client performs local optimisation on its own dataset and uploads only model updates (gradients or weights) to a coordinator, which aggregates the updates into a new global model and ships it back. The canonical algorithm, **FedAvg**, runs several SGD steps per client between rounds and averages client weights at the server. Around that simple loop the field studies four interacting axes: *communication cost* (uploading and downloading model parameters dominates round time on real networks), *statistical heterogeneity* (clients' local distributions are non-IID, so naïve averaging degrades convergence), *privacy and trust* (clients may be untrusted or adversarial; updates can leak training data), and *governance* (regulators may force a client's data to be forgotten after training). Methodological work in FL is best understood as attacks on these four constraints, and most architectural proposals address one or two of them at the cost of another.
+
+## Reducing communication cost
+
+Model updates are large; many of FL's most cited methods buy bandwidth in different currencies. *Xiong et al.* (2023) propose **FedDM**, which replaces model averaging with **iterative distribution matching**: each client synthesises a small set of pseudo-samples whose embeddings match the local data distribution, and the server trains the global model on the union of pseudo-samples rather than on raw weights. Communication scales with the synthetic dataset rather than with the model, so the savings grow as models get bigger. A related strand replaces model parameters entirely. *Guo et al.* (2023) introduce **PromptFL** for the foundation-model era: when every client already has access to a frozen pretrained backbone, federated training only needs to share **prompts**, which are orders of magnitude smaller than the underlying model. PromptFL recasts the federated problem as **federated prompt tuning** and demonstrates that this both cuts uplink/downlink bandwidth and enables non-IID clients to converge on a useful set of cooperatively-learned prompts. *Song et al.* (2023) push the idea further into resource-constrained edge settings via **decentralised dataset distillation**: each client distils its private dataset into a compact synthetic surrogate that captures the same training signal, and the surrogates — not the model weights — circulate between peers. The three approaches map a clean design space: send less information per round (FedDM), send updates to fewer parameters (PromptFL), or send a distilled view of the data instead of the model (Song et al.).
+
+## Aggregation rules under heterogeneity
+
+When clients hold non-IID data, server-side averaging silently underfits the heads of the data distribution and forgets the tails. *Luo et al.* (2023) attack this with **GradMA**, a gradient-memory accelerator: the server maintains a running memory of past client gradients and uses it both to correct the current round's aggregate and to alleviate the **catastrophic forgetting** that arises when clients participate only intermittently. The memory acts as a regulariser that biases the global model toward directions consistent with the full client population rather than the small subset participating in any given round. *Chen et al.* (2023) take a complementary route with **Elastic Aggregation**, an alternative to FedAvg in which each parameter's aggregation weight is scaled by an *elasticity* coefficient that captures how sensitive the global loss is to perturbations in that parameter; insensitive parameters absorb large client-specific updates without disturbing the global solution, while sensitive parameters are aggregated conservatively. Both papers fit a broader pattern in heterogeneous FL: introduce a sufficient statistic — past gradients, parameter sensitivities, client similarity — that the naïve averaging procedure throws away.
+
+## Unlearning and the right to erasure
+
+Regulations such as the GDPR's right to erasure require that a model trained on a user's data behave, after a deletion request, as if that user had never contributed. In centralised learning this is already hard; in FL it is harder, because client contributions are interleaved over many rounds and the server never observes the data directly. *Su et al.* (2023) define **asynchronous federated unlearning** and propose a procedure that removes the influence of a withdrawing client without retraining the global model from scratch. The method tracks per-client update fingerprints during training and, on a deletion request, performs a calibrated rollback that approximately reverses the relevant contributions while letting the rest of the federation continue training in parallel. The framing matters: deletion is no longer a one-shot artefact of post-training data scrubbing but a first-class operation in the FL protocol, with its own latency, cost, and approximation guarantees.
+
+## Adversarial robustness and poisoning
+
+Because clients directly upload model updates, FL exposes a wider attack surface than centralised training. *Yuan et al.* (2023) study **federated recommender systems**, where the global model recommends items to users while their interaction logs stay local. They show that an attacker controlling a small number of clients can **poison** the system with synthetic user trajectories and bias recommendations toward arbitrary items, and they propose countermeasures based on update-clustering and anomaly detection at the server. The result is a clean case study of the general FL poisoning problem: the server must distinguish honest non-IID updates from adversarially crafted ones using only the updates themselves, since it has no access to the underlying data. Open methodological questions extend across the four axes above: can communication-efficient protocols and unlearning compose without exploding cost? Are aggregation rules robust under both heterogeneity and a Byzantine fraction of clients? And how do federated foundation models, in which only adapters or prompts circulate, change the geometry of all four constraints at once?
