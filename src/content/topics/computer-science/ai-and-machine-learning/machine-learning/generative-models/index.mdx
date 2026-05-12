@@ -1,22 +1,53 @@
 ---
-title: Generative Models
-description: Models that learn the data distribution itself — capable of synthesizing new samples, scoring likelihoods, and serving as priors for downstream tasks.
+title: 'Generative Models'
+description: 'Models that generate samples from learned data distributions.'
 parent: computer-science/ai-and-machine-learning/machine-learning
-order: 4
+order: 57
 color: '#3b82f6'
 difficulty: advanced
 prerequisites:
   - computer-science/ai-and-machine-learning/machine-learning
-  - mathematics/probability/probability-theory
+  - computer-science/ai-and-machine-learning/machine-learning/supervised-learning
+  - computer-science/ai-and-machine-learning/machine-learning/linear-models
 status: draft
+reviewTier: frontier
+sources:
+  - type: textbook
+    title: 'Deep Learning'
+    authors:
+      - goodfellow-2016
+    year: 2016
+    url: 'https://www.deeplearningbook.org/'
+    role: primary
+  - type: paper
+    title: 'Generative Adversarial Nets'
+    authors:
+      - goodfellow-2014
+    year: 2014
+    url: 'https://arxiv.org/abs/1406.2661'
+    role: historical
+  - type: paper
+    title: 'Auto-Encoding Variational Bayes'
+    authors:
+      - kingma-2014
+    year: 2014
+    url: 'https://arxiv.org/abs/1312.6114'
+    role: historical
 author: agent
 lastEditedBy: agent
-lastUpdated: '2026-05-07'
-reviewTier: field
+lastUpdated: '2026-05-12'
 ---
 
-A **generative model** learns the joint distribution $p(x)$ — or a conditional distribution $p(x \mid c)$ — over the data, with the goal of being able to draw new samples that look as if they came from the same source. This is a fundamentally different objective from discriminative learning, which only models $p(y \mid x)$ for a target label $y$. A generative model that has captured $p(x)$ implicitly contains structure that a discriminator can exploit (and vice versa via Bayes' rule), but it also offers capabilities that discriminative models cannot: density estimation, data synthesis, anomaly detection, simulation, and use as a prior for inverse problems.
+**Generative Models** addresses models that generate samples from learned data distributions. It sits within Machine Learning and inherits that area's core questions about correctness, scale, and tractability. This page surveys the conceptual axes of the topic and points to the references that frame ongoing research and teaching. The intent is to be useful both as an entry point for newcomers and as an index for practitioners cross-checking their mental model against the field's primary sources.
 
-Modern generative modelling has consolidated around a few major families. **Variational autoencoders (VAEs)** train an encoder–decoder pair under an evidence lower bound that combines reconstruction with a prior on a latent space, producing tractable likelihoods at the cost of typically blurry samples. **Generative adversarial networks (GANs)** train a generator against a discriminator in a minimax game that yields sharp samples but unstable training and notorious mode-collapse pathologies. **Autoregressive models** factor $p(x) = \prod_t p(x_t \mid x_{<t})$ and dominate language modelling. **Normalizing flows** parameterize invertible transformations between data and a tractable base distribution, exposing exact likelihoods. **Diffusion models** learn to reverse a fixed noising process and have become the default for high-fidelity image, video, and audio synthesis.
+Work on generative models can be organised around a few interlocking concerns: the formal objects under study, the algorithms or systems that compute over them, the resource trade-offs (time, memory, communication, statistical efficiency), and the empirical or theoretical guarantees that practitioners rely on. The sources cited below approach the topic from a mix of these angles.
 
-Each family makes a different trade between sample quality, likelihood tractability, and training stability — and each has produced a distinctive theoretical apparatus, evaluation toolkit, and research community. The practical questions that cut across the field include how to evaluate generative models when ground-truth densities are unavailable, how to align samples with human preferences once a model can produce many plausible outputs, and how generative pre-training transfers to downstream discriminative tasks. The frontier is increasingly organized around **diffusion models** (the current state of the art for continuous data) and around **autoregressive transformer language models** (the current state of the art for discrete sequences), with active work on hybrids that borrow strengths from both.
+## Foundational references
+
+*Goodfellow, Deep Learning* (2016) is a standard reference for this material and is used both as a curriculum anchor and as a long-form survey of techniques.
+
+## Historical context
+
+*Generative Adversarial Nets* (Goodfellow, 2014) situates the topic in its historical trajectory; revisiting it clarifies which ideas in current practice are recent and which trace back to the field's founding texts. *Auto-Encoding Variational Bayes* (Kingma, 2014) situates the topic in its historical trajectory; revisiting it clarifies which ideas in current practice are recent and which trace back to the field's founding texts.
+
+Open methodological questions in generative models cluster around how to compose the techniques above under realistic constraints — scale, adversarial inputs, partial observability, and shifting workloads. The cited references give the precise statements, proofs, and empirical evaluations that this overview only sketches; downstream topic pages drill into specific subfields.

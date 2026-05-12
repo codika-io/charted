@@ -1,0 +1,48 @@
+---
+title: 'Large Language Models'
+description: 'Pretraining, scaling, and capabilities of large LMs.'
+parent: computer-science/ai-and-machine-learning/natural-language-processing
+order: 11
+color: '#3b82f6'
+difficulty: advanced
+prerequisites:
+  - computer-science/ai-and-machine-learning/natural-language-processing
+  - computer-science/ai-and-machine-learning/natural-language-processing/text-classification
+  - computer-science/ai-and-machine-learning/natural-language-processing/named-entity-recognition
+status: draft
+reviewTier: frontier
+sources:
+  - type: paper
+    title: 'Language Models are Few-Shot Learners'
+    authors:
+      - brown-2020
+    year: 2020
+    arxiv: '2005.14165'
+    url: 'https://arxiv.org/abs/2005.14165'
+    role: historical
+  - type: paper
+    title: 'LLaMA: Open and Efficient Foundation Language Models'
+    authors:
+      - touvron-2023
+    year: 2023
+    arxiv: '2302.13971'
+    url: 'https://arxiv.org/abs/2302.13971'
+    role: primary
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-12'
+---
+
+**Large Language Models** addresses pretraining, scaling, and capabilities of large lms. It sits within Natural Language Processing and inherits that area's core questions about correctness, scale, and tractability. This page surveys the conceptual axes of the topic and points to the references that frame ongoing research and teaching. The intent is to be useful both as an entry point for newcomers and as an index for practitioners cross-checking their mental model against the field's primary sources.
+
+Work on large language models can be organised around a few interlocking concerns: the formal objects under study, the algorithms or systems that compute over them, the resource trade-offs (time, memory, communication, statistical efficiency), and the empirical or theoretical guarantees that practitioners rely on. The sources cited below approach the topic from a mix of these angles.
+
+## Foundational references
+
+*LLaMA: Open and Efficient Foundation Language Models* (Touvron, 2023) contributes to this area as a primary methodological reference; readers should consult it directly for the precise formulation and results.
+
+## Historical context
+
+*Language Models are Few-Shot Learners* (Brown, 2020) situates the topic in its historical trajectory; revisiting it clarifies which ideas in current practice are recent and which trace back to the field's founding texts.
+
+Open methodological questions in large language models cluster around how to compose the techniques above under realistic constraints — scale, adversarial inputs, partial observability, and shifting workloads. The cited references give the precise statements, proofs, and empirical evaluations that this overview only sketches; downstream topic pages drill into specific subfields.

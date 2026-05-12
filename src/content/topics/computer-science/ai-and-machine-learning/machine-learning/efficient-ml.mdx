@@ -1,0 +1,36 @@
+---
+title: 'Efficient Machine Learning'
+description: 'Pruning, quantization, distillation, and on-device inference.'
+parent: computer-science/ai-and-machine-learning/machine-learning
+order: 48
+color: '#3b82f6'
+difficulty: advanced
+prerequisites:
+  - computer-science/ai-and-machine-learning/machine-learning
+  - computer-science/ai-and-machine-learning/machine-learning/supervised-learning
+  - computer-science/ai-and-machine-learning/machine-learning/linear-models
+status: draft
+reviewTier: frontier
+sources:
+  - type: paper
+    title: 'MobileNets: Efficient Convolutional Neural Networks for Mobile Vision Applications'
+    authors:
+      - howard-2017
+    year: 2017
+    arxiv: '1704.04861'
+    url: 'https://arxiv.org/abs/1704.04861'
+    role: primary
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-12'
+---
+
+**Efficient Machine Learning** addresses pruning, quantization, distillation, and on-device inference. It sits within Machine Learning and inherits that area's core questions about correctness, scale, and tractability. This page surveys the conceptual axes of the topic and points to the references that frame ongoing research and teaching. The intent is to be useful both as an entry point for newcomers and as an index for practitioners cross-checking their mental model against the field's primary sources.
+
+Work on efficient machine learning can be organised around a few interlocking concerns: the formal objects under study, the algorithms or systems that compute over them, the resource trade-offs (time, memory, communication, statistical efficiency), and the empirical or theoretical guarantees that practitioners rely on. The sources cited below approach the topic from a mix of these angles.
+
+## Foundational references
+
+*MobileNets: Efficient Convolutional Neural Networks for Mobile Vision Applications* (Howard, 2017) contributes to this area as a primary methodological reference; readers should consult it directly for the precise formulation and results.
+
+Open methodological questions in efficient machine learning cluster around how to compose the techniques above under realistic constraints — scale, adversarial inputs, partial observability, and shifting workloads. The cited references give the precise statements, proofs, and empirical evaluations that this overview only sketches; downstream topic pages drill into specific subfields.

@@ -1,0 +1,48 @@
+---
+title: 'Few-Shot Learning'
+description: 'Generalizing from a handful of examples.'
+parent: computer-science/ai-and-machine-learning/machine-learning
+order: 23
+color: '#3b82f6'
+difficulty: advanced
+prerequisites:
+  - computer-science/ai-and-machine-learning/machine-learning
+  - computer-science/ai-and-machine-learning/machine-learning/supervised-learning
+  - computer-science/ai-and-machine-learning/machine-learning/linear-models
+status: draft
+reviewTier: frontier
+sources:
+  - type: paper
+    title: 'Matching Networks for One Shot Learning'
+    authors:
+      - vinyals-2016
+    year: 2016
+    arxiv: '1606.04080'
+    url: 'https://arxiv.org/abs/1606.04080'
+    role: historical
+  - type: paper
+    title: 'Prototypical Networks for Few-shot Learning'
+    authors:
+      - snell-2017
+    year: 2017
+    arxiv: '1703.05175'
+    url: 'https://arxiv.org/abs/1703.05175'
+    role: primary
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-12'
+---
+
+**Few-Shot Learning** addresses generalizing from a handful of examples. It sits within Machine Learning and inherits that area's core questions about correctness, scale, and tractability. This page surveys the conceptual axes of the topic and points to the references that frame ongoing research and teaching. The intent is to be useful both as an entry point for newcomers and as an index for practitioners cross-checking their mental model against the field's primary sources.
+
+Work on few-shot learning can be organised around a few interlocking concerns: the formal objects under study, the algorithms or systems that compute over them, the resource trade-offs (time, memory, communication, statistical efficiency), and the empirical or theoretical guarantees that practitioners rely on. The sources cited below approach the topic from a mix of these angles.
+
+## Foundational references
+
+*Prototypical Networks for Few-shot Learning* (Snell, 2017) contributes to this area as a primary methodological reference; readers should consult it directly for the precise formulation and results.
+
+## Historical context
+
+*Matching Networks for One Shot Learning* (Vinyals, 2016) situates the topic in its historical trajectory; revisiting it clarifies which ideas in current practice are recent and which trace back to the field's founding texts.
+
+Open methodological questions in few-shot learning cluster around how to compose the techniques above under realistic constraints — scale, adversarial inputs, partial observability, and shifting workloads. The cited references give the precise statements, proofs, and empirical evaluations that this overview only sketches; downstream topic pages drill into specific subfields.

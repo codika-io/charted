@@ -1,0 +1,36 @@
+---
+title: 'Chain-of-Thought Reasoning'
+description: 'Step-by-step reasoning prompts and reasoning models.'
+parent: computer-science/ai-and-machine-learning/natural-language-processing
+order: 16
+color: '#3b82f6'
+difficulty: advanced
+prerequisites:
+  - computer-science/ai-and-machine-learning/natural-language-processing
+  - computer-science/ai-and-machine-learning/natural-language-processing/text-classification
+  - computer-science/ai-and-machine-learning/natural-language-processing/named-entity-recognition
+status: draft
+reviewTier: frontier
+sources:
+  - type: paper
+    title: 'Chain-of-Thought Prompting Elicits Reasoning in Large Language Models'
+    authors:
+      - wei-jason-2022
+    year: 2022
+    arxiv: '2201.11903'
+    url: 'https://arxiv.org/abs/2201.11903'
+    role: primary
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-12'
+---
+
+**Chain-of-Thought Reasoning** addresses step-by-step reasoning prompts and reasoning models. It sits within Natural Language Processing and inherits that area's core questions about correctness, scale, and tractability. This page surveys the conceptual axes of the topic and points to the references that frame ongoing research and teaching. The intent is to be useful both as an entry point for newcomers and as an index for practitioners cross-checking their mental model against the field's primary sources.
+
+Work on chain-of-thought reasoning can be organised around a few interlocking concerns: the formal objects under study, the algorithms or systems that compute over them, the resource trade-offs (time, memory, communication, statistical efficiency), and the empirical or theoretical guarantees that practitioners rely on. The sources cited below approach the topic from a mix of these angles.
+
+## Foundational references
+
+*Chain-of-Thought Prompting Elicits Reasoning in Large Language Models* (Wei, 2022) contributes to this area as a primary methodological reference; readers should consult it directly for the precise formulation and results.
+
+Open methodological questions in chain-of-thought reasoning cluster around how to compose the techniques above under realistic constraints — scale, adversarial inputs, partial observability, and shifting workloads. The cited references give the precise statements, proofs, and empirical evaluations that this overview only sketches; downstream topic pages drill into specific subfields.

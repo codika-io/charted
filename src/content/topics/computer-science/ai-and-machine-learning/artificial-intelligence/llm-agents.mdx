@@ -1,0 +1,44 @@
+---
+title: 'LLM-Based Agents'
+description: 'Tool-using, planning, and multi-step LLM agent systems.'
+parent: computer-science/ai-and-machine-learning/artificial-intelligence
+order: 10
+color: '#3b82f6'
+difficulty: advanced
+prerequisites:
+  - computer-science/ai-and-machine-learning/artificial-intelligence
+  - computer-science/ai-and-machine-learning/artificial-intelligence/search-and-planning
+  - computer-science/ai-and-machine-learning/artificial-intelligence/constraint-satisfaction
+status: draft
+reviewTier: frontier
+sources:
+  - type: paper
+    title: 'ReAct: Synergizing Reasoning and Acting in Language Models'
+    authors:
+      - yao-2023
+    year: 2023
+    arxiv: '2210.03629'
+    url: 'https://arxiv.org/abs/2210.03629'
+    role: primary
+  - type: paper
+    title: 'Toolformer: Language Models Can Teach Themselves to Use Tools'
+    authors:
+      - schick-2023
+    year: 2023
+    arxiv: '2302.04761'
+    url: 'https://arxiv.org/abs/2302.04761'
+    role: primary
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-12'
+---
+
+**LLM-Based Agents** addresses tool-using, planning, and multi-step llm agent systems. It sits within Artificial Intelligence and inherits that area's core questions about correctness, scale, and tractability. This page surveys the conceptual axes of the topic and points to the references that frame ongoing research and teaching. The intent is to be useful both as an entry point for newcomers and as an index for practitioners cross-checking their mental model against the field's primary sources.
+
+Work on llm-based agents can be organised around a few interlocking concerns: the formal objects under study, the algorithms or systems that compute over them, the resource trade-offs (time, memory, communication, statistical efficiency), and the empirical or theoretical guarantees that practitioners rely on. The sources cited below approach the topic from a mix of these angles.
+
+## Foundational references
+
+*ReAct: Synergizing Reasoning and Acting in Language Models* (Yao, 2023) contributes to this area as a primary methodological reference; readers should consult it directly for the precise formulation and results. *Toolformer: Language Models Can Teach Themselves to Use Tools* (Schick, 2023) contributes to this area as a primary methodological reference; readers should consult it directly for the precise formulation and results.
+
+Open methodological questions in llm-based agents cluster around how to compose the techniques above under realistic constraints — scale, adversarial inputs, partial observability, and shifting workloads. The cited references give the precise statements, proofs, and empirical evaluations that this overview only sketches; downstream topic pages drill into specific subfields.

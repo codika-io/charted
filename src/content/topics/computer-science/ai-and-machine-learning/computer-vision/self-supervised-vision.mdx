@@ -1,0 +1,42 @@
+---
+title: 'Self-Supervised Vision'
+description: 'Pretext tasks and contrastive pretraining for vision.'
+parent: computer-science/ai-and-machine-learning/computer-vision
+order: 24
+color: '#3b82f6'
+difficulty: advanced
+prerequisites:
+  - computer-science/ai-and-machine-learning/computer-vision
+  - computer-science/ai-and-machine-learning/computer-vision/image-classification
+  - computer-science/ai-and-machine-learning/computer-vision/object-detection
+status: draft
+reviewTier: frontier
+sources:
+  - type: paper
+    title: 'Masked Autoencoders Are Scalable Vision Learners'
+    authors:
+      - he-kaiming-2022
+    year: 2022
+    url: 'https://arxiv.org/abs/2111.06377'
+    role: primary
+  - type: paper
+    title: 'DINO: Emerging Properties in Self-Supervised Vision Transformers'
+    authors:
+      - caron-2021
+    year: 2021
+    url: 'https://arxiv.org/abs/2104.14294'
+    role: primary
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-12'
+---
+
+**Self-Supervised Vision** addresses pretext tasks and contrastive pretraining for vision. It sits within Computer Vision (Deep Learning) and inherits that area's core questions about correctness, scale, and tractability. This page surveys the conceptual axes of the topic and points to the references that frame ongoing research and teaching. The intent is to be useful both as an entry point for newcomers and as an index for practitioners cross-checking their mental model against the field's primary sources.
+
+Work on self-supervised vision can be organised around a few interlocking concerns: the formal objects under study, the algorithms or systems that compute over them, the resource trade-offs (time, memory, communication, statistical efficiency), and the empirical or theoretical guarantees that practitioners rely on. The sources cited below approach the topic from a mix of these angles.
+
+## Foundational references
+
+*Masked Autoencoders Are Scalable Vision Learners* (He, 2022) contributes to this area as a primary methodological reference; readers should consult it directly for the precise formulation and results. *DINO: Emerging Properties in Self-Supervised Vision Transformers* (Caron, 2021) contributes to this area as a primary methodological reference; readers should consult it directly for the precise formulation and results.
+
+Open methodological questions in self-supervised vision cluster around how to compose the techniques above under realistic constraints — scale, adversarial inputs, partial observability, and shifting workloads. The cited references give the precise statements, proofs, and empirical evaluations that this overview only sketches; downstream topic pages drill into specific subfields.

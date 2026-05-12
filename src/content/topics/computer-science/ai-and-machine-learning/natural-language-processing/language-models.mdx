@@ -1,0 +1,53 @@
+---
+title: 'Language Models'
+description: 'Statistical and neural language models from n-grams to transformers.'
+parent: computer-science/ai-and-machine-learning/natural-language-processing
+order: 10
+color: '#3b82f6'
+difficulty: advanced
+prerequisites:
+  - computer-science/ai-and-machine-learning/natural-language-processing
+  - computer-science/ai-and-machine-learning/natural-language-processing/text-classification
+  - computer-science/ai-and-machine-learning/natural-language-processing/named-entity-recognition
+status: draft
+reviewTier: foundation
+sources:
+  - type: paper
+    title: 'Attention Is All You Need'
+    authors:
+      - vaswani-2017
+    year: 2017
+    url: 'https://arxiv.org/abs/1706.03762'
+    role: historical
+  - type: paper
+    title: 'BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding'
+    authors:
+      - devlin-2019
+    year: 2019
+    url: 'https://arxiv.org/abs/1810.04805'
+    role: historical
+  - type: paper
+    title: 'Language Models are Few-Shot Learners'
+    authors:
+      - brown-2020
+    year: 2020
+    url: 'https://arxiv.org/abs/2005.14165'
+    role: primary
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-12'
+---
+
+**Language Models** addresses statistical and neural language models from n-grams to transformers. It sits within Natural Language Processing and inherits that area's core questions about correctness, scale, and tractability. This page surveys the conceptual axes of the topic and points to the references that frame ongoing research and teaching. The intent is to be useful both as an entry point for newcomers and as an index for practitioners cross-checking their mental model against the field's primary sources.
+
+Work on language models can be organised around a few interlocking concerns: the formal objects under study, the algorithms or systems that compute over them, the resource trade-offs (time, memory, communication, statistical efficiency), and the empirical or theoretical guarantees that practitioners rely on. The sources cited below approach the topic from a mix of these angles.
+
+## Foundational references
+
+*Language Models are Few-Shot Learners* (Brown, 2020) contributes to this area as a primary methodological reference; readers should consult it directly for the precise formulation and results.
+
+## Historical context
+
+*Attention Is All You Need* (Vaswani, 2017) situates the topic in its historical trajectory; revisiting it clarifies which ideas in current practice are recent and which trace back to the field's founding texts. *BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding* (Devlin, 2019) situates the topic in its historical trajectory; revisiting it clarifies which ideas in current practice are recent and which trace back to the field's founding texts.
+
+Open methodological questions in language models cluster around how to compose the techniques above under realistic constraints — scale, adversarial inputs, partial observability, and shifting workloads. The cited references give the precise statements, proofs, and empirical evaluations that this overview only sketches; downstream topic pages drill into specific subfields.

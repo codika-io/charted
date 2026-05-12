@@ -1,0 +1,43 @@
+---
+title: 'Markov Decision Processes'
+description: 'MDPs, Bellman equations, and policies.'
+parent: computer-science/ai-and-machine-learning/machine-learning/reinforcement-learning
+order: 1
+color: '#3b82f6'
+difficulty: advanced
+prerequisites:
+  - computer-science/ai-and-machine-learning/machine-learning/reinforcement-learning
+status: draft
+reviewTier: foundation
+sources:
+  - type: textbook
+    title: 'Reinforcement Learning: An Introduction'
+    authors:
+      - sutton-2018
+    year: 2018
+    url: 'http://incompleteideas.net/book/the-book-2nd.html'
+    role: primary
+  - type: textbook
+    title: 'Algorithms for Reinforcement Learning'
+    authors:
+      - szepesvari-2010
+    year: 2010
+    role: supporting
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-12'
+---
+
+**Markov Decision Processes** addresses mdps, bellman equations, and policies. It sits within Reinforcement Learning and inherits that area's core questions about correctness, scale, and tractability. This page surveys the conceptual axes of the topic and points to the references that frame ongoing research and teaching. The intent is to be useful both as an entry point for newcomers and as an index for practitioners cross-checking their mental model against the field's primary sources.
+
+Work on markov decision processes can be organised around a few interlocking concerns: the formal objects under study, the algorithms or systems that compute over them, the resource trade-offs (time, memory, communication, statistical efficiency), and the empirical or theoretical guarantees that practitioners rely on. The sources cited below approach the topic from a mix of these angles.
+
+## Foundational references
+
+*Sutton, Reinforcement Learning: An Introduction* (2018) is a standard reference for this material and is used both as a curriculum anchor and as a long-form survey of techniques.
+
+## Supporting and complementary work
+
+*Szepesvári, Algorithms for Reinforcement Learning* (2010) provides supporting material that complements the primary references — readers comparing approaches will find useful framings, alternative notations, or extensions there.
+
+Open methodological questions in markov decision processes cluster around how to compose the techniques above under realistic constraints — scale, adversarial inputs, partial observability, and shifting workloads. The cited references give the precise statements, proofs, and empirical evaluations that this overview only sketches; downstream topic pages drill into specific subfields.
