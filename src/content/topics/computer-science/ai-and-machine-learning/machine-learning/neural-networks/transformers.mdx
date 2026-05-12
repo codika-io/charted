@@ -1,0 +1,48 @@
+---
+title: 'Transformer Networks'
+description: 'Self-attention architectures and the transformer family.'
+parent: computer-science/ai-and-machine-learning/machine-learning/neural-networks
+order: 4
+color: '#3b82f6'
+difficulty: advanced
+prerequisites:
+  - computer-science/ai-and-machine-learning/machine-learning/neural-networks
+  - computer-science/ai-and-machine-learning/machine-learning/neural-networks/feedforward-networks
+  - computer-science/ai-and-machine-learning/machine-learning/neural-networks/convolutional-networks
+status: draft
+reviewTier: frontier
+sources:
+  - type: paper
+    title: 'Attention Is All You Need'
+    authors:
+      - vaswani-2017
+    year: 2017
+    arxiv: '1706.03762'
+    url: 'https://arxiv.org/abs/1706.03762'
+    role: historical
+  - type: paper
+    title: 'An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale'
+    authors:
+      - dosovitskiy-2021
+    year: 2021
+    arxiv: '2010.11929'
+    url: 'https://arxiv.org/abs/2010.11929'
+    role: primary
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-12'
+---
+
+**Transformer Networks** addresses self-attention architectures and the transformer family. It sits within Neural Networks and Deep Learning and inherits that area's core questions about correctness, scale, and tractability. This page surveys the conceptual axes of the topic and points to the references that frame ongoing research and teaching. The intent is to be useful both as an entry point for newcomers and as an index for practitioners cross-checking their mental model against the field's primary sources.
+
+Work on transformer networks can be organised around a few interlocking concerns: the formal objects under study, the algorithms or systems that compute over them, the resource trade-offs (time, memory, communication, statistical efficiency), and the empirical or theoretical guarantees that practitioners rely on. The sources cited below approach the topic from a mix of these angles.
+
+## Foundational references
+
+*An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale* (Dosovitskiy, 2021) contributes to this area as a primary methodological reference; readers should consult it directly for the precise formulation and results.
+
+## Historical context
+
+*Attention Is All You Need* (Vaswani, 2017) situates the topic in its historical trajectory; revisiting it clarifies which ideas in current practice are recent and which trace back to the field's founding texts.
+
+Open methodological questions in transformer networks cluster around how to compose the techniques above under realistic constraints — scale, adversarial inputs, partial observability, and shifting workloads. The cited references give the precise statements, proofs, and empirical evaluations that this overview only sketches; downstream topic pages drill into specific subfields.

@@ -1,0 +1,45 @@
+---
+title: '3D Reconstruction'
+description: 'Learning-based 3D reconstruction from images and video.'
+parent: computer-science/ai-and-machine-learning/computer-vision
+order: 11
+color: '#3b82f6'
+difficulty: advanced
+prerequisites:
+  - computer-science/ai-and-machine-learning/computer-vision
+  - computer-science/ai-and-machine-learning/computer-vision/image-classification
+  - computer-science/ai-and-machine-learning/computer-vision/object-detection
+status: draft
+reviewTier: frontier
+sources:
+  - type: textbook
+    title: 'Multiple View Geometry in Computer Vision'
+    authors:
+      - hartley-2004
+    year: 2004
+    role: primary
+  - type: paper
+    title: 'NeRF: Representing Scenes as Neural Radiance Fields for View Synthesis'
+    authors:
+      - mildenhall-2020
+    year: 2020
+    url: 'https://arxiv.org/abs/2003.08934'
+    role: historical
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-12'
+---
+
+**3D Reconstruction** addresses learning-based 3d reconstruction from images and video. It sits within Computer Vision (Deep Learning) and inherits that area's core questions about correctness, scale, and tractability. This page surveys the conceptual axes of the topic and points to the references that frame ongoing research and teaching. The intent is to be useful both as an entry point for newcomers and as an index for practitioners cross-checking their mental model against the field's primary sources.
+
+Work on 3d reconstruction can be organised around a few interlocking concerns: the formal objects under study, the algorithms or systems that compute over them, the resource trade-offs (time, memory, communication, statistical efficiency), and the empirical or theoretical guarantees that practitioners rely on. The sources cited below approach the topic from a mix of these angles.
+
+## Foundational references
+
+*Hartley, Multiple View Geometry in Computer Vision* (2004) is a standard reference for this material and is used both as a curriculum anchor and as a long-form survey of techniques.
+
+## Historical context
+
+*NeRF: Representing Scenes as Neural Radiance Fields for View Synthesis* (Mildenhall, 2020) situates the topic in its historical trajectory; revisiting it clarifies which ideas in current practice are recent and which trace back to the field's founding texts.
+
+Open methodological questions in 3d reconstruction cluster around how to compose the techniques above under realistic constraints — scale, adversarial inputs, partial observability, and shifting workloads. The cited references give the precise statements, proofs, and empirical evaluations that this overview only sketches; downstream topic pages drill into specific subfields.

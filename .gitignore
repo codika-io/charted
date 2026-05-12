@@ -1,3 +1,6 @@
+# worktrees (run 2026-05-12-full-mapping)
+.worktrees/
+
 # build output
 dist/
 .vercel/

@@ -1,0 +1,44 @@
+---
+title: 'State-Space Models'
+description: 'S4, Mamba, and structured state-space sequence models.'
+parent: computer-science/ai-and-machine-learning/machine-learning/neural-networks
+order: 6
+color: '#3b82f6'
+difficulty: advanced
+prerequisites:
+  - computer-science/ai-and-machine-learning/machine-learning/neural-networks
+  - computer-science/ai-and-machine-learning/machine-learning/neural-networks/feedforward-networks
+  - computer-science/ai-and-machine-learning/machine-learning/neural-networks/convolutional-networks
+status: draft
+reviewTier: frontier
+sources:
+  - type: paper
+    title: 'Mamba: Linear-Time Sequence Modeling with Selective State Spaces'
+    authors:
+      - gu-2024
+    year: 2024
+    arxiv: '2312.00752'
+    url: 'https://arxiv.org/abs/2312.00752'
+    role: primary
+  - type: paper
+    title: 'Efficiently Modeling Long Sequences with Structured State Spaces'
+    authors:
+      - gu-2022
+    year: 2022
+    arxiv: '2111.00396'
+    url: 'https://arxiv.org/abs/2111.00396'
+    role: primary
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-12'
+---
+
+**State-Space Models** addresses s4, mamba, and structured state-space sequence models. It sits within Neural Networks and Deep Learning and inherits that area's core questions about correctness, scale, and tractability. This page surveys the conceptual axes of the topic and points to the references that frame ongoing research and teaching. The intent is to be useful both as an entry point for newcomers and as an index for practitioners cross-checking their mental model against the field's primary sources.
+
+Work on state-space models can be organised around a few interlocking concerns: the formal objects under study, the algorithms or systems that compute over them, the resource trade-offs (time, memory, communication, statistical efficiency), and the empirical or theoretical guarantees that practitioners rely on. The sources cited below approach the topic from a mix of these angles.
+
+## Foundational references
+
+*Mamba: Linear-Time Sequence Modeling with Selective State Spaces* (Gu, 2024) contributes to this area as a primary methodological reference; readers should consult it directly for the precise formulation and results. *Efficiently Modeling Long Sequences with Structured State Spaces* (Gu, 2022) contributes to this area as a primary methodological reference; readers should consult it directly for the precise formulation and results.
+
+Open methodological questions in state-space models cluster around how to compose the techniques above under realistic constraints — scale, adversarial inputs, partial observability, and shifting workloads. The cited references give the precise statements, proofs, and empirical evaluations that this overview only sketches; downstream topic pages drill into specific subfields.

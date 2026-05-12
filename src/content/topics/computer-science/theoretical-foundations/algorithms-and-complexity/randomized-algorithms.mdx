@@ -1,0 +1,40 @@
+---
+title: 'Randomized Algorithms'
+description: 'Las Vegas and Monte Carlo algorithms, derandomization, and concentration.'
+parent: computer-science/theoretical-foundations/algorithms-and-complexity
+order: 9
+color: '#3b82f6'
+difficulty: intermediate
+prerequisites:
+  - computer-science/theoretical-foundations/algorithms-and-complexity
+  - computer-science/theoretical-foundations/algorithms-and-complexity/asymptotic-analysis
+  - computer-science/theoretical-foundations/algorithms-and-complexity/divide-and-conquer
+status: draft
+reviewTier: field
+sources:
+  - type: textbook
+    title: 'Randomized Algorithms'
+    authors:
+      - motwani-1995
+    year: 1995
+    role: primary
+  - type: textbook
+    title: 'Probability and Computing'
+    authors:
+      - mitzenmacher-2017
+    year: 2017
+    role: primary
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-12'
+---
+
+**Randomized Algorithms** addresses las vegas and monte carlo algorithms, derandomization, and concentration. It sits within Algorithms and Complexity and inherits that area's core questions about correctness, scale, and tractability. This page surveys the conceptual axes of the topic and points to the references that frame ongoing research and teaching. The intent is to be useful both as an entry point for newcomers and as an index for practitioners cross-checking their mental model against the field's primary sources.
+
+Work on randomized algorithms can be organised around a few interlocking concerns: the formal objects under study, the algorithms or systems that compute over them, the resource trade-offs (time, memory, communication, statistical efficiency), and the empirical or theoretical guarantees that practitioners rely on. The sources cited below approach the topic from a mix of these angles.
+
+## Foundational references
+
+*Motwani, Randomized Algorithms* (1995) is a standard reference for this material and is used both as a curriculum anchor and as a long-form survey of techniques. *Mitzenmacher, Probability and Computing* (2017) is a standard reference for this material and is used both as a curriculum anchor and as a long-form survey of techniques.
+
+Open methodological questions in randomized algorithms cluster around how to compose the techniques above under realistic constraints — scale, adversarial inputs, partial observability, and shifting workloads. The cited references give the precise statements, proofs, and empirical evaluations that this overview only sketches; downstream topic pages drill into specific subfields.

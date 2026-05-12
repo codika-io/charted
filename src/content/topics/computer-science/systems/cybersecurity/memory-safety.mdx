@@ -1,0 +1,44 @@
+---
+title: 'Memory Safety'
+description: 'Buffer overflows, use-after-free, and modern mitigations.'
+parent: computer-science/systems/cybersecurity
+order: 2
+color: '#3b82f6'
+difficulty: intermediate
+prerequisites:
+  - computer-science/systems/cybersecurity
+  - computer-science/systems/cybersecurity/systems-security
+status: draft
+reviewTier: foundation
+sources:
+  - type: textbook
+    title: 'Security Engineering'
+    authors:
+      - anderson-2020
+    year: 2020
+    url: 'https://www.cl.cam.ac.uk/~rja14/book.html'
+    role: primary
+  - type: textbook
+    title: 'Computer Security: Principles and Practice'
+    authors:
+      - stallings-2017
+    year: 2017
+    role: supporting
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-12'
+---
+
+**Memory Safety** addresses buffer overflows, use-after-free, and modern mitigations. It sits within Cybersecurity and inherits that area's core questions about correctness, scale, and tractability. This page surveys the conceptual axes of the topic and points to the references that frame ongoing research and teaching. The intent is to be useful both as an entry point for newcomers and as an index for practitioners cross-checking their mental model against the field's primary sources.
+
+Work on memory safety can be organised around a few interlocking concerns: the formal objects under study, the algorithms or systems that compute over them, the resource trade-offs (time, memory, communication, statistical efficiency), and the empirical or theoretical guarantees that practitioners rely on. The sources cited below approach the topic from a mix of these angles.
+
+## Foundational references
+
+*Anderson, Security Engineering* (2020) is a standard reference for this material and is used both as a curriculum anchor and as a long-form survey of techniques.
+
+## Supporting and complementary work
+
+*Stallings, Computer Security: Principles and Practice* (2017) provides supporting material that complements the primary references — readers comparing approaches will find useful framings, alternative notations, or extensions there.
+
+Open methodological questions in memory safety cluster around how to compose the techniques above under realistic constraints — scale, adversarial inputs, partial observability, and shifting workloads. The cited references give the precise statements, proofs, and empirical evaluations that this overview only sketches; downstream topic pages drill into specific subfields.

@@ -1,0 +1,35 @@
+---
+title: 'Speech Synthesis'
+description: 'Neural text-to-speech and voice cloning.'
+parent: computer-science/ai-and-machine-learning/natural-language-processing
+order: 31
+color: '#3b82f6'
+difficulty: intermediate
+prerequisites:
+  - computer-science/ai-and-machine-learning/natural-language-processing
+  - computer-science/ai-and-machine-learning/natural-language-processing/text-classification
+  - computer-science/ai-and-machine-learning/natural-language-processing/named-entity-recognition
+status: draft
+reviewTier: field
+sources:
+  - type: textbook
+    title: 'Speech and Language Processing'
+    authors:
+      - jurafsky-2024
+    year: 2024
+    url: 'https://web.stanford.edu/~jurafsky/slp3/'
+    role: primary
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-12'
+---
+
+**Speech Synthesis** addresses neural text-to-speech and voice cloning. It sits within Natural Language Processing and inherits that area's core questions about correctness, scale, and tractability. This page surveys the conceptual axes of the topic and points to the references that frame ongoing research and teaching. The intent is to be useful both as an entry point for newcomers and as an index for practitioners cross-checking their mental model against the field's primary sources.
+
+Work on speech synthesis can be organised around a few interlocking concerns: the formal objects under study, the algorithms or systems that compute over them, the resource trade-offs (time, memory, communication, statistical efficiency), and the empirical or theoretical guarantees that practitioners rely on. The sources cited below approach the topic from a mix of these angles.
+
+## Foundational references
+
+*Jurafsky, Speech and Language Processing* (2024) is a standard reference for this material and is used both as a curriculum anchor and as a long-form survey of techniques.
+
+Open methodological questions in speech synthesis cluster around how to compose the techniques above under realistic constraints — scale, adversarial inputs, partial observability, and shifting workloads. The cited references give the precise statements, proofs, and empirical evaluations that this overview only sketches; downstream topic pages drill into specific subfields.

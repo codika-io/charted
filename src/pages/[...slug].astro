@@ -113,6 +113,11 @@ const currentBranch = isTopicPage
       return branchBase === topic.data.parent;
     })
   : undefined;
+
+// Fallback: if a topic page's parent is not a direct child of the domain
+// (e.g. mathematics/set-theory has parent mathematics/logic, not mathematics),
+// degrade to the non-sidebar layout rather than crashing the build.
+const renderAsTopicPage = isTopicPage && !!currentBranch;
 ---
 
 <TopicLayout
@@ -120,7 +125,7 @@ const currentBranch = isTopicPage
   description={topic.data.description}
   filePath={filePath}
   breadcrumbs={breadcrumbs}
-  isTopicPage={isTopicPage}
+  isTopicPage={renderAsTopicPage}
   h2Headings={h2Headings}
   siblings={siblings}
   branches={branches}

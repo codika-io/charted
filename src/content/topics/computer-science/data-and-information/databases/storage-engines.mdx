@@ -1,0 +1,45 @@
+---
+title: 'Storage Engines'
+description: 'B-tree, LSM-tree, and column-store storage engines.'
+parent: computer-science/data-and-information/databases
+order: 5
+color: '#3b82f6'
+difficulty: advanced
+prerequisites:
+  - computer-science/data-and-information/databases
+  - computer-science/data-and-information/databases/relational-databases
+  - computer-science/data-and-information/databases/query-optimization
+status: draft
+reviewTier: field
+sources:
+  - type: textbook
+    title: 'Database System Concepts'
+    authors:
+      - silberschatz-2019
+    year: 2019
+    role: primary
+  - type: textbook
+    title: 'Readings in Database Systems'
+    authors:
+      - hellerstein-2015
+    year: 2015
+    url: 'http://www.redbook.io/'
+    role: supporting
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-12'
+---
+
+**Storage Engines** addresses b-tree, lsm-tree, and column-store storage engines. It sits within Databases and inherits that area's core questions about correctness, scale, and tractability. This page surveys the conceptual axes of the topic and points to the references that frame ongoing research and teaching. The intent is to be useful both as an entry point for newcomers and as an index for practitioners cross-checking their mental model against the field's primary sources.
+
+Work on storage engines can be organised around a few interlocking concerns: the formal objects under study, the algorithms or systems that compute over them, the resource trade-offs (time, memory, communication, statistical efficiency), and the empirical or theoretical guarantees that practitioners rely on. The sources cited below approach the topic from a mix of these angles.
+
+## Foundational references
+
+*Silberschatz, Database System Concepts* (2019) is a standard reference for this material and is used both as a curriculum anchor and as a long-form survey of techniques.
+
+## Supporting and complementary work
+
+*Hellerstein, Readings in Database Systems* (2015) provides supporting material that complements the primary references — readers comparing approaches will find useful framings, alternative notations, or extensions there.
+
+Open methodological questions in storage engines cluster around how to compose the techniques above under realistic constraints — scale, adversarial inputs, partial observability, and shifting workloads. The cited references give the precise statements, proofs, and empirical evaluations that this overview only sketches; downstream topic pages drill into specific subfields.

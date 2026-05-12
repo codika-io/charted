@@ -1,0 +1,46 @@
+---
+title: 'Game-Playing AI'
+description: 'Minimax, MCTS, and AI agents for games.'
+parent: computer-science/ai-and-machine-learning/artificial-intelligence
+order: 7
+color: '#3b82f6'
+difficulty: intermediate
+prerequisites:
+  - computer-science/ai-and-machine-learning/artificial-intelligence
+  - computer-science/ai-and-machine-learning/artificial-intelligence/search-and-planning
+  - computer-science/ai-and-machine-learning/artificial-intelligence/constraint-satisfaction
+status: draft
+reviewTier: field
+sources:
+  - type: paper
+    title: 'Mastering the game of Go with deep neural networks and tree search'
+    authors:
+      - silver-2016
+    year: 2016
+    doi: '10.1038/nature16961'
+    role: historical
+  - type: paper
+    title: 'A general reinforcement learning algorithm that masters chess, shogi, and Go through self-play'
+    authors:
+      - silver-2018
+    year: 2018
+    doi: '10.1126/science.aar6404'
+    role: primary
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-12'
+---
+
+**Game-Playing AI** addresses minimax, mcts, and ai agents for games. It sits within Artificial Intelligence and inherits that area's core questions about correctness, scale, and tractability. This page surveys the conceptual axes of the topic and points to the references that frame ongoing research and teaching. The intent is to be useful both as an entry point for newcomers and as an index for practitioners cross-checking their mental model against the field's primary sources.
+
+Work on game-playing ai can be organised around a few interlocking concerns: the formal objects under study, the algorithms or systems that compute over them, the resource trade-offs (time, memory, communication, statistical efficiency), and the empirical or theoretical guarantees that practitioners rely on. The sources cited below approach the topic from a mix of these angles.
+
+## Foundational references
+
+*A general reinforcement learning algorithm that masters chess, shogi, and Go through self-play* (Silver, 2018) contributes to this area as a primary methodological reference; readers should consult it directly for the precise formulation and results.
+
+## Historical context
+
+*Mastering the game of Go with deep neural networks and tree search* (Silver, 2016) situates the topic in its historical trajectory; revisiting it clarifies which ideas in current practice are recent and which trace back to the field's founding texts.
+
+Open methodological questions in game-playing ai cluster around how to compose the techniques above under realistic constraints — scale, adversarial inputs, partial observability, and shifting workloads. The cited references give the precise statements, proofs, and empirical evaluations that this overview only sketches; downstream topic pages drill into specific subfields.

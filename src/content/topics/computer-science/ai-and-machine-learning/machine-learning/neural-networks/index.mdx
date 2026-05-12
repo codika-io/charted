@@ -1,0 +1,46 @@
+---
+title: 'Neural Networks and Deep Learning'
+description: 'Multilayer perceptrons and the deep-learning paradigm.'
+parent: computer-science/ai-and-machine-learning/machine-learning
+order: 56
+color: '#3b82f6'
+difficulty: intermediate
+prerequisites:
+  - computer-science/ai-and-machine-learning/machine-learning
+  - computer-science/ai-and-machine-learning/machine-learning/supervised-learning
+  - computer-science/ai-and-machine-learning/machine-learning/linear-models
+status: draft
+reviewTier: foundation
+sources:
+  - type: textbook
+    title: 'Deep Learning'
+    authors:
+      - goodfellow-2016
+    year: 2016
+    url: 'https://www.deeplearningbook.org/'
+    role: primary
+  - type: paper
+    title: 'Learning representations by back-propagating errors'
+    authors:
+      - rumelhart-1986
+    year: 1986
+    doi: '10.1038/323533a0'
+    role: historical
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-12'
+---
+
+**Neural Networks and Deep Learning** addresses multilayer perceptrons and the deep-learning paradigm. It sits within Machine Learning and inherits that area's core questions about correctness, scale, and tractability. This page surveys the conceptual axes of the topic and points to the references that frame ongoing research and teaching. The intent is to be useful both as an entry point for newcomers and as an index for practitioners cross-checking their mental model against the field's primary sources.
+
+Work on neural networks and deep learning can be organised around a few interlocking concerns: the formal objects under study, the algorithms or systems that compute over them, the resource trade-offs (time, memory, communication, statistical efficiency), and the empirical or theoretical guarantees that practitioners rely on. The sources cited below approach the topic from a mix of these angles.
+
+## Foundational references
+
+*Goodfellow, Deep Learning* (2016) is a standard reference for this material and is used both as a curriculum anchor and as a long-form survey of techniques.
+
+## Historical context
+
+*Learning representations by back-propagating errors* (Rumelhart, 1986) situates the topic in its historical trajectory; revisiting it clarifies which ideas in current practice are recent and which trace back to the field's founding texts.
+
+Open methodological questions in neural networks and deep learning cluster around how to compose the techniques above under realistic constraints — scale, adversarial inputs, partial observability, and shifting workloads. The cited references give the precise statements, proofs, and empirical evaluations that this overview only sketches; downstream topic pages drill into specific subfields.
