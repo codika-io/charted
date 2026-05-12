@@ -3,7 +3,6 @@ import {
   forceSimulation,
   forceLink,
   forceManyBody,
-  forceCenter,
   forceCollide,
   forceX,
   forceY,
@@ -146,6 +145,33 @@ export default function AtlasGraph({
     const cx = width / 2;
     const cy = height / 2;
 
+    // Group nodes by top-level domain (e.g. "mathematics", "biology").
+    // Each domain gets its own anchor point on a circle around the canvas,
+    // so disconnected disciplines pull apart instead of all stacking on (cx, cy).
+    const domainOf = (n: SimNode) => n.id.split('/')[0];
+    const uniqueDomains = Array.from(new Set(simNodesRef.current.map(domainOf)));
+    const domainCenters = new Map<string, { x: number; y: number }>();
+    const orbitRadius = Math.min(width, height) * 0.32;
+    uniqueDomains.forEach((d, i) => {
+      // Spread domains on a circle, biased toward landscape canvases.
+      const angle = (i / uniqueDomains.length) * Math.PI * 2 - Math.PI / 2;
+      domainCenters.set(d, {
+        x: cx + Math.cos(angle) * orbitRadius * (width / Math.max(height, 1)),
+        y: cy + Math.sin(angle) * orbitRadius,
+      });
+    });
+    const domainCenterOf = (n: SimNode) =>
+      domainCenters.get(domainOf(n)) ?? { x: cx, y: cy };
+
+    // "Anchorness" = how much a node behaves as a foundation pillar. Tier-foundation
+    // nodes and high-degree nodes get a strong pull to their domain center and a
+    // heavier charge so satellites orbit around them rather than mingling.
+    const anchorness = (n: SimNode) => {
+      const deg = n.outDegree + n.inDegree;
+      const tierBoost = n.tier === 'foundation' ? 2 : n.tier === 'field' ? 1 : 0;
+      return Math.min(8, deg * 0.5) + tierBoost;
+    };
+
     const sim = forceSimulation<SimNode>(simNodesRef.current)
       .force(
         'link',
@@ -153,19 +179,35 @@ export default function AtlasGraph({
           .id((d: SimNode) => d.id)
           .distance(d => {
             const target = d.target as SimNode;
-            return target.tier === 'frontier' ? 90 : 130;
+            return target.tier === 'frontier' ? 70 : 110;
           })
-          .strength(0.55),
+          .strength(0.7),
       )
-      .force('charge', forceManyBody<SimNode>().strength(-260).distanceMax(420))
-      .force('center', forceCenter(cx, cy))
-      .force('x', forceX<SimNode>(cx).strength(0.06))
-      .force('y', forceY<SimNode>(cy).strength(0.06))
+      // Stronger repulsion overall and no distanceMax cap so disconnected
+      // disciplines actually push each other across the canvas. Bigger nodes
+      // push harder, becoming the gravitational anchors Luca asked for.
+      .force(
+        'charge',
+        forceManyBody<SimNode>().strength(d => -180 - anchorness(d) * 90),
+      )
+      // Per-domain centroids replace the single global center.
+      .force(
+        'x',
+        forceX<SimNode>(d => domainCenterOf(d).x).strength(d =>
+          0.06 + anchorness(d) * 0.025,
+        ),
+      )
+      .force(
+        'y',
+        forceY<SimNode>(d => domainCenterOf(d).y).strength(d =>
+          0.06 + anchorness(d) * 0.025,
+        ),
+      )
       .force(
         'collide',
-        forceCollide<SimNode>().radius(d => radiusFor(d) + 6).strength(0.9),
+        forceCollide<SimNode>().radius(d => radiusFor(d) + 10).strength(1),
       )
-      .alphaDecay(0.03);
+      .alphaDecay(0.025);
 
     sim.on('tick', () => setTick(t => t + 1));
     simRef.current = sim;
