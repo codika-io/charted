@@ -399,8 +399,10 @@ export default function AtlasGraph({
               mathematics: 'Mathematics',
               'computer-science': 'Computer Science',
               physics: 'Physics',
+              chemistry: 'Chemistry',
+              biology: 'Biology',
             };
-            const orderedDomains = ['mathematics', 'computer-science', 'physics'].filter(d => byDomain.has(d));
+            const orderedDomains = ['mathematics', 'computer-science', 'physics', 'chemistry', 'biology'].filter(d => byDomain.has(d));
             const selected = root ? rawNodes.find(n => n.id === root) : null;
             const triggerLabel = selected?.title ?? '— pick a topic —';
 
