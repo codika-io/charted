@@ -4,16 +4,20 @@ import DottedSeparator from '../components/DottedSeparator.astro';
 import AtlasGraph from '../components/islands/AtlasGraph';
 import { graph } from '../lib/graph';
 
+// Slim per-node payload: descriptions are loaded lazily when a node is
+// focused (see the canvas info card / topic page). Shipping all 2k
+// descriptions over the wire added noticeable hydration cost.
 const nodes = graph.nodes.map(n => ({
   id: n.id,
   title: n.title,
-  description: n.description,
   color: n.color,
   tier: n.tier,
   status: n.status,
   ancestors: n.ancestors,
   descendants: n.descendants,
   reviewerHandles: n.reviewerHandles,
+  x: n.x,
+  y: n.y,
 }));
 
 const edges = graph.edges.map(e => ({ from: e.from, to: e.to }));

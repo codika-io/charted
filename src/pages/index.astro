@@ -7,13 +7,14 @@ import { graph } from '../lib/graph';
 const nodes = graph.nodes.map(n => ({
   id: n.id,
   title: n.title,
-  description: n.description,
   color: n.color,
   tier: n.tier,
   status: n.status,
   ancestors: n.ancestors,
   descendants: n.descendants,
   reviewerHandles: n.reviewerHandles,
+  x: n.x,
+  y: n.y,
 }));
 const edges = graph.edges.map(e => ({ from: e.from, to: e.to }));
 ---

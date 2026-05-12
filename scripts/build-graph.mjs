@@ -13,6 +13,14 @@ import { join, relative, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import matter from 'gray-matter';
 import { parse as parseYaml } from 'yaml';
+import {
+  forceSimulation,
+  forceLink,
+  forceManyBody,
+  forceCollide,
+  forceX,
+  forceY,
+} from 'd3-force';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
@@ -157,9 +165,82 @@ for (const id of nodes.keys()) {
   node.depth = depthOf(id);
 }
 
+// ── Precompute layout positions so the atlas renders instantly on load. ──
+// We run the same forces here as the client used to run live, then freeze
+// the (x, y) into graph.json. The client now just paints these coordinates.
+const LAYOUT_WIDTH = 1280;
+const LAYOUT_HEIGHT = 720;
+{
+  const cx = LAYOUT_WIDTH / 2;
+  const cy = LAYOUT_HEIGHT / 2;
+  const layoutNodes = [...nodes.values()].map(n => {
+    const inDeg = (bwd.get(n.id) ?? []).length;
+    const outDeg = (fwd.get(n.id) ?? []).length;
+    return { id: n.id, tier: n.tier, inDeg, outDeg };
+  });
+  const layoutEdges = edges.map(e => ({ source: e.from, target: e.to }));
+
+  const domainOf = id => id.split('/')[0];
+  const uniqueDomains = Array.from(new Set(layoutNodes.map(n => domainOf(n.id))));
+  const domainCenters = new Map();
+  const orbitRadius = Math.min(LAYOUT_WIDTH, LAYOUT_HEIGHT) * 0.32;
+  uniqueDomains.forEach((d, i) => {
+    const angle = (i / uniqueDomains.length) * Math.PI * 2 - Math.PI / 2;
+    domainCenters.set(d, {
+      x: cx + Math.cos(angle) * orbitRadius * (LAYOUT_WIDTH / LAYOUT_HEIGHT),
+      y: cy + Math.sin(angle) * orbitRadius,
+    });
+  });
+  const dc = n => domainCenters.get(domainOf(n.id)) ?? { x: cx, y: cy };
+
+  const anchorness = n => {
+    const deg = n.outDeg + n.inDeg;
+    const tierBoost = n.tier === 'foundation' ? 2 : n.tier === 'field' ? 1 : 0;
+    return Math.min(8, deg * 0.5) + tierBoost;
+  };
+
+  const radiusOf = n => {
+    const total = n.outDeg + n.inDeg;
+    const base = 10;
+    const growth = Math.min(8, total * 1.2);
+    const tierBoost = n.tier === 'foundation' ? 4 : n.tier === 'field' ? 2 : 0;
+    return base + growth + tierBoost;
+  };
+
+  const sim = forceSimulation(layoutNodes)
+    .force(
+      'link',
+      forceLink(layoutEdges)
+        .id(d => d.id)
+        .distance(d => (d.target.tier === 'frontier' ? 70 : 110))
+        .strength(0.7),
+    )
+    .force('charge', forceManyBody().strength(d => -180 - anchorness(d) * 90))
+    .force('x', forceX(d => dc(d).x).strength(d => 0.06 + anchorness(d) * 0.025))
+    .force('y', forceY(d => dc(d).y).strength(d => 0.06 + anchorness(d) * 0.025))
+    .force('collide', forceCollide().radius(d => radiusOf(d) + 10).strength(1))
+    .stop();
+
+  // Run enough ticks for the layout to settle. d3-force's default alpha decay
+  // would settle ~300 ticks; we run 400 to be safe.
+  const TICKS = 400;
+  for (let i = 0; i < TICKS; i++) sim.tick();
+
+  const pos = new Map();
+  for (const n of layoutNodes) pos.set(n.id, { x: n.x, y: n.y });
+  for (const node of nodes.values()) {
+    const p = pos.get(node.id);
+    if (p) {
+      node.x = Math.round(p.x * 100) / 100;
+      node.y = Math.round(p.y * 100) / 100;
+    }
+  }
+}
+
 if (!existsSync(OUT_DIR)) mkdirSync(OUT_DIR, { recursive: true });
 const payload = {
   generatedAt: new Date().toISOString(),
+  layout: { width: LAYOUT_WIDTH, height: LAYOUT_HEIGHT },
   nodes: [...nodes.values()].sort((a, b) => a.id.localeCompare(b.id)),
   edges: edges.sort((a, b) => (a.from + a.to).localeCompare(b.from + b.to)),
   reviewers,

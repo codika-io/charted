@@ -17,6 +17,9 @@ export type GraphNode = {
   ancestors: string[];
   descendants: string[];
   depth: number;
+  /** Precomputed layout coordinates (relative to layout.width/height). */
+  x?: number;
+  y?: number;
 };
 
 export type GraphEdge = {
@@ -37,6 +40,7 @@ export type Reviewer = {
 
 export type GraphPayload = {
   generatedAt: string;
+  layout?: { width: number; height: number };
   nodes: GraphNode[];
   edges: GraphEdge[];
   reviewers: Reviewer[];
