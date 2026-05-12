@@ -1,0 +1,50 @@
+---
+title: 'Operating Systems'
+description: 'Kernels, processes, memory, and I/O.'
+parent: computer-science/systems
+order: 2
+color: '#3b82f6'
+difficulty: intermediate
+prerequisites:
+  - computer-science/systems
+  - computer-science/systems/computer-architecture
+status: draft
+reviewTier: foundation
+sources:
+  - type: textbook
+    title: 'Operating Systems: Three Easy Pieces'
+    authors:
+      - arpaci-dusseau-2018
+    year: 2018
+    url: 'https://pages.cs.wisc.edu/~remzi/OSTEP/'
+    role: primary
+  - type: textbook
+    title: 'Modern Operating Systems'
+    authors:
+      - tanenbaum-2014
+    year: 2014
+    role: primary
+  - type: textbook
+    title: 'Operating System Concepts'
+    authors:
+      - silberschatz-2018
+    year: 2018
+    role: supporting
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-12'
+---
+
+**Operating Systems** addresses kernels, processes, memory, and i/o. It sits within Systems and inherits that area's core questions about correctness, scale, and tractability. This page surveys the conceptual axes of the topic and points to the references that frame ongoing research and teaching. The intent is to be useful both as an entry point for newcomers and as an index for practitioners cross-checking their mental model against the field's primary sources.
+
+Work on operating systems can be organised around a few interlocking concerns: the formal objects under study, the algorithms or systems that compute over them, the resource trade-offs (time, memory, communication, statistical efficiency), and the empirical or theoretical guarantees that practitioners rely on. The sources cited below approach the topic from a mix of these angles.
+
+## Foundational references
+
+*Arpaci-Dusseau, Operating Systems: Three Easy Pieces* (2018) is a standard reference for this material and is used both as a curriculum anchor and as a long-form survey of techniques. *Tanenbaum, Modern Operating Systems* (2014) is a standard reference for this material and is used both as a curriculum anchor and as a long-form survey of techniques.
+
+## Supporting and complementary work
+
+*Silberschatz, Operating System Concepts* (2018) provides supporting material that complements the primary references — readers comparing approaches will find useful framings, alternative notations, or extensions there.
+
+Open methodological questions in operating systems cluster around how to compose the techniques above under realistic constraints — scale, adversarial inputs, partial observability, and shifting workloads. The cited references give the precise statements, proofs, and empirical evaluations that this overview only sketches; downstream topic pages drill into specific subfields.
