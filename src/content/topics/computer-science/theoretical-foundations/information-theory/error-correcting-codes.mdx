@@ -1,0 +1,40 @@
+---
+title: 'Error-Correcting Codes'
+description: 'Linear, Reed-Solomon, LDPC, and polar codes.'
+parent: computer-science/theoretical-foundations/information-theory
+order: 4
+color: '#3b82f6'
+difficulty: advanced
+prerequisites:
+  - computer-science/theoretical-foundations/information-theory
+  - computer-science/theoretical-foundations/information-theory/shannon-entropy
+  - computer-science/theoretical-foundations/information-theory/source-coding
+status: draft
+reviewTier: field
+sources:
+  - type: textbook
+    title: 'Elements of Information Theory'
+    authors:
+      - cover-2006
+    year: 2006
+    role: primary
+  - type: textbook
+    title: 'Information Theory, Inference, and Learning Algorithms'
+    authors:
+      - mackay-2003
+    year: 2003
+    role: primary
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-12'
+---
+
+**Error-Correcting Codes** addresses linear, reed-solomon, ldpc, and polar codes. It sits within Information Theory and inherits that area's core questions about correctness, scale, and tractability. This page surveys the conceptual axes of the topic and points to the references that frame ongoing research and teaching. The intent is to be useful both as an entry point for newcomers and as an index for practitioners cross-checking their mental model against the field's primary sources.
+
+Work on error-correcting codes can be organised around a few interlocking concerns: the formal objects under study, the algorithms or systems that compute over them, the resource trade-offs (time, memory, communication, statistical efficiency), and the empirical or theoretical guarantees that practitioners rely on. The sources cited below approach the topic from a mix of these angles.
+
+## Foundational references
+
+*Cover, Elements of Information Theory* (2006) is a standard reference for this material and is used both as a curriculum anchor and as a long-form survey of techniques. *MacKay, Information Theory, Inference, and Learning Algorithms* (2003) is a standard reference for this material and is used both as a curriculum anchor and as a long-form survey of techniques.
+
+Open methodological questions in error-correcting codes cluster around how to compose the techniques above under realistic constraints — scale, adversarial inputs, partial observability, and shifting workloads. The cited references give the precise statements, proofs, and empirical evaluations that this overview only sketches; downstream topic pages drill into specific subfields.

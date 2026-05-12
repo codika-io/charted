@@ -1,0 +1,43 @@
+---
+title: 'Divide and Conquer'
+description: 'Recursion, master theorem, and classical D&C algorithms.'
+parent: computer-science/theoretical-foundations/algorithms-and-complexity
+order: 2
+color: '#3b82f6'
+difficulty: beginner
+prerequisites:
+  - computer-science/theoretical-foundations/algorithms-and-complexity
+  - computer-science/theoretical-foundations/algorithms-and-complexity/asymptotic-analysis
+status: draft
+reviewTier: foundation
+sources:
+  - type: textbook
+    title: 'Introduction to Algorithms'
+    authors:
+      - cormen-2022
+    year: 2022
+    role: primary
+  - type: textbook
+    title: 'The Art of Computer Programming, Vol 1-4'
+    authors:
+      - knuth-1997
+    year: 1997
+    role: historical
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-12'
+---
+
+**Divide and Conquer** addresses recursion, master theorem, and classical d&c algorithms. It sits within Algorithms and Complexity and inherits that area's core questions about correctness, scale, and tractability. This page surveys the conceptual axes of the topic and points to the references that frame ongoing research and teaching. The intent is to be useful both as an entry point for newcomers and as an index for practitioners cross-checking their mental model against the field's primary sources.
+
+Work on divide and conquer can be organised around a few interlocking concerns: the formal objects under study, the algorithms or systems that compute over them, the resource trade-offs (time, memory, communication, statistical efficiency), and the empirical or theoretical guarantees that practitioners rely on. The sources cited below approach the topic from a mix of these angles.
+
+## Foundational references
+
+*Cormen, Introduction to Algorithms* (2022) is a standard reference for this material and is used both as a curriculum anchor and as a long-form survey of techniques.
+
+## Historical context
+
+*Knuth, The Art of Computer Programming, Vol 1-4* (1997) situates the topic in its historical trajectory; revisiting it clarifies which ideas in current practice are recent and which trace back to the field's founding texts.
+
+Open methodological questions in divide and conquer cluster around how to compose the techniques above under realistic constraints — scale, adversarial inputs, partial observability, and shifting workloads. The cited references give the precise statements, proofs, and empirical evaluations that this overview only sketches; downstream topic pages drill into specific subfields.
