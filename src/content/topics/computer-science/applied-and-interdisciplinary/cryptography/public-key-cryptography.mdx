@@ -1,0 +1,44 @@
+---
+title: 'Public-Key Cryptography'
+description: 'RSA, Diffie-Hellman, elliptic curves, and key exchange.'
+parent: computer-science/applied-and-interdisciplinary/cryptography
+order: 2
+color: '#3b82f6'
+difficulty: advanced
+prerequisites:
+  - computer-science/applied-and-interdisciplinary/cryptography
+  - computer-science/applied-and-interdisciplinary/cryptography/symmetric-cryptography
+status: draft
+reviewTier: foundation
+sources:
+  - type: textbook
+    title: 'Introduction to Modern Cryptography'
+    authors:
+      - katz-2020
+    year: 2020
+    role: primary
+  - type: paper
+    title: 'New Directions in Cryptography'
+    authors:
+      - diffie-1976
+    year: 1976
+    doi: '10.1109/tit.1976.1055638'
+    role: historical
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-12'
+---
+
+**Public-Key Cryptography** addresses rsa, diffie-hellman, elliptic curves, and key exchange. It sits within Cryptography and inherits that area's core questions about correctness, scale, and tractability. This page surveys the conceptual axes of the topic and points to the references that frame ongoing research and teaching. The intent is to be useful both as an entry point for newcomers and as an index for practitioners cross-checking their mental model against the field's primary sources.
+
+Work on public-key cryptography can be organised around a few interlocking concerns: the formal objects under study, the algorithms or systems that compute over them, the resource trade-offs (time, memory, communication, statistical efficiency), and the empirical or theoretical guarantees that practitioners rely on. The sources cited below approach the topic from a mix of these angles.
+
+## Foundational references
+
+*Katz, Introduction to Modern Cryptography* (2020) is a standard reference for this material and is used both as a curriculum anchor and as a long-form survey of techniques.
+
+## Historical context
+
+*New Directions in Cryptography* (Diffie, 1976) situates the topic in its historical trajectory; revisiting it clarifies which ideas in current practice are recent and which trace back to the field's founding texts.
+
+Open methodological questions in public-key cryptography cluster around how to compose the techniques above under realistic constraints — scale, adversarial inputs, partial observability, and shifting workloads. The cited references give the precise statements, proofs, and empirical evaluations that this overview only sketches; downstream topic pages drill into specific subfields.
