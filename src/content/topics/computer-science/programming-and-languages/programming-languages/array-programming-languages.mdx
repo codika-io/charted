@@ -1,0 +1,44 @@
+---
+title: 'Array Programming Languages'
+description: 'Languages and compilers built around array abstractions (APL family, Halide, Triton, JAX/XLA-style).'
+parent: computer-science/programming-and-languages/programming-languages
+order: 17
+color: '#3b82f6'
+difficulty: advanced
+prerequisites:
+  - computer-science/programming-and-languages/programming-languages
+  - computer-science/programming-and-languages/programming-languages/operational-semantics
+  - computer-science/programming-and-languages/programming-languages/denotational-semantics
+status: draft
+reviewTier: field
+sources:
+  - type: textbook
+    title: 'Types and Programming Languages'
+    authors:
+      - pierce-2002
+    year: 2002
+    role: primary
+  - type: textbook
+    title: 'Concepts of Programming Languages'
+    authors:
+      - sebesta-2018
+    year: 2018
+    role: supporting
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-12'
+---
+
+**Array Programming Languages** addresses languages and compilers built around array abstractions (apl family, halide, triton, jax/xla-style). It sits within Programming Languages and inherits that area's core questions about correctness, scale, and tractability. This page surveys the conceptual axes of the topic and points to the references that frame ongoing research and teaching. The intent is to be useful both as an entry point for newcomers and as an index for practitioners cross-checking their mental model against the field's primary sources.
+
+Work on array programming languages can be organised around a few interlocking concerns: the formal objects under study, the algorithms or systems that compute over them, the resource trade-offs (time, memory, communication, statistical efficiency), and the empirical or theoretical guarantees that practitioners rely on. The sources cited below approach the topic from a mix of these angles.
+
+## Foundational references
+
+*Pierce, Types and Programming Languages* (2002) is a standard reference for this material and is used both as a curriculum anchor and as a long-form survey of techniques.
+
+## Supporting and complementary work
+
+*Sebesta, Concepts of Programming Languages* (2018) provides supporting material that complements the primary references — readers comparing approaches will find useful framings, alternative notations, or extensions there.
+
+Open methodological questions in array programming languages cluster around how to compose the techniques above under realistic constraints — scale, adversarial inputs, partial observability, and shifting workloads. The cited references give the precise statements, proofs, and empirical evaluations that this overview only sketches; downstream topic pages drill into specific subfields.

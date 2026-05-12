@@ -1,0 +1,44 @@
+---
+title: 'Proof Assistants'
+description: 'Coq, Lean, Isabelle, and Agda as interactive proof environments.'
+parent: computer-science/programming-and-languages/formal-methods
+order: 8
+color: '#3b82f6'
+difficulty: advanced
+prerequisites:
+  - computer-science/programming-and-languages/formal-methods
+  - computer-science/programming-and-languages/formal-methods/model-checking
+  - computer-science/programming-and-languages/formal-methods/symbolic-model-checking
+status: draft
+reviewTier: field
+sources:
+  - type: textbook
+    title: 'Principles of Model Checking'
+    authors:
+      - baier-2008
+    year: 2008
+    role: primary
+  - type: textbook
+    title: 'Logic in Computer Science: Modelling and Reasoning about Systems'
+    authors:
+      - huth-2004
+    year: 2004
+    role: supporting
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-12'
+---
+
+**Proof Assistants** addresses coq, lean, isabelle, and agda as interactive proof environments. It sits within Formal Methods and inherits that area's core questions about correctness, scale, and tractability. This page surveys the conceptual axes of the topic and points to the references that frame ongoing research and teaching. The intent is to be useful both as an entry point for newcomers and as an index for practitioners cross-checking their mental model against the field's primary sources.
+
+Work on proof assistants can be organised around a few interlocking concerns: the formal objects under study, the algorithms or systems that compute over them, the resource trade-offs (time, memory, communication, statistical efficiency), and the empirical or theoretical guarantees that practitioners rely on. The sources cited below approach the topic from a mix of these angles.
+
+## Foundational references
+
+*Baier, Principles of Model Checking* (2008) is a standard reference for this material and is used both as a curriculum anchor and as a long-form survey of techniques.
+
+## Supporting and complementary work
+
+*Huth, Logic in Computer Science: Modelling and Reasoning about Systems* (2004) provides supporting material that complements the primary references — readers comparing approaches will find useful framings, alternative notations, or extensions there.
+
+Open methodological questions in proof assistants cluster around how to compose the techniques above under realistic constraints — scale, adversarial inputs, partial observability, and shifting workloads. The cited references give the precise statements, proofs, and empirical evaluations that this overview only sketches; downstream topic pages drill into specific subfields.
