@@ -2776,3 +2776,2075 @@ pfeil-gardiner-2024:
   contact:
     scholar: ~
     email: ~
+
+# --- Phase D physics merge (2026-05-12) ---
+agrawal-2019:
+  affiliation: University of Rochester
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Govind P. Agrawal
+  openalex: null
+  orcid: null
+aharony-1992:
+  affiliation: Tel Aviv University
+  affiliation_country: IL
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Amnon Aharony
+  openalex: null
+  orcid: null
+aki-2002:
+  affiliation: '~'
+  affiliation_country: JP
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Keiiti Aki
+  openalex: null
+  orcid: null
+alcubierre-2008:
+  affiliation: UNAM
+  affiliation_country: MX
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Miguel Alcubierre
+  openalex: null
+  orcid: null
+allen-2017:
+  affiliation: University of Warwick
+  affiliation_country: GB
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Michael P. Allen
+  openalex: null
+  orcid: null
+arfken-2012:
+  affiliation: Miami University
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: George B. Arfken
+  openalex: null
+  orcid: null
+arnold-1989:
+  affiliation: Steklov Mathematical Institute
+  affiliation_country: RU
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Vladimir I. Arnold
+  openalex: null
+  orcid: null
+ashcroft-1976:
+  affiliation: Cornell University
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Neil W. Ashcroft
+  openalex: null
+  orcid: null
+atzeni-2004:
+  affiliation: Sapienza University of Rome
+  affiliation_country: IT
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Stefano Atzeni
+  openalex: null
+  orcid: null
+auerbach-1994:
+  affiliation: Technion
+  affiliation_country: IL
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Assa Auerbach
+  openalex: null
+  orcid: null
+bagger-1992:
+  affiliation: Johns Hopkins University
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Jonathan Bagger
+  openalex: null
+  orcid: null
+balanis-2016:
+  affiliation: Arizona State University
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Constantine A. Balanis
+  openalex: null
+  orcid: null
+ballentine-1998:
+  affiliation: Simon Fraser University
+  affiliation_country: CA
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Leslie E. Ballentine
+  openalex: null
+  orcid: null
+batchelor-2000:
+  affiliation: University of Cambridge
+  affiliation_country: GB
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: George K. Batchelor
+  openalex: null
+  orcid: null
+baumgarte-2010:
+  affiliation: Bowdoin College
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Thomas W. Baumgarte
+  openalex: null
+  orcid: null
+beale-2011:
+  affiliation: University of Colorado Boulder
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Paul D. Beale
+  openalex: null
+  orcid: null
+becker-k-2007:
+  affiliation: Texas A&M University
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Katrin Becker
+  openalex: null
+  orcid: null
+becker-m-2007:
+  affiliation: Texas A&M University
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Melanie Becker
+  openalex: null
+  orcid: null
+bender-1999:
+  affiliation: Washington University in St. Louis
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Carl M. Bender
+  openalex: null
+  orcid: null
+berkshire-2004:
+  affiliation: Imperial College London
+  affiliation_country: GB
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Frank H. Berkshire
+  openalex: null
+  orcid: null
+bernevig-2013:
+  affiliation: Princeton University
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: B. Andrei Bernevig
+  openalex: null
+  orcid: null
+binder-2010:
+  affiliation: Johannes Gutenberg University Mainz
+  affiliation_country: DE
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Kurt Binder
+  openalex: null
+  orcid: null
+binney-2008:
+  affiliation: University of Oxford
+  affiliation_country: GB
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: James Binney
+  openalex: null
+  orcid: null
+birdsall-2004:
+  affiliation: UC Berkeley
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Charles K. Birdsall
+  openalex: null
+  orcid: null
+born-1999:
+  affiliation: '~'
+  affiliation_country: DE
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Max Born
+  openalex: null
+  orcid: null
+boyd-2020:
+  affiliation: University of Rochester
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Robert W. Boyd
+  openalex: null
+  orcid: null
+breuer-2002:
+  affiliation: University of Freiburg
+  affiliation_country: DE
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Heinz-Peter Breuer
+  openalex: null
+  orcid: null
+callen-1985:
+  affiliation: University of Pennsylvania
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Herbert B. Callen
+  openalex: null
+  orcid: null
+cardona-2010:
+  affiliation: Max Planck Institute for Solid State Research
+  affiliation_country: DE
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Manuel Cardona
+  openalex: null
+  orcid: null
+carroll-2003:
+  affiliation: Johns Hopkins University
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Sean M. Carroll
+  openalex: null
+  orcid: null
+chaikin-1995:
+  affiliation: NYU
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Paul M. Chaikin
+  openalex: null
+  orcid: null
+chen-plasma-2016:
+  affiliation: UCLA
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Francis F. Chen
+  openalex: null
+  orcid: null
+chuang-2010:
+  affiliation: MIT
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Isaac L. Chuang
+  openalex: null
+  orcid: null
+cohen-i-2015:
+  affiliation: University of Pennsylvania
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Ira M. Cohen
+  openalex: null
+  orcid: null
+colby-2003:
+  affiliation: Penn State University
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Ralph H. Colby
+  openalex: null
+  orcid: null
+cover-2006:
+  affiliation: Stanford University
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Thomas M. Cover
+  openalex: null
+  orcid: null
+datta-1997:
+  affiliation: Purdue University
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Supriyo Datta
+  openalex: null
+  orcid: null
+degennes-1966:
+  affiliation: Collège de France
+  affiliation_country: FR
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Pierre-Gilles de Gennes
+  openalex: null
+  orcid: null
+degennes-1993:
+  affiliation: Collège de France
+  affiliation_country: FR
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Pierre-Gilles de Gennes
+  openalex: null
+  orcid: null
+deymier-2013:
+  affiliation: University of Arizona
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Pierre A. Deymier
+  openalex: null
+  orcid: null
+dodelson-2003:
+  affiliation: Carnegie Mellon University
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Scott Dodelson
+  openalex: null
+  orcid: null
+doi-1986:
+  affiliation: University of Tokyo
+  affiliation_country: JP
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Masao Doi
+  openalex: null
+  orcid: null
+draine-2011:
+  affiliation: Princeton University
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Bruce T. Draine
+  openalex: null
+  orcid: null
+edwards-1986:
+  affiliation: University of Cambridge
+  affiliation_country: GB
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Sam F. Edwards
+  openalex: null
+  orcid: null
+fetter-1971:
+  affiliation: Stanford University
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Alexander L. Fetter
+  openalex: null
+  orcid: null
+feynman-1965:
+  affiliation: Caltech
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Richard P. Feynman
+  openalex: null
+  orcid: null
+flannery-2007:
+  affiliation: '~'
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Brian P. Flannery
+  openalex: null
+  orcid: null
+foot-2005:
+  affiliation: University of Oxford
+  affiliation_country: GB
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Christopher J. Foot
+  openalex: null
+  orcid: null
+fradkin-2013:
+  affiliation: University of Illinois Urbana-Champaign
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Eduardo Fradkin
+  openalex: null
+  orcid: null
+frank-2002:
+  affiliation: Louisiana State University
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Juhan Frank
+  openalex: null
+  orcid: null
+freidberg-2014:
+  affiliation: MIT
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Jeffrey P. Freidberg
+  openalex: null
+  orcid: null
+frenkel-2002:
+  affiliation: University of Cambridge
+  affiliation_country: GB
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Daan Frenkel
+  openalex: null
+  orcid: null
+frisch-1995:
+  affiliation: Observatoire de la Côte d'Azur
+  affiliation_country: FR
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Uriel Frisch
+  openalex: null
+  orcid: null
+garcia-2012:
+  affiliation: UC Berkeley
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Hernan G. Garcia
+  openalex: null
+  orcid: null
+gattringer-2010:
+  affiliation: University of Graz
+  affiliation_country: AT
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Christof Gattringer
+  openalex: null
+  orcid: null
+georgi-1999:
+  affiliation: Harvard University
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Howard Georgi
+  openalex: null
+  orcid: null
+goldstein-2001:
+  affiliation: Columbia University
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Herbert Goldstein
+  openalex: null
+  orcid: null
+griffiths-2017:
+  affiliation: Reed College
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: David J. Griffiths
+  openalex: null
+  orcid: null
+griffiths-2018:
+  affiliation: Reed College
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: David J. Griffiths
+  openalex: null
+  orcid: null
+guckenheimer-1983:
+  affiliation: Cornell University
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: John Guckenheimer
+  openalex: null
+  orcid: null
+hairer-2006:
+  affiliation: University of Geneva
+  affiliation_country: CH
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Ernst Hairer
+  openalex: null
+  orcid: null
+halzen-1984:
+  affiliation: University of Wisconsin–Madison
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Francis Halzen
+  openalex: null
+  orcid: null
+haroche-2006:
+  affiliation: Collège de France
+  affiliation_country: FR
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Serge Haroche
+  openalex: null
+  orcid: null
+harris-2012:
+  affiliation: University of Utah
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Frank E. Harris
+  openalex: null
+  orcid: null
+haus-1984:
+  affiliation: MIT
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Hermann A. Haus
+  openalex: null
+  orcid: null
+heermann-2010:
+  affiliation: Heidelberg University
+  affiliation_country: DE
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Dieter W. Heermann
+  openalex: null
+  orcid: null
+holmes-1983:
+  affiliation: Princeton University
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Philip Holmes
+  openalex: null
+  orcid: null
+huang-1987:
+  affiliation: MIT
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Kerson Huang
+  openalex: null
+  orcid: null
+hughes-2013:
+  affiliation: University of Illinois Urbana-Champaign
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Taylor L. Hughes
+  openalex: null
+  orcid: null
+hutter-2009:
+  affiliation: University of Zurich
+  affiliation_country: CH
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Jürg Hutter
+  openalex: null
+  orcid: null
+iliadis-2015:
+  affiliation: UNC Chapel Hill
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Christian Iliadis
+  openalex: null
+  orcid: null
+jackson-1998:
+  affiliation: UC Berkeley
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: John David Jackson
+  openalex: null
+  orcid: null
+jin-2014:
+  affiliation: University of Illinois Urbana-Champaign
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Jian-Ming Jin
+  openalex: null
+  orcid: null
+joos-2003:
+  affiliation: '~'
+  affiliation_country: DE
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Erich Joos
+  openalex: null
+  orcid: null
+kalos-2008:
+  affiliation: Lawrence Livermore National Laboratory
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Malvin H. Kalos
+  openalex: null
+  orcid: null
+kamenev-2011:
+  affiliation: University of Minnesota
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Alex Kamenev
+  openalex: null
+  orcid: null
+kardar-2007:
+  affiliation: MIT
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Mehran Kardar
+  openalex: null
+  orcid: null
+kibble-2004:
+  affiliation: Imperial College London
+  affiliation_country: GB
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Tom W. B. Kibble
+  openalex: null
+  orcid: null
+king-2002:
+  affiliation: University of Leicester
+  affiliation_country: GB
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Andrew King
+  openalex: null
+  orcid: null
+kippenhahn-2012:
+  affiliation: '~'
+  affiliation_country: DE
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Rudolf Kippenhahn
+  openalex: null
+  orcid: null
+kittel-2004:
+  affiliation: UC Berkeley
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Charles Kittel
+  openalex: null
+  orcid: null
+kolb-1990:
+  affiliation: University of Chicago
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Edward W. Kolb
+  openalex: null
+  orcid: null
+kondev-2012:
+  affiliation: Brandeis University
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Jane Kondev
+  openalex: null
+  orcid: null
+krall-1973:
+  affiliation: '~'
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Nicholas A. Krall
+  openalex: null
+  orcid: null
+krane-1988:
+  affiliation: Oregon State University
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Kenneth S. Krane
+  openalex: null
+  orcid: null
+kundu-2015:
+  affiliation: '~'
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Pijush K. Kundu
+  openalex: null
+  orcid: null
+kurths-2001:
+  affiliation: Potsdam Institute for Climate Impact Research
+  affiliation_country: DE
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Jürgen Kurths
+  openalex: null
+  orcid: null
+landau-1976:
+  affiliation: '~'
+  affiliation_country: '~'
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Lev D. Landau
+  openalex: null
+  orcid: null
+lang-2010:
+  affiliation: University of Graz
+  affiliation_country: AT
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Christian B. Lang
+  openalex: null
+  orcid: null
+langdon-2004:
+  affiliation: Lawrence Livermore National Laboratory
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: A. Bruce Langdon
+  openalex: null
+  orcid: null
+leighton-1965:
+  affiliation: Caltech
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Robert B. Leighton
+  openalex: null
+  orcid: null
+lifshitz-1976:
+  affiliation: '~'
+  affiliation_country: '~'
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Evgeny M. Lifshitz
+  openalex: null
+  orcid: null
+lightman-1979:
+  affiliation: MIT
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Alan P. Lightman
+  openalex: null
+  orcid: null
+longair-2011:
+  affiliation: University of Cambridge
+  affiliation_country: GB
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Malcolm S. Longair
+  openalex: null
+  orcid: null
+lubensky-1995:
+  affiliation: University of Pennsylvania
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Tom C. Lubensky
+  openalex: null
+  orcid: null
+lubich-2006:
+  affiliation: University of Tübingen
+  affiliation_country: DE
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Christian Lubich
+  openalex: null
+  orcid: null
+maggiore-2007:
+  affiliation: University of Geneva
+  affiliation_country: CH
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Michele Maggiore
+  openalex: null
+  orcid: null
+mahan-2000:
+  affiliation: Penn State University
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Gerald D. Mahan
+  openalex: null
+  orcid: null
+mandel-1995:
+  affiliation: University of Rochester
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Leonard Mandel
+  openalex: null
+  orcid: null
+mantegna-2000:
+  affiliation: University of Palermo
+  affiliation_country: IT
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Rosario N. Mantegna
+  openalex: null
+  orcid: null
+marsden-1999:
+  affiliation: Caltech
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Jerrold E. Marsden
+  openalex: null
+  orcid: null
+martin-1984:
+  affiliation: Durham University
+  affiliation_country: GB
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Alan D. Martin
+  openalex: null
+  orcid: null
+martin-2004:
+  affiliation: University of Illinois Urbana-Champaign
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Richard M. Martin
+  openalex: null
+  orcid: null
+marx-2009:
+  affiliation: Ruhr University Bochum
+  affiliation_country: DE
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Dominik Marx
+  openalex: null
+  orcid: null
+mehta-2004:
+  affiliation: CEA Saclay
+  affiliation_country: FR
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Madan Lal Mehta
+  openalex: null
+  orcid: null
+mermin-1976:
+  affiliation: Cornell University
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: N. David Mermin
+  openalex: null
+  orcid: null
+metcalf-1999:
+  affiliation: Stony Brook University
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Harold J. Metcalf
+  openalex: null
+  orcid: null
+meyer-ter-vehn-2004:
+  affiliation: Max Planck Institute of Quantum Optics
+  affiliation_country: DE
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Jürgen Meyer-ter-Vehn
+  openalex: null
+  orcid: null
+milburn-2010:
+  affiliation: University of Queensland
+  affiliation_country: AU
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Gerard J. Milburn
+  openalex: null
+  orcid: null
+montvay-1994:
+  affiliation: DESY
+  affiliation_country: DE
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: István Montvay
+  openalex: null
+  orcid: null
+mukhanov-2005:
+  affiliation: LMU Munich
+  affiliation_country: DE
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Viatcheslav Mukhanov
+  openalex: null
+  orcid: null
+munster-1994:
+  affiliation: University of Münster
+  affiliation_country: DE
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Gernot Münster
+  openalex: null
+  orcid: null
+napolitano-2017:
+  affiliation: Temple University
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Jim Napolitano
+  openalex: null
+  orcid: null
+nelson-2014:
+  affiliation: University of Pennsylvania
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Philip Nelson
+  openalex: null
+  orcid: null
+newman-2010:
+  affiliation: University of Michigan
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: M. E. J. Newman
+  openalex: null
+  orcid: null
+nielsen-chuang-2010:
+  affiliation: '~'
+  affiliation_country: AU
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Michael A. Nielsen
+  openalex: null
+  orcid: null
+orszag-1999:
+  affiliation: Yale University
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Steven A. Orszag
+  openalex: null
+  orcid: null
+ott-2002:
+  affiliation: University of Maryland
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Edward Ott
+  openalex: null
+  orcid: null
+palla-2004:
+  affiliation: INAF Arcetri
+  affiliation_country: IT
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Francesco Palla
+  openalex: null
+  orcid: null
+parr-1989:
+  affiliation: UNC Chapel Hill
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Robert G. Parr
+  openalex: null
+  orcid: null
+pathria-2011:
+  affiliation: UC San Diego
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: R. K. Pathria
+  openalex: null
+  orcid: null
+peebles-1993:
+  affiliation: Princeton University
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: P. J. E. Peebles
+  openalex: null
+  orcid: null
+peskin-1995:
+  affiliation: SLAC
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Michael E. Peskin
+  openalex: null
+  orcid: null
+petruccione-2002:
+  affiliation: University of KwaZulu-Natal
+  affiliation_country: ZA
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Francesco Petruccione
+  openalex: null
+  orcid: null
+phillips-pbc-2012:
+  affiliation: Caltech
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Rob Phillips
+  openalex: null
+  orcid: null
+pierce-1981:
+  affiliation: Boston University
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Allan D. Pierce
+  openalex: null
+  orcid: null
+pierrehumbert-2010:
+  affiliation: University of Oxford
+  affiliation_country: GB
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Raymond T. Pierrehumbert
+  openalex: null
+  orcid: null
+pikovsky-2001:
+  affiliation: University of Potsdam
+  affiliation_country: DE
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Arkady Pikovsky
+  openalex: null
+  orcid: null
+pitaevskii-1984:
+  affiliation: University of Trento
+  affiliation_country: IT
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Lev P. Pitaevskii
+  openalex: null
+  orcid: null
+pitaevskii-2016:
+  affiliation: University of Trento
+  affiliation_country: IT
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Lev P. Pitaevskii
+  openalex: null
+  orcid: null
+polchinski-1998:
+  affiliation: UC Santa Barbara
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Joseph Polchinski
+  openalex: null
+  orcid: null
+poole-2001:
+  affiliation: University of South Carolina
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Charles P. Poole
+  openalex: null
+  orcid: null
+pope-2000:
+  affiliation: Cornell University
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Stephen B. Pope
+  openalex: null
+  orcid: null
+press-2007:
+  affiliation: UT Austin
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: William H. Press
+  openalex: null
+  orcid: null
+prost-1993:
+  affiliation: ESPCI Paris
+  affiliation_country: FR
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Jacques Prost
+  openalex: null
+  orcid: null
+raimond-2006:
+  affiliation: ENS Paris
+  affiliation_country: FR
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Jean-Michel Raimond
+  openalex: null
+  orcid: null
+raine-2002:
+  affiliation: University of Leicester
+  affiliation_country: GB
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Derek Raine
+  openalex: null
+  orcid: null
+ratiu-1999:
+  affiliation: EPFL
+  affiliation_country: CH
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Tudor S. Ratiu
+  openalex: null
+  orcid: null
+richards-2002:
+  affiliation: Columbia University
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Paul G. Richards
+  openalex: null
+  orcid: null
+rindler-2006:
+  affiliation: UT Dallas
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Wolfgang Rindler
+  openalex: null
+  orcid: null
+ring-1980:
+  affiliation: TU Munich
+  affiliation_country: DE
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Peter Ring
+  openalex: null
+  orcid: null
+rosenblum-2001:
+  affiliation: University of Potsdam
+  affiliation_country: DE
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Michael Rosenblum
+  openalex: null
+  orcid: null
+rubinstein-2003:
+  affiliation: Duke University
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Michael Rubinstein
+  openalex: null
+  orcid: null
+rybicki-1979:
+  affiliation: Harvard-Smithsonian CfA
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: George B. Rybicki
+  openalex: null
+  orcid: null
+sachdev-2011:
+  affiliation: Harvard University
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Subir Sachdev
+  openalex: null
+  orcid: null
+safko-2001:
+  affiliation: University of South Carolina
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: John L. Safko
+  openalex: null
+  orcid: null
+sakurai-2017:
+  affiliation: '~'
+  affiliation_country: '~'
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Jun John Sakurai
+  openalex: null
+  orcid: null
+saleh-2019:
+  affiliation: University of Central Florida
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Bahaa E. A. Saleh
+  openalex: null
+  orcid: null
+sands-1965:
+  affiliation: UC Santa Cruz
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Matthew Sands
+  openalex: null
+  orcid: null
+schroeder-1995:
+  affiliation: Weber State University
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Daniel V. Schroeder
+  openalex: null
+  orcid: null
+schroeter-2018:
+  affiliation: Reed College
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Darrell F. Schroeter
+  openalex: null
+  orcid: null
+schubert-2014:
+  affiliation: UCLA
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Gerald Schubert
+  openalex: null
+  orcid: null
+schuck-1980:
+  affiliation: Institut Laue–Langevin
+  affiliation_country: FR
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Peter Schuck
+  openalex: null
+  orcid: null
+schwartz-2014:
+  affiliation: Harvard University
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Matthew D. Schwartz
+  openalex: null
+  orcid: null
+schwarz-2007:
+  affiliation: Caltech
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: John H. Schwarz
+  openalex: null
+  orcid: null
+scully-1997:
+  affiliation: Texas A&M University
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Marlan O. Scully
+  openalex: null
+  orcid: null
+shapiro-1983:
+  affiliation: University of Illinois Urbana-Champaign
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Stuart L. Shapiro
+  openalex: null
+  orcid: null
+shapiro-2010:
+  affiliation: University of Illinois Urbana-Champaign
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Stuart L. Shapiro
+  openalex: null
+  orcid: null
+siegman-1986:
+  affiliation: Stanford University
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Anthony E. Siegman
+  openalex: null
+  orcid: null
+smit-2002:
+  affiliation: UC Berkeley
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Berend Smit
+  openalex: null
+  orcid: null
+spitzer-1978:
+  affiliation: Princeton University
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Lyman Spitzer
+  openalex: null
+  orcid: null
+stahler-2004:
+  affiliation: UC Berkeley
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Steven W. Stahler
+  openalex: null
+  orcid: null
+stanley-2000:
+  affiliation: Boston University
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: H. Eugene Stanley
+  openalex: null
+  orcid: null
+stauffer-1992:
+  affiliation: University of Cologne
+  affiliation_country: DE
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Dietrich Stauffer
+  openalex: null
+  orcid: null
+stix-1992:
+  affiliation: Princeton University
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Thomas H. Stix
+  openalex: null
+  orcid: null
+stringari-2016:
+  affiliation: University of Trento
+  affiliation_country: IT
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Sandro Stringari
+  openalex: null
+  orcid: null
+strogatz-2014:
+  affiliation: Cornell University
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Steven H. Strogatz
+  openalex: null
+  orcid: null
+succi-2018:
+  affiliation: Italian Institute of Technology
+  affiliation_country: IT
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Sauro Succi
+  openalex: null
+  orcid: null
+taylor-2013:
+  affiliation: UC Berkeley
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Robert L. Taylor
+  openalex: null
+  orcid: null
+teich-2019:
+  affiliation: Boston University
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Malvin Carl Teich
+  openalex: null
+  orcid: null
+teukolsky-1983:
+  affiliation: Cornell University
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Saul A. Teukolsky
+  openalex: null
+  orcid: null
+teukolsky-press-2007:
+  affiliation: Cornell University
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Saul A. Teukolsky
+  openalex: null
+  orcid: null
+theriot-2012:
+  affiliation: Stanford University
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Julie Theriot
+  openalex: null
+  orcid: null
+thijssen-2007:
+  affiliation: Delft University of Technology
+  affiliation_country: NL
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Jos M. Thijssen
+  openalex: null
+  orcid: null
+thomas-2006:
+  affiliation: '~'
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Joy A. Thomas
+  openalex: null
+  orcid: null
+thomson-2013:
+  affiliation: University of Cambridge
+  affiliation_country: GB
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Mark Thomson
+  openalex: null
+  orcid: null
+tildesley-2017:
+  affiliation: '~'
+  affiliation_country: GB
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Dominic J. Tildesley
+  openalex: null
+  orcid: null
+tinkham-1996:
+  affiliation: Harvard University
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Michael Tinkham
+  openalex: null
+  orcid: null
+tremaine-2008:
+  affiliation: Institute for Advanced Study
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Scott Tremaine
+  openalex: null
+  orcid: null
+trivelpiece-1973:
+  affiliation: '~'
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Alvin W. Trivelpiece
+  openalex: null
+  orcid: null
+turcotte-2014:
+  affiliation: UC Davis
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Donald L. Turcotte
+  openalex: null
+  orcid: null
+turner-1990:
+  affiliation: University of Chicago
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Michael S. Turner
+  openalex: null
+  orcid: null
+vallis-2017:
+  affiliation: University of Exeter
+  affiliation_country: GB
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Geoffrey K. Vallis
+  openalex: null
+  orcid: null
+vanderstraten-1999:
+  affiliation: Utrecht University
+  affiliation_country: NL
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Peter van der Straten
+  openalex: null
+  orcid: null
+vetterling-2007:
+  affiliation: '~'
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: William T. Vetterling
+  openalex: null
+  orcid: null
+wald-1984:
+  affiliation: University of Chicago
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Robert M. Wald
+  openalex: null
+  orcid: null
+walecka-1971:
+  affiliation: College of William & Mary
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: John Dirk Walecka
+  openalex: null
+  orcid: null
+wanner-2006:
+  affiliation: University of Geneva
+  affiliation_country: CH
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Gerhard Wanner
+  openalex: null
+  orcid: null
+weber-2012:
+  affiliation: University of Virginia
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Hans J. Weber
+  openalex: null
+  orcid: null
+weigert-2012:
+  affiliation: '~'
+  affiliation_country: DE
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Alfred Weigert
+  openalex: null
+  orcid: null
+weinberg-1995:
+  affiliation: UT Austin
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Steven Weinberg
+  openalex: null
+  orcid: null
+weinberg-2008:
+  affiliation: UT Austin
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Steven Weinberg
+  openalex: null
+  orcid: null
+weiss-2012:
+  affiliation: Max Planck Institute for Astrophysics
+  affiliation_country: DE
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Achim Weiss
+  openalex: null
+  orcid: null
+wess-1992:
+  affiliation: LMU Munich
+  affiliation_country: DE
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Julius Wess
+  openalex: null
+  orcid: null
+whitlock-2008:
+  affiliation: Brooklyn College
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Paula A. Whitlock
+  openalex: null
+  orcid: null
+wiedemann-2015:
+  affiliation: Stanford University
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Helmut Wiedemann
+  openalex: null
+  orcid: null
+will-2018:
+  affiliation: University of Florida
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Clifford M. Will
+  openalex: null
+  orcid: null
+wiseman-2010:
+  affiliation: Griffith University
+  affiliation_country: AU
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Howard M. Wiseman
+  openalex: null
+  orcid: null
+wolf-1995:
+  affiliation: University of Rochester
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Emil Wolf
+  openalex: null
+  orcid: null
+wolf-1999:
+  affiliation: University of Rochester
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Emil Wolf
+  openalex: null
+  orcid: null
+wolfram-2002:
+  affiliation: Wolfram Research
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Stephen Wolfram
+  openalex: null
+  orcid: null
+yang-w-1989:
+  affiliation: Duke University
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Weitao Yang
+  openalex: null
+  orcid: null
+yu-cardona-2010:
+  affiliation: UC Berkeley
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Peter Y. Yu
+  openalex: null
+  orcid: null
+zeh-2003:
+  affiliation: Heidelberg University
+  affiliation_country: DE
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: H. Dieter Zeh
+  openalex: null
+  orcid: null
+zienkiewicz-2013:
+  affiliation: Swansea University
+  affiliation_country: GB
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Olgierd C. Zienkiewicz
+  openalex: null
+  orcid: null
+zubairy-1997:
+  affiliation: Texas A&M University
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Muhammad Suhail Zubairy
+  openalex: null
+  orcid: null
+zwiebach-2009:
+  affiliation: MIT
+  affiliation_country: US
+  contact:
+    email: null
+    scholar: null
+  h_index: null
+  name: Barton Zwiebach
+  openalex: null
+  orcid: null
