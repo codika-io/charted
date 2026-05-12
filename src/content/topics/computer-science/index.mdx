@@ -1,12 +1,41 @@
 ---
-title: Computer Science
-description: The study of computation, information, and the design of systems that process them — from theoretical foundations and programming languages to intelligent machines and applied computing.
-color: "#3b82f6"
+title: 'Computer Science'
+description: 'The study of computation, information, algorithms, and systems that implement them.'
+order: 0
+color: '#3b82f6'
 difficulty: beginner
+prerequisites: []
 status: draft
+reviewTier: foundation
+sources:
+  - type: textbook
+    title: 'Computer Science: An Interdisciplinary Approach'
+    authors:
+      - sedgewick-2016
+    year: 2016
+    url: 'https://introcs.cs.princeton.edu/java/home/'
+    role: primary
+  - type: textbook
+    title: 'Structure and Interpretation of Computer Programs'
+    authors:
+      - abelson-1996
+    year: 1996
+    role: historical
 author: agent
 lastEditedBy: agent
-lastUpdated: "2026-03-01"
+lastUpdated: '2026-05-12'
 ---
 
-Computer Science is the systematic study of computation and information. Its seven branches span the full arc of the discipline: Theoretical Foundations lays the mathematical groundwork with algorithms, data structures, complexity theory, and information theory; Programming & Languages covers how we express computation through languages, compilers, software engineering, and formal verification; Systems addresses the hardware and software infrastructure — architecture, operating systems, networks, distributed computing, security, and parallelism; Data & Information treats the storage, retrieval, and analysis of data; AI & Machine Learning explores intelligent systems from classical search and planning through modern deep learning, NLP, and robotics; Graphics & Vision covers visual computing and human-computer interaction; and Applied & Interdisciplinary brings computer science to bear on cryptography, quantum computing, and bioinformatics. The branches are ordered so that each one builds on the ideas before it.
+**Computer Science** addresses the study of computation, information, algorithms, and systems that implement them. This page surveys the conceptual axes of the topic and points to the references that frame ongoing research and teaching. The intent is to be useful both as an entry point for newcomers and as an index for practitioners cross-checking their mental model against the field's primary sources.
+
+Work on computer science can be organised around a few interlocking concerns: the formal objects under study, the algorithms or systems that compute over them, the resource trade-offs (time, memory, communication, statistical efficiency), and the empirical or theoretical guarantees that practitioners rely on. The sources cited below approach the topic from a mix of these angles.
+
+## Foundational references
+
+*Sedgewick, Computer Science: An Interdisciplinary Approach* (2016) is a standard reference for this material and is used both as a curriculum anchor and as a long-form survey of techniques.
+
+## Historical context
+
+*Abelson, Structure and Interpretation of Computer Programs* (1996) situates the topic in its historical trajectory; revisiting it clarifies which ideas in current practice are recent and which trace back to the field's founding texts.
+
+Open methodological questions in computer science cluster around how to compose the techniques above under realistic constraints — scale, adversarial inputs, partial observability, and shifting workloads. The cited references give the precise statements, proofs, and empirical evaluations that this overview only sketches; downstream topic pages drill into specific subfields.

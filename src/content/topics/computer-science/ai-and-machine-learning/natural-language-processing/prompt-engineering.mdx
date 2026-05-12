@@ -1,0 +1,36 @@
+---
+title: 'Prompt Engineering'
+description: 'Prompting strategies, few-shot, and chain-of-thought.'
+parent: computer-science/ai-and-machine-learning/natural-language-processing
+order: 15
+color: '#3b82f6'
+difficulty: intermediate
+prerequisites:
+  - computer-science/ai-and-machine-learning/natural-language-processing
+  - computer-science/ai-and-machine-learning/natural-language-processing/text-classification
+  - computer-science/ai-and-machine-learning/natural-language-processing/named-entity-recognition
+status: draft
+reviewTier: frontier
+sources:
+  - type: paper
+    title: 'Chain-of-Thought Prompting Elicits Reasoning in Large Language Models'
+    authors:
+      - wei-jason-2022
+    year: 2022
+    arxiv: '2201.11903'
+    url: 'https://arxiv.org/abs/2201.11903'
+    role: primary
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-12'
+---
+
+**Prompt Engineering** addresses prompting strategies, few-shot, and chain-of-thought. It sits within Natural Language Processing and inherits that area's core questions about correctness, scale, and tractability. This page surveys the conceptual axes of the topic and points to the references that frame ongoing research and teaching. The intent is to be useful both as an entry point for newcomers and as an index for practitioners cross-checking their mental model against the field's primary sources.
+
+Work on prompt engineering can be organised around a few interlocking concerns: the formal objects under study, the algorithms or systems that compute over them, the resource trade-offs (time, memory, communication, statistical efficiency), and the empirical or theoretical guarantees that practitioners rely on. The sources cited below approach the topic from a mix of these angles.
+
+## Foundational references
+
+*Chain-of-Thought Prompting Elicits Reasoning in Large Language Models* (Wei, 2022) contributes to this area as a primary methodological reference; readers should consult it directly for the precise formulation and results.
+
+Open methodological questions in prompt engineering cluster around how to compose the techniques above under realistic constraints — scale, adversarial inputs, partial observability, and shifting workloads. The cited references give the precise statements, proofs, and empirical evaluations that this overview only sketches; downstream topic pages drill into specific subfields.

@@ -1,0 +1,48 @@
+---
+title: 'Neural Architecture Search'
+description: 'Search-based and gradient-based architecture discovery.'
+parent: computer-science/ai-and-machine-learning/machine-learning
+order: 38
+color: '#3b82f6'
+difficulty: advanced
+prerequisites:
+  - computer-science/ai-and-machine-learning/machine-learning
+  - computer-science/ai-and-machine-learning/machine-learning/supervised-learning
+  - computer-science/ai-and-machine-learning/machine-learning/linear-models
+status: draft
+reviewTier: frontier
+sources:
+  - type: paper
+    title: 'Neural Architecture Search with Reinforcement Learning'
+    authors:
+      - zoph-2017
+    year: 2017
+    arxiv: '1611.01578'
+    url: 'https://arxiv.org/abs/1611.01578'
+    role: historical
+  - type: paper
+    title: 'DARTS: Differentiable Architecture Search'
+    authors:
+      - liu-hanxiao-2019
+    year: 2019
+    arxiv: '1806.09055'
+    url: 'https://arxiv.org/abs/1806.09055'
+    role: primary
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-12'
+---
+
+**Neural Architecture Search** addresses search-based and gradient-based architecture discovery. It sits within Machine Learning and inherits that area's core questions about correctness, scale, and tractability. This page surveys the conceptual axes of the topic and points to the references that frame ongoing research and teaching. The intent is to be useful both as an entry point for newcomers and as an index for practitioners cross-checking their mental model against the field's primary sources.
+
+Work on neural architecture search can be organised around a few interlocking concerns: the formal objects under study, the algorithms or systems that compute over them, the resource trade-offs (time, memory, communication, statistical efficiency), and the empirical or theoretical guarantees that practitioners rely on. The sources cited below approach the topic from a mix of these angles.
+
+## Foundational references
+
+*DARTS: Differentiable Architecture Search* (Liu, 2019) contributes to this area as a primary methodological reference; readers should consult it directly for the precise formulation and results.
+
+## Historical context
+
+*Neural Architecture Search with Reinforcement Learning* (Zoph, 2017) situates the topic in its historical trajectory; revisiting it clarifies which ideas in current practice are recent and which trace back to the field's founding texts.
+
+Open methodological questions in neural architecture search cluster around how to compose the techniques above under realistic constraints — scale, adversarial inputs, partial observability, and shifting workloads. The cited references give the precise statements, proofs, and empirical evaluations that this overview only sketches; downstream topic pages drill into specific subfields.

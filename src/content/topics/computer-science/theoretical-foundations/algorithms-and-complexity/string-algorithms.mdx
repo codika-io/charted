@@ -1,0 +1,34 @@
+---
+title: 'String Algorithms'
+description: 'Pattern matching, suffix structures, and edit distance.'
+parent: computer-science/theoretical-foundations/algorithms-and-complexity
+order: 7
+color: '#3b82f6'
+difficulty: intermediate
+prerequisites:
+  - computer-science/theoretical-foundations/algorithms-and-complexity
+  - computer-science/theoretical-foundations/algorithms-and-complexity/asymptotic-analysis
+  - computer-science/theoretical-foundations/algorithms-and-complexity/divide-and-conquer
+status: draft
+reviewTier: foundation
+sources:
+  - type: textbook
+    title: 'Algorithms on Strings, Trees, and Sequences'
+    authors:
+      - gusfield-1997
+    year: 1997
+    role: primary
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-12'
+---
+
+**String Algorithms** addresses pattern matching, suffix structures, and edit distance. It sits within Algorithms and Complexity and inherits that area's core questions about correctness, scale, and tractability. This page surveys the conceptual axes of the topic and points to the references that frame ongoing research and teaching. The intent is to be useful both as an entry point for newcomers and as an index for practitioners cross-checking their mental model against the field's primary sources.
+
+Work on string algorithms can be organised around a few interlocking concerns: the formal objects under study, the algorithms or systems that compute over them, the resource trade-offs (time, memory, communication, statistical efficiency), and the empirical or theoretical guarantees that practitioners rely on. The sources cited below approach the topic from a mix of these angles.
+
+## Foundational references
+
+*Gusfield, Algorithms on Strings, Trees, and Sequences* (1997) is a standard reference for this material and is used both as a curriculum anchor and as a long-form survey of techniques.
+
+Open methodological questions in string algorithms cluster around how to compose the techniques above under realistic constraints — scale, adversarial inputs, partial observability, and shifting workloads. The cited references give the precise statements, proofs, and empirical evaluations that this overview only sketches; downstream topic pages drill into specific subfields.

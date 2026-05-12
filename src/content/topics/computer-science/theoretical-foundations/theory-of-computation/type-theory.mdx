@@ -1,0 +1,40 @@
+---
+title: 'Type Theory'
+description: 'Simply typed, polymorphic, and dependent type systems.'
+parent: computer-science/theoretical-foundations/theory-of-computation
+order: 7
+color: '#3b82f6'
+difficulty: advanced
+prerequisites:
+  - computer-science/theoretical-foundations/theory-of-computation
+  - computer-science/theoretical-foundations/theory-of-computation/finite-automata
+  - computer-science/theoretical-foundations/theory-of-computation/regular-languages
+status: draft
+reviewTier: field
+sources:
+  - type: textbook
+    title: 'Introduction to the Theory of Computation'
+    authors:
+      - sipser-2012
+    year: 2012
+    role: primary
+  - type: textbook
+    title: 'Introduction to Automata Theory, Languages, and Computation'
+    authors:
+      - hopcroft-2006
+    year: 2006
+    role: primary
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-12'
+---
+
+**Type Theory** addresses simply typed, polymorphic, and dependent type systems. It sits within Theory of Computation and inherits that area's core questions about correctness, scale, and tractability. This page surveys the conceptual axes of the topic and points to the references that frame ongoing research and teaching. The intent is to be useful both as an entry point for newcomers and as an index for practitioners cross-checking their mental model against the field's primary sources.
+
+Work on type theory can be organised around a few interlocking concerns: the formal objects under study, the algorithms or systems that compute over them, the resource trade-offs (time, memory, communication, statistical efficiency), and the empirical or theoretical guarantees that practitioners rely on. The sources cited below approach the topic from a mix of these angles.
+
+## Foundational references
+
+*Sipser, Introduction to the Theory of Computation* (2012) is a standard reference for this material and is used both as a curriculum anchor and as a long-form survey of techniques. *Hopcroft, Introduction to Automata Theory, Languages, and Computation* (2006) is a standard reference for this material and is used both as a curriculum anchor and as a long-form survey of techniques.
+
+Open methodological questions in type theory cluster around how to compose the techniques above under realistic constraints — scale, adversarial inputs, partial observability, and shifting workloads. The cited references give the precise statements, proofs, and empirical evaluations that this overview only sketches; downstream topic pages drill into specific subfields.

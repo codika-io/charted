@@ -1,0 +1,35 @@
+---
+title: 'Autoregressive Generative Models'
+description: 'PixelRNN, WaveNet, and autoregressive density models.'
+parent: computer-science/ai-and-machine-learning/machine-learning/generative-models
+order: 4
+color: '#3b82f6'
+difficulty: advanced
+prerequisites:
+  - computer-science/ai-and-machine-learning/machine-learning/generative-models
+  - computer-science/ai-and-machine-learning/machine-learning/generative-models/variational-autoencoders
+  - computer-science/ai-and-machine-learning/machine-learning/generative-models/generative-adversarial-networks
+status: draft
+reviewTier: field
+sources:
+  - type: paper
+    title: 'Pixel Recurrent Neural Networks'
+    authors:
+      - van-den-oord-2016
+    year: 2016
+    url: 'https://arxiv.org/abs/1601.06759'
+    role: primary
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-12'
+---
+
+**Autoregressive Generative Models** addresses pixelrnn, wavenet, and autoregressive density models. It sits within Generative Models and inherits that area's core questions about correctness, scale, and tractability. This page surveys the conceptual axes of the topic and points to the references that frame ongoing research and teaching. The intent is to be useful both as an entry point for newcomers and as an index for practitioners cross-checking their mental model against the field's primary sources.
+
+Work on autoregressive generative models can be organised around a few interlocking concerns: the formal objects under study, the algorithms or systems that compute over them, the resource trade-offs (time, memory, communication, statistical efficiency), and the empirical or theoretical guarantees that practitioners rely on. The sources cited below approach the topic from a mix of these angles.
+
+## Foundational references
+
+*Pixel Recurrent Neural Networks* (Oord, 2016) contributes to this area as a primary methodological reference; readers should consult it directly for the precise formulation and results.
+
+Open methodological questions in autoregressive generative models cluster around how to compose the techniques above under realistic constraints — scale, adversarial inputs, partial observability, and shifting workloads. The cited references give the precise statements, proofs, and empirical evaluations that this overview only sketches; downstream topic pages drill into specific subfields.

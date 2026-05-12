@@ -1,0 +1,42 @@
+---
+title: 'One-Way Functions'
+description: 'Existence, candidates, and connections to complexity.'
+parent: computer-science/theoretical-foundations/cryptographic-foundations
+order: 1
+color: '#3b82f6'
+difficulty: advanced
+prerequisites:
+  - computer-science/theoretical-foundations/cryptographic-foundations
+status: draft
+reviewTier: field
+sources:
+  - type: textbook
+    title: 'Introduction to the Theory of Computation'
+    authors:
+      - sipser-2012
+    year: 2012
+    role: primary
+  - type: textbook
+    title: 'Computers and Intractability: A Guide to the Theory of NP-Completeness'
+    authors:
+      - garey-1979
+    year: 1979
+    role: historical
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-12'
+---
+
+**One-Way Functions** addresses existence, candidates, and connections to complexity. It sits within Cryptographic Foundations and inherits that area's core questions about correctness, scale, and tractability. This page surveys the conceptual axes of the topic and points to the references that frame ongoing research and teaching. The intent is to be useful both as an entry point for newcomers and as an index for practitioners cross-checking their mental model against the field's primary sources.
+
+Work on one-way functions can be organised around a few interlocking concerns: the formal objects under study, the algorithms or systems that compute over them, the resource trade-offs (time, memory, communication, statistical efficiency), and the empirical or theoretical guarantees that practitioners rely on. The sources cited below approach the topic from a mix of these angles.
+
+## Foundational references
+
+*Sipser, Introduction to the Theory of Computation* (2012) is a standard reference for this material and is used both as a curriculum anchor and as a long-form survey of techniques.
+
+## Historical context
+
+*Garey, Computers and Intractability: A Guide to the Theory of NP-Completeness* (1979) situates the topic in its historical trajectory; revisiting it clarifies which ideas in current practice are recent and which trace back to the field's founding texts.
+
+Open methodological questions in one-way functions cluster around how to compose the techniques above under realistic constraints — scale, adversarial inputs, partial observability, and shifting workloads. The cited references give the precise statements, proofs, and empirical evaluations that this overview only sketches; downstream topic pages drill into specific subfields.

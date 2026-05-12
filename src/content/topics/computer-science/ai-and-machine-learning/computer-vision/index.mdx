@@ -1,25 +1,53 @@
 ---
-title: Computer Vision
-description: >-
-  Methods that let machines recover structure, identity, motion, and meaning
-  from images and video — from convolutional and transformer backbones to
-  neural scene representations and visual foundation models.
+title: 'Computer Vision (Deep Learning)'
+description: 'Deep-learning approaches to vision tasks.'
 parent: computer-science/ai-and-machine-learning
-order: 5
-color: "#3b82f6"
-difficulty: advanced
+order: 3
+color: '#3b82f6'
+difficulty: intermediate
 prerequisites:
+  - computer-science/ai-and-machine-learning
+  - computer-science/ai-and-machine-learning/artificial-intelligence
   - computer-science/ai-and-machine-learning/machine-learning
 status: draft
+reviewTier: foundation
+sources:
+  - type: textbook
+    title: 'Computer Vision: Algorithms and Applications'
+    authors:
+      - szeliski-2022
+    year: 2022
+    url: 'https://szeliski.org/Book/'
+    role: primary
+  - type: paper
+    title: 'Deep Residual Learning for Image Recognition'
+    authors:
+      - he-kaiming-2016
+    year: 2016
+    doi: '10.1109/cvpr.2016.90'
+    role: historical
+  - type: paper
+    title: 'ImageNet Classification with Deep Convolutional Neural Networks'
+    authors:
+      - krizhevsky-2012
+    year: 2012
+    doi: '10.1145/3065386'
+    role: historical
 author: agent
 lastEditedBy: agent
-lastUpdated: "2026-05-07"
+lastUpdated: '2026-05-12'
 ---
 
-Computer vision is the area of AI concerned with extracting useful structure from images and video. Where natural language processing operates on discrete token sequences and robotics operates on continuous control loops, vision sits between the two: a pixel array is dense and continuous, but the targets — objects, surfaces, semantic categories, 3D geometry — are usually discrete or low-dimensional. The field's methodology has been reshaped twice in the last decade, first by deep convolutional networks and then by transformers and large pretraining; this branch tracks the cluster of methods, architectures, and training recipes driving the current wave.
+**Computer Vision (Deep Learning)** addresses deep-learning approaches to vision tasks. It sits within AI and Machine Learning and inherits that area's core questions about correctness, scale, and tractability. This page surveys the conceptual axes of the topic and points to the references that frame ongoing research and teaching. The intent is to be useful both as an entry point for newcomers and as an index for practitioners cross-checking their mental model against the field's primary sources.
 
-A graphics-and-vision branch elsewhere in this graph covers the classical foundations — image formation, multi-view geometry, feature detection, structure from motion, and the historical arc of CNNs from AlexNet to ResNet. That material is necessary background but not the active research surface. The subtopics below collect the *current* methodology lines: how scenes are represented for novel-view synthesis, how 2D diffusion priors are repurposed as 3D supervisors, how transformer architectures are adapted to dense prediction, and how vision systems are trained once to generalise across tasks the way language models do across prompts.
+Work on computer vision (deep learning) can be organised around a few interlocking concerns: the formal objects under study, the algorithms or systems that compute over them, the resource trade-offs (time, memory, communication, statistical efficiency), and the empirical or theoretical guarantees that practitioners rely on. The sources cited below approach the topic from a mix of these angles.
 
-Four lines structure the branch as it stands today. **Neural scene representations** turn the rendering equation itself into a learnable function — radiance fields, signed distance fields, and 3D Gaussian splats — collapsing the boundary between vision and graphics. **Diffusion priors for 3D generation** use 2D image diffusion models as oracles for unobserved viewpoints, enabling text-to-3D, single-image-to-3D, and instruction-guided scene editing without large 3D training datasets. **Vision transformers** are the architectural successors to CNNs; the active research is no longer whether attention works on images but how to specialise it for multi-scale features, dense prediction, and 3D inputs. **Vision foundation models** generalise the language-model recipe — pretrain once at scale, then condition with prompts or examples — to novel-task vision problems like 6D pose estimation and medical segmentation.
+## Foundational references
 
-Each subtopic was minted because the cited papers form a coherent cluster with shared methodology, not merely a label over disparate work. The graph is intentionally narrow at this stage: applied papers (medical imaging, autonomous driving, remote sensing) sit outside this subtree and may surface in their own branches as the encyclopedia grows.
+*Szeliski, Computer Vision: Algorithms and Applications* (2022) is a standard reference for this material and is used both as a curriculum anchor and as a long-form survey of techniques.
+
+## Historical context
+
+*Deep Residual Learning for Image Recognition* (He, 2016) situates the topic in its historical trajectory; revisiting it clarifies which ideas in current practice are recent and which trace back to the field's founding texts. *ImageNet Classification with Deep Convolutional Neural Networks* (Krizhevsky, 2012) situates the topic in its historical trajectory; revisiting it clarifies which ideas in current practice are recent and which trace back to the field's founding texts.
+
+Open methodological questions in computer vision (deep learning) cluster around how to compose the techniques above under realistic constraints — scale, adversarial inputs, partial observability, and shifting workloads. The cited references give the precise statements, proofs, and empirical evaluations that this overview only sketches; downstream topic pages drill into specific subfields.

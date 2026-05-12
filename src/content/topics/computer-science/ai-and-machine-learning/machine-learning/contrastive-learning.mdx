@@ -1,0 +1,44 @@
+---
+title: 'Contrastive Learning'
+description: 'SimCLR, MoCo, CLIP-style contrastive representation methods.'
+parent: computer-science/ai-and-machine-learning/machine-learning
+order: 16
+color: '#3b82f6'
+difficulty: advanced
+prerequisites:
+  - computer-science/ai-and-machine-learning/machine-learning
+  - computer-science/ai-and-machine-learning/machine-learning/supervised-learning
+  - computer-science/ai-and-machine-learning/machine-learning/linear-models
+status: draft
+reviewTier: frontier
+sources:
+  - type: paper
+    title: 'A Simple Framework for Contrastive Learning of Visual Representations'
+    authors:
+      - chen-ting-2020
+    year: 2020
+    arxiv: '2002.05709'
+    url: 'https://arxiv.org/abs/2002.05709'
+    role: primary
+  - type: paper
+    title: 'Momentum Contrast for Unsupervised Visual Representation Learning'
+    authors:
+      - he-kaiming-2020
+    year: 2020
+    arxiv: '1911.05722'
+    url: 'https://arxiv.org/abs/1911.05722'
+    role: primary
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-12'
+---
+
+**Contrastive Learning** addresses simclr, moco, clip-style contrastive representation methods. It sits within Machine Learning and inherits that area's core questions about correctness, scale, and tractability. This page surveys the conceptual axes of the topic and points to the references that frame ongoing research and teaching. The intent is to be useful both as an entry point for newcomers and as an index for practitioners cross-checking their mental model against the field's primary sources.
+
+Work on contrastive learning can be organised around a few interlocking concerns: the formal objects under study, the algorithms or systems that compute over them, the resource trade-offs (time, memory, communication, statistical efficiency), and the empirical or theoretical guarantees that practitioners rely on. The sources cited below approach the topic from a mix of these angles.
+
+## Foundational references
+
+*A Simple Framework for Contrastive Learning of Visual Representations* (Chen, 2020) contributes to this area as a primary methodological reference; readers should consult it directly for the precise formulation and results. *Momentum Contrast for Unsupervised Visual Representation Learning* (He, 2020) contributes to this area as a primary methodological reference; readers should consult it directly for the precise formulation and results.
+
+Open methodological questions in contrastive learning cluster around how to compose the techniques above under realistic constraints — scale, adversarial inputs, partial observability, and shifting workloads. The cited references give the precise statements, proofs, and empirical evaluations that this overview only sketches; downstream topic pages drill into specific subfields.

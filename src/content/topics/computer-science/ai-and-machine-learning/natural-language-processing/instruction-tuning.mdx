@@ -1,0 +1,36 @@
+---
+title: 'Instruction Tuning'
+description: 'Supervised fine-tuning on instruction-following data.'
+parent: computer-science/ai-and-machine-learning/natural-language-processing
+order: 13
+color: '#3b82f6'
+difficulty: advanced
+prerequisites:
+  - computer-science/ai-and-machine-learning/natural-language-processing
+  - computer-science/ai-and-machine-learning/natural-language-processing/text-classification
+  - computer-science/ai-and-machine-learning/natural-language-processing/named-entity-recognition
+status: draft
+reviewTier: frontier
+sources:
+  - type: paper
+    title: 'Training language models to follow instructions with human feedback'
+    authors:
+      - ouyang-2022
+    year: 2022
+    arxiv: '2203.02155'
+    url: 'https://arxiv.org/abs/2203.02155'
+    role: historical
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-12'
+---
+
+**Instruction Tuning** addresses supervised fine-tuning on instruction-following data. It sits within Natural Language Processing and inherits that area's core questions about correctness, scale, and tractability. This page surveys the conceptual axes of the topic and points to the references that frame ongoing research and teaching. The intent is to be useful both as an entry point for newcomers and as an index for practitioners cross-checking their mental model against the field's primary sources.
+
+Work on instruction tuning can be organised around a few interlocking concerns: the formal objects under study, the algorithms or systems that compute over them, the resource trade-offs (time, memory, communication, statistical efficiency), and the empirical or theoretical guarantees that practitioners rely on. The sources cited below approach the topic from a mix of these angles.
+
+## Historical context
+
+*Training language models to follow instructions with human feedback* (Ouyang, 2022) situates the topic in its historical trajectory; revisiting it clarifies which ideas in current practice are recent and which trace back to the field's founding texts.
+
+Open methodological questions in instruction tuning cluster around how to compose the techniques above under realistic constraints — scale, adversarial inputs, partial observability, and shifting workloads. The cited references give the precise statements, proofs, and empirical evaluations that this overview only sketches; downstream topic pages drill into specific subfields.

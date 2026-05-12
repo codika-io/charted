@@ -1,0 +1,44 @@
+---
+title: 'Variational Autoencoders'
+description: 'VAEs and amortized variational inference.'
+parent: computer-science/ai-and-machine-learning/machine-learning/generative-models
+order: 1
+color: '#3b82f6'
+difficulty: advanced
+prerequisites:
+  - computer-science/ai-and-machine-learning/machine-learning/generative-models
+status: draft
+reviewTier: field
+sources:
+  - type: paper
+    title: 'Auto-Encoding Variational Bayes'
+    authors:
+      - kingma-2014
+    year: 2014
+    url: 'https://arxiv.org/abs/1312.6114'
+    role: historical
+  - type: textbook
+    title: 'Deep Learning'
+    authors:
+      - goodfellow-2016
+    year: 2016
+    url: 'https://www.deeplearningbook.org/'
+    role: supporting
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-12'
+---
+
+**Variational Autoencoders** addresses vaes and amortized variational inference. It sits within Generative Models and inherits that area's core questions about correctness, scale, and tractability. This page surveys the conceptual axes of the topic and points to the references that frame ongoing research and teaching. The intent is to be useful both as an entry point for newcomers and as an index for practitioners cross-checking their mental model against the field's primary sources.
+
+Work on variational autoencoders can be organised around a few interlocking concerns: the formal objects under study, the algorithms or systems that compute over them, the resource trade-offs (time, memory, communication, statistical efficiency), and the empirical or theoretical guarantees that practitioners rely on. The sources cited below approach the topic from a mix of these angles.
+
+## Supporting and complementary work
+
+*Goodfellow, Deep Learning* (2016) provides supporting material that complements the primary references — readers comparing approaches will find useful framings, alternative notations, or extensions there.
+
+## Historical context
+
+*Auto-Encoding Variational Bayes* (Kingma, 2014) situates the topic in its historical trajectory; revisiting it clarifies which ideas in current practice are recent and which trace back to the field's founding texts.
+
+Open methodological questions in variational autoencoders cluster around how to compose the techniques above under realistic constraints — scale, adversarial inputs, partial observability, and shifting workloads. The cited references give the precise statements, proofs, and empirical evaluations that this overview only sketches; downstream topic pages drill into specific subfields.

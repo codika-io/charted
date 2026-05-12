@@ -1,0 +1,35 @@
+---
+title: 'Action Recognition'
+description: 'Recognizing actions in video using 3D CNNs and transformers.'
+parent: computer-science/ai-and-machine-learning/computer-vision
+order: 8
+color: '#3b82f6'
+difficulty: advanced
+prerequisites:
+  - computer-science/ai-and-machine-learning/computer-vision
+  - computer-science/ai-and-machine-learning/computer-vision/image-classification
+  - computer-science/ai-and-machine-learning/computer-vision/object-detection
+status: draft
+reviewTier: field
+sources:
+  - type: textbook
+    title: 'Computer Vision: Algorithms and Applications'
+    authors:
+      - szeliski-2022
+    year: 2022
+    url: 'https://szeliski.org/Book/'
+    role: primary
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-12'
+---
+
+**Action Recognition** addresses recognizing actions in video using 3d cnns and transformers. It sits within Computer Vision (Deep Learning) and inherits that area's core questions about correctness, scale, and tractability. This page surveys the conceptual axes of the topic and points to the references that frame ongoing research and teaching. The intent is to be useful both as an entry point for newcomers and as an index for practitioners cross-checking their mental model against the field's primary sources.
+
+Work on action recognition can be organised around a few interlocking concerns: the formal objects under study, the algorithms or systems that compute over them, the resource trade-offs (time, memory, communication, statistical efficiency), and the empirical or theoretical guarantees that practitioners rely on. The sources cited below approach the topic from a mix of these angles.
+
+## Foundational references
+
+*Szeliski, Computer Vision: Algorithms and Applications* (2022) is a standard reference for this material and is used both as a curriculum anchor and as a long-form survey of techniques.
+
+Open methodological questions in action recognition cluster around how to compose the techniques above under realistic constraints — scale, adversarial inputs, partial observability, and shifting workloads. The cited references give the precise statements, proofs, and empirical evaluations that this overview only sketches; downstream topic pages drill into specific subfields.

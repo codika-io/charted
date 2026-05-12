@@ -1,0 +1,44 @@
+---
+title: 'Functional Programming'
+description: 'Pure functions, immutability, and higher-order programming.'
+parent: computer-science/programming-and-languages/programming-languages
+order: 4
+color: '#3b82f6'
+difficulty: beginner
+prerequisites:
+  - computer-science/programming-and-languages/programming-languages
+  - computer-science/programming-and-languages/programming-languages/operational-semantics
+  - computer-science/programming-and-languages/programming-languages/denotational-semantics
+status: draft
+reviewTier: foundation
+sources:
+  - type: textbook
+    title: 'Structure and Interpretation of Computer Programs'
+    authors:
+      - abelson-1996
+    year: 1996
+    role: historical
+  - type: textbook
+    title: 'Real World Haskell'
+    authors:
+      - osullivan-2008
+    year: 2008
+    role: supporting
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-12'
+---
+
+**Functional Programming** addresses pure functions, immutability, and higher-order programming. It sits within Programming Languages and inherits that area's core questions about correctness, scale, and tractability. This page surveys the conceptual axes of the topic and points to the references that frame ongoing research and teaching. The intent is to be useful both as an entry point for newcomers and as an index for practitioners cross-checking their mental model against the field's primary sources.
+
+Work on functional programming can be organised around a few interlocking concerns: the formal objects under study, the algorithms or systems that compute over them, the resource trade-offs (time, memory, communication, statistical efficiency), and the empirical or theoretical guarantees that practitioners rely on. The sources cited below approach the topic from a mix of these angles.
+
+## Supporting and complementary work
+
+*O'Sullivan, Real World Haskell* (2008) provides supporting material that complements the primary references — readers comparing approaches will find useful framings, alternative notations, or extensions there.
+
+## Historical context
+
+*Abelson, Structure and Interpretation of Computer Programs* (1996) situates the topic in its historical trajectory; revisiting it clarifies which ideas in current practice are recent and which trace back to the field's founding texts.
+
+Open methodological questions in functional programming cluster around how to compose the techniques above under realistic constraints — scale, adversarial inputs, partial observability, and shifting workloads. The cited references give the precise statements, proofs, and empirical evaluations that this overview only sketches; downstream topic pages drill into specific subfields.

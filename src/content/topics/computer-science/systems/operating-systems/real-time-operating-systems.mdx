@@ -1,0 +1,41 @@
+---
+title: 'Real-Time Operating Systems'
+description: 'Hard and soft real-time scheduling and predictable execution.'
+parent: computer-science/systems/operating-systems
+order: 11
+color: '#3b82f6'
+difficulty: advanced
+prerequisites:
+  - computer-science/systems/operating-systems
+  - computer-science/systems/operating-systems/processes-and-threads
+  - computer-science/systems/operating-systems/scheduling
+status: draft
+reviewTier: field
+sources:
+  - type: textbook
+    title: 'Operating Systems: Three Easy Pieces'
+    authors:
+      - arpaci-dusseau-2018
+    year: 2018
+    url: 'https://pages.cs.wisc.edu/~remzi/OSTEP/'
+    role: primary
+  - type: textbook
+    title: 'Modern Operating Systems'
+    authors:
+      - tanenbaum-2014
+    year: 2014
+    role: primary
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-12'
+---
+
+**Real-Time Operating Systems** addresses hard and soft real-time scheduling and predictable execution. It sits within Operating Systems and inherits that area's core questions about correctness, scale, and tractability. This page surveys the conceptual axes of the topic and points to the references that frame ongoing research and teaching. The intent is to be useful both as an entry point for newcomers and as an index for practitioners cross-checking their mental model against the field's primary sources.
+
+Work on real-time operating systems can be organised around a few interlocking concerns: the formal objects under study, the algorithms or systems that compute over them, the resource trade-offs (time, memory, communication, statistical efficiency), and the empirical or theoretical guarantees that practitioners rely on. The sources cited below approach the topic from a mix of these angles.
+
+## Foundational references
+
+*Arpaci-Dusseau, Operating Systems: Three Easy Pieces* (2018) is a standard reference for this material and is used both as a curriculum anchor and as a long-form survey of techniques. *Tanenbaum, Modern Operating Systems* (2014) is a standard reference for this material and is used both as a curriculum anchor and as a long-form survey of techniques.
+
+Open methodological questions in real-time operating systems cluster around how to compose the techniques above under realistic constraints — scale, adversarial inputs, partial observability, and shifting workloads. The cited references give the precise statements, proofs, and empirical evaluations that this overview only sketches; downstream topic pages drill into specific subfields.

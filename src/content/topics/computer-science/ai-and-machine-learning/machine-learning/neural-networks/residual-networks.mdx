@@ -1,0 +1,35 @@
+---
+title: 'Residual Networks'
+description: 'Skip connections, ResNets, and very deep training.'
+parent: computer-science/ai-and-machine-learning/machine-learning/neural-networks
+order: 9
+color: '#3b82f6'
+difficulty: intermediate
+prerequisites:
+  - computer-science/ai-and-machine-learning/machine-learning/neural-networks
+  - computer-science/ai-and-machine-learning/machine-learning/neural-networks/feedforward-networks
+  - computer-science/ai-and-machine-learning/machine-learning/neural-networks/convolutional-networks
+status: draft
+reviewTier: foundation
+sources:
+  - type: textbook
+    title: 'Deep Learning'
+    authors:
+      - goodfellow-2016
+    year: 2016
+    url: 'https://www.deeplearningbook.org/'
+    role: primary
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-12'
+---
+
+**Residual Networks** addresses skip connections, resnets, and very deep training. It sits within Neural Networks and Deep Learning and inherits that area's core questions about correctness, scale, and tractability. This page surveys the conceptual axes of the topic and points to the references that frame ongoing research and teaching. The intent is to be useful both as an entry point for newcomers and as an index for practitioners cross-checking their mental model against the field's primary sources.
+
+Work on residual networks can be organised around a few interlocking concerns: the formal objects under study, the algorithms or systems that compute over them, the resource trade-offs (time, memory, communication, statistical efficiency), and the empirical or theoretical guarantees that practitioners rely on. The sources cited below approach the topic from a mix of these angles.
+
+## Foundational references
+
+*Goodfellow, Deep Learning* (2016) is a standard reference for this material and is used both as a curriculum anchor and as a long-form survey of techniques.
+
+Open methodological questions in residual networks cluster around how to compose the techniques above under realistic constraints — scale, adversarial inputs, partial observability, and shifting workloads. The cited references give the precise statements, proofs, and empirical evaluations that this overview only sketches; downstream topic pages drill into specific subfields.

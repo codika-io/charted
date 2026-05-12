@@ -1,0 +1,47 @@
+---
+title: 'Image Classification'
+description: 'Deep classifiers from AlexNet to modern ConvNets.'
+parent: computer-science/ai-and-machine-learning/computer-vision
+order: 1
+color: '#3b82f6'
+difficulty: intermediate
+prerequisites:
+  - computer-science/ai-and-machine-learning/computer-vision
+status: draft
+reviewTier: foundation
+sources:
+  - type: paper
+    title: 'ImageNet Classification with Deep Convolutional Neural Networks'
+    authors:
+      - krizhevsky-2012
+    year: 2012
+    doi: '10.1145/3065386'
+    role: historical
+  - type: paper
+    title: 'Deep Residual Learning for Image Recognition'
+    authors:
+      - he-kaiming-2016
+    year: 2016
+    doi: '10.1109/cvpr.2016.90'
+    role: historical
+  - type: paper
+    title: 'Very Deep Convolutional Networks for Large-Scale Image Recognition'
+    authors:
+      - simonyan-2015
+    year: 2015
+    url: 'https://arxiv.org/abs/1409.1556'
+    role: historical
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-12'
+---
+
+**Image Classification** addresses deep classifiers from alexnet to modern convnets. It sits within Computer Vision (Deep Learning) and inherits that area's core questions about correctness, scale, and tractability. This page surveys the conceptual axes of the topic and points to the references that frame ongoing research and teaching. The intent is to be useful both as an entry point for newcomers and as an index for practitioners cross-checking their mental model against the field's primary sources.
+
+Work on image classification can be organised around a few interlocking concerns: the formal objects under study, the algorithms or systems that compute over them, the resource trade-offs (time, memory, communication, statistical efficiency), and the empirical or theoretical guarantees that practitioners rely on. The sources cited below approach the topic from a mix of these angles.
+
+## Historical context
+
+*ImageNet Classification with Deep Convolutional Neural Networks* (Krizhevsky, 2012) situates the topic in its historical trajectory; revisiting it clarifies which ideas in current practice are recent and which trace back to the field's founding texts. *Deep Residual Learning for Image Recognition* (He, 2016) situates the topic in its historical trajectory; revisiting it clarifies which ideas in current practice are recent and which trace back to the field's founding texts. *Very Deep Convolutional Networks for Large-Scale Image Recognition* (Simonyan, 2015) situates the topic in its historical trajectory; revisiting it clarifies which ideas in current practice are recent and which trace back to the field's founding texts.
+
+Open methodological questions in image classification cluster around how to compose the techniques above under realistic constraints — scale, adversarial inputs, partial observability, and shifting workloads. The cited references give the precise statements, proofs, and empirical evaluations that this overview only sketches; downstream topic pages drill into specific subfields.

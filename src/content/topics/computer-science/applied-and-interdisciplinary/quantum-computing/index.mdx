@@ -1,0 +1,54 @@
+---
+title: 'Quantum Computing'
+description: 'Computation using quantum-mechanical phenomena.'
+parent: computer-science/applied-and-interdisciplinary
+order: 2
+color: '#3b82f6'
+difficulty: advanced
+prerequisites:
+  - computer-science/applied-and-interdisciplinary
+  - computer-science/applied-and-interdisciplinary/cryptography
+status: draft
+reviewTier: foundation
+sources:
+  - type: textbook
+    title: 'Quantum Computation and Quantum Information'
+    authors:
+      - nielsen-2010
+    year: 2010
+    role: primary
+  - type: textbook
+    title: 'Quantum Computing: An Applied Approach'
+    authors:
+      - hidary-2021
+    year: 2021
+    role: supporting
+  - type: paper
+    title: 'Algorithms for Quantum Computation: Discrete Logarithms and Factoring'
+    authors:
+      - shor-1994
+    year: 1994
+    doi: '10.1109/sfcs.1994.365700'
+    role: historical
+author: agent
+lastEditedBy: agent
+lastUpdated: '2026-05-12'
+---
+
+**Quantum Computing** addresses computation using quantum-mechanical phenomena. It sits within Applied and Interdisciplinary CS and inherits that area's core questions about correctness, scale, and tractability. This page surveys the conceptual axes of the topic and points to the references that frame ongoing research and teaching. The intent is to be useful both as an entry point for newcomers and as an index for practitioners cross-checking their mental model against the field's primary sources.
+
+Work on quantum computing can be organised around a few interlocking concerns: the formal objects under study, the algorithms or systems that compute over them, the resource trade-offs (time, memory, communication, statistical efficiency), and the empirical or theoretical guarantees that practitioners rely on. The sources cited below approach the topic from a mix of these angles.
+
+## Foundational references
+
+*Nielsen, Quantum Computation and Quantum Information* (2010) is a standard reference for this material and is used both as a curriculum anchor and as a long-form survey of techniques.
+
+## Supporting and complementary work
+
+*Hidary, Quantum Computing: An Applied Approach* (2021) provides supporting material that complements the primary references — readers comparing approaches will find useful framings, alternative notations, or extensions there.
+
+## Historical context
+
+*Algorithms for Quantum Computation: Discrete Logarithms and Factoring* (Shor, 1994) situates the topic in its historical trajectory; revisiting it clarifies which ideas in current practice are recent and which trace back to the field's founding texts.
+
+Open methodological questions in quantum computing cluster around how to compose the techniques above under realistic constraints — scale, adversarial inputs, partial observability, and shifting workloads. The cited references give the precise statements, proofs, and empirical evaluations that this overview only sketches; downstream topic pages drill into specific subfields.
