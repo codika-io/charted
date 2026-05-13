@@ -70,7 +70,7 @@ function radiusFor(n: { outDegree: number; inDegree: number; tier: string }) {
 }
 
 // Zoom threshold above which every (non-dimmed) label becomes visible.
-const LABEL_ZOOM_THRESHOLD = 1.4;
+const LABEL_ZOOM_THRESHOLD = 1.0;
 
 export default function AtlasGraph({
   nodes: rawNodes,
@@ -92,7 +92,16 @@ export default function AtlasGraph({
   const [transform, setTransform] = useState({ k: 1, x: 0, y: 0 });
   const [pickerOpen, setPickerOpen] = useState(false);
   const [pickerQuery, setPickerQuery] = useState('');
+  const [pickerBrowseAll, setPickerBrowseAll] = useState(false);
+  const [expandedDomains, setExpandedDomains] = useState<Set<string>>(new Set());
+  const [branchFilter, setBranchFilter] = useState<string | null>(null);
   const [hasSettled, setHasSettled] = useState(false);
+  const [focusView, setFocusView] = useState<{
+    focusId: string;
+    neighborIds: Set<string>;
+    prevTransform: { k: number; x: number; y: number };
+  } | null>(null);
+  const localSimRef = useRef<Simulation<SimNode, undefined> | null>(null);
 
   const simNodesRef = useRef<SimNode[]>([]);
   const simEdgesRef = useRef<SimEdge[]>([]);
@@ -238,11 +247,107 @@ export default function AtlasGraph({
     return () => { sim.stop(); };
   }, [width, height, rawNodes]);
 
-  // ── Re-heat on selection change so layout responds gently. ──
+  // ── Focus mode: when a root is selected, zoom to its neighborhood and
+  // freeze every non-neighbor so drags are cheap. When root clears, restore. ──
   useEffect(() => {
-    if (!simRef.current || !hasSettled) return;
-    // Only nudge if user-driven; don't reflow the whole pre-baked layout.
-  }, [root, hasSettled]);
+    if (compact) return;
+    if (width === 0 || !hasSettled) return;
+
+    if (!root) {
+      // Exit focus mode if we were in one.
+      if (focusView) {
+        for (const n of simNodesRef.current) { n.fx = null; n.fy = null; }
+        const prev = focusView.prevTransform;
+        setTransform(prev);
+        if (svgRef.current && zoomBehaviorRef.current) {
+          const z = zoomIdentity.translate(prev.x, prev.y).scale(prev.k);
+          select(svgRef.current).call(zoomBehaviorRef.current.transform, z);
+        }
+        setFocusView(null);
+      }
+      return;
+    }
+
+    // Already focused around this root? Nothing to do.
+    if (focusView?.focusId === root) return;
+
+    // Compute 2-hop neighborhood — enough context to see why this topic matters
+    // without dragging the whole graph along.
+    const HOPS = 2;
+    const adj = new Map<string, Set<string>>();
+    for (const e of rawEdges) {
+      if (!adj.has(e.from)) adj.set(e.from, new Set());
+      if (!adj.has(e.to)) adj.set(e.to, new Set());
+      adj.get(e.from)!.add(e.to);
+      adj.get(e.to)!.add(e.from);
+    }
+    const neighbors = new Set<string>([root]);
+    let frontier = new Set<string>([root]);
+    for (let i = 0; i < HOPS; i++) {
+      const next = new Set<string>();
+      for (const id of frontier) {
+        for (const m of adj.get(id) ?? []) {
+          if (!neighbors.has(m)) { neighbors.add(m); next.add(m); }
+        }
+      }
+      frontier = next;
+    }
+
+    // Bounding box of the neighborhood for auto-fit.
+    let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+    for (const n of simNodesRef.current) {
+      if (!neighbors.has(n.id)) continue;
+      if (n.x === undefined || n.y === undefined) continue;
+      const r = radiusFor(n);
+      if (n.x - r < minX) minX = n.x - r;
+      if (n.y - r < minY) minY = n.y - r;
+      if (n.x + r > maxX) maxX = n.x + r;
+      if (n.y + r > maxY) maxY = n.y + r;
+    }
+    if (!isFinite(minX)) return;
+    const pad = 80;
+    const contentW = (maxX - minX) + pad * 2;
+    const contentH = (maxY - minY) + pad * 2;
+    const k = Math.min(width / contentW, height / contentH, 3);
+    const cx = (minX + maxX) / 2;
+    const cy = (minY + maxY) / 2;
+    const targetTransform = {
+      k,
+      x: width / 2 - cx * k,
+      y: height / 2 - cy * k,
+    };
+
+    // Save the prior transform (only if we weren't already in a focus view).
+    const prevTransform = focusView?.prevTransform ?? transform;
+
+    // Freeze non-neighbors at current positions, release neighbors.
+    for (const n of simNodesRef.current) {
+      if (neighbors.has(n.id)) {
+        n.fx = null;
+        n.fy = null;
+      } else {
+        n.fx = n.x ?? null;
+        n.fy = n.y ?? null;
+      }
+    }
+    // Stop the global sim — local-only drag sim handles in-focus movement.
+    if (simRef.current) simRef.current.stop();
+
+    setTransform(targetTransform);
+    if (svgRef.current && zoomBehaviorRef.current) {
+      const z = zoomIdentity.translate(targetTransform.x, targetTransform.y).scale(targetTransform.k);
+      // Defer the d3-zoom sync to the next microtask so React state has applied.
+      queueMicrotask(() => {
+        if (svgRef.current && zoomBehaviorRef.current) {
+          select(svgRef.current).call(zoomBehaviorRef.current.transform, z);
+        }
+      });
+    }
+    setFocusView({ focusId: root, neighborIds: neighbors, prevTransform });
+    // We intentionally don't depend on `transform` — we read it via closure
+    // only when entering a new focus to capture the prior view once.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [root, hasSettled, width, height, rawEdges, compact]);
 
   // ── URL state sync (atlas page only) ──
   useEffect(() => {
@@ -288,21 +393,90 @@ export default function AtlasGraph({
 
   // ── Highlight set ──
   const highlightSet = useMemo(() => {
-    if (!root || !mode) return null;
-    const node = rawNodes.find(n => n.id === root);
-    if (!node) return null;
-    if (mode === 'pathTo') return new Set([root, ...node.ancestors]);
-    if (mode === 'whatsNext') return new Set([root, ...node.descendants]);
-    if (mode === 'explore') {
-      const oneHop = new Set<string>([root]);
-      for (const e of rawEdges) {
-        if (e.from === root) oneHop.add(e.to);
-        if (e.to === root) oneHop.add(e.from);
+    let base: Set<string> | null = null;
+    if (root && mode) {
+      const node = rawNodes.find(n => n.id === root);
+      if (node) {
+        if (mode === 'pathTo') base = new Set([root, ...node.ancestors]);
+        else if (mode === 'whatsNext') base = new Set([root, ...node.descendants]);
+        else if (mode === 'explore') {
+          const oneHop = new Set<string>([root]);
+          for (const e of rawEdges) {
+            if (e.from === root) oneHop.add(e.to);
+            if (e.to === root) oneHop.add(e.from);
+          }
+          base = oneHop;
+        }
       }
-      return oneHop;
     }
-    return null;
-  }, [root, mode, rawNodes, rawEdges]);
+    if (branchFilter) {
+      const inBranch = new Set<string>();
+      for (const n of rawNodes) {
+        if (n.id.split('/')[0] === branchFilter) inBranch.add(n.id);
+      }
+      if (base) {
+        // Intersect: only keep highlighted nodes that also match the branch filter.
+        const inter = new Set<string>();
+        for (const id of base) if (inBranch.has(id)) inter.add(id);
+        return inter;
+      }
+      return inBranch;
+    }
+    return base;
+  }, [root, mode, rawNodes, rawEdges, branchFilter]);
+
+  // Branch summary (domain id → canonical color + count). Used by legend, hulls, picker chips.
+  const branches = useMemo(() => {
+    const map = new Map<string, { color: string; count: number }>();
+    for (const n of rawNodes) {
+      const d = n.id.split('/')[0];
+      const existing = map.get(d);
+      if (!existing) map.set(d, { color: n.color, count: 1 });
+      else existing.count++;
+    }
+    return Array.from(map.entries())
+      .map(([id, v]) => ({ id, ...v }))
+      .sort((a, b) => a.id.localeCompare(b.id));
+  }, [rawNodes]);
+
+  // Cluster geometry per branch — recomputed when nodes settle or width changes.
+  // We compute centroid + radius from current positions; stable enough once the
+  // layout has settled.
+  const clusterGeometry = useMemo(() => {
+    const acc = new Map<string, { sx: number; sy: number; n: number; minX: number; maxX: number; minY: number; maxY: number; color: string }>();
+    for (const n of simNodesRef.current) {
+      if (n.x === undefined || n.y === undefined) continue;
+      const d = n.id.split('/')[0];
+      const r = radiusFor(n);
+      const a = acc.get(d) ?? { sx: 0, sy: 0, n: 0, minX: Infinity, maxX: -Infinity, minY: Infinity, maxY: -Infinity, color: n.color };
+      a.sx += n.x;
+      a.sy += n.y;
+      a.n++;
+      a.minX = Math.min(a.minX, n.x - r);
+      a.maxX = Math.max(a.maxX, n.x + r);
+      a.minY = Math.min(a.minY, n.y - r);
+      a.maxY = Math.max(a.maxY, n.y + r);
+      acc.set(d, a);
+    }
+    const out: Array<{ domain: string; cx: number; cy: number; r: number; color: string }> = [];
+    for (const [d, a] of acc) {
+      const cx = a.sx / a.n;
+      const cy = a.sy / a.n;
+      // Use distance-to-farthest-node as radius (better than half-bbox for ellipsoidal clusters).
+      let maxDist = 0;
+      for (const n of simNodesRef.current) {
+        if (n.id.split('/')[0] !== d) continue;
+        if (n.x === undefined || n.y === undefined) continue;
+        const dx = n.x - cx;
+        const dy = n.y - cy;
+        const dist = Math.hypot(dx, dy) + radiusFor(n);
+        if (dist > maxDist) maxDist = dist;
+      }
+      out.push({ domain: d, cx, cy, r: maxDist + 24, color: a.color });
+    }
+    return out;
+    // hasSettled is the trigger; positions are stable then.
+  }, [hasSettled, rawNodes, width, height]);
 
   // One-hop neighbors of the focused node, used for the always-visible label set.
   const focusedNeighborSet = useMemo(() => {
@@ -359,6 +533,41 @@ export default function AtlasGraph({
     const worldMaxX = (w - tx) / k;
     const worldMaxY = (h - ty) / k;
 
+    // ── Progressive tier disclosure based on zoom ──
+    // Far out: only foundation. Mid: foundation + field. Close: everything.
+    // Fade frontier in between k=0.7 and k=1.05, field in between k=0.45 and k=0.75.
+    const fieldOpacity = Math.max(0, Math.min(1, (k - 0.45) / (0.75 - 0.45)));
+    const frontierOpacity = Math.max(0, Math.min(1, (k - 0.7) / (1.05 - 0.7)));
+    const tierVisibility = (tier: string) =>
+      tier === 'foundation' ? 1 : tier === 'field' ? fieldOpacity : frontierOpacity;
+
+    // ── Cluster labels at centroid (no hull behind, per design choice) ──
+    if (clusterGeometry.length > 0) {
+      // Scale with world so they stay readable,
+      // capped so they don't dominate when zoomed way in.
+      const labelSize = Math.max(14, Math.min(34, 22 * k));
+      ctx.font = `600 ${labelSize}px var(--font-mono, ui-monospace, monospace)`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      for (const c of clusterGeometry) {
+        const dim = branchFilter ? c.domain !== branchFilter : false;
+        const label = (domainLabel[c.domain] ?? c.domain).toUpperCase();
+        // Halo
+        ctx.lineJoin = 'round';
+        ctx.lineWidth = 6;
+        ctx.strokeStyle = 'rgba(250,250,250,0.85)';
+        ctx.globalAlpha = dim ? 0.25 : 0.9;
+        ctx.strokeText(label, sx(c.cx), sy(c.cy));
+        // Fill
+        ctx.fillStyle = c.color;
+        ctx.globalAlpha = dim ? 0.2 : 0.55;
+        ctx.fillText(label, sx(c.cx), sy(c.cy));
+      }
+      ctx.textAlign = 'start';
+      ctx.textBaseline = 'middle';
+      ctx.globalAlpha = 1;
+    }
+
     // ── Edges ──
     ctx.lineWidth = 1;
     for (let i = 0; i < edges.length; i++) {
@@ -375,9 +584,12 @@ export default function AtlasGraph({
       const eMaxY = Math.max(s.y!, t.y!);
       if (eMaxX < worldMinX || eMinX > worldMaxX || eMaxY < worldMinY || eMinY > worldMaxY) continue;
 
+      // Hide edges that touch a hidden-tier node.
+      const tierMin = Math.min(tierVisibility(s.tier), tierVisibility(t.tier));
+      if (tierMin <= 0.01) continue;
       const dim = highlightSet ? !(highlightSet.has(s.id) && highlightSet.has(t.id)) : false;
       const focused = focusId && (s.id === focusId || t.id === focusId);
-      const alpha = dim ? 0.06 : focused ? 0.85 : 0.35;
+      const alpha = (dim ? 0.06 : focused ? 0.85 : 0.35) * tierMin;
       ctx.globalAlpha = alpha;
       ctx.strokeStyle = focused ? '#ef4444' : '#a3a3a3';
       ctx.lineWidth = focused ? 1.5 : 1;
@@ -421,10 +633,12 @@ export default function AtlasGraph({
       if (n.x + r < worldMinX || n.x - r > worldMaxX) continue;
       if (n.y + r < worldMinY || n.y - r > worldMaxY) continue;
 
+      const tierAlpha = tierVisibility(n.tier);
+      if (tierAlpha <= 0.01) continue;
       const dim = highlightSet ? !highlightSet.has(n.id) : false;
       const isRoot = root === n.id;
       const isHover = hoverId === n.id;
-      ctx.globalAlpha = dim ? 0.18 : 1;
+      ctx.globalAlpha = (dim ? 0.18 : 1) * tierAlpha;
 
       if (isRoot) {
         ctx.beginPath();
@@ -438,17 +652,24 @@ export default function AtlasGraph({
 
       ctx.beginPath();
       ctx.arc(sx(n.x), sy(n.y), r * k, 0, Math.PI * 2);
+      // Tier still drives fill (lighter = foundation, deeper = frontier) — but
+      // the stroke now carries branch color, so the science branch is readable
+      // at every zoom level.
       ctx.fillStyle = TIER_FILL[n.tier];
       ctx.fill();
-      ctx.strokeStyle = TIER_STROKE[n.tier];
-      ctx.lineWidth = isHover || isRoot ? 2 : 1.25;
+      ctx.strokeStyle = n.color;
+      ctx.lineWidth = isHover || isRoot ? 2.5 : n.tier === 'foundation' ? 2 : 1.5;
       ctx.stroke();
 
-      // Color dot inside
-      ctx.beginPath();
-      ctx.arc(sx(n.x), sy(n.y), 2 * k, 0, Math.PI * 2);
-      ctx.fillStyle = n.color;
-      ctx.fill();
+      // Frontier tier gets a second thin inner ring to keep the tier distinction
+      // visible now that fills are very similar — only when zoomed in enough.
+      if (n.tier === 'frontier' && k > 0.9) {
+        ctx.beginPath();
+        ctx.arc(sx(n.x), sy(n.y), Math.max(1.5, (r - 3) * k), 0, Math.PI * 2);
+        ctx.strokeStyle = TIER_STROKE.frontier;
+        ctx.lineWidth = 0.75;
+        ctx.stroke();
+      }
     }
     ctx.globalAlpha = 1;
 
@@ -459,11 +680,17 @@ export default function AtlasGraph({
       ctx.textBaseline = 'middle';
       // Two passes: stroke (halo) then fill, so labels stay readable over edges.
       const visibleLabels: SimNode[] = [];
+      // Per-tier zoom thresholds — foundation (orientation anchors) appears
+      // first as you zoom in, then field, then frontier.
+      const tierLabelThreshold = (tier: string) =>
+        tier === 'foundation' ? 0.55 : tier === 'field' ? 0.8 : LABEL_ZOOM_THRESHOLD;
       for (const n of nodes) {
         if (n.x === undefined || n.y === undefined) continue;
+        if (tierVisibility(n.tier) < 0.15) continue;
         const isFocused = n.id === focusId;
         const inNeighborhood = focusedNeighborSet?.has(n.id) ?? false;
-        if (!showAllLabels && !isFocused && !inNeighborhood) continue;
+        const passesTier = k >= tierLabelThreshold(n.tier);
+        if (!passesTier && !isFocused && !inNeighborhood) continue;
         const dim = highlightSet ? !highlightSet.has(n.id) : false;
         if (dim) continue;
         const r = radiusFor(n);
@@ -492,14 +719,14 @@ export default function AtlasGraph({
         ctx.fillText(n.title, sx(n.x!) + r + 6, sy(n.y!) + 4);
       }
     }
-  }, [transform, hoverId, root, highlightSet, focusedNeighborSet]);
+  }, [transform, hoverId, root, highlightSet, focusedNeighborSet, clusterGeometry, branchFilter]);
 
   // Keep the ref pointing at the latest drawCanvas so the RAF callback
   // always sees the current transform/hover/highlight state.
   useEffect(() => { drawRef.current = drawCanvas; }, [drawCanvas]);
 
   // Redraw whenever any visual-state changes.
-  useEffect(() => { requestRedraw(); }, [transform, hoverId, root, highlightSet, focusedNeighborSet, width, height, requestRedraw]);
+  useEffect(() => { requestRedraw(); }, [transform, hoverId, root, highlightSet, focusedNeighborSet, width, height, clusterGeometry, branchFilter, requestRedraw]);
 
   // ── Hit-testing for hover/click on the canvas ──
   const screenToWorld = useCallback((sxp: number, syp: number) => {
@@ -555,8 +782,46 @@ export default function AtlasGraph({
     hit.fx = hit.x;
     hit.fy = hit.y;
     draggingRef.current = { node: hit, pointerId: ev.pointerId };
-    if (simRef.current) simRef.current.alphaTarget(0.3).restart();
-  }, [compact, nodeAt]);
+
+    // Build a tiny local simulation over the dragged node's 1-hop neighborhood
+    // (intersected with the focus view if active), so the spring effect stays
+    // responsive without dragging O(N²) force computations behind it.
+    if (simRef.current) simRef.current.stop();
+    const oneHop = new Set<string>([hit.id]);
+    for (const e of rawEdges) {
+      if (e.from === hit.id) oneHop.add(e.to);
+      if (e.to === hit.id) oneHop.add(e.from);
+    }
+    const allowed = focusView
+      ? new Set<string>([...oneHop].filter(id => focusView.neighborIds.has(id)))
+      : oneHop;
+    const localNodes = simNodesRef.current.filter(n => allowed.has(n.id));
+    const localEdges: SimEdge[] = [];
+    for (const e of simEdgesRef.current) {
+      const sId = typeof e.source === 'object' ? (e.source as SimNode).id : e.source;
+      const tId = typeof e.target === 'object' ? (e.target as SimNode).id : e.target;
+      if (allowed.has(sId) && allowed.has(tId)) localEdges.push({ source: sId, target: tId });
+    }
+    // Release the local set from any prior freeze so the spring can play; the
+    // dragged node stays fixed via fx/fy.
+    for (const n of localNodes) {
+      if (n.id !== hit.id) { n.fx = null; n.fy = null; }
+    }
+    const lsim = forceSimulation<SimNode>(localNodes)
+      .force(
+        'link',
+        forceLink<SimNode, SimEdge>(localEdges)
+          .id((d: SimNode) => d.id)
+          .distance(110)
+          .strength(0.6),
+      )
+      .force('charge', forceManyBody<SimNode>().strength(-220))
+      .force('collide', forceCollide<SimNode>().radius(d => radiusFor(d) + 8).strength(0.9))
+      .alphaDecay(0.04)
+      .alphaTarget(0.3)
+      .on('tick', () => requestRedraw());
+    localSimRef.current = lsim;
+  }, [compact, nodeAt, rawEdges, focusView, requestRedraw]);
 
   const onSvgUp = useCallback((ev: React.PointerEvent<SVGSVGElement>) => {
     const drag = draggingRef.current;
@@ -564,9 +829,20 @@ export default function AtlasGraph({
     drag.node.fx = drag.node.x;
     drag.node.fy = drag.node.y;
     draggingRef.current = null;
-    if (simRef.current) simRef.current.alphaTarget(0);
+    // Re-freeze any local-sim nodes outside the focus view so they don't drift,
+    // then stop the local sim. If a focus view is active, neighbors stay loose
+    // (their next drag will respring them); otherwise everyone gets pinned.
+    if (localSimRef.current) {
+      localSimRef.current.stop();
+      if (!focusView) {
+        for (const n of simNodesRef.current) {
+          if (n.fx == null) { n.fx = n.x ?? null; n.fy = n.y ?? null; }
+        }
+      }
+      localSimRef.current = null;
+    }
     (ev.target as Element).releasePointerCapture?.(ev.pointerId);
-  }, []);
+  }, [focusView]);
 
   const onSvgClick = useCallback((ev: React.MouseEvent<SVGSVGElement>) => {
     if (compact) {
@@ -603,6 +879,7 @@ export default function AtlasGraph({
   const reset = useCallback(() => {
     setRoot(null);
     setMode(null);
+    setBranchFilter(null);
     for (const n of simNodesRef.current) { n.fx = null; n.fy = null; }
     if (svgRef.current && zoomBehaviorRef.current) {
       // Re-fit to view.
@@ -614,35 +891,45 @@ export default function AtlasGraph({
 
   const focusedId = hoverId ?? root;
 
-  // ── Searchable picker results (capped). ──
+  // Full grouped index — computed once, reused by both compact and browse modes.
+  const groupedIndex = useMemo(() => {
+    const byDomain = new Map<string, RawNode[]>();
+    for (const n of rawNodes) {
+      const domain = n.id.split('/')[0];
+      if (!byDomain.has(domain)) byDomain.set(domain, []);
+      byDomain.get(domain)!.push(n);
+    }
+    const ordered = Array.from(byDomain.keys()).sort();
+    return ordered.map(d => ({
+      domain: d,
+      items: byDomain.get(d)!.slice().sort((a, b) => a.title.localeCompare(b.title)),
+    }));
+  }, [rawNodes]);
+
+  // ── Searchable picker results. ──
   const pickerResults = useMemo(() => {
     const q = pickerQuery.trim().toLowerCase();
     if (!q) {
-      const byDomain = new Map<string, RawNode[]>();
-      for (const n of rawNodes) {
-        const domain = n.id.split('/')[0];
-        if (!byDomain.has(domain)) byDomain.set(domain, []);
-        byDomain.get(domain)!.push(n);
-      }
-      const orderedDomains = Array.from(byDomain.keys()).sort();
-      // Cap each domain to 8 to keep the dropdown small when not searching.
-      const groups: Array<{ domain: string; items: RawNode[]; truncated: number }> = [];
-      for (const d of orderedDomains) {
-        const all = byDomain.get(d)!.slice().sort((a, b) => a.title.localeCompare(b.title));
-        groups.push({ domain: d, items: all.slice(0, 8), truncated: Math.max(0, all.length - 8) });
-      }
+      // No query: compact mode caps each domain to 8; browse-all mode lists everything.
+      const groups = groupedIndex.map(g => ({
+        domain: g.domain,
+        items: pickerBrowseAll ? g.items : g.items.slice(0, 8),
+        truncated: pickerBrowseAll ? 0 : Math.max(0, g.items.length - 8),
+        total: g.items.length,
+      }));
       return { kind: 'grouped' as const, groups };
     }
     // Linear filter — fast enough on 2k entries.
     const hits: RawNode[] = [];
+    const cap = pickerBrowseAll ? 500 : 50;
     for (const n of rawNodes) {
       if (n.title.toLowerCase().includes(q) || n.id.toLowerCase().includes(q)) {
         hits.push(n);
-        if (hits.length >= 50) break;
+        if (hits.length >= cap) break;
       }
     }
-    return { kind: 'flat' as const, items: hits };
-  }, [pickerQuery, rawNodes]);
+    return { kind: 'flat' as const, items: hits, cap };
+  }, [pickerQuery, rawNodes, groupedIndex, pickerBrowseAll]);
 
   const domainLabel: Record<string, string> = {
     mathematics: 'Mathematics',
@@ -707,19 +994,41 @@ export default function AtlasGraph({
             {pickerOpen && (
               <div
                 role="listbox"
-                className="absolute left-0 top-full mt-1 z-30 w-[22rem] max-w-[90vw] bg-white border border-surface-300 shadow-lg"
+                className={`absolute left-0 top-full mt-1 z-30 max-w-[90vw] bg-white border border-surface-300 shadow-lg transition-[width] ${
+                  pickerBrowseAll ? 'w-[32rem]' : 'w-[22rem]'
+                }`}
               >
-                <div className="border-b border-surface-200 p-2">
+                <div className="border-b border-surface-200 p-2 flex items-center gap-2">
                   <input
                     type="text"
                     value={pickerQuery}
                     onChange={e => setPickerQuery(e.target.value)}
-                    placeholder="Search 2,091 topics…"
+                    placeholder={pickerBrowseAll ? `Filter ${rawNodes.length} topics…` : `Search ${rawNodes.length} topics…`}
                     autoFocus
-                    className="w-full font-mono text-xs px-2 py-1.5 border border-surface-200 focus:border-surface-900 focus:outline-none"
+                    className="flex-1 font-mono text-xs px-2 py-1.5 border border-surface-200 focus:border-surface-900 focus:outline-none"
                   />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setPickerBrowseAll(b => !b);
+                      // When entering browse mode, default-expand every domain.
+                      setExpandedDomains(
+                        !pickerBrowseAll
+                          ? new Set(groupedIndex.map(g => g.domain))
+                          : new Set(),
+                      );
+                    }}
+                    className={`font-mono text-[10px] uppercase tracking-wider px-2 py-1.5 border transition-colors whitespace-nowrap ${
+                      pickerBrowseAll
+                        ? 'bg-surface-900 text-white border-surface-900'
+                        : 'border-surface-300 text-surface-600 hover:border-surface-500'
+                    }`}
+                    title={pickerBrowseAll ? 'Back to quick picker' : 'Browse every topic, grouped by branch'}
+                  >
+                    {pickerBrowseAll ? '← Compact' : 'Browse all ↗'}
+                  </button>
                 </div>
-                <div className="max-h-80 overflow-y-auto">
+                <div className={pickerBrowseAll ? 'max-h-[28rem] overflow-y-auto' : 'max-h-80 overflow-y-auto'}>
                   <button
                     type="button"
                     role="option"
@@ -731,21 +1040,50 @@ export default function AtlasGraph({
                   >
                     — pick a topic —
                   </button>
-                  {pickerResults.kind === 'grouped' && pickerResults.groups.map((g, i) => (
-                    <div key={g.domain} className={i > 0 ? 'border-t border-surface-200' : 'border-t border-surface-200'}>
-                      <div className="font-mono text-[10px] uppercase tracking-wider text-surface-400 px-3 py-1.5 bg-surface-50">
-                        {domainLabel[g.domain] ?? g.domain}
+                  {pickerResults.kind === 'grouped' && pickerResults.groups.map((g, i) => {
+                    const isOpen = pickerBrowseAll ? expandedDomains.has(g.domain) : true;
+                    return (
+                      <div key={g.domain} className="border-t border-surface-200">
+                        {pickerBrowseAll ? (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setExpandedDomains(prev => {
+                                const next = new Set(prev);
+                                if (next.has(g.domain)) next.delete(g.domain);
+                                else next.add(g.domain);
+                                return next;
+                              });
+                            }}
+                            className="w-full text-left flex items-center justify-between font-mono text-[10px] uppercase tracking-wider text-surface-600 px-3 py-2 bg-surface-50 hover:bg-surface-100 transition-colors"
+                          >
+                            <span className="flex items-center gap-2">
+                              <span
+                                className="inline-block w-2 h-2"
+                                style={{ backgroundColor: g.items[0]?.color }}
+                                aria-hidden="true"
+                              />
+                              {domainLabel[g.domain] ?? g.domain}
+                              <span className="text-surface-400 normal-case tracking-normal">({g.total})</span>
+                            </span>
+                            <span className={`transition-transform ${isOpen ? 'rotate-90' : ''}`}>›</span>
+                          </button>
+                        ) : (
+                          <div className="font-mono text-[10px] uppercase tracking-wider text-surface-400 px-3 py-1.5 bg-surface-50">
+                            {domainLabel[g.domain] ?? g.domain}
+                          </div>
+                        )}
+                        {isOpen && g.items.map(n => (
+                          <PickerRow key={n.id} n={n} selected={n.id === root} onPick={() => { setRoot(n.id); setPickerOpen(false); }} />
+                        ))}
+                        {isOpen && g.truncated > 0 && (
+                          <div className="font-mono text-[10px] text-surface-400 px-3 py-1.5 italic">
+                            + {g.truncated} more — type to search or use Browse all
+                          </div>
+                        )}
                       </div>
-                      {g.items.map(n => (
-                        <PickerRow key={n.id} n={n} selected={n.id === root} onPick={() => { setRoot(n.id); setPickerOpen(false); }} />
-                      ))}
-                      {g.truncated > 0 && (
-                        <div className="font-mono text-[10px] text-surface-400 px-3 py-1.5 italic">
-                          + {g.truncated} more — type to search
-                        </div>
-                      )}
-                    </div>
-                  ))}
+                    );
+                  })}
                   {pickerResults.kind === 'flat' && (
                     <div className="border-t border-surface-200">
                       {pickerResults.items.length === 0 && (
@@ -754,9 +1092,9 @@ export default function AtlasGraph({
                       {pickerResults.items.map(n => (
                         <PickerRow key={n.id} n={n} selected={n.id === root} onPick={() => { setRoot(n.id); setPickerOpen(false); }} showDomain />
                       ))}
-                      {pickerResults.items.length === 50 && (
+                      {pickerResults.items.length === pickerResults.cap && (
                         <div className="font-mono text-[10px] text-surface-400 px-3 py-1.5 italic">
-                          Showing first 50 — refine your search.
+                          Showing first {pickerResults.cap} — refine your search.
                         </div>
                       )}
                     </div>
@@ -766,7 +1104,7 @@ export default function AtlasGraph({
             )}
           </div>
 
-          {(root || mode) && (
+          {(root || mode || branchFilter) && (
             <button
               onClick={reset}
               className="font-mono text-xs uppercase tracking-wider px-3 py-1.5 text-surface-500 hover:text-surface-900"
@@ -777,6 +1115,82 @@ export default function AtlasGraph({
           <span className="ml-auto font-mono text-[10px] uppercase tracking-wider text-surface-400 hidden md:block">
             click to select · drag to move · ⌘-click to open · scroll to zoom
           </span>
+        </div>
+      )}
+
+      {!compact && branches.length > 0 && (
+        <div className="flex flex-wrap items-center gap-1.5 mb-2">
+          <span className="font-mono text-[10px] uppercase tracking-wider text-surface-500 mr-1">Branches:</span>
+          {branches.map(b => {
+            const active = branchFilter === b.id;
+            return (
+              <button
+                key={b.id}
+                type="button"
+                onClick={() => {
+                  if (active) {
+                    setBranchFilter(null);
+                    return;
+                  }
+                  setBranchFilter(b.id);
+                  // Auto-fit the transform to the branch's bounding box.
+                  let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+                  for (const n of simNodesRef.current) {
+                    if (n.id.split('/')[0] !== b.id) continue;
+                    if (n.x === undefined || n.y === undefined) continue;
+                    const r = radiusFor(n);
+                    if (n.x - r < minX) minX = n.x - r;
+                    if (n.y - r < minY) minY = n.y - r;
+                    if (n.x + r > maxX) maxX = n.x + r;
+                    if (n.y + r > maxY) maxY = n.y + r;
+                  }
+                  if (!isFinite(minX)) return;
+                  const pad = 100;
+                  const contentW = (maxX - minX) + pad * 2;
+                  const contentH = (maxY - minY) + pad * 2;
+                  const newK = Math.min(width / contentW, height / contentH, 2.5);
+                  const cx = (minX + maxX) / 2;
+                  const cy = (minY + maxY) / 2;
+                  const next = {
+                    k: newK,
+                    x: width / 2 - cx * newK,
+                    y: height / 2 - cy * newK,
+                  };
+                  setTransform(next);
+                  if (svgRef.current && zoomBehaviorRef.current) {
+                    const z = zoomIdentity.translate(next.x, next.y).scale(next.k);
+                    select(svgRef.current).call(zoomBehaviorRef.current.transform, z);
+                  }
+                }}
+                className={`font-mono text-[10px] uppercase tracking-wider px-2 py-1 border transition-colors flex items-center gap-1.5 ${
+                  active
+                    ? 'bg-surface-900 text-white border-surface-900'
+                    : branchFilter
+                      ? 'border-surface-200 text-surface-400 hover:border-surface-400 hover:text-surface-700'
+                      : 'border-surface-300 text-surface-700 hover:border-surface-500'
+                }`}
+                aria-pressed={active}
+                title={active ? 'Show all branches' : `Isolate ${domainLabel[b.id] ?? b.id}`}
+              >
+                <span
+                  className="inline-block w-2 h-2"
+                  style={{ backgroundColor: b.color }}
+                  aria-hidden="true"
+                />
+                {domainLabel[b.id] ?? b.id}
+                <span className={active ? 'text-white/60' : 'text-surface-400'}>{b.count}</span>
+              </button>
+            );
+          })}
+          {branchFilter && (
+            <button
+              type="button"
+              onClick={() => setBranchFilter(null)}
+              className="font-mono text-[10px] uppercase tracking-wider px-2 py-1 text-surface-500 hover:text-surface-900"
+            >
+              clear
+            </button>
+          )}
         </div>
       )}
 
@@ -813,6 +1227,18 @@ export default function AtlasGraph({
           <div className="absolute top-3 right-3 font-mono text-[10px] uppercase tracking-wider text-surface-400 bg-white/80 px-2 py-1 border border-surface-200">
             settling…
           </div>
+        )}
+
+        {focusView && !compact && (
+          <button
+            type="button"
+            onClick={() => setRoot(null)}
+            className="absolute top-3 right-3 font-mono text-[10px] uppercase tracking-wider px-3 py-1.5 bg-white border border-surface-300 text-surface-700 hover:border-surface-900 hover:text-surface-900 shadow-sm flex items-center gap-1.5"
+            title="Restore the previous view"
+          >
+            <span aria-hidden="true">←</span>
+            Back to overview
+          </button>
         )}
 
         {focusedId && !compact && (() => {
