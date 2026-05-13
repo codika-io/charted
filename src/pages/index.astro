@@ -17,6 +17,39 @@ const nodes = graph.nodes.map(n => ({
   y: n.y,
 }));
 const edges = graph.edges.map(e => ({ from: e.from, to: e.to }));
+
+// Derive the branch list for the hero CTA dropdown. One entry per top-level
+// domain, with its canonical color + a pitch offset so each branch hover
+// tick is tonally distinct. Heights array drives the per-branch isometric
+// chart shape (4 bars).
+const DOMAIN_LABELS: Record<string, string> = {
+  mathematics: 'Mathematics',
+  physics: 'Physics',
+  chemistry: 'Chemistry',
+  biology: 'Biology',
+  'computer-science': 'Computer Science',
+};
+const BRANCH_ORDER = ['mathematics', 'physics', 'chemistry', 'biology', 'computer-science'];
+const BRANCH_SHAPES: Record<string, number[]> = {
+  mathematics: [100, 70, 40, 100],
+  physics: [85, 70, 50, 105],
+  chemistry: [70, 50, 90, 80],
+  biology: [60, 90, 80, 70],
+  'computer-science': [40, 95, 65, 110],
+};
+const branchColors = new Map<string, string>();
+for (const n of graph.nodes) {
+  const d = n.id.split('/')[0];
+  if (!branchColors.has(d)) branchColors.set(d, n.color);
+}
+const branches = BRANCH_ORDER.filter(id => branchColors.has(id)).map((id, i, arr) => ({
+  id,
+  label: DOMAIN_LABELS[id] ?? id,
+  color: branchColors.get(id)!,
+  // Pitch ascends across the dropdown for a small chromatic walk.
+  pitch: +(0.85 + (i / Math.max(1, arr.length - 1)) * 0.5).toFixed(3),
+  heights: BRANCH_SHAPES[id] ?? [60, 80, 70, 90],
+}));
 ---
 
 <BaseLayout title="Home">
@@ -35,14 +68,33 @@ const edges = graph.edges.map(e => ({ from: e.from, to: e.to }));
             Built with agents, reviewed by experts.
           </p>
           <div class="mt-8 flex flex-wrap gap-4 justify-center lg:justify-start">
-            <a
-              id="hero-cta"
-              href="/atlas"
-              class="inline-block font-mono text-sm uppercase tracking-wider bg-surface-900 text-white px-6 py-3 hover:bg-surface-700 transition-colors"
-              data-hover-sound
-            >
-              Open the atlas
-            </a>
+            <div id="hero-atlas-group" class="relative group">
+              <a
+                id="hero-cta"
+                href="/atlas"
+                class="inline-block font-mono text-sm uppercase tracking-wider bg-surface-900 text-white px-6 py-3 group-hover:bg-surface-700 transition-colors"
+                data-hover-sound
+              >
+                Open the atlas
+              </a>
+              <div
+                id="hero-branches"
+                class="absolute top-full left-0 min-w-full opacity-0 invisible translate-y-1 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-200 z-10"
+              >
+                {branches.map(b => (
+                  <a
+                    href={`/atlas?branch=${b.id}`}
+                    class="block font-mono text-sm uppercase tracking-wider text-white px-6 py-3 whitespace-nowrap hover:brightness-110 transition-all"
+                    style={`background-color: ${b.color};`}
+                    data-hover-sound
+                    data-hover-pitch={b.pitch}
+                    data-hero-branch={b.id}
+                  >
+                    {b.label}
+                  </a>
+                ))}
+              </div>
+            </div>
             <a
               id="hero-contribute"
               href="https://github.com/codika-io/charted"
@@ -53,6 +105,8 @@ const edges = graph.edges.map(e => ({ from: e.from, to: e.to }));
               Contribute on GitHub
             </a>
           </div>
+
+          <script id="hero-branches-data" type="application/json" is:inline set:html={JSON.stringify(branches)}></script>
         </div>
 
         <!-- Isometric illustration -->
@@ -130,8 +184,11 @@ const edges = graph.edges.map(e => ({ from: e.from, to: e.to }));
       </div>
     </div>
 
-    <!-- Hero chart animation: neutral ↔ active, triggered by hovering #hero-cta -->
+    <!-- Hero chart animation: neutral ↔ per-branch ↔ contribute (grey), driven
+         by hovering each branch button in the Open-the-atlas dropdown. -->
     <script>
+      type Branch = { id: string; label: string; color: string; pitch: number; heights: number[] };
+
       const GEOM = [
         { cx: 130, baseY: 240, hw: 30 },
         { cx: 200, baseY: 260, hw: 30 },
@@ -146,33 +203,55 @@ const edges = graph.edges.map(e => ({ from: e.from, to: e.to }));
       ];
 
       const GRAY = [163, 163, 163];     // #a3a3a3
-      const RED = [239, 68, 68];        // accent-500
-      const RED_L = [252, 165, 165];    // accent-300
-      const GREEN = [34, 197, 94];      // emerald-500 — contribution-y
-      const GREEN_L = [134, 239, 172];  // emerald-300
-      const DARK = [23, 23, 23];        // surface-900
+      const GRAY_D = [115, 115, 115];   // #737373 — slightly darker for contrast
+      const DARK = [23, 23, 23];        // #171717 surface-900
 
-      const STATES: Record<string, { heights: number[]; colors: number[][]; accent: number[]; edColor: number[] }> = {
+      function hexToRgb(hex: string): number[] {
+        const c = hex.replace('#', '');
+        return [
+          parseInt(c.slice(0, 2), 16),
+          parseInt(c.slice(2, 4), 16),
+          parseInt(c.slice(4, 6), 16),
+        ];
+      }
+      function lighten(rgb: number[], amount: number): number[] {
+        return rgb.map(c => Math.round(c + (255 - c) * amount));
+      }
+
+      type State = { heights: number[]; colors: number[][]; accent: number[]; edColor: number[] };
+
+      const STATES: Record<string, State> = {
         neutral: {
           heights: [50, 40, 30, 50],
           colors: [GRAY, GRAY, GRAY, GRAY],
           accent: GRAY,
           edColor: DARK,
         },
-        active: {
-          heights: [100, 70, 40, 100],
-          colors: [RED, RED, RED_L, RED],
-          accent: RED,
-          edColor: RED,
-        },
+        // Contribute: same chart but greyed, with a distinct shape so it visibly moves.
         contribute: {
-          // Stair-step ascending, evoking commits stacking up.
-          heights: [40, 70, 100, 80],
-          colors: [GREEN_L, GREEN, GREEN, GREEN],
-          accent: GREEN,
-          edColor: GREEN,
+          heights: [70, 50, 90, 60],
+          colors: [GRAY, GRAY_D, GRAY, GRAY_D],
+          accent: GRAY_D,
+          edColor: GRAY_D,
         },
       };
+
+      // Pull the branches data injected by the Astro frontmatter.
+      const branchesData: Branch[] = JSON.parse(
+        document.getElementById('hero-branches-data')!.textContent || '[]',
+      );
+      for (const b of branchesData) {
+        const c = hexToRgb(b.color);
+        const cL = lighten(c, 0.5);
+        STATES[`branch:${b.id}`] = {
+          heights: b.heights,
+          // Mix in one lighter block (third) so the chart has visible depth, mirroring
+          // the old per-domain palette.
+          colors: [c, c, cL, c],
+          accent: c,
+          edColor: c,
+        };
+      }
 
       const cur = {
         wh: [50, 40, 30, 50],
@@ -190,7 +269,7 @@ const edges = graph.edges.map(e => ({ from: e.from, to: e.to }));
       const dots = [0, 1, 2].map(i => document.getElementById(`hero-dot-${i}`)!);
       const lines = [0, 1].map(i => document.getElementById(`hero-line-${i}`)!);
       const edSpan = document.getElementById('hero-ed')!;
-      const cta = document.getElementById('hero-cta')!;
+      const atlasGroup = document.getElementById('hero-atlas-group')!;
       const contribute = document.getElementById('hero-contribute')!;
 
       function toHex(rgb: number[]) {
@@ -224,7 +303,7 @@ const edges = graph.edges.map(e => ({ from: e.from, to: e.to }));
       }
 
       function animate() {
-        const s = STATES[target];
+        const s = STATES[target] ?? STATES.neutral;
         let done = true;
         const E = 0.25;
 
@@ -280,10 +359,14 @@ const edges = graph.edges.map(e => ({ from: e.from, to: e.to }));
         if (!raf) raf = requestAnimationFrame(animate);
       }
 
-      cta.addEventListener('mouseenter', () => transitionTo('active'));
-      cta.addEventListener('mouseleave', () => transitionTo('neutral'));
-      cta.addEventListener('focus', () => transitionTo('active'));
-      cta.addEventListener('blur', () => transitionTo('neutral'));
+      // Each branch button: hovering morphs the chart to that branch's color+shape.
+      document.querySelectorAll<HTMLElement>('[data-hero-branch]').forEach(el => {
+        const id = el.dataset.heroBranch!;
+        el.addEventListener('mouseenter', () => transitionTo(`branch:${id}`));
+        el.addEventListener('focus', () => transitionTo(`branch:${id}`));
+      });
+      // Leaving the whole group (trigger + dropdown) returns to neutral.
+      atlasGroup.addEventListener('mouseleave', () => transitionTo('neutral'));
 
       contribute.addEventListener('mouseenter', () => transitionTo('contribute'));
       contribute.addEventListener('mouseleave', () => transitionTo('neutral'));

@@ -349,14 +349,53 @@ export default function AtlasGraph({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [root, hasSettled, width, height, rawEdges, compact]);
 
+  // ── Auto-fit transform when a branch is filtered (chip click OR URL-driven
+  // mount via ?branch=). Skipped while a focus view is active so the focused
+  // neighborhood stays framed. ──
+  useEffect(() => {
+    if (compact) return;
+    if (!branchFilter) return;
+    if (focusView) return;
+    if (width === 0 || !hasSettled) return;
+    let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+    for (const n of simNodesRef.current) {
+      if (n.id.split('/')[0] !== branchFilter) continue;
+      if (n.x === undefined || n.y === undefined) continue;
+      const r = radiusFor(n);
+      if (n.x - r < minX) minX = n.x - r;
+      if (n.y - r < minY) minY = n.y - r;
+      if (n.x + r > maxX) maxX = n.x + r;
+      if (n.y + r > maxY) maxY = n.y + r;
+    }
+    if (!isFinite(minX)) return;
+    const pad = 100;
+    const contentW = (maxX - minX) + pad * 2;
+    const contentH = (maxY - minY) + pad * 2;
+    const newK = Math.min(width / contentW, height / contentH, 2.5);
+    const cx = (minX + maxX) / 2;
+    const cy = (minY + maxY) / 2;
+    const next = {
+      k: newK,
+      x: width / 2 - cx * newK,
+      y: height / 2 - cy * newK,
+    };
+    setTransform(next);
+    if (svgRef.current && zoomBehaviorRef.current) {
+      const z = zoomIdentity.translate(next.x, next.y).scale(next.k);
+      select(svgRef.current).call(zoomBehaviorRef.current.transform, z);
+    }
+  }, [branchFilter, hasSettled, width, height, compact, focusView]);
+
   // ── URL state sync (atlas page only) ──
   useEffect(() => {
     if (compact) return;
     const params = new URLSearchParams(window.location.search);
     const m = params.get('mode') as Mode | null;
     const r = params.get('root');
+    const b = params.get('branch');
     if (m) setMode(m);
     if (r) setRoot(r);
+    if (b) setBranchFilter(b);
   }, [compact]);
 
   useEffect(() => {
@@ -366,10 +405,12 @@ export default function AtlasGraph({
     else params.delete('mode');
     if (root) params.set('root', root);
     else params.delete('root');
+    if (branchFilter) params.set('branch', branchFilter);
+    else params.delete('branch');
     const next = params.toString();
     const url = `${window.location.pathname}${next ? '?' + next : ''}`;
     window.history.replaceState(null, '', url);
-  }, [mode, root, compact]);
+  }, [mode, root, branchFilter, compact]);
 
   // ── Pan/zoom via d3-zoom on the SVG overlay (which sits on top of canvas) ──
   useEffect(() => {
@@ -1127,41 +1168,7 @@ export default function AtlasGraph({
               <button
                 key={b.id}
                 type="button"
-                onClick={() => {
-                  if (active) {
-                    setBranchFilter(null);
-                    return;
-                  }
-                  setBranchFilter(b.id);
-                  // Auto-fit the transform to the branch's bounding box.
-                  let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
-                  for (const n of simNodesRef.current) {
-                    if (n.id.split('/')[0] !== b.id) continue;
-                    if (n.x === undefined || n.y === undefined) continue;
-                    const r = radiusFor(n);
-                    if (n.x - r < minX) minX = n.x - r;
-                    if (n.y - r < minY) minY = n.y - r;
-                    if (n.x + r > maxX) maxX = n.x + r;
-                    if (n.y + r > maxY) maxY = n.y + r;
-                  }
-                  if (!isFinite(minX)) return;
-                  const pad = 100;
-                  const contentW = (maxX - minX) + pad * 2;
-                  const contentH = (maxY - minY) + pad * 2;
-                  const newK = Math.min(width / contentW, height / contentH, 2.5);
-                  const cx = (minX + maxX) / 2;
-                  const cy = (minY + maxY) / 2;
-                  const next = {
-                    k: newK,
-                    x: width / 2 - cx * newK,
-                    y: height / 2 - cy * newK,
-                  };
-                  setTransform(next);
-                  if (svgRef.current && zoomBehaviorRef.current) {
-                    const z = zoomIdentity.translate(next.x, next.y).scale(next.k);
-                    select(svgRef.current).call(zoomBehaviorRef.current.transform, z);
-                  }
-                }}
+                onClick={() => setBranchFilter(active ? null : b.id)}
                 className={`font-mono text-[10px] uppercase tracking-wider px-2 py-1 border transition-colors flex items-center gap-1.5 ${
                   active
                     ? 'bg-surface-900 text-white border-surface-900'

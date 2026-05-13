@@ -15,7 +15,7 @@ function getContext(): AudioContext {
   return ctx;
 }
 
-export function playHoverTick() {
+export function playHoverTick(pitch = 1) {
   const now = performance.now();
   if (now - lastPlayTime < COOLDOWN_MS) return;
   lastPlayTime = now;
@@ -29,8 +29,8 @@ export function playHoverTick() {
   const sub = ac.createOscillator();
   const subGain = ac.createGain();
   sub.type = 'sine';
-  sub.frequency.setValueAtTime(150, t);
-  sub.frequency.exponentialRampToValueAtTime(40, t + 0.04);
+  sub.frequency.setValueAtTime(150 * pitch, t);
+  sub.frequency.exponentialRampToValueAtTime(40 * pitch, t + 0.04);
   subGain.gain.setValueAtTime(0.07, t);
   subGain.gain.exponentialRampToValueAtTime(0.0001, t + 0.05);
   sub.connect(subGain).connect(ac.destination);
@@ -48,7 +48,8 @@ export function playHoverTick() {
 
   const lp = ac.createBiquadFilter();
   lp.type = 'lowpass';
-  lp.frequency.value = 2000;
+  // Lowpass cutoff tracks pitch so higher-pitch ticks feel brighter, not just retuned.
+  lp.frequency.value = 2000 * pitch;
   lp.Q.value = 0.7;
 
   const noiseGain = ac.createGain();

@@ -36,8 +36,11 @@ const { title, description = 'An interactive, open-source map of the sciences.',
       import { playHoverTick } from '../lib/hover-sound';
 
       function attach() {
-        document.querySelectorAll('[data-hover-sound]').forEach(el => {
-          el.addEventListener('mouseenter', playHoverTick);
+        document.querySelectorAll<HTMLElement>('[data-hover-sound]').forEach(el => {
+          el.addEventListener('mouseenter', () => {
+            const pitch = parseFloat(el.dataset.hoverPitch || '1');
+            playHoverTick(isFinite(pitch) && pitch > 0 ? pitch : 1);
+          });
         });
       }
 
