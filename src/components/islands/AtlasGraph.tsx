@@ -102,6 +102,36 @@ export default function AtlasGraph({
     prevTransform: { k: number; x: number; y: number };
   } | null>(null);
   const localSimRef = useRef<Simulation<SimNode, undefined> | null>(null);
+  // Mirror of `transform` for reading the current value inside rAF callbacks.
+  const transformRef = useRef({ k: 1, x: 0, y: 0 });
+  const animRef = useRef<number | null>(null);
+
+  // Smoothly animate transform → target over durationMs (easeOutCubic).
+  // Cancels any in-flight animation. Final value is also written into the
+  // d3-zoom behavior so subsequent user wheel/drag starts from the new spot.
+  const animateToTransform = useCallback((to: { k: number; x: number; y: number }, durationMs = 420) => {
+    if (animRef.current !== null) cancelAnimationFrame(animRef.current);
+    const from = { ...transformRef.current };
+    // No-op if already at target.
+    if (Math.abs(from.k - to.k) < 1e-4 && Math.abs(from.x - to.x) < 0.5 && Math.abs(from.y - to.y) < 0.5) return;
+    const start = performance.now();
+    const tick = (now: number) => {
+      const t = Math.min(1, (now - start) / durationMs);
+      const e = 1 - Math.pow(1 - t, 3);
+      const k = from.k + (to.k - from.k) * e;
+      const x = from.x + (to.x - from.x) * e;
+      const y = from.y + (to.y - from.y) * e;
+      // Drive the animation through d3-zoom so svg.__zoom stays consistent
+      // (the zoom 'zoom' handler is what updates the React `transform` state).
+      if (svgRef.current && zoomBehaviorRef.current) {
+        const z = zoomIdentity.translate(x, y).scale(k);
+        select(svgRef.current).call(zoomBehaviorRef.current.transform, z);
+      }
+      if (t < 1) animRef.current = requestAnimationFrame(tick);
+      else animRef.current = null;
+    };
+    animRef.current = requestAnimationFrame(tick);
+  }, []);
 
   const simNodesRef = useRef<SimNode[]>([]);
   const simEdgesRef = useRef<SimEdge[]>([]);
@@ -247,107 +277,65 @@ export default function AtlasGraph({
     return () => { sim.stop(); };
   }, [width, height, rawNodes]);
 
-  // ── Focus mode: when a root is selected, zoom to its neighborhood and
-  // freeze every non-neighbor so drags are cheap. When root clears, restore. ──
+  // Sync transformRef with state so the animator + URL effects can read it.
+  useEffect(() => { transformRef.current = transform; }, [transform]);
+
+  // ── Focus mode: smoothly pan the clicked node to the center of the view.
+  // Zoom is left alone unless the user is so far out that the node would
+  // appear tiny — then we boost to a comfortable min zoom. Freezes non-1-hop
+  // neighbors so drags stay cheap (local-sim handles in-focus movement). ──
   useEffect(() => {
     if (compact) return;
     if (width === 0 || !hasSettled) return;
 
     if (!root) {
-      // Exit focus mode if we were in one.
+      // Exit focus mode: smoothly slide back to the prior view.
       if (focusView) {
         for (const n of simNodesRef.current) { n.fx = null; n.fy = null; }
-        const prev = focusView.prevTransform;
-        setTransform(prev);
-        if (svgRef.current && zoomBehaviorRef.current) {
-          const z = zoomIdentity.translate(prev.x, prev.y).scale(prev.k);
-          select(svgRef.current).call(zoomBehaviorRef.current.transform, z);
-        }
+        animateToTransform(focusView.prevTransform);
         setFocusView(null);
       }
       return;
     }
 
-    // Already focused around this root? Nothing to do.
     if (focusView?.focusId === root) return;
 
-    // Compute 2-hop neighborhood — enough context to see why this topic matters
-    // without dragging the whole graph along.
-    const HOPS = 2;
-    const adj = new Map<string, Set<string>>();
+    const node = simNodesRef.current.find(n => n.id === root);
+    if (!node || node.x === undefined || node.y === undefined) return;
+
+    // Compute 1-hop neighbor set — used for drag freezing only, not for fit.
+    const oneHop = new Set<string>([root]);
     for (const e of rawEdges) {
-      if (!adj.has(e.from)) adj.set(e.from, new Set());
-      if (!adj.has(e.to)) adj.set(e.to, new Set());
-      adj.get(e.from)!.add(e.to);
-      adj.get(e.to)!.add(e.from);
-    }
-    const neighbors = new Set<string>([root]);
-    let frontier = new Set<string>([root]);
-    for (let i = 0; i < HOPS; i++) {
-      const next = new Set<string>();
-      for (const id of frontier) {
-        for (const m of adj.get(id) ?? []) {
-          if (!neighbors.has(m)) { neighbors.add(m); next.add(m); }
-        }
-      }
-      frontier = next;
+      if (e.from === root) oneHop.add(e.to);
+      if (e.to === root) oneHop.add(e.from);
     }
 
-    // Bounding box of the neighborhood for auto-fit.
-    let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
-    for (const n of simNodesRef.current) {
-      if (!neighbors.has(n.id)) continue;
-      if (n.x === undefined || n.y === undefined) continue;
-      const r = radiusFor(n);
-      if (n.x - r < minX) minX = n.x - r;
-      if (n.y - r < minY) minY = n.y - r;
-      if (n.x + r > maxX) maxX = n.x + r;
-      if (n.y + r > maxY) maxY = n.y + r;
-    }
-    if (!isFinite(minX)) return;
-    const pad = 80;
-    const contentW = (maxX - minX) + pad * 2;
-    const contentH = (maxY - minY) + pad * 2;
-    const k = Math.min(width / contentW, height / contentH, 3);
-    const cx = (minX + maxX) / 2;
-    const cy = (minY + maxY) / 2;
+    // Keep current zoom; bump up to MIN_FOCUS_K only if we're zoomed out so far
+    // the node would be hard to see.
+    const MIN_FOCUS_K = 1.0;
+    const targetK = Math.max(transformRef.current.k, MIN_FOCUS_K);
     const targetTransform = {
-      k,
-      x: width / 2 - cx * k,
-      y: height / 2 - cy * k,
+      k: targetK,
+      x: width / 2 - node.x * targetK,
+      y: height / 2 - node.y * targetK,
     };
 
-    // Save the prior transform (only if we weren't already in a focus view).
-    const prevTransform = focusView?.prevTransform ?? transform;
+    // Save the prior transform only on the first entry into focus mode, so the
+    // "Back to overview" button restores the pre-focus camera (not the previous
+    // focused node's camera).
+    const prevTransform = focusView?.prevTransform ?? { ...transformRef.current };
 
-    // Freeze non-neighbors at current positions, release neighbors.
+    // Freeze non-neighbors at current positions, release neighbors so local
+    // drag sim has room to spring.
     for (const n of simNodesRef.current) {
-      if (neighbors.has(n.id)) {
-        n.fx = null;
-        n.fy = null;
-      } else {
-        n.fx = n.x ?? null;
-        n.fy = n.y ?? null;
-      }
+      if (oneHop.has(n.id)) { n.fx = null; n.fy = null; }
+      else { n.fx = n.x ?? null; n.fy = n.y ?? null; }
     }
-    // Stop the global sim — local-only drag sim handles in-focus movement.
     if (simRef.current) simRef.current.stop();
 
-    setTransform(targetTransform);
-    if (svgRef.current && zoomBehaviorRef.current) {
-      const z = zoomIdentity.translate(targetTransform.x, targetTransform.y).scale(targetTransform.k);
-      // Defer the d3-zoom sync to the next microtask so React state has applied.
-      queueMicrotask(() => {
-        if (svgRef.current && zoomBehaviorRef.current) {
-          select(svgRef.current).call(zoomBehaviorRef.current.transform, z);
-        }
-      });
-    }
-    setFocusView({ focusId: root, neighborIds: neighbors, prevTransform });
-    // We intentionally don't depend on `transform` — we read it via closure
-    // only when entering a new focus to capture the prior view once.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [root, hasSettled, width, height, rawEdges, compact]);
+    animateToTransform(targetTransform);
+    setFocusView({ focusId: root, neighborIds: oneHop, prevTransform });
+  }, [root, hasSettled, width, height, rawEdges, compact, focusView, animateToTransform]);
 
   // ── Auto-fit transform when a branch is filtered (chip click OR URL-driven
   // mount via ?branch=). Skipped while a focus view is active so the focused
@@ -379,12 +367,8 @@ export default function AtlasGraph({
       x: width / 2 - cx * newK,
       y: height / 2 - cy * newK,
     };
-    setTransform(next);
-    if (svgRef.current && zoomBehaviorRef.current) {
-      const z = zoomIdentity.translate(next.x, next.y).scale(next.k);
-      select(svgRef.current).call(zoomBehaviorRef.current.transform, z);
-    }
-  }, [branchFilter, hasSettled, width, height, compact, focusView]);
+    animateToTransform(next);
+  }, [branchFilter, hasSettled, width, height, compact, focusView, animateToTransform]);
 
   // ── URL state sync (atlas page only) ──
   useEffect(() => {
@@ -429,6 +413,9 @@ export default function AtlasGraph({
       });
     zoomBehaviorRef.current = z;
     svg.call(z);
+    // d3-zoom installs a default dblclick handler that zooms 2×; we want
+    // dblclick to navigate to the topic page instead, so unbind it.
+    svg.on('dblclick.zoom', null);
     return () => { svg.on('.zoom', null); };
   }, [compact]);
 
@@ -885,6 +872,11 @@ export default function AtlasGraph({
     (ev.target as Element).releasePointerCapture?.(ev.pointerId);
   }, [focusView]);
 
+  // Single-click selects (focus mode), double-click opens the topic page.
+  // We defer the single-click action briefly so a real double-click cancels it
+  // before focus mode kicks in — otherwise dblclick fires after a confusing
+  // recenter from the first single-click.
+  const clickTimerRef = useRef<number | null>(null);
   const onSvgClick = useCallback((ev: React.MouseEvent<SVGSVGElement>) => {
     if (compact) {
       const hit = nodeAt(ev.clientX, ev.clientY);
@@ -897,8 +889,25 @@ export default function AtlasGraph({
       window.location.href = `/${hit.id}`;
       return;
     }
-    setRoot(prev => (prev === hit.id ? null : hit.id));
+    if (clickTimerRef.current !== null) {
+      window.clearTimeout(clickTimerRef.current);
+    }
+    const id = hit.id;
+    clickTimerRef.current = window.setTimeout(() => {
+      clickTimerRef.current = null;
+      setRoot(prev => (prev === id ? null : id));
+    }, 320);
   }, [compact, nodeAt]);
+
+  const onSvgDoubleClick = useCallback((ev: React.MouseEvent<SVGSVGElement>) => {
+    const hit = nodeAt(ev.clientX, ev.clientY);
+    if (!hit) return;
+    if (clickTimerRef.current !== null) {
+      window.clearTimeout(clickTimerRef.current);
+      clickTimerRef.current = null;
+    }
+    window.location.href = `/${hit.id}`;
+  }, [nodeAt]);
 
   // ── Topic-picker outside-click + Escape ──
   useEffect(() => {
@@ -1154,7 +1163,7 @@ export default function AtlasGraph({
             </button>
           )}
           <span className="ml-auto font-mono text-[10px] uppercase tracking-wider text-surface-400 hidden md:block">
-            click to select · drag to move · ⌘-click to open · scroll to zoom
+            click to focus · double-click to open · drag to move · scroll to zoom
           </span>
         </div>
       )}
@@ -1228,6 +1237,7 @@ export default function AtlasGraph({
           onPointerDown={onSvgDown}
           onPointerUp={onSvgUp}
           onClick={onSvgClick}
+          onDoubleClick={onSvgDoubleClick}
         />
 
         {!hasSettled && !compact && (
