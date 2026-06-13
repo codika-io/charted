@@ -1,0 +1,27 @@
+{
+  "$schema": "clave/1.0",
+  "name": "Charted",
+  "cwd": ".",
+  "category": "Products",
+  "color": "blue",
+  "sessions": [
+    {
+      "cwd": ".",
+      "name": "Charted",
+      "claudeMode": true,
+      "geminiMode": false,
+      "codexMode": false,
+      "dangerousMode": false
+    }
+  ],
+  "terminals": [
+    {
+      "command": "npm run dev",
+      "commandMode": "auto",
+      "cwd": ".",
+      "color": "green",
+      "icon": "bolt",
+      "autoLaunchLocalhost": true
+    }
+  ]
+}
